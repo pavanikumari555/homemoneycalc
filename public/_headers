@@ -1,0 +1,20 @@
+# ============================================================================
+# SECURITY HEADERS (Cloudflare Pages reads this file automatically)
+# Ye headers browser ko batate hain site ko safely load kare -> XSS, clickjacking,
+# MIME-sniffing jaise attacks se bachaav. Static site pe ye extra hardening hai.
+# ============================================================================
+
+/*
+  # Site ko iframe me embed hone se roko (clickjacking se bachaav)
+  X-Frame-Options: SAMEORIGIN
+  # Browser ko file type guess karne se roko (MIME-sniffing attack se bachaav)
+  X-Content-Type-Options: nosniff
+  # Referrer info leak kam karo
+  Referrer-Policy: strict-origin-when-cross-origin
+  # Purani powerful browser features band rakho
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  # HTTPS force karo (1 saal), subdomains bhi
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # Content Security Policy — sirf trusted sources se script/style load ho.
+  # Google AdSense + Analytics ke domains allow kiye. Baaki sab block.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.googletagmanager.com https://*.googleadservices.com https://*.doubleclick.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com; connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com https://*.doubleclick.net; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'
