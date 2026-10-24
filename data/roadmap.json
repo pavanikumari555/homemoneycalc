@@ -1,0 +1,639 @@
+{
+  "updated": "2026-10-24",
+  "note": "Volumes/difficulty are estimates from Google autocomplete + live SERPs (no paid tool). Validate top items in Search Console / Keyword Planner before building. Status flow: planned -> drafted (agent PR open) -> live.",
+  "tools": [
+    {
+      "slug": "paycheck-calculator",
+      "primaryKeyword": "paycheck calculator",
+      "secondary": [
+        "take home pay calculator",
+        "salary after tax 2026",
+        "[state] paycheck calculator"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "salary-to-hourly-calculator",
+      "primaryKeyword": "salary to hourly calculator",
+      "secondary": [
+        "hourly to salary",
+        "$80,000 a year is how much an hour"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "mortgage-payoff-calculator",
+      "primaryKeyword": "mortgage payoff calculator",
+      "secondary": [
+        "extra payment calculator",
+        "pay off mortgage early"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "debt-payoff-calculator",
+      "primaryKeyword": "debt snowball calculator",
+      "secondary": [
+        "debt avalanche calculator",
+        "snowball vs avalanche"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "credit-card-payoff-calculator",
+      "primaryKeyword": "credit card payoff calculator",
+      "secondary": [
+        "minimum payment calculator",
+        "how long to pay off credit card"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "auto-loan-calculator",
+      "primaryKeyword": "car payment calculator with trade in",
+      "secondary": [
+        "auto loan calculator with tax",
+        "car loan calculator"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "compound-interest-calculator",
+      "primaryKeyword": "compound interest calculator with monthly contributions",
+      "secondary": [
+        "daily compound interest calculator"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "percentage-calculator",
+      "primaryKeyword": "percentage calculator",
+      "secondary": [
+        "percent change calculator",
+        "percent off calculator"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "tip-calculator",
+      "primaryKeyword": "tip calculator",
+      "secondary": [
+        "split bill calculator",
+        "how much to tip"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "age-calculator",
+      "primaryKeyword": "age calculator",
+      "secondary": [
+        "how old am i",
+        "exact age calculator"
+      ],
+      "status": "live",
+      "wave": 0,
+      "targetDate": "2026-10-24"
+    },
+    {
+      "slug": "no-tax-on-overtime-calculator",
+      "title": "No Tax on Overtime Calculator",
+      "primaryKeyword": "no tax on overtime calculator",
+      "secondary": [
+        "overtime deduction 2026",
+        "qualified overtime deduction married filing jointly"
+      ],
+      "volume": "10k-100k (peaks Jan-Apr)",
+      "difficulty": "low-med",
+      "wave": 1,
+      "targetDate": "2026-10-30",
+      "status": "planned",
+      "why": "New OBBBA deduction (2025-2028); SERP led by small sites; $12.5k/$25k cap, phase-out from $150k/$300k MAGI"
+    },
+    {
+      "slug": "no-tax-on-tips-calculator",
+      "title": "No Tax on Tips Calculator",
+      "primaryKeyword": "no tax on tips calculator",
+      "secondary": [
+        "tips deduction 2026",
+        "no tax on tips refund"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low",
+      "wave": 1,
+      "targetDate": "2026-11-03",
+      "status": "planned",
+      "why": "New deduction; links to tip calculator"
+    },
+    {
+      "slug": "overtime-calculator",
+      "title": "Overtime Pay Calculator",
+      "primaryKeyword": "overtime calculator",
+      "secondary": [
+        "time and a half calculator",
+        "overtime calculator after taxes"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 1,
+      "targetDate": "2026-11-06",
+      "status": "planned",
+      "why": "Hub for the paycheck cluster"
+    },
+    {
+      "slug": "car-loan-interest-deduction-calculator",
+      "title": "Car Loan Interest Deduction Calculator",
+      "primaryKeyword": "car loan interest deduction calculator",
+      "secondary": [
+        "car loan interest deduction phase out",
+        "schedule 1-a car loan"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low",
+      "wave": 1,
+      "targetDate": "2026-11-10",
+      "status": "planned",
+      "why": "New deduction; links to auto loan. Verify phase-out against IRS Schedule 1-A"
+    },
+    {
+      "slug": "senior-deduction-calculator",
+      "title": "Senior $6,000 Deduction Calculator",
+      "primaryKeyword": "senior deduction calculator",
+      "secondary": [
+        "$6000 senior deduction",
+        "enhanced deduction over 65"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low",
+      "wave": 1,
+      "targetDate": "2026-11-13",
+      "status": "planned",
+      "why": "New deduction, little competition"
+    },
+    {
+      "slug": "hsa-calculator",
+      "title": "HSA Calculator",
+      "primaryKeyword": "hsa calculator",
+      "secondary": [
+        "hsa contribution limits 2027",
+        "hsa per paycheck"
+      ],
+      "volume": "1k-10k (Oct-Dec)",
+      "difficulty": "med",
+      "wave": 1,
+      "targetDate": "2026-11-17",
+      "status": "planned",
+      "why": "Open enrollment; 2027 limits $4,500/$9,000"
+    },
+    {
+      "slug": "bonus-tax-calculator",
+      "title": "Bonus Tax Calculator",
+      "primaryKeyword": "bonus tax calculator",
+      "secondary": [
+        "bonus tax rate 2026",
+        "bonus tax calculator [state]"
+      ],
+      "volume": "10k-100k (Dec-Mar)",
+      "difficulty": "med",
+      "wave": 1,
+      "targetDate": "2026-11-20",
+      "status": "planned",
+      "why": "Bonus season; state supplemental rates differ"
+    },
+    {
+      "slug": "holiday-budget-calculator",
+      "title": "Holiday Budget Calculator",
+      "primaryKeyword": "christmas budget calculator",
+      "secondary": [
+        "gift budget per person"
+      ],
+      "volume": "1k-10k (Nov-Dec)",
+      "difficulty": "low",
+      "wave": 1,
+      "targetDate": "2026-11-24",
+      "status": "planned",
+      "why": "Seasonal, cheap traffic"
+    },
+    {
+      "slug": "tax-refund-calculator",
+      "title": "Tax Refund Estimator 2026",
+      "primaryKeyword": "tax refund calculator 2026 with dependents",
+      "secondary": [
+        "tax refund estimator 2027"
+      ],
+      "volume": "long tail of a 100k+ head term",
+      "difficulty": "high (target long tail)",
+      "wave": 2,
+      "targetDate": "2026-12-04",
+      "status": "planned",
+      "why": "Hub for the new deductions; avoid the head term"
+    },
+    {
+      "slug": "raise-calculator",
+      "title": "Raise Calculator",
+      "primaryKeyword": "raise calculator",
+      "secondary": [
+        "pay raise percentage calculator",
+        "raise after taxes"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 2,
+      "targetDate": "2026-12-08",
+      "status": "planned",
+      "why": "Review season"
+    },
+    {
+      "slug": "fsa-calculator",
+      "title": "FSA Calculator (Per Paycheck)",
+      "primaryKeyword": "fsa calculator per paycheck",
+      "secondary": [
+        "dependent care fsa calculator"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 2,
+      "targetDate": "2026-12-12",
+      "status": "planned",
+      "why": "Open enrollment"
+    },
+    {
+      "slug": "w4-calculator",
+      "title": "W-4 Withholding Calculator",
+      "primaryKeyword": "w4 calculator 2026",
+      "secondary": [
+        "w4 multiple jobs calculator"
+      ],
+      "volume": "10k-100k (Jan)",
+      "difficulty": "med-high",
+      "wave": 2,
+      "targetDate": "2026-12-18",
+      "status": "planned",
+      "why": "January peak"
+    },
+    {
+      "slug": "self-employment-tax-calculator",
+      "title": "Self-Employment Tax Calculator",
+      "primaryKeyword": "self employment tax calculator",
+      "secondary": [
+        "1099 tax calculator",
+        "quarterly estimated tax"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med-high",
+      "wave": 2,
+      "targetDate": "2027-01-06",
+      "status": "planned",
+      "why": "Tax season"
+    },
+    {
+      "slug": "quarterly-estimated-tax-calculator",
+      "title": "Quarterly Estimated Tax Calculator",
+      "primaryKeyword": "estimated tax payments calculator",
+      "secondary": [
+        "safe harbor calculator"
+      ],
+      "volume": "1k-10k (Jan 15, Apr 15)",
+      "difficulty": "low-med",
+      "wave": 2,
+      "targetDate": "2027-01-08",
+      "status": "planned",
+      "why": "Due-date spikes"
+    },
+    {
+      "slug": "debt-to-income-ratio-calculator",
+      "title": "Debt-to-Income Ratio Calculator",
+      "primaryKeyword": "dti calculator",
+      "secondary": [
+        "dti for mortgage",
+        "dti for car loan"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 2,
+      "targetDate": "2027-01-14",
+      "status": "planned",
+      "why": "High CPC"
+    },
+    {
+      "slug": "pmi-calculator",
+      "title": "PMI Calculator",
+      "primaryKeyword": "pmi calculator",
+      "secondary": [
+        "pmi removal date",
+        "fha vs conventional pmi"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 2,
+      "targetDate": "2027-01-21",
+      "status": "planned",
+      "why": "Mortgage cluster"
+    },
+    {
+      "slug": "biweekly-mortgage-calculator",
+      "title": "Biweekly Mortgage Calculator",
+      "primaryKeyword": "biweekly mortgage calculator",
+      "secondary": [
+        "biweekly payments with extra"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 2,
+      "targetDate": "2027-01-28",
+      "status": "planned",
+      "why": "Mortgage cluster"
+    },
+    {
+      "slug": "mortgage-recast-calculator",
+      "title": "Mortgage Recast Calculator",
+      "primaryKeyword": "mortgage recast calculator",
+      "secondary": [
+        "recast vs refinance"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low",
+      "wave": 2,
+      "targetDate": "2027-02-04",
+      "status": "planned",
+      "why": "Mortgage cluster"
+    },
+    {
+      "slug": "capital-gains-on-home-sale-calculator",
+      "title": "Capital Gains on Home Sale Calculator",
+      "primaryKeyword": "capital gains on sale of home calculator",
+      "secondary": [
+        "primary residence exclusion"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med (long tail)",
+      "wave": 2,
+      "targetDate": "2027-02-11",
+      "status": "planned",
+      "why": "Spring selling season"
+    },
+    {
+      "slug": "balance-transfer-calculator",
+      "title": "Balance Transfer Calculator",
+      "primaryKeyword": "balance transfer calculator",
+      "secondary": [
+        "balance transfer fee calculator"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 3,
+      "targetDate": "2027-03-01",
+      "status": "planned",
+      "why": "High CPC + card affiliates"
+    },
+    {
+      "slug": "debt-consolidation-calculator",
+      "title": "Debt Consolidation Calculator",
+      "primaryKeyword": "debt consolidation calculator",
+      "secondary": [
+        "personal loan vs credit card"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "med",
+      "wave": 3,
+      "targetDate": "2027-03-08",
+      "status": "planned",
+      "why": "Loan affiliates"
+    },
+    {
+      "slug": "student-loan-payoff-calculator",
+      "title": "Student Loan Payoff Calculator",
+      "primaryKeyword": "student loan payoff calculator",
+      "secondary": [
+        "with extra payments",
+        "multiple loans"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 3,
+      "targetDate": "2027-03-15",
+      "status": "planned",
+      "why": "Refinance affiliates"
+    },
+    {
+      "slug": "how-much-car-can-i-afford-calculator",
+      "title": "How Much Car Can I Afford",
+      "primaryKeyword": "how much car can i afford",
+      "secondary": [
+        "20/4/10 rule calculator"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "low-med",
+      "wave": 3,
+      "targetDate": "2027-03-22",
+      "status": "planned",
+      "why": "Auto cluster"
+    },
+    {
+      "slug": "lease-vs-buy-car-calculator",
+      "title": "Lease vs Buy Car Calculator",
+      "primaryKeyword": "lease vs buy car calculator",
+      "secondary": [
+        "car lease calculator"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 3,
+      "targetDate": "2027-03-29",
+      "status": "planned",
+      "why": "Auto cluster"
+    },
+    {
+      "slug": "home-affordability-calculator",
+      "title": "Home Affordability Calculator",
+      "primaryKeyword": "how much house can i afford calculator",
+      "secondary": [
+        "house affordability by salary"
+      ],
+      "volume": "100k+",
+      "difficulty": "high (long tail tables)",
+      "wave": 3,
+      "targetDate": "2027-04-05",
+      "status": "planned",
+      "why": "Pair with salary table pages"
+    },
+    {
+      "slug": "rent-vs-buy-calculator",
+      "title": "Rent vs Buy Calculator",
+      "primaryKeyword": "rent vs buy calculator",
+      "secondary": [
+        "should i rent or buy"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 3,
+      "targetDate": "2027-04-12",
+      "status": "planned",
+      "why": "Linkable"
+    },
+    {
+      "slug": "closing-cost-calculator",
+      "title": "Closing Cost Calculator",
+      "primaryKeyword": "closing cost calculator",
+      "secondary": [
+        "closing costs by state"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 3,
+      "targetDate": "2027-04-19",
+      "status": "planned",
+      "why": "State transfer taxes = genuinely different state data"
+    },
+    {
+      "slug": "401k-match-calculator",
+      "title": "401(k) Employer Match Calculator",
+      "primaryKeyword": "401k match calculator",
+      "secondary": [
+        "employer match calculator"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "med",
+      "wave": 4,
+      "targetDate": "2027-05-03",
+      "status": "planned",
+      "why": "Retirement cluster"
+    },
+    {
+      "slug": "roth-ira-calculator",
+      "title": "Roth IRA Calculator",
+      "primaryKeyword": "roth ira calculator",
+      "secondary": [
+        "roth vs traditional"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "high",
+      "wave": 4,
+      "targetDate": "2027-05-17",
+      "status": "planned",
+      "why": "Retirement cluster"
+    },
+    {
+      "slug": "social-security-break-even-calculator",
+      "title": "Social Security Break-Even Calculator",
+      "primaryKeyword": "social security break even calculator",
+      "secondary": [
+        "62 vs 67"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 4,
+      "targetDate": "2027-06-01",
+      "status": "planned",
+      "why": "Links to age calculator"
+    },
+    {
+      "slug": "fire-calculator",
+      "title": "FIRE Calculator",
+      "primaryKeyword": "fire calculator",
+      "secondary": [
+        "coast fire calculator"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 4,
+      "targetDate": "2027-06-15",
+      "status": "planned",
+      "why": "Community favorite; linkable"
+    },
+    {
+      "slug": "inflation-calculator",
+      "title": "Inflation Calculator",
+      "primaryKeyword": "inflation calculator",
+      "secondary": [
+        "cpi inflation calculator"
+      ],
+      "volume": "100k+",
+      "difficulty": "high",
+      "wave": 4,
+      "targetDate": "2027-07-01",
+      "status": "planned",
+      "why": "CPI data page; link bait"
+    },
+    {
+      "slug": "net-worth-by-age",
+      "title": "Net Worth by Age",
+      "primaryKeyword": "net worth by age",
+      "secondary": [
+        "net worth percentile calculator"
+      ],
+      "volume": "100k+",
+      "difficulty": "med",
+      "wave": 4,
+      "targetDate": "2027-07-15",
+      "status": "planned",
+      "why": "Fed SCF data; link bait"
+    },
+    {
+      "slug": "emergency-fund-calculator",
+      "title": "Emergency Fund Calculator",
+      "primaryKeyword": "emergency fund calculator",
+      "secondary": [
+        "how much emergency fund"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low",
+      "wave": 4,
+      "targetDate": "2027-08-01",
+      "status": "planned",
+      "why": "Feeder"
+    },
+    {
+      "slug": "budget-calculator",
+      "title": "50/30/20 Budget Calculator",
+      "primaryKeyword": "50 30 20 budget calculator",
+      "secondary": [
+        "budget calculator"
+      ],
+      "volume": "10k-100k",
+      "difficulty": "med",
+      "wave": 4,
+      "targetDate": "2027-08-15",
+      "status": "planned",
+      "why": "Feeder"
+    }
+  ],
+  "articles": [
+    "Take-home pay by state ($50k-$150k) - LIVE at /take-home-pay-by-state/",
+    "How much house can I afford on $60k-$200k (table page)",
+    "What qualifies for no tax on overtime (FLSA vs state daily OT, W-2 code TT)",
+    "No tax on tips: eligible occupations and the $25k cap",
+    "Which cars qualify for the car loan interest deduction",
+    "2027 HSA/FSA limits + per-paycheck table",
+    "Bonus tax rates by state (supplemental withholding)",
+    "How long to pay off $5k/$10k/$20k at the minimum payment",
+    "The 20/4/10 car rule with a how-much-car-on-$X table",
+    "Hourly to annual pay chart ($15-$75/hr)",
+    "Recast vs refinance vs extra payments",
+    "Net worth by age percentiles (Fed SCF)"
+  ],
+  "avoidEarly": [
+    "mortgage calculator",
+    "tax refund calculator (head term)",
+    "retirement calculator / 401k calculator (head)",
+    "loan calculator / personal loan calculator",
+    "best-X affiliate listicles"
+  ]
+}

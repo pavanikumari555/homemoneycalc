@@ -1,0 +1,5 @@
+{
+  "goalMonthly": 5000,
+  "note": "Add one entry per month: {\"month\":\"2027-01\",\"ads\":0,\"affiliate\":0,\"total\":0}. Or tell Claude the numbers.",
+  "months": []
+}

@@ -27,10 +27,12 @@ export function ToolSchema({
   name,
   description,
   path,
+  dateModified,
 }: {
   name: string;
   description: string;
   path: string;
+  dateModified?: string;
 }) {
   return (
     <JsonLd
@@ -40,6 +42,7 @@ export function ToolSchema({
         name,
         description,
         url: `${SITE.url}${path}`,
+        ...(dateModified ? { dateModified } : {}),
         applicationCategory: "FinanceApplication",
         operatingSystem: "Any (web browser)",
         offers: {
@@ -57,7 +60,8 @@ export function ToolSchema({
   );
 }
 
-// FAQPage schema -> can trigger the FAQ rich result in Google.
+// FAQPage schema. Google ne May 2026 se FAQ rich result dikhana band kiya, par
+// markup harmless hai aur dusre search/AI engines page samajhne me use karte hain.
 export function FaqSchema({ items }: { items: FaqItem[] }) {
   if (!items.length) return null;
   return (

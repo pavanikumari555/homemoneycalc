@@ -1,22 +1,16 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
-import { getTool } from "@/lib/site";
-import { ToolSchema, FaqSchema, BreadcrumbSchema, FaqItem } from "@/components/StructuredData";
-import FaqSection from "@/components/FaqSection";
-import RelatedTools from "@/components/RelatedTools";
-import AdSlot from "@/components/AdSlot";
+import { FaqItem } from "@/components/StructuredData";
+import ToolLayout from "@/components/ToolLayout";
 import DebtCalculator from "./DebtCalculator";
 
 const SLUG = "debt-payoff-calculator";
-const tool = getTool(SLUG)!;
-const PATH = `/${SLUG}/`;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Debt Payoff Calculator — Snowball vs Avalanche",
+  title: "Debt Snowball vs Avalanche Calculator",
   description:
-    "Free debt payoff calculator comparing the snowball and avalanche methods. Add your debts and extra payment to see which pays off faster and saves the most interest.",
-  path: PATH,
+    "Compare snowball and avalanche payoff plans side by side: your debt-free date, total interest and every payoff milestone.",
+  path: `/${SLUG}/`,
   keywords: [
     "debt payoff calculator",
     "debt snowball calculator",
@@ -54,88 +48,60 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const SOURCES = [
+  { label: "CFPB — Debt collection resources", url: "https://www.consumerfinance.gov/consumer-tools/debt-collection/" },
+  { label: "Federal Reserve — Consumer credit (G.19) interest rates", url: "https://www.federalreserve.gov/releases/g19/current/" },
+];
+
 export default function Page() {
   return (
-    <>
-      <ToolSchema name={tool.title} description={tool.blurb} path={PATH} />
-      <FaqSchema items={faqs} />
-      <BreadcrumbSchema toolName={tool.shortTitle} path={PATH} />
+    <ToolLayout
+      slug={SLUG}
+      h1="Debt Payoff Calculator"
+      intro="Compare the snowball and avalanche methods side by side, see every milestone, and get your debt-free date."
+      calculator={<DebtCalculator />}
+      faqs={faqs}
+      sources={SOURCES}
+    >
+      <h2>How the debt payoff methods work</h2>
+      <p>
+        Both strategies share the same foundation: you always pay the minimum on every
+        debt, then throw every extra dollar you can spare at one specific target debt.
+        When that target is paid off, all the money that was going to it — its old minimum
+        plus your extra — rolls onto the next target. This rolling effect is what makes
+        both methods so powerful over time.
+      </p>
+      <p>The only difference is which debt you target first:</p>
+      <ul>
+        <li>
+          <strong>Avalanche</strong> attacks the highest interest rate first. Since
+          interest is what makes debt expensive, killing the priciest debt first minimizes
+          the total interest you pay and usually gets you debt-free soonest.
+        </li>
+        <li>
+          <strong>Snowball</strong> attacks the smallest balance first. You clear whole
+          debts quickly, which feels great and builds momentum — a psychological edge that
+          helps many people finish what they start.
+        </li>
+      </ul>
 
-      <div className="container-page py-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-slate-500">
-          <Link href="/" className="hover:text-ivy-700">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-700">{tool.shortTitle}</span>
-        </nav>
+      <h2>Why motivation matters as much as math</h2>
+      <p>
+        On paper, avalanche always wins on cost. But paying off debt is a long journey, and
+        studies of real behavior show that people who see quick wins are more likely to
+        stick with their plan. If the snowball method keeps you engaged and you finish,
+        you come out ahead of an avalanche plan you abandon halfway. Use the calculator to
+        see the actual dollar difference for your situation, then pick the plan you&apos;ll
+        realistically follow.
+      </p>
 
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Debt Payoff Calculator
-        </h1>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600">
-          Compare the two most popular debt payoff strategies — snowball and avalanche — to
-          find your fastest, cheapest route to being debt-free. Add your debts below.
-        </p>
-
-        <AdSlot />
-
-        <div className="mt-6">
-          <DebtCalculator />
-        </div>
-
-        <AdSlot />
-
-        <article className="prose-content mt-10 max-w-none">
-          <h2>How the debt payoff methods work</h2>
-          <p>
-            Both strategies share the same foundation: you always pay the minimum on every
-            debt, then throw every extra dollar you can spare at one specific target debt.
-            When that target is paid off, all the money that was going to it — its old minimum
-            plus your extra — rolls onto the next target. This rolling effect is what makes
-            both methods so powerful over time.
-          </p>
-          <p>The only difference is which debt you target first:</p>
-          <ul>
-            <li>
-              <strong>Avalanche</strong> attacks the highest interest rate first. Since
-              interest is what makes debt expensive, killing the priciest debt first minimizes
-              the total interest you pay and usually gets you debt-free soonest.
-            </li>
-            <li>
-              <strong>Snowball</strong> attacks the smallest balance first. You clear whole
-              debts quickly, which feels great and builds momentum — a psychological edge that
-              helps many people finish what they start.
-            </li>
-          </ul>
-
-          <h2>Why motivation matters as much as math</h2>
-          <p>
-            On paper, avalanche always wins on cost. But paying off debt is a long journey, and
-            studies of real behavior show that people who see quick wins are more likely to
-            stick with their plan. If the snowball method keeps you engaged and you finish,
-            you come out ahead of an avalanche plan you abandon halfway. Use the calculator to
-            see the actual dollar difference for your situation, then pick the plan you&apos;ll
-            realistically follow.
-          </p>
-
-          <h2>Tips to pay off debt faster</h2>
-          <ul>
-            <li>Find extra money by pausing non-essential spending and redirecting it to debt.</li>
-            <li>Call lenders to ask for a lower interest rate — it often works.</li>
-            <li>Consider a balance transfer or consolidation only if it genuinely lowers your rate.</li>
-            <li>Avoid taking on new debt while you execute the plan.</li>
-          </ul>
-        </article>
-
-        <FaqSection items={faqs} />
-
-        <div className="mt-8 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          <strong>Disclaimer:</strong> Estimates for informational purposes only, not financial
-          advice. See our{" "}
-          <Link href="/disclaimer/" className="underline">full disclaimer</Link>.
-        </div>
-
-        <RelatedTools slug={SLUG} />
-      </div>
-    </>
+      <h2>Tips to pay off debt faster</h2>
+      <ul>
+        <li>Find extra money by pausing non-essential spending and redirecting it to debt.</li>
+        <li>Call lenders to ask for a lower interest rate — it often works.</li>
+        <li>Consider a balance transfer or consolidation only if it genuinely lowers your rate.</li>
+        <li>Avoid taking on new debt while you execute the plan.</li>
+      </ul>
+    </ToolLayout>
   );
 }

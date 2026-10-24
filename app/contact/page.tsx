@@ -43,6 +43,21 @@ export default function ContactPage() {
         please consult a qualified professional.
       </p>
 
+      <h2>Reporting a calculation error</h2>
+      <p>
+        If a result looks wrong, the fastest way to get it fixed is to send us the page link (use the
+        &ldquo;Share result&rdquo; button so your exact numbers are included), the number you expected, and where
+        that number came from — for example your pay stub, lender statement or an official IRS or state
+        table. We check every report against the official source and update the calculator and its
+        &ldquo;Updated&rdquo; date when we confirm a mistake.
+      </p>
+
+      <h2>Suggesting a new calculator</h2>
+      <p>
+        Tell us what you were trying to work out and what other tools got wrong or left out. Many of our
+        calculators started as a reader question.
+      </p>
+
       <h2>Response time</h2>
       <p>
         We&apos;re a small team, so replies may take a little longer during busy periods. Corrections

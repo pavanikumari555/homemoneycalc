@@ -6,7 +6,7 @@ import PageShell from "@/components/PageShell";
 export const metadata: Metadata = buildMetadata({
   title: "Privacy Policy",
   description:
-    "CalcIvy's privacy policy: what data we collect, how cookies and advertising work, and your choices. Our calculators run in your browser and don't store your inputs.",
+    "CalcIvy's privacy policy: what we collect, how cookies and ads work, and your choices. Calculators run in your browser; we never receive your inputs.",
   path: "/privacy-policy/",
 });
 
@@ -20,7 +20,8 @@ export default function PrivacyPage() {
 
       <h2>The short version</h2>
       <ul>
-        <li>Our calculators run entirely in your browser. The numbers you type are never sent to us or stored.</li>
+        <li>Our calculators run entirely in your browser. The numbers you type are never sent to us.</li>
+        <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage, so you can pick up where you left off. We can&apos;t see them.</li>
         <li>We use privacy-respecting analytics to understand overall traffic, not to identify you.</li>
         <li>We show ads, and ad partners may use cookies as described below.</li>
         <li>We never sell your personal information.</li>
@@ -31,6 +32,13 @@ export default function PrivacyPage() {
         <strong>Calculator inputs:</strong> Numbers you enter into any calculator are processed
         locally in your browser to show your result. They are not transmitted to our servers,
         logged, or stored by us.
+      </p>
+      <p>
+        <strong>Saved on your device:</strong> To remember your last numbers, the plans you choose to save,
+        your pinned calculators and your light/dark preference, CalcIvy uses your browser&apos;s local
+        storage. This data stays on your device, is never sent to us, and you can remove it at any time
+        with &ldquo;Start fresh&rdquo;, by deleting a saved plan, or by clearing your browser&apos;s site data. If
+        you open a share link, the numbers in that link come from the person who shared it.
       </p>
       <p>
         <strong>Usage data:</strong> Like most websites, our hosting and analytics tools may

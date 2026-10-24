@@ -2,6 +2,7 @@
 // CALCULATION LOGIC (pure functions, no UI)
 // Saara math yahan. UI se alag rakha -> clean, reusable, easy to verify.
 // Sab client-side chalta (browser me), koi server nahi -> free + fast + secure.
+// Paycheck (tax) logic alag file me hai: lib/paycheck.ts
 // ============================================================================
 
 // ---- Shared helpers ----
@@ -13,19 +14,42 @@ export function clamp(n: number, min: number, max: number): number {
 }
 
 /** Format a number as USD currency, e.g. 1234.5 -> "$1,234.50" */
-export function usd(n: number): string {
-  if (!Number.isFinite(n)) return "$0.00";
+export function usd(n: number, digits = 2): string {
+  if (!Number.isFinite(n)) return "—";
   return n.toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
-    maximumFractionDigits: 2,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
   });
+}
+
+/** Whole-dollar USD for big headline numbers, e.g. "$12,340" */
+export function usd0(n: number): string {
+  return usd(n, 0);
 }
 
 /** Format a plain number with commas, e.g. 1234.5 -> "1,234.5" */
 export function num(n: number, maxFractionDigits = 2): string {
   if (!Number.isFinite(n)) return "0";
   return n.toLocaleString("en-US", { maximumFractionDigits: maxFractionDigits });
+}
+
+/** 125 months -> "10 yr 5 mo" */
+export function duration(months: number): string {
+  if (!Number.isFinite(months)) return "never";
+  const m = Math.round(months);
+  const y = Math.floor(m / 12);
+  const r = m % 12;
+  if (y === 0) return `${r} mo`;
+  return r ? `${y} yr ${r} mo` : `${y} yr`;
+}
+
+/** Month label N months from `from` (default: this month), e.g. "March 2031" */
+export function monthsFromNow(months: number, from = new Date()): string {
+  if (!Number.isFinite(months)) return "never";
+  const d = new Date(from.getFullYear(), from.getMonth() + Math.round(months), 1);
+  return d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
 }
 
 // ---- Multi-currency support (for universal tools like compound interest) ----
@@ -36,214 +60,152 @@ export interface Currency {
   code: string; // ISO code, e.g. "USD"
   label: string; // shown in dropdown
   locale: string; // for correct number grouping (1,000 vs 1.000)
+  symbol: string; // for compact chart labels
 }
 
 // The Tier-1 currencies that bring the most ad revenue, plus INR for wider reach.
 export const CURRENCIES: Currency[] = [
-  { code: "USD", label: "$ US Dollar", locale: "en-US" },
-  { code: "GBP", label: "£ British Pound", locale: "en-GB" },
-  { code: "EUR", label: "€ Euro", locale: "en-IE" },
-  { code: "CAD", label: "C$ Canadian Dollar", locale: "en-CA" },
-  { code: "AUD", label: "A$ Australian Dollar", locale: "en-AU" },
-  { code: "INR", label: "₹ Indian Rupee", locale: "en-IN" },
+  { code: "USD", label: "$ US Dollar", locale: "en-US", symbol: "$" },
+  { code: "GBP", label: "£ British Pound", locale: "en-GB", symbol: "£" },
+  { code: "EUR", label: "€ Euro", locale: "en-IE", symbol: "€" },
+  { code: "CAD", label: "C$ Canadian Dollar", locale: "en-CA", symbol: "C$" },
+  { code: "AUD", label: "A$ Australian Dollar", locale: "en-AU", symbol: "A$" },
+  { code: "INR", label: "₹ Indian Rupee", locale: "en-IN", symbol: "₹" },
 ];
 
 /** Format a number in the chosen currency, e.g. money(1234.5, "GBP") -> "£1,234.50" */
-export function money(n: number, currencyCode: string): string {
+export function money(n: number, currencyCode: string, digits = 2): string {
   const c = CURRENCIES.find((x) => x.code === currencyCode) ?? CURRENCIES[0];
   if (!Number.isFinite(n)) n = 0;
   return n.toLocaleString(c.locale, {
     style: "currency",
     currency: c.code,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
   });
 }
 
-// ============================================================================
-// 1. PAYCHECK CALCULATOR (US, simplified federal estimate)
-// NOTE: This is an ESTIMATE using 2024 federal brackets + FICA. Not tax advice.
-// State tax varies widely, so we keep state as an optional flat % the user enters.
-// ============================================================================
-
-export interface PaycheckInput {
-  grossAnnual: number; // gross yearly salary
-  payPeriodsPerYear: number; // 12 monthly, 24 semi-monthly, 26 biweekly, 52 weekly
-  filingSingle: boolean; // true = single, false = married filing jointly
-  stateTaxPercent: number; // user-entered flat state tax % (0 if none)
-  pretaxDeductionsAnnual: number; // 401k, health premiums etc (reduce taxable)
+/** Standard amortized monthly payment (principal + interest). */
+export function amortizedPayment(principal: number, annualRatePercent: number, months: number): number {
+  const r = annualRatePercent / 100 / 12;
+  if (months <= 0) return 0;
+  if (r === 0) return principal / months;
+  return (principal * r) / (1 - Math.pow(1 + r, -months));
 }
 
-export interface PaycheckResult {
-  grossPerPeriod: number;
-  federalTaxAnnual: number;
-  socialSecurityAnnual: number;
-  medicareAnnual: number;
-  stateTaxAnnual: number;
-  netAnnual: number;
-  netPerPeriod: number;
-  effectiveTaxRate: number; // total tax / gross
+const MAX_MONTHS = 1200; // 100 years safety cap (prevents infinite loops)
+
+// ============================================================================
+// AMORTIZATION ENGINE (mortgage, auto loan, credit card sab yahi use karte)
+// ============================================================================
+
+export interface AmortYear {
+  year: number;
+  interest: number;
+  principal: number;
+  balance: number;
 }
 
-// 2024 federal income tax brackets (taxable income after standard deduction)
-const FED_BRACKETS_SINGLE = [
-  { upTo: 11600, rate: 0.1 },
-  { upTo: 47150, rate: 0.12 },
-  { upTo: 100525, rate: 0.22 },
-  { upTo: 191950, rate: 0.24 },
-  { upTo: 243725, rate: 0.32 },
-  { upTo: 609350, rate: 0.35 },
-  { upTo: Infinity, rate: 0.37 },
-];
-const FED_BRACKETS_MARRIED = [
-  { upTo: 23200, rate: 0.1 },
-  { upTo: 94300, rate: 0.12 },
-  { upTo: 201050, rate: 0.22 },
-  { upTo: 383900, rate: 0.24 },
-  { upTo: 487450, rate: 0.32 },
-  { upTo: 731200, rate: 0.35 },
-  { upTo: Infinity, rate: 0.37 },
-];
-const STD_DEDUCTION_SINGLE = 14600;
-const STD_DEDUCTION_MARRIED = 29200;
-const SS_RATE = 0.062;
-const SS_WAGE_CAP = 168600; // 2024 Social Security wage base
-const MEDICARE_RATE = 0.0145;
+export interface AmortResult {
+  months: number; // Infinity if the payment never pays it off
+  totalInterest: number;
+  balances: { x: number; y: number }[]; // x = month, y = balance (for charts)
+  yearly: AmortYear[];
+}
 
-function federalTax(taxableIncome: number, single: boolean): number {
-  const brackets = single ? FED_BRACKETS_SINGLE : FED_BRACKETS_MARRIED;
-  let tax = 0;
-  let lower = 0;
-  for (const b of brackets) {
-    if (taxableIncome > b.upTo) {
-      tax += (b.upTo - lower) * b.rate;
-      lower = b.upTo;
-    } else {
-      tax += (taxableIncome - lower) * b.rate;
-      break;
+interface AmortOptions {
+  principal: number;
+  annualRatePercent: number;
+  payment: number; // regular monthly payment
+  extraMonthly?: number;
+  extraYearly?: number; // lump sum every 12th month
+  oneTime?: number; // lump sum in month 1
+}
+
+export function amortize(o: AmortOptions): AmortResult {
+  const r = o.annualRatePercent / 100 / 12;
+  let balance = Math.max(0, o.principal - (o.oneTime ?? 0));
+  let months = 0;
+  let totalInterest = 0;
+  const balances = [{ x: 0, y: balance }];
+  const yearly: AmortYear[] = [];
+  let yi = 0;
+  let yp = 0;
+
+  while (balance > 0.005 && months < MAX_MONTHS) {
+    months++;
+    const interest = balance * r;
+    let pay = o.payment + (o.extraMonthly ?? 0) + (months % 12 === 0 ? o.extraYearly ?? 0 : 0);
+    if (pay <= interest && months === 1) {
+      // Payment doesn't even cover the interest -> balance grows forever
+      return { months: Infinity, totalInterest: Infinity, balances, yearly };
+    }
+    pay = Math.min(pay, balance + interest);
+    balance = balance + interest - pay;
+    totalInterest += interest;
+    yi += interest;
+    yp += pay - interest;
+    balances.push({ x: months, y: Math.max(0, balance) });
+    if (months % 12 === 0 || balance <= 0.005) {
+      yearly.push({ year: Math.ceil(months / 12), interest: yi, principal: yp, balance: Math.max(0, balance) });
+      yi = 0;
+      yp = 0;
     }
   }
-  return Math.max(0, tax);
-}
-
-export function calcPaycheck(input: PaycheckInput): PaycheckResult {
-  const gross = clamp(input.grossAnnual, 0, 100_000_000);
-  const periods = clamp(input.payPeriodsPerYear, 1, 52);
-  const pretax = clamp(input.pretaxDeductionsAnnual, 0, gross);
-  const stateRate = clamp(input.stateTaxPercent, 0, 20) / 100;
-
-  const stdDeduction = input.filingSingle ? STD_DEDUCTION_SINGLE : STD_DEDUCTION_MARRIED;
-  const taxableIncome = Math.max(0, gross - pretax - stdDeduction);
-
-  const federalTaxAnnual = federalTax(taxableIncome, input.filingSingle);
-  // FICA is on gross wages minus pretax (approx), capped for SS
-  const ficaBase = Math.max(0, gross - pretax);
-  const socialSecurityAnnual = Math.min(ficaBase, SS_WAGE_CAP) * SS_RATE;
-  const medicareAnnual = ficaBase * MEDICARE_RATE;
-  const stateTaxAnnual = Math.max(0, gross - pretax) * stateRate;
-
-  const totalTax =
-    federalTaxAnnual + socialSecurityAnnual + medicareAnnual + stateTaxAnnual;
-  const netAnnual = Math.max(0, gross - totalTax - pretax);
-
-  return {
-    grossPerPeriod: gross / periods,
-    federalTaxAnnual,
-    socialSecurityAnnual,
-    medicareAnnual,
-    stateTaxAnnual,
-    netAnnual,
-    netPerPeriod: netAnnual / periods,
-    effectiveTaxRate: gross > 0 ? totalTax / gross : 0,
-  };
+  if (months >= MAX_MONTHS) return { months: Infinity, totalInterest: Infinity, balances, yearly };
+  return { months, totalInterest, balances, yearly };
 }
 
 // ============================================================================
-// 2. MORTGAGE PAYOFF CALCULATOR (extra payments)
+// 1. MORTGAGE PAYOFF CALCULATOR (extra payments)
 // ============================================================================
 
 export interface MortgageInput {
   principal: number; // remaining loan balance
   annualRatePercent: number; // e.g. 6.5
-  termYears: number; // e.g. 30
-  extraMonthly: number; // extra paid each month
+  yearsLeft: number; // remaining term, e.g. 30
+  extraMonthly: number;
+  extraYearly: number; // e.g. tax refund / bonus once a year
+  oneTime: number; // lump sum today
 }
 
 export interface MortgageResult {
-  monthlyPayment: number; // base payment (no extra)
-  monthsBase: number;
-  monthsWithExtra: number;
+  monthlyPayment: number; // base P&I payment (no extra)
+  base: AmortResult;
+  withExtra: AmortResult;
   monthsSaved: number;
-  totalInterestBase: number;
-  totalInterestWithExtra: number;
   interestSaved: number;
-  payoffYearsWithExtra: number;
-}
-
-/** Standard amortized monthly payment (principal + interest). */
-export function monthlyMortgagePayment(
-  principal: number,
-  annualRatePercent: number,
-  termYears: number
-): number {
-  const r = annualRatePercent / 100 / 12;
-  const n = termYears * 12;
-  if (r === 0) return n > 0 ? principal / n : 0;
-  return (principal * r) / (1 - Math.pow(1 + r, -n));
-}
-
-/** Simulate paying down the loan month by month, return months + total interest. */
-function amortize(
-  principal: number,
-  annualRatePercent: number,
-  monthlyPayment: number,
-  extra: number
-): { months: number; totalInterest: number } {
-  const r = annualRatePercent / 100 / 12;
-  let balance = principal;
-  let months = 0;
-  let totalInterest = 0;
-  const pay = monthlyPayment + extra;
-  // Safety cap: 100 years of months, avoids infinite loop if payment too small
-  const MAX_MONTHS = 1200;
-  while (balance > 0.01 && months < MAX_MONTHS) {
-    const interest = balance * r;
-    let principalPaid = pay - interest;
-    if (principalPaid <= 0) {
-      // Payment doesn't even cover interest -> never pays off
-      return { months: MAX_MONTHS, totalInterest: Infinity };
-    }
-    if (principalPaid > balance) principalPaid = balance;
-    balance -= principalPaid;
-    totalInterest += interest;
-    months++;
-  }
-  return { months, totalInterest };
 }
 
 export function calcMortgage(input: MortgageInput): MortgageResult {
   const principal = clamp(input.principal, 0, 100_000_000);
   const rate = clamp(input.annualRatePercent, 0, 30);
-  const years = clamp(input.termYears, 1, 50);
-  const extra = clamp(input.extraMonthly, 0, 1_000_000);
+  const years = clamp(input.yearsLeft, 1, 50);
+  const payment = amortizedPayment(principal, rate, years * 12);
 
-  const monthlyPayment = monthlyMortgagePayment(principal, rate, years);
-  const base = amortize(principal, rate, monthlyPayment, 0);
-  const withExtra = amortize(principal, rate, monthlyPayment, extra);
+  const base = amortize({ principal, annualRatePercent: rate, payment });
+  const withExtra = amortize({
+    principal,
+    annualRatePercent: rate,
+    payment,
+    extraMonthly: clamp(input.extraMonthly, 0, 1_000_000),
+    extraYearly: clamp(input.extraYearly, 0, 10_000_000),
+    oneTime: clamp(input.oneTime, 0, principal),
+  });
 
   return {
-    monthlyPayment,
-    monthsBase: base.months,
-    monthsWithExtra: withExtra.months,
+    monthlyPayment: payment,
+    base,
+    withExtra,
     monthsSaved: base.months - withExtra.months,
-    totalInterestBase: base.totalInterest,
-    totalInterestWithExtra: withExtra.totalInterest,
     interestSaved: base.totalInterest - withExtra.totalInterest,
-    payoffYearsWithExtra: withExtra.months / 12,
   };
 }
 
 // ============================================================================
-// 3. DEBT PAYOFF CALCULATOR (Snowball vs Avalanche)
+// 2. DEBT PAYOFF CALCULATOR (Snowball vs Avalanche)
+// Asli snowball: total monthly budget FIXED rehta hai (sab minimums + extra).
+// Ek debt khatam -> uska minimum agle target pe "roll" ho jaata hai.
 // ============================================================================
 
 export interface Debt {
@@ -253,101 +215,163 @@ export interface Debt {
   minPayment: number;
 }
 
+export type DebtStrategy = "snowball" | "avalanche" | "minimum";
+
 export interface DebtStrategyResult {
-  months: number;
+  months: number; // Infinity if budget can't keep up with interest
   totalInterest: number;
-  totalPaid: number;
-  payoffOrder: string[]; // order debts were cleared
+  payoffOrder: { name: string; month: number }[];
+  timeline: { x: number; y: number }[]; // total balance per month
 }
 
 export interface DebtResult {
   snowball: DebtStrategyResult;
   avalanche: DebtStrategyResult;
-  // Which one saves more interest
-  betterByInterest: "snowball" | "avalanche" | "tie";
-  interestDifference: number;
+  minimumOnly: DebtStrategyResult;
+  monthlyBudget: number;
 }
 
-function simulateDebts(
-  debts: Debt[],
-  extraBudget: number,
-  order: "snowball" | "avalanche"
-): DebtStrategyResult {
-  // Deep copy so we don't mutate caller's data
-  let list = debts.map((d) => ({ ...d }));
+function simulateDebts(debts: Debt[], extra: number, strategy: DebtStrategy): DebtStrategyResult {
+  const list = debts.map((d, i) => ({ ...d, i }));
+  const budgetTotal = list.reduce((s, d) => s + d.minPayment, 0) + (strategy === "minimum" ? 0 : extra);
+  // Fixed priority order decided once (standard method definitions)
+  const order = [...list].sort((a, b) =>
+    strategy === "avalanche" ? b.annualRatePercent - a.annualRatePercent || a.balance - b.balance : a.balance - b.balance
+  );
+
   let months = 0;
   let totalInterest = 0;
-  let totalPaid = 0;
-  const payoffOrder: string[] = [];
-  const MAX_MONTHS = 1200;
+  const payoffOrder: { name: string; month: number }[] = [];
+  const timeline = [{ x: 0, y: list.reduce((s, d) => s + d.balance, 0) }];
 
-  while (list.some((d) => d.balance > 0.01) && months < MAX_MONTHS) {
-    // Sort target order: snowball = smallest balance first, avalanche = highest rate first
-    const active = list.filter((d) => d.balance > 0.01);
-    active.sort((a, b) =>
-      order === "snowball"
-        ? a.balance - b.balance
-        : b.annualRatePercent - a.annualRatePercent
-    );
+  while (list.some((d) => d.balance > 0.005) && months < MAX_MONTHS) {
+    months++;
+    const startTotal = list.reduce((s, d) => s + d.balance, 0);
 
-    // Add interest for the month
     for (const d of list) {
-      if (d.balance > 0.01) {
+      if (d.balance > 0.005) {
         const interest = d.balance * (d.annualRatePercent / 100 / 12);
         d.balance += interest;
         totalInterest += interest;
       }
     }
 
-    // Available money = sum of min payments + extra
-    let budget =
-      active.reduce((s, d) => s + Math.min(d.minPayment, d.balance), 0) + extraBudget;
-
-    // Pay minimums first (in target order), then throw remainder at the target debt
-    // Pay everything toward the first debt in the sorted order, min on the rest.
-    for (const d of active) {
-      if (budget <= 0) break;
-      const isTarget = d.name === active[0].name;
-      let payment = isTarget ? budget : Math.min(d.minPayment, d.balance);
-      payment = Math.min(payment, d.balance, budget);
-      d.balance -= payment;
-      budget -= payment;
-      totalPaid += payment;
-      if (d.balance <= 0.01 && !payoffOrder.includes(d.name)) {
-        payoffOrder.push(d.name);
+    // Minimums first. "minimum" strategy: each debt only ever gets its own minimum.
+    let budget = budgetTotal;
+    for (const d of list) {
+      if (d.balance <= 0.005) continue;
+      const pay = Math.min(d.minPayment, d.balance, budget);
+      d.balance -= pay;
+      budget -= pay;
+    }
+    if (strategy !== "minimum") {
+      // Whatever is left (extra + freed-up minimums) cascades down the priority list
+      for (const d of order) {
+        if (budget <= 0.005) break;
+        const target = list[d.i];
+        if (target.balance <= 0.005) continue;
+        const pay = Math.min(target.balance, budget);
+        target.balance -= pay;
+        budget -= pay;
       }
     }
-    months++;
+
+    for (const d of list) {
+      if (d.balance <= 0.005 && !payoffOrder.some((p) => p.name === `${d.i}`)) {
+        d.balance = 0;
+        payoffOrder.push({ name: `${d.i}`, month: months });
+      }
+    }
+
+    const endTotal = list.reduce((s, d) => s + d.balance, 0);
+    timeline.push({ x: months, y: endTotal });
+    // Debt growing after a year with nothing paid off -> it will never end
+    if (months >= 12 && endTotal >= startTotal && payoffOrder.length === 0) {
+      return { months: Infinity, totalInterest: Infinity, payoffOrder: [], timeline };
+    }
   }
 
-  return { months, totalInterest, totalPaid, payoffOrder };
+  if (months >= MAX_MONTHS) return { months: Infinity, totalInterest: Infinity, payoffOrder: [], timeline };
+  return {
+    months,
+    totalInterest,
+    // map index back to the user's debt names
+    payoffOrder: payoffOrder.map((p) => ({ name: debts[Number(p.name)].name, month: p.month })),
+    timeline,
+  };
 }
 
 export function calcDebtPayoff(debts: Debt[], extraBudget: number): DebtResult {
   const clean = debts
     .filter((d) => d.balance > 0)
-    .map((d) => ({
-      name: d.name || "Debt",
+    .map((d, i) => ({
+      name: d.name.trim() || `Debt ${i + 1}`,
       balance: clamp(d.balance, 0, 100_000_000),
       annualRatePercent: clamp(d.annualRatePercent, 0, 100),
       minPayment: clamp(d.minPayment, 0, 1_000_000),
     }));
-
   const extra = clamp(extraBudget, 0, 1_000_000);
-  const snowball = simulateDebts(clean, extra, "snowball");
-  const avalanche = simulateDebts(clean, extra, "avalanche");
-
-  const diff = snowball.totalInterest - avalanche.totalInterest;
-  let betterByInterest: "snowball" | "avalanche" | "tie" = "tie";
-  if (Math.abs(diff) > 1) {
-    betterByInterest = diff > 0 ? "avalanche" : "snowball";
-  }
 
   return {
-    snowball,
-    avalanche,
-    betterByInterest,
-    interestDifference: Math.abs(diff),
+    snowball: simulateDebts(clean, extra, "snowball"),
+    avalanche: simulateDebts(clean, extra, "avalanche"),
+    minimumOnly: simulateDebts(clean, 0, "minimum"),
+    monthlyBudget: clean.reduce((s, d) => s + d.minPayment, 0) + extra,
+  };
+}
+
+// ============================================================================
+// 3. CREDIT CARD PAYOFF
+// ============================================================================
+
+export interface CardInput {
+  balance: number;
+  aprPercent: number;
+  mode: "payment" | "goal";
+  monthlyPayment: number; // used in "payment" mode
+  goalMonths: number; // used in "goal" mode
+}
+
+export interface CardResult {
+  payment: number; // the payment used (entered, or required for the goal)
+  plan: AmortResult;
+  minimumPlan: AmortResult; // typical issuer minimum: interest + 1% of balance, $25 floor
+  interestSavedVsMinimum: number;
+}
+
+/** Typical card minimum payment: 1% of balance + that month's interest, at least $25. */
+function simulateMinimumPayments(balance: number, aprPercent: number): AmortResult {
+  const r = aprPercent / 100 / 12;
+  let b = balance;
+  let months = 0;
+  let totalInterest = 0;
+  const balances = [{ x: 0, y: b }];
+  while (b > 0.005 && months < MAX_MONTHS) {
+    months++;
+    const interest = b * r;
+    const pay = Math.min(b + interest, Math.max(25, b * 0.01 + interest));
+    b = b + interest - pay;
+    totalInterest += interest;
+    balances.push({ x: months, y: Math.max(0, b) });
+  }
+  return { months: months >= MAX_MONTHS ? Infinity : months, totalInterest, balances, yearly: [] };
+}
+
+export function calcCreditCard(input: CardInput): CardResult {
+  const balance = clamp(input.balance, 0, 10_000_000);
+  const apr = clamp(input.aprPercent, 0, 80);
+  const payment =
+    input.mode === "goal"
+      ? amortizedPayment(balance, apr, clamp(Math.round(input.goalMonths), 1, 600))
+      : clamp(input.monthlyPayment, 0, 10_000_000);
+
+  const plan = amortize({ principal: balance, annualRatePercent: apr, payment });
+  const minimumPlan = simulateMinimumPayments(balance, apr);
+  return {
+    payment,
+    plan,
+    minimumPlan,
+    interestSavedVsMinimum: minimumPlan.totalInterest - plan.totalInterest,
   };
 }
 
@@ -359,24 +383,25 @@ export interface AutoLoanInput {
   vehiclePrice: number;
   downPayment: number;
   tradeInValue: number;
-  amountOwedOnTrade: number; // negative equity if you still owe
+  amountOwedOnTrade: number; // negative equity if you still owe more than it's worth
   salesTaxPercent: number;
   fees: number; // doc/registration fees
   annualRatePercent: number;
   termMonths: number;
-  // Many states tax price minus trade-in. Toggle for that benefit.
+  // Most states tax price minus trade-in. Toggle for that benefit.
   taxCreditOnTradeIn: boolean;
 }
 
 export interface AutoLoanResult {
-  netTradeIn: number; // trade-in minus what you owe on it
+  netTradeIn: number;
   taxableAmount: number;
   salesTax: number;
   loanAmount: number;
   monthlyPayment: number;
-  totalLoanCost: number; // principal + interest
   totalInterest: number;
-  totalCostOfVehicle: number; // everything you pay
+  totalCostOfVehicle: number; // everything you pay: down + trade equity + all payments
+  byTerm: { term: number; payment: number; interest: number }[]; // comparison table
+  balances: { x: number; y: number }[];
 }
 
 export function calcAutoLoan(input: AutoLoanInput): AutoLoanResult {
@@ -387,35 +412,30 @@ export function calcAutoLoan(input: AutoLoanInput): AutoLoanResult {
   const taxRate = clamp(input.salesTaxPercent, 0, 20) / 100;
   const fees = clamp(input.fees, 0, 1_000_000);
   const rate = clamp(input.annualRatePercent, 0, 40);
-  const term = clamp(input.termMonths, 1, 120);
+  const term = clamp(Math.round(input.termMonths), 1, 120);
 
-  const netTradeIn = tradeIn - owed; // can be negative (you owe more than it's worth)
-
-  // Taxable amount: price minus trade-in credit (if state allows), never below 0
-  const taxableAmount = input.taxCreditOnTradeIn
-    ? Math.max(0, price - Math.max(0, tradeIn))
-    : price;
+  const netTradeIn = tradeIn - owed;
+  const taxableAmount = input.taxCreditOnTradeIn ? Math.max(0, price - tradeIn) : price;
   const salesTax = taxableAmount * taxRate;
+  const loanAmount = Math.max(0, price + salesTax + fees - down - netTradeIn);
 
-  // Loan = price + tax + fees - down payment - net trade-in
-  let loanAmount = price + salesTax + fees - down - netTradeIn;
-  loanAmount = Math.max(0, loanAmount);
-
-  const r = rate / 100 / 12;
-  const monthlyPayment =
-    r === 0 ? loanAmount / term : (loanAmount * r) / (1 - Math.pow(1 + r, -term));
-  const totalLoanCost = monthlyPayment * term;
-  const totalInterest = totalLoanCost - loanAmount;
+  const loanFor = (months: number) => {
+    const payment = amortizedPayment(loanAmount, rate, months);
+    return { payment, interest: payment * months - loanAmount };
+  };
+  const main = loanFor(term);
+  const plan = amortize({ principal: loanAmount, annualRatePercent: rate, payment: main.payment });
 
   return {
     netTradeIn,
     taxableAmount,
     salesTax,
     loanAmount,
-    monthlyPayment,
-    totalLoanCost,
-    totalInterest,
-    totalCostOfVehicle: down + netTradeIn + totalLoanCost,
+    monthlyPayment: main.payment,
+    totalInterest: main.interest,
+    totalCostOfVehicle: down + netTradeIn + main.payment * term,
+    byTerm: [36, 48, 60, 72, 84].map((t) => ({ term: t, ...loanFor(t) })),
+    balances: plan.balances,
   };
 }
 
@@ -430,13 +450,13 @@ export function percentOf(p: number, n: number): number {
 
 /** a is what percent of b?  e.g. 30 is what % of 150 = 20% */
 export function whatPercent(a: number, b: number): number {
-  if (b === 0) return 0;
+  if (b === 0) return NaN;
   return (a / b) * 100;
 }
 
 /** Percentage change from oldVal to newVal, e.g. 100 -> 125 = +25% */
 export function percentChange(oldVal: number, newVal: number): number {
-  if (oldVal === 0) return 0;
+  if (oldVal === 0) return NaN;
   return ((newVal - oldVal) / Math.abs(oldVal)) * 100;
 }
 
@@ -445,59 +465,190 @@ export function percentChange(oldVal: number, newVal: number): number {
 // ============================================================================
 
 export interface CompoundInput {
-  principal: number; // starting amount
+  principal: number;
   monthlyContribution: number;
   annualRatePercent: number;
   years: number;
   compoundsPerYear: number; // 1 annually, 4 quarterly, 12 monthly, 365 daily
+  annualIncreasePercent: number; // raise monthly deposit each year (e.g. 3%)
 }
 
 export interface CompoundResult {
   futureValue: number;
-  totalContributions: number; // principal + all monthly deposits
+  totalContributions: number;
   totalInterest: number;
-  // Year-by-year balance for a simple table/chart
-  yearlyBalances: { year: number; balance: number; contributed: number }[];
+  yearly: { x: number; balance: number; contributed: number }[];
+  doublingYears: number; // rule-of-72 style exact doubling time for the rate
 }
 
 export function calcCompoundInterest(input: CompoundInput): CompoundResult {
   const principal = clamp(input.principal, 0, 1_000_000_000);
-  const monthly = clamp(input.monthlyContribution, 0, 10_000_000);
-  const rate = clamp(input.annualRatePercent, 0, 100) / 100;
-  const years = clamp(input.years, 0, 100);
+  let monthly = clamp(input.monthlyContribution, 0, 10_000_000);
+  const rate = clamp(input.annualRatePercent, -50, 100) / 100;
+  const years = clamp(Math.round(input.years), 0, 100);
   const n = clamp(input.compoundsPerYear, 1, 365);
+  const raise = clamp(input.annualIncreasePercent, 0, 50) / 100;
 
-  const yearlyBalances: CompoundResult["yearlyBalances"] = [];
+  // Effective monthly growth that matches the chosen compounding frequency exactly
+  const monthlyGrowth = Math.pow(1 + rate / n, n / 12);
+
   let balance = principal;
   let contributed = principal;
-
-  // Simulate month by month for accuracy with monthly contributions
-  const periodRate = rate / n;
-  const monthsPerCompound = 12 / n;
-  let monthCounter = 0;
+  const yearly = [{ x: 0, balance, contributed }];
 
   for (let month = 1; month <= years * 12; month++) {
-    balance += monthly;
+    balance = balance * monthlyGrowth + monthly; // deposit at end of month
     contributed += monthly;
-    monthCounter++;
-    // Apply compounding when a compounding period completes
-    if (monthCounter >= monthsPerCompound) {
-      balance *= 1 + periodRate;
-      monthCounter = 0;
-    }
     if (month % 12 === 0) {
-      yearlyBalances.push({
-        year: month / 12,
-        balance,
-        contributed,
-      });
+      yearly.push({ x: month / 12, balance, contributed });
+      monthly *= 1 + raise;
     }
   }
 
+  const effectiveAnnual = Math.pow(1 + rate / n, n) - 1;
   return {
     futureValue: balance,
     totalContributions: contributed,
     totalInterest: balance - contributed,
-    yearlyBalances,
+    yearly,
+    doublingYears: effectiveAnnual > 0 ? Math.log(2) / Math.log(1 + effectiveAnnual) : Infinity,
+  };
+}
+
+// ============================================================================
+// 7. SALARY <-> HOURLY
+// ============================================================================
+
+export interface SalaryInput {
+  mode: "salary" | "hourly";
+  amount: number; // annual salary or hourly wage depending on mode
+  hoursPerWeek: number;
+  weeksPerYear: number; // paid weeks (52 minus unpaid time off)
+  overtimeHoursPerWeek: number; // hourly mode only, paid at 1.5x
+}
+
+export interface SalaryResult {
+  hourly: number;
+  daily: number;
+  weekly: number;
+  biweekly: number;
+  semimonthly: number;
+  monthly: number;
+  annual: number;
+}
+
+export function calcSalary(input: SalaryInput): SalaryResult {
+  const hours = clamp(input.hoursPerWeek, 1, 120);
+  const weeks = clamp(input.weeksPerYear, 1, 52);
+  const ot = input.mode === "hourly" ? clamp(input.overtimeHoursPerWeek, 0, 80) : 0;
+  const amount = clamp(input.amount, 0, 1_000_000_000);
+
+  const hourly = input.mode === "salary" ? amount / (hours * weeks) : amount;
+  const weekly = hourly * hours + hourly * 1.5 * ot;
+  const annual = input.mode === "salary" ? amount : weekly * weeks;
+
+  return {
+    hourly,
+    daily: weekly / 5,
+    weekly,
+    biweekly: annual / 26,
+    semimonthly: annual / 24,
+    monthly: annual / 12,
+    annual,
+  };
+}
+
+// ============================================================================
+// 8. TIP CALCULATOR
+// ============================================================================
+
+export interface TipInput {
+  bill: number;
+  tipPercent: number;
+  people: number;
+  roundUp: boolean; // round each person's share up to the next dollar
+}
+
+export interface TipResult {
+  tip: number;
+  total: number;
+  perPerson: number;
+  tipPerPerson: number;
+}
+
+export function calcTip(input: TipInput): TipResult {
+  const bill = clamp(input.bill, 0, 10_000_000);
+  const pct = clamp(input.tipPercent, 0, 100);
+  const people = clamp(Math.round(input.people), 1, 100);
+  let tip = bill * (pct / 100);
+  let perPerson = (bill + tip) / people;
+  if (input.roundUp) {
+    perPerson = Math.ceil(perPerson - 1e-9);
+    tip = perPerson * people - bill;
+  }
+  return { tip, total: bill + tip, perPerson, tipPerPerson: tip / people };
+}
+
+// ============================================================================
+// 9. AGE CALCULATOR
+// ============================================================================
+
+export interface AgeResult {
+  years: number;
+  months: number;
+  days: number;
+  totalDays: number;
+  totalWeeks: number;
+  totalMonths: number;
+  bornWeekday: string;
+  nextBirthday: Date;
+  daysToBirthday: number; // 0 = today!
+  nextAge: number;
+}
+
+/** Parse "YYYY-MM-DD" as a local calendar date (no timezone surprises). */
+export function parseDate(s: string): Date | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  if (!m) return null;
+  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+export function calcAge(birth: Date, asOf: Date): AgeResult | null {
+  if (birth > asOf) return null;
+  let years = asOf.getFullYear() - birth.getFullYear();
+  let months = asOf.getMonth() - birth.getMonth();
+  let days = asOf.getDate() - birth.getDate();
+  if (days < 0) {
+    months--;
+    days += new Date(asOf.getFullYear(), asOf.getMonth(), 0).getDate(); // days in previous month
+  }
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  const DAY = 86_400_000;
+  const utc = (d: Date) => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  const totalDays = Math.round((utc(asOf) - utc(birth)) / DAY);
+
+  // Feb 29 birthdays celebrate on Feb 28 in non-leap years
+  const birthdayIn = (year: number) => {
+    const d = new Date(year, birth.getMonth(), birth.getDate());
+    return d.getMonth() === birth.getMonth() ? d : new Date(year, birth.getMonth() + 1, 0);
+  };
+  let next = birthdayIn(asOf.getFullYear());
+  if (utc(next) < utc(asOf)) next = birthdayIn(asOf.getFullYear() + 1);
+
+  return {
+    years,
+    months,
+    days,
+    totalDays,
+    totalWeeks: Math.floor(totalDays / 7),
+    totalMonths: years * 12 + months,
+    bornWeekday: birth.toLocaleDateString("en-US", { weekday: "long" }),
+    nextBirthday: next,
+    daysToBirthday: Math.round((utc(next) - utc(asOf)) / DAY),
+    nextAge: next.getFullYear() - birth.getFullYear(),
   };
 }

@@ -1,133 +1,208 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { calcPaycheck, usd, num } from "@/lib/calc";
+import { usd, usd0 } from "@/lib/calc";
+import { calcPaycheck, compareStates, FilingStatus } from "@/lib/paycheck";
+import { STATES } from "@/lib/tax2026";
+import { useToolState, n } from "@/lib/useToolState";
+import { NumberField, SelectField, Segmented } from "@/components/calc/Fields";
+import { ResultHero, SplitBar, CountUp } from "@/components/calc/Results";
+import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
+import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 
-// Interactive UI for the paycheck calculator. Client component (needs state).
-// All math happens here in the browser — nothing sent to any server.
+const DEFAULTS = { g: "75000", st: "CA", f: "single", pp: "26", k: "5", o: "1800" };
+
+const PERIODS = [
+  { value: "52", label: "Weekly (52 a year)" },
+  { value: "26", label: "Every two weeks (26)" },
+  { value: "24", label: "Twice a month (24)" },
+  { value: "12", label: "Monthly (12)" },
+];
+
+const COLORS = {
+  net: "#2a6a44",
+  federal: "#f7b733",
+  state: "#e89b0c",
+  ss: "#8bc09e",
+  medicare: "#b9dbc3",
+  payroll: "#c47c00",
+  retirement: "#5aa074",
+  other: "#97a89e",
+};
+
 export default function PaycheckCalculator() {
-  const [gross, setGross] = useState("65000");
-  const [periods, setPeriods] = useState("24"); // semi-monthly default
-  const [single, setSingle] = useState(true);
-  const [stateTax, setStateTax] = useState("5");
-  const [pretax, setPretax] = useState("0");
+  const state = useToolState("paycheck-calculator", DEFAULTS);
+  const v = state.values;
+  const [view, setView] = useState<"period" | "year">("period");
+  const [showAll, setShowAll] = useState(false);
 
-  // Recompute only when inputs change (useMemo = small perf win)
-  const result = useMemo(
-    () =>
-      calcPaycheck({
-        grossAnnual: parseFloat(gross) || 0,
-        payPeriodsPerYear: parseInt(periods) || 12,
-        filingSingle: single,
-        stateTaxPercent: parseFloat(stateTax) || 0,
-        pretaxDeductionsAnnual: parseFloat(pretax) || 0,
-      }),
-    [gross, periods, single, stateTax, pretax]
+  const input = useMemo(
+    () => ({
+      grossAnnual: n(v.g),
+      payPeriodsPerYear: n(v.pp, 26),
+      status: (v.f === "married" ? "married" : "single") as FilingStatus,
+      stateCode: v.st,
+      retirementPercent: n(v.k),
+      otherPretaxAnnual: n(v.o),
+    }),
+    [v]
   );
+  const res = useMemo(() => calcPaycheck(input), [input]);
+  const ranking = useMemo(() => compareStates(input), [input]);
 
-  const periodLabel =
-    periods === "12" ? "month" :
-    periods === "24" ? "semi-monthly paycheck" :
-    periods === "26" ? "biweekly paycheck" :
-    periods === "52" ? "weekly paycheck" : "period";
+  const periods = n(v.pp, 26);
+  const div = view === "period" ? periods : 1;
+  const per = (x: number) => usd(x / div);
+  const myRank = ranking.findIndex((r) => r.code === res.state.code) + 1;
+  const best = ranking[0];
+
+  const rows = [
+    { label: "Federal income tax", value: res.federalTax, color: COLORS.federal },
+    { label: `${res.state.name} income tax`, value: res.stateTax, color: COLORS.state },
+    { label: "Social Security (6.2%)", value: res.socialSecurity, color: COLORS.ss },
+    { label: "Medicare", value: res.medicare, color: COLORS.medicare },
+    ...res.statePayroll.map((p) => ({ label: p.name, value: p.amount, color: COLORS.payroll })),
+    { label: "401(k) / retirement", value: res.retirement, color: COLORS.retirement },
+    { label: "Health & other pre-tax", value: res.otherPretax, color: COLORS.other },
+  ].filter((r) => r.value > 0.004);
 
   return (
-    <div className="card">
-      <div className="grid gap-5 md:grid-cols-2">
-        <div>
-          <label className="label-field" htmlFor="gross">Gross annual salary ($)</label>
-          <input
-            id="gross" type="number" inputMode="decimal" min="0"
-            className="input-field" value={gross}
-            onChange={(e) => setGross(e.target.value)}
+    <CalcShell
+      top={<WelcomeBack state={state} />}
+      inputs={
+        <>
+          <PanelTitle>Your pay</PanelTitle>
+          <NumberField label="Annual salary (gross)" prefix="$" value={v.g} onChange={(x) => state.set("g", x)} slider={{ min: 15000, max: 300000, step: 1000 }} />
+          <SelectField
+            label="State you work in"
+            value={v.st}
+            onChange={(x) => state.set("st", x)}
+            options={STATES.map((s) => ({ value: s.code, label: `${s.name}${s.type === "none" ? " (no income tax)" : ""}` }))}
           />
-        </div>
-
-        <div>
-          <label className="label-field" htmlFor="periods">Pay frequency</label>
-          <select
-            id="periods" className="input-field" value={periods}
-            onChange={(e) => setPeriods(e.target.value)}
+          <Segmented
+            label="Filing status"
+            value={v.f === "married" ? "married" : "single"}
+            onChange={(x) => state.set("f", x)}
+            options={[
+              { value: "single", label: "Single" },
+              { value: "married", label: "Married, jointly" },
+            ]}
+          />
+          <SelectField label="How often you're paid" value={v.pp} onChange={(x) => state.set("pp", x)} options={PERIODS} />
+          <PanelTitle>Pre-tax deductions</PanelTitle>
+          <NumberField label="401(k) contribution" suffix="% of pay" value={v.k} onChange={(x) => state.set("k", x)} slider={{ min: 0, max: 30, step: 1 }} />
+          <NumberField label="Health, dental & other pre-tax" prefix="$" suffix="/yr" value={v.o} onChange={(x) => state.set("o", x)} hint="Your share of premiums, HSA/FSA" />
+        </>
+      }
+      results={
+        <>
+          <ResultHero
+            eyebrow={view === "period" ? `Take-home per paycheck (${periods}×/yr)` : "Take-home per year"}
+            sub={
+              <>
+                That&apos;s <strong>{usd0(res.net)}</strong> a year — <strong>{Math.round((res.net / (res.gross || 1)) * 100)}%</strong> of your
+                salary. Your taxes total {(res.effectiveRate * 100).toFixed(1)}% and your federal bracket is {Math.round(res.marginalFederal * 100)}%.
+              </>
+            }
           >
-            <option value="12">Monthly (12/yr)</option>
-            <option value="24">Semi-monthly (24/yr)</option>
-            <option value="26">Biweekly (26/yr)</option>
-            <option value="52">Weekly (52/yr)</option>
-          </select>
-        </div>
+            <CountUp value={res.net / div} format={usd} />
+          </ResultHero>
 
-        <div>
-          <label className="label-field" htmlFor="filing">Filing status</label>
-          <select
-            id="filing" className="input-field" value={single ? "single" : "married"}
-            onChange={(e) => setSingle(e.target.value === "single")}
-          >
-            <option value="single">Single</option>
-            <option value="married">Married filing jointly</option>
-          </select>
-        </div>
+          <div className="flex items-center justify-between gap-3">
+            <Segmented
+              value={view}
+              onChange={(x) => setView(x as "period" | "year")}
+              options={[
+                { value: "period", label: "Per paycheck" },
+                { value: "year", label: "Per year" },
+              ]}
+            />
+          </div>
 
-        <div>
-          <label className="label-field" htmlFor="state">State income tax (%)</label>
-          <input
-            id="state" type="number" inputMode="decimal" min="0" max="20" step="0.1"
-            className="input-field" value={stateTax}
-            onChange={(e) => setStateTax(e.target.value)}
-          />
-        </div>
+          <div className="rounded-2xl border border-line p-4">
+            <div className="mb-3 text-sm font-semibold text-ink">Where your paycheck goes</div>
+            <SplitBar parts={[{ label: "Take-home", value: res.net, color: COLORS.net }, ...rows]} />
+            <div className="mt-4 overflow-hidden rounded-xl border border-line">
+              <table className="w-full text-sm tabular-nums">
+                <tbody className="divide-y divide-line">
+                  <tr className="text-ink/80">
+                    <td className="px-4 py-2.5">Gross pay</td>
+                    <td className="px-4 py-2.5 text-right">{per(res.gross)}</td>
+                  </tr>
+                  {rows.map((r) => (
+                    <tr key={r.label} className="text-ink/80">
+                      <td className="px-4 py-2.5">
+                        <span className="flex items-center gap-2">
+                          <span className="h-2.5 w-2.5 rounded-full" style={{ background: r.color }} />
+                          {r.label}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2.5 text-right">−{per(r.value)}</td>
+                    </tr>
+                  ))}
+                  <tr className="bg-ivy-50 font-semibold text-ivy-800 dark:bg-ivy-900/30 dark:text-ivy-200">
+                    <td className="px-4 py-2.5">Take-home pay</td>
+                    <td className="px-4 py-2.5 text-right">{per(res.net)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-        <div className="md:col-span-2">
-          <label className="label-field" htmlFor="pretax">
-            Pre-tax deductions per year ($) — 401(k), health premiums, etc.
-          </label>
-          <input
-            id="pretax" type="number" inputMode="decimal" min="0"
-            className="input-field" value={pretax}
-            onChange={(e) => setPretax(e.target.value)}
-          />
-        </div>
-      </div>
+          {res.state.notes && (
+            <details className="group rounded-xl border border-line bg-surface-2 px-4 py-3 text-sm">
+              <summary className="cursor-pointer list-none font-medium text-ink marker:content-none [&::-webkit-details-marker]:hidden">
+                What&apos;s included for {res.state.name} <span className="text-muted group-open:hidden">(tap to see)</span>
+              </summary>
+              <p className="mt-2 text-ink/80">
+                {res.state.notes}{" "}
+                <a href={res.state.source} target="_blank" rel="noopener noreferrer" className="link">
+                  Official source
+                </a>
+              </p>
+            </details>
+          )}
 
-      {/* Result */}
-      <div className="mt-6 rounded-xl bg-ivy-50 p-5">
-        <div className="text-sm text-slate-600">Estimated take-home pay</div>
-        <div className="mt-1 text-3xl font-extrabold text-ivy-700">
-          {usd(result.netPerPeriod)}{" "}
-          <span className="text-base font-medium text-slate-500">/ {periodLabel}</span>
-        </div>
-        <div className="mt-1 text-sm text-slate-600">
-          {usd(result.netAnnual)} per year · effective tax rate{" "}
-          {num(result.effectiveTaxRate * 100, 1)}%
-        </div>
-      </div>
+          <div className="rounded-2xl border border-line p-4">
+            <div className="mb-1 text-sm font-semibold text-ink">Same salary, other states</div>
+            <p className="mb-3 text-xs text-muted">
+              {res.state.name} ranks <strong className="text-ink">#{myRank} of {ranking.length}</strong> for take-home pay on this salary.
+              {best && best.code !== res.state.code && <> In {best.name} you&apos;d keep {usd0(best.net - res.net)} more a year.</>}
+            </p>
+            <ol className="space-y-1.5">
+              {(showAll ? ranking : ranking.slice(0, 5)).map((r, i) => {
+                const width = (r.net / (ranking[0]?.net || 1)) * 100;
+                const mine = r.code === res.state.code;
+                return (
+                  <li key={r.code}>
+                    <button type="button" onClick={() => state.set("st", r.code)} className="group flex w-full items-center gap-3 text-left text-sm">
+                      <span className="w-6 text-right text-xs text-muted">{showAll ? i + 1 : ranking.indexOf(r) + 1}</span>
+                      <span className={`flex-1 truncate sm:w-28 sm:flex-none ${mine ? "font-bold text-ivy-700 dark:text-ivy-300" : "text-ink/80 group-hover:text-ink"}`}>{r.name}</span>
+                      <span className="relative hidden h-2 flex-1 overflow-hidden rounded-full bg-surface-2 sm:block">
+                        <span className={`absolute inset-y-0 left-0 rounded-full ${mine ? "bg-ivy-600" : "bg-ivy-300 dark:bg-ivy-700"}`} style={{ width: `${width}%` }} />
+                      </span>
+                      <span className="w-20 text-right tabular-nums text-ink">{usd0(r.net)}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+            {!showAll && myRank > 5 && (
+              <div className="mt-1.5 flex items-center gap-3 text-sm">
+                <span className="w-6 text-right text-xs text-muted">{myRank}</span>
+                <span className="flex-1 truncate font-bold sm:w-28 sm:flex-none text-ivy-700 dark:text-ivy-300">{res.state.name}</span>
+                <span className="flex-1" />
+                <span className="w-20 text-right tabular-nums text-ink">{usd0(res.net)}</span>
+              </div>
+            )}
+            <button type="button" onClick={() => setShowAll((s) => !s)} className="mt-3 text-sm font-semibold text-ivy-600 hover:underline dark:text-ivy-400">
+              {showAll ? "Show top 5" : "Show all states"}
+            </button>
+          </div>
 
-      {/* Breakdown table */}
-      <div className="mt-5 overflow-hidden rounded-lg border border-slate-200">
-        <table className="w-full text-sm">
-          <tbody className="divide-y divide-slate-100">
-            <Row label="Gross annual salary" value={usd(parseFloat(gross) || 0)} />
-            <Row label="Federal income tax" value={`- ${usd(result.federalTaxAnnual)}`} />
-            <Row label="Social Security (6.2%)" value={`- ${usd(result.socialSecurityAnnual)}`} />
-            <Row label="Medicare (1.45%)" value={`- ${usd(result.medicareAnnual)}`} />
-            <Row label="State income tax" value={`- ${usd(result.stateTaxAnnual)}`} />
-            <Row label="Pre-tax deductions" value={`- ${usd(parseFloat(pretax) || 0)}`} />
-            <Row label="Net annual take-home" value={usd(result.netAnnual)} bold />
-          </tbody>
-        </table>
-      </div>
-      <p className="mt-3 text-xs text-slate-500">
-        Estimate only, using 2024 federal brackets and FICA rates. Actual withholding
-        depends on your W-4, local taxes, and other factors.
-      </p>
-    </div>
-  );
-}
-
-function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
-  return (
-    <tr className={bold ? "bg-slate-50 font-semibold text-slate-900" : "text-slate-700"}>
-      <td className="px-4 py-2.5">{label}</td>
-      <td className="px-4 py-2.5 text-right tabular-nums">{value}</td>
-    </tr>
+          <ToolActions state={state} shareText={`My take-home pay in ${res.state.name}: ${usd0(res.net)}/yr`} />
+        </>
+      }
+    />
   );
 }

@@ -1,22 +1,16 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
-import { getTool } from "@/lib/site";
-import { ToolSchema, FaqSchema, BreadcrumbSchema, FaqItem } from "@/components/StructuredData";
-import FaqSection from "@/components/FaqSection";
-import RelatedTools from "@/components/RelatedTools";
-import AdSlot from "@/components/AdSlot";
+import { FaqItem } from "@/components/StructuredData";
+import ToolLayout from "@/components/ToolLayout";
 import CompoundCalculator from "./CompoundCalculator";
 
 const SLUG = "compound-interest-calculator";
-const tool = getTool(SLUG)!;
-const PATH = `/${SLUG}/`;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Compound Interest Calculator — Grow Your Savings",
+  title: "Compound Interest Calculator with Monthly Deposits",
   description:
-    "Free compound interest calculator with monthly contributions. See how your savings and investments grow over time, with a year-by-year breakdown. No sign-up.",
-  path: PATH,
+    "Project savings growth with monthly deposits and daily, monthly or yearly compounding, shown on a year-by-year chart. Any currency.",
+  path: `/${SLUG}/`,
   keywords: [
     "compound interest calculator",
     "savings calculator",
@@ -54,79 +48,51 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const SOURCES = [
+  { label: "Investor.gov (SEC) — Compound interest explained", url: "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator" },
+  { label: "FDIC — National rates and rate caps", url: "https://www.fdic.gov/national-rates-and-rate-caps" },
+];
+
 export default function Page() {
   return (
-    <>
-      <ToolSchema name={tool.title} description={tool.blurb} path={PATH} />
-      <FaqSchema items={faqs} />
-      <BreadcrumbSchema toolName={tool.shortTitle} path={PATH} />
+    <ToolLayout
+      slug={SLUG}
+      h1="Compound Interest Calculator"
+      intro="Watch your money grow with compound interest and monthly deposits — in dollars, pounds, euros, rupees and more."
+      calculator={<CompoundCalculator />}
+      faqs={faqs}
+      sources={SOURCES}
+    >
+      <h2>How compound interest works</h2>
+      <p>
+        With simple interest, you earn a fixed amount on your original deposit and nothing
+        more. With compound interest, the interest you earn is added to your balance, and
+        future interest is calculated on that new, larger balance. Over time this creates a
+        snowball effect: your money earns interest, then that interest earns interest, and
+        so on.
+      </p>
+      <p>
+        The three levers that drive compound growth are the amount you start with, how much
+        you add regularly, and how long you let it grow. Of these, time is usually the most
+        powerful — which is why starting early, even with small amounts, often beats
+        starting later with larger amounts.
+      </p>
 
-      <div className="container-page py-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-slate-500">
-          <Link href="/" className="hover:text-ivy-700">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-700">{tool.shortTitle}</span>
-        </nav>
+      <h2>An example of the snowball effect</h2>
+      <p>
+        Suppose you start with $10,000, add $300 a month, and earn 7% a year compounded
+        monthly. After 20 years you would have contributed $82,000 of your own money, but
+        your balance could grow to well over $180,000 — meaning compounding earned you more
+        than you put in. Adjust the inputs above to model your own plan.
+      </p>
 
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Compound Interest Calculator
-        </h1>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600">
-          See how your money grows over time when interest compounds and you add regular
-          monthly contributions. Includes a year-by-year growth chart.
-        </p>
-
-        <AdSlot />
-
-        <div className="mt-6">
-          <CompoundCalculator />
-        </div>
-
-        <AdSlot />
-
-        <article className="prose-content mt-10 max-w-none">
-          <h2>How compound interest works</h2>
-          <p>
-            With simple interest, you earn a fixed amount on your original deposit and nothing
-            more. With compound interest, the interest you earn is added to your balance, and
-            future interest is calculated on that new, larger balance. Over time this creates a
-            snowball effect: your money earns interest, then that interest earns interest, and
-            so on.
-          </p>
-          <p>
-            The three levers that drive compound growth are the amount you start with, how much
-            you add regularly, and how long you let it grow. Of these, time is usually the most
-            powerful — which is why starting early, even with small amounts, often beats
-            starting later with larger amounts.
-          </p>
-
-          <h2>An example of the snowball effect</h2>
-          <p>
-            Suppose you start with $10,000, add $300 a month, and earn 7% a year compounded
-            monthly. After 20 years you would have contributed $82,000 of your own money, but
-            your balance could grow to well over $180,000 — meaning compounding earned you more
-            than you put in. Adjust the inputs above to model your own plan.
-          </p>
-
-          <h2>Making compound interest work for you</h2>
-          <ul>
-            <li>Start as early as you can — time is the biggest multiplier.</li>
-            <li>Contribute consistently, even small amounts, and automate it if possible.</li>
-            <li>Reinvest interest and dividends rather than withdrawing them.</li>
-            <li>Keep fees low, since fees compound against you the same way returns compound for you.</li>
-          </ul>
-        </article>
-
-        <FaqSection items={faqs} />
-
-        <div className="mt-8 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          <strong>Disclaimer:</strong> Projections are estimates for informational purposes only
-          and are not investment advice. Real returns vary and are not guaranteed. See our{" "}
-          <Link href="/disclaimer/" className="underline">full disclaimer</Link>.
-        </div>
-
-        <RelatedTools slug={SLUG} />
-      </div>
-    </>
+      <h2>Making compound interest work for you</h2>
+      <ul>
+        <li>Start as early as you can — time is the biggest multiplier.</li>
+        <li>Contribute consistently, even small amounts, and automate it if possible.</li>
+        <li>Reinvest interest and dividends rather than withdrawing them.</li>
+        <li>Keep fees low, since fees compound against you the same way returns compound for you.</li>
+      </ul>
+    </ToolLayout>
   );
 }

@@ -2,47 +2,143 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styling - light, fast, readable. No heavy fonts (performance = SEO). */
+/* ============================================================================
+   DESIGN TOKENS
+   Light + dark dono ke colors yahan. Tailwind classes (bg-surface, text-ink...)
+   inhi variables ko padhti hain -> ek jagah badlo, poori site badal jaati hai.
+   ========================================================================== */
+:root {
+  --bg: 246 248 246;
+  --surface: 255 255 255;
+  --surface-2: 240 245 241;
+  --ink: 17 28 22;
+  --muted: 88 102 94;
+  --line: 222 229 224;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: 11 17 14;
+  --surface: 19 28 23;
+  --surface-2: 26 38 31;
+  --ink: 232 240 235;
+  --muted: 151 168 158;
+  --line: 40 55 46;
+  color-scheme: dark;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  @apply bg-slate-50 text-slate-800 antialiased;
+  @apply bg-bg text-ink antialiased;
 }
 
-/* Reusable component classes */
 @layer components {
   .container-page {
-    @apply mx-auto w-full max-w-5xl px-4 sm:px-6;
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg bg-ivy-600 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-ivy-700 focus:outline-none focus:ring-2 focus:ring-ivy-400 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ivy-600 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-ivy-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-ivy-400 focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-4 py-2 text-sm font-semibold text-ink transition hover:border-ivy-400 hover:text-ivy-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-ivy-400 dark:hover:text-ivy-300;
   }
 
   .card {
-    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm;
+    @apply rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6;
   }
 
   .input-field {
-    @apply w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-ivy-500 focus:outline-none focus:ring-1 focus:ring-ivy-500;
+    @apply w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-ink tabular-nums transition placeholder:text-muted/60 focus:border-ivy-500 focus:outline-none focus:ring-2 focus:ring-ivy-500/25;
   }
 
   .label-field {
-    @apply mb-1 block text-sm font-medium text-slate-700;
+    @apply mb-1.5 block text-sm font-medium text-muted;
   }
 
+  .link {
+    @apply font-medium text-ivy-600 underline decoration-ivy-300 underline-offset-2 hover:text-ivy-700 dark:text-ivy-300 dark:hover:text-ivy-200;
+  }
+
+  .prose-content {
+    @apply max-w-3xl;
+  }
   .prose-content h2 {
-    @apply mt-8 mb-3 text-2xl font-bold text-slate-900;
+    @apply mb-3 mt-10 text-2xl font-bold tracking-tight text-ink;
   }
   .prose-content h3 {
-    @apply mt-6 mb-2 text-xl font-semibold text-slate-900;
+    @apply mb-2 mt-6 text-xl font-semibold text-ink;
   }
   .prose-content p {
-    @apply mb-4 leading-relaxed text-slate-700;
+    @apply mb-4 leading-relaxed text-ink/80;
   }
   .prose-content ul {
-    @apply mb-4 list-disc space-y-1 pl-6 text-slate-700;
+    @apply mb-4 list-disc space-y-1.5 pl-6 text-ink/80;
+  }
+  .prose-content ol {
+    @apply mb-4 list-decimal space-y-1.5 pl-6 text-ink/80;
+  }
+  .prose-content a {
+    @apply link;
+  }
+  .prose-content strong {
+    @apply font-semibold text-ink;
+  }
+  .prose-content code {
+    @apply rounded bg-surface-2 px-1.5 py-0.5 text-sm;
+  }
+}
+
+/* Range slider - brand colored, works in all modern browsers */
+input[type="range"].slider {
+  @apply h-2 w-full cursor-pointer appearance-none rounded-full bg-surface-2;
+  accent-color: #2a6a44;
+}
+input[type="range"].slider::-webkit-slider-thumb {
+  @apply h-5 w-5 appearance-none rounded-full border-2 border-white bg-ivy-600 shadow;
+}
+input[type="range"].slider::-moz-range-thumb {
+  @apply h-5 w-5 rounded-full border-2 border-white bg-ivy-600 shadow;
+}
+
+/* Number inputs: hide spinners (cleaner, mobile-friendly) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print: sirf calculator + result chhape, ads/nav nahi */
+@media print {
+  header,
+  footer,
+  .no-print,
+  .ad-slot {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .card {
+    box-shadow: none !important;
+    break-inside: avoid;
   }
 }

@@ -1,0 +1,156 @@
+{
+  "date": "2026-10-24",
+  "generatedAt": "2026-10-24T16:28:17.555Z",
+  "sources": {
+    "gsc": false,
+    "ga4": false,
+    "psi": false,
+    "ai": false
+  },
+  "kpis": {
+    "clicks": null,
+    "impressions": null,
+    "ctr": null,
+    "position": null,
+    "clicksChange": null,
+    "impressionsChange": null,
+    "sessions": null,
+    "sessionsChange": null,
+    "usShare": null,
+    "pageviews": null
+  },
+  "trend": [],
+  "topQueries": [],
+  "topPages": [],
+  "opportunities": [],
+  "lowCtr": [],
+  "speed": [],
+  "health": {
+    "pageCount": 21,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  "roadmap": {
+    "live": 10,
+    "planned": 35,
+    "overdue": [],
+    "dueSoon": [
+      {
+        "slug": "no-tax-on-overtime-calculator",
+        "title": "No Tax on Overtime Calculator",
+        "primaryKeyword": "no tax on overtime calculator",
+        "secondary": [
+          "overtime deduction 2026",
+          "qualified overtime deduction married filing jointly"
+        ],
+        "volume": "10k-100k (peaks Jan-Apr)",
+        "difficulty": "low-med",
+        "wave": 1,
+        "targetDate": "2026-10-30",
+        "status": "planned",
+        "why": "New OBBBA deduction (2025-2028); SERP led by small sites; $12.5k/$25k cap, phase-out from $150k/$300k MAGI"
+      },
+      {
+        "slug": "no-tax-on-tips-calculator",
+        "title": "No Tax on Tips Calculator",
+        "primaryKeyword": "no tax on tips calculator",
+        "secondary": [
+          "tips deduction 2026",
+          "no tax on tips refund"
+        ],
+        "volume": "1k-10k",
+        "difficulty": "low",
+        "wave": 1,
+        "targetDate": "2026-11-03",
+        "status": "planned",
+        "why": "New deduction; links to tip calculator"
+      },
+      {
+        "slug": "overtime-calculator",
+        "title": "Overtime Pay Calculator",
+        "primaryKeyword": "overtime calculator",
+        "secondary": [
+          "time and a half calculator",
+          "overtime calculator after taxes"
+        ],
+        "volume": "10k-100k",
+        "difficulty": "med",
+        "wave": 1,
+        "targetDate": "2026-11-06",
+        "status": "planned",
+        "why": "Hub for the paycheck cluster"
+      }
+    ]
+  },
+  "growth": {
+    "week": 1,
+    "thisWeek": [
+      {
+        "week": 1,
+        "task": "Set up Google Search Console and submit the sitemap",
+        "type": "setup",
+        "url": "https://search.google.com/search-console",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Set up Bing Webmaster Tools (import from Search Console)",
+        "type": "setup",
+        "url": "https://www.bing.com/webmasters",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Set up Ahrefs Webmaster Tools (free backlink tracking)",
+        "type": "setup",
+        "url": "https://ahrefs.com/webmaster-tools",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Install GA4 (Mediavine and Raptive review it)",
+        "type": "setup",
+        "url": "https://analytics.google.com",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Create brand profiles: X, LinkedIn page, GitHub org, YouTube, Crunchbase",
+        "type": "brand",
+        "url": "",
+        "done": false
+      }
+    ]
+  },
+  "milestones": {
+    "journey": {
+      "target": 1000,
+      "label": "Mediavine Journey (1,000 Tier-1 sessions / 30 days)"
+    },
+    "raptive": {
+      "target": 25000,
+      "label": "Raptive (25,000 pageviews / month)"
+    },
+    "mediavine": {
+      "target": 50000,
+      "label": "Mediavine full (50,000 sessions / month)"
+    }
+  },
+  "previousDate": null,
+  "notes": [],
+  "ai": {
+    "headline": "Site ready — ab Search Console connect karna hai",
+    "summary": "Abhi traffic data connect nahi hai, isliye sirf site ki technical jaanch hui: 21 pages, 0 errors, 0 warnings.",
+    "youDo": [
+      "Search Console connect karo (docs/SETUP-AGENT.md, Step 2) — bina iske ranking data nahi milega.",
+      "Next tool: No Tax on Overtime Calculator (target 2026-10-30).",
+      "Growth task: Set up Google Search Console and submit the sitemap"
+    ],
+    "agentNext": [
+      "Draft No Tax on Overtime Calculator (no-tax-on-overtime-calculator)"
+    ],
+    "risks": [],
+    "by": "rules"
+  }
+}

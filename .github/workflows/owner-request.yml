@@ -1,0 +1,36 @@
+# "Report a problem" from the admin panel opens a GitHub issue that mentions @claude.
+# Claude reads it, fixes it on a branch and opens a PR for you to review.
+name: Owner requests (@claude)
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  claude:
+    # Only the repo owner can trigger it (protects your API budget)
+    if: |
+      github.actor == github.repository_owner &&
+      (contains(github.event.issue.body, '@claude') || contains(github.event.comment.body, '@claude'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--max-turns 60"

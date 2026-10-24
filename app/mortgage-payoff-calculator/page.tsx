@@ -1,135 +1,94 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
-import { getTool } from "@/lib/site";
-import { ToolSchema, FaqSchema, BreadcrumbSchema, FaqItem } from "@/components/StructuredData";
-import FaqSection from "@/components/FaqSection";
-import RelatedTools from "@/components/RelatedTools";
-import AdSlot from "@/components/AdSlot";
+import { FaqItem } from "@/components/StructuredData";
+import ToolLayout from "@/components/ToolLayout";
 import MortgageCalculator from "./MortgageCalculator";
 
 const SLUG = "mortgage-payoff-calculator";
-const tool = getTool(SLUG)!;
-const PATH = `/${SLUG}/`;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Mortgage Payoff Calculator — Extra Payment Savings",
+  title: "Mortgage Payoff Calculator: Extra Payments & Savings",
   description:
-    "Free mortgage payoff calculator. See how much interest and time you save by making extra monthly payments on your home loan. Instant results, no sign-up.",
-  path: PATH,
-  keywords: [
-    "mortgage payoff calculator",
-    "extra payment calculator",
-    "pay off mortgage early",
-    "mortgage interest savings",
-    "early mortgage payoff",
-  ],
+    "See how extra monthly, yearly or lump-sum payments cut years and interest off your mortgage, with your payoff date and full schedule.",
+  path: `/${SLUG}/`,
+  keywords: ["mortgage payoff calculator", "extra payment calculator", "pay off mortgage early", "mortgage payoff date", "lump sum mortgage payment"],
 });
 
 const faqs: FaqItem[] = [
   {
     question: "How do extra mortgage payments save money?",
     answer:
-      "Every extra dollar you pay goes straight to your principal — the amount you still owe. Because interest is charged on the remaining principal, reducing it faster means less interest accrues in every future month. Over a 30-year loan, even a small consistent extra payment can cut years off the term and save tens of thousands of dollars in interest.",
+      "Every extra dollar goes straight to principal — the amount you still owe. Interest is charged on the remaining principal each month, so lowering it sooner means less interest in every month that follows. On a 30-year loan, even a small regular extra payment can cut years off the term.",
   },
   {
-    question: "Is it better to pay extra on my mortgage or invest the money?",
+    question: "Is a monthly extra payment better than one lump sum a year?",
     answer:
-      "It depends on your mortgage rate versus your expected investment return, and your comfort with risk. Paying down a mortgage is a guaranteed return equal to your interest rate, with no risk. Investing may earn more over time but isn't guaranteed. Many people do both, and paying extra also has the benefit of owning your home outright sooner.",
+      "For the same total dollars, paying earlier always saves a little more, because the balance drops sooner. In practice the difference is small — pick whichever you'll actually stick with. You can enter both in the calculator to compare.",
   },
   {
     question: "Should I tell my lender the extra payment is for principal?",
     answer:
-      "Yes. Some lenders apply extra money to the next month's payment instead of the principal unless you specify otherwise. When you pay extra, mark it as 'apply to principal' so it actually reduces your balance and maximizes your interest savings.",
+      "Yes. Some servicers apply extra money to next month's payment instead of principal unless you tell them otherwise. Mark extra payments as 'apply to principal' so they reduce your balance.",
   },
   {
-    question: "Does this calculator include taxes and insurance?",
+    question: "Does this calculator include property taxes and insurance?",
     answer:
-      "No. It focuses on principal and interest (P&I), which is the part of your payment that extra payments affect. Property taxes and homeowners insurance are usually collected in escrow and don't change based on extra principal payments, so they're left out to keep the savings figure clear and accurate.",
+      "No. It models principal and interest (P&I), the part of the payment that extra payments change. Taxes and insurance are usually paid through escrow and don't shrink when you pay down the loan faster.",
   },
   {
-    question: "Are there downsides to paying off my mortgage early?",
+    question: "Are there downsides to paying off a mortgage early?",
     answer:
-      "A few. You tie up cash that could be used for emergencies or higher-return investments, and a small number of loans charge prepayment penalties. Check your loan terms first, keep an emergency fund in place, and make sure higher-interest debt (like credit cards) is cleared before aggressively overpaying a low-rate mortgage.",
+      "Money sent to the mortgage is hard to get back in an emergency, and it could earn more elsewhere if your rate is low. A few loans also have prepayment penalties. Most people build an emergency fund and clear high-interest debt first.",
   },
 ];
 
 export default function Page() {
   return (
-    <>
-      <ToolSchema name={tool.title} description={tool.blurb} path={PATH} />
-      <FaqSchema items={faqs} />
-      <BreadcrumbSchema toolName={tool.shortTitle} path={PATH} />
+    <ToolLayout
+      slug={SLUG}
+      h1="Mortgage Payoff Calculator"
+      intro="Find your mortgage-free date and see how much time and interest extra payments save."
+      calculator={<MortgageCalculator />}
+      faqs={faqs}
+      sources={[
+        { label: "CFPB — What is amortization?", url: "https://www.consumerfinance.gov/ask-cfpb/what-is-amortization-and-how-could-it-affect-my-auto-loan-en-771/" },
+        { label: "CFPB — What is a prepayment penalty?", url: "https://www.consumerfinance.gov/ask-cfpb/what-is-a-prepayment-penalty-en-1957/" },
+      ]}
+    >
+      <h2>How paying off your mortgage early works</h2>
+      <p>
+        A mortgage is an amortized loan: each payment is split between interest (the cost of borrowing) and principal (what you
+        owe). Early on, most of each payment is interest because the balance is large. An extra payment skips the interest and
+        goes straight to principal.
+      </p>
+      <p>
+        Interest is charged on whatever balance is left, so a lower balance today means less interest every month after. That is
+        why a modest extra payment adds up to large savings over hundreds of remaining months.
+      </p>
 
-      <div className="container-page py-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-slate-500">
-          <Link href="/" className="hover:text-ivy-700">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-700">{tool.shortTitle}</span>
-        </nav>
+      <h2>The formula</h2>
+      <p>
+        The regular monthly payment is <code>M = P × r / (1 − (1 + r)^−n)</code>, where <strong>P</strong> is the balance,{" "}
+        <strong>r</strong> is the annual rate ÷ 12, and <strong>n</strong> is the number of months left. The calculator then runs
+        the loan month by month: it adds that month&apos;s interest, subtracts your payment plus any extras, and repeats until the
+        balance reaches zero.
+      </p>
 
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Mortgage Payoff Calculator
-        </h1>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600">
-          See how much faster you could own your home — and how much interest you&apos;d save —
-          by adding a little extra to your monthly mortgage payment.
-        </p>
+      <h2>A worked example</h2>
+      <p>
+        A $300,000 balance at 6.5% over 30 years has a payment of about <strong>$1,896</strong> and costs about{" "}
+        <strong>$382,600</strong> in interest. Paying <strong>$200 extra</strong> each month pays it off in about 23 years
+        instead of 30 — <strong>6 years and 11 months sooner</strong> — and saves roughly <strong>$103,400</strong> in interest.
+      </p>
 
-        <AdSlot />
-
-        <div className="mt-6">
-          <MortgageCalculator />
-        </div>
-
-        <AdSlot />
-
-        <article className="prose-content mt-10 max-w-none">
-          <h2>How paying off your mortgage early works</h2>
-          <p>
-            A mortgage is an amortized loan: each monthly payment is split between interest
-            (the cost of borrowing) and principal (the balance you owe). In the early years,
-            most of your payment goes to interest because the balance is large. Extra
-            payments skip straight past the interest and knock down the principal directly.
-          </p>
-          <p>
-            Because interest is always charged on the remaining balance, a lower balance today
-            means less interest charged every single month for the rest of the loan. This is
-            why a modest extra payment compounds into large savings over time — the effect
-            snowballs across hundreds of remaining months.
-          </p>
-
-          <h2>An example</h2>
-          <p>
-            Imagine a $300,000 loan at 6.5% over 30 years. The base payment is around $1,896 a
-            month, and you&apos;d pay roughly $382,000 in interest over the full term. Adding
-            just $200 a month extra can pay the loan off several years early and save a large
-            share of that interest. Enter your own numbers above to see your exact figures.
-          </p>
-
-          <h2>Smart ways to make extra payments</h2>
-          <ul>
-            <li>Add a fixed extra amount to every monthly payment, as shown in this tool.</li>
-            <li>Make one extra full payment per year (for example, from a tax refund or bonus).</li>
-            <li>Round your payment up to the nearest $100 for a painless, automatic overpayment.</li>
-            <li>Switch to biweekly payments, which results in one extra monthly payment per year.</li>
-          </ul>
-          <p>
-            Before overpaying, make sure you have an emergency fund and no higher-interest debt,
-            and confirm your loan has no prepayment penalty.
-          </p>
-        </article>
-
-        <FaqSection items={faqs} />
-
-        <div className="mt-8 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          <strong>Disclaimer:</strong> Estimates for informational purposes only, not financial
-          advice. Your lender&apos;s figures may differ. See our{" "}
-          <Link href="/disclaimer/" className="underline">full disclaimer</Link>.
-        </div>
-
-        <RelatedTools slug={SLUG} />
-      </div>
-    </>
+      <h2>Smart ways to pay extra</h2>
+      <ul>
+        <li>Add a fixed amount to every payment (the &ldquo;Extra every month&rdquo; field).</li>
+        <li>Put part of a yearly bonus or tax refund toward principal (&ldquo;Extra once a year&rdquo;).</li>
+        <li>Round your payment up to the next $100 so the extra happens automatically.</li>
+        <li>Pay half the payment every two weeks: that adds up to one extra monthly payment a year.</li>
+      </ul>
+      <p>Before you overpay, keep an emergency fund, clear higher-interest debt, and check your loan has no prepayment penalty.</p>
+    </ToolLayout>
   );
 }

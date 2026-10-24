@@ -1,0 +1,38 @@
+# Weekly content agent: drafts the next roadmap tool(s) + improves weak pages,
+# then opens a Pull Request. NOTHING goes live until you review and merge it.
+# Cloudflare Pages builds a preview link for every PR so you can test first.
+name: SEO weekly agent
+
+on:
+  schedule:
+    - cron: "30 3 * * 1" # Monday 9:00 AM India time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: anthropics/claude-code-action@v1
+        with:
+          # Use ONE of these: an API key, or a Claude Pro/Max token from `claude setup-token`.
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are CalcIvy's weekly SEO agent. Read CLAUDE.md, then follow docs/AGENT-WEEKLY.md exactly.
+            Today is the weekly run. Work on a new branch and finish by opening ONE pull request.
+          claude_args: "--max-turns 80 --allowedTools Edit,Write,Read,Glob,Grep,Bash(npm run build),Bash(npm run lint),Bash(npm run check-tools),Bash(node scripts/*),Bash(git *),Bash(gh pr create:*)"

@@ -1,155 +1,124 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
-import { getTool } from "@/lib/site";
-import { ToolSchema, FaqSchema, BreadcrumbSchema, FaqItem } from "@/components/StructuredData";
-import FaqSection from "@/components/FaqSection";
-import RelatedTools from "@/components/RelatedTools";
-import AdSlot from "@/components/AdSlot";
+import { FaqItem } from "@/components/StructuredData";
+import ToolLayout from "@/components/ToolLayout";
+import { FEDERAL_2026 } from "@/lib/tax2026";
+import { usd0 } from "@/lib/calc";
 import PaycheckCalculator from "./PaycheckCalculator";
 
 const SLUG = "paycheck-calculator";
-const tool = getTool(SLUG)!;
-const PATH = `/${SLUG}/`;
+const F = FEDERAL_2026;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Take-Home Paycheck Calculator (2024) — Net Pay After Taxes",
+  title: "Paycheck Calculator 2026: Take-Home Pay, All 50 States",
   description:
-    "Free take-home paycheck calculator. Estimate your net pay after federal income tax, Social Security, Medicare, and state tax. Works for weekly, biweekly, and monthly pay.",
-  path: PATH,
-  keywords: [
-    "paycheck calculator",
-    "take home pay calculator",
-    "net pay calculator",
-    "salary after tax",
-    "how much will my paycheck be",
-  ],
+    "See federal, state and FICA taxes withheld and your exact take-home pay per paycheck. Updated for 2026 rules in every state.",
+  path: `/${SLUG}/`,
+  keywords: ["paycheck calculator", "take home pay calculator", "salary after tax 2026", "net pay calculator", "state paycheck calculator"],
 });
 
 const faqs: FaqItem[] = [
   {
     question: "How is my take-home pay calculated?",
     answer:
-      "Your take-home (net) pay is your gross salary minus federal income tax, Social Security (6.2%), Medicare (1.45%), any state income tax, and pre-tax deductions such as 401(k) contributions or health insurance premiums. This calculator applies the 2024 federal tax brackets and standard deduction, then subtracts each item to estimate what actually lands in your bank account.",
+      "Start with your gross salary and subtract pre-tax deductions such as 401(k) contributions and health premiums. Then subtract federal income tax (using the 2026 brackets and standard deduction), Social Security, Medicare, and your state's income and payroll taxes. What's left is your take-home pay, divided across your paychecks.",
   },
   {
-    question: "Why is my paycheck smaller than my salary divided by 12?",
+    question: "Why is my paycheck smaller than my salary divided by my pay periods?",
     answer:
-      "Because taxes and deductions come out first. Federal income tax, Social Security, and Medicare are withheld from every paycheck, and many people also have state tax and pre-tax benefits deducted. Together these can reduce a paycheck by 20% to 35% or more, so your net pay is noticeably lower than your gross salary split evenly.",
+      "Taxes and deductions come out before you're paid. Federal income tax, Social Security (6.2%) and Medicare (1.45%) are withheld from every check, plus state tax in most states and any benefits you've signed up for. Together they often take 20% to 35% of gross pay.",
   },
   {
-    question: "Does this calculator include state taxes?",
+    question: "Which states have no income tax?",
     answer:
-      "It includes state income tax as a flat percentage you enter yourself, because rates vary widely by state — from 0% in states like Texas and Florida to over 10% in states like California. For a precise figure, enter your state's effective rate, which you can find on your state's department of revenue website.",
+      "Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington and Wyoming don't tax wages. Washington does charge employees for its paid family leave and long-term care programs, which the calculator includes.",
   },
   {
-    question: "What are pre-tax deductions and how do they help?",
+    question: "Does contributing to a 401(k) reduce my taxes?",
     answer:
-      "Pre-tax deductions are amounts taken from your gross pay before income tax is calculated, such as traditional 401(k) contributions and many health insurance premiums. Because they lower your taxable income, they reduce the tax you owe — so contributing to a 401(k), for example, costs you less in take-home pay than the amount you actually save.",
+      "Yes. Traditional 401(k) contributions come out before federal and (in most states) state income tax, so each dollar you save costs you less than a dollar of take-home pay. They are still subject to Social Security and Medicare. Roth 401(k) contributions are after-tax and don't lower your current taxes.",
   },
   {
-    question: "Is this calculator accurate for my exact situation?",
+    question: "Why might my real paycheck differ from this estimate?",
     answer:
-      "It gives a solid estimate using standard federal rules, but your real withholding depends on your W-4 elections, additional withholding, local city taxes, and credits that this tool doesn't model. Treat the result as a planning estimate and check your actual pay stub or a tax professional for precise numbers.",
+      "Your employer withholds based on your W-4, which may include dependents, extra withholding or other income. Local taxes (for example New York City or Philadelphia), itemized deductions, tax credits and bonuses taxed at a flat rate can also change the number. Use this as a planning estimate and compare with your pay stub.",
   },
 ];
 
 export default function Page() {
   return (
-    <>
-      <ToolSchema name={tool.title} description={tool.blurb} path={PATH} />
-      <FaqSchema items={faqs} />
-      <BreadcrumbSchema toolName={tool.shortTitle} path={PATH} />
+    <ToolLayout
+      slug={SLUG}
+      h1="Paycheck Calculator 2026"
+      intro="Your real take-home pay after federal, state, Social Security and Medicare taxes — for all 50 states and DC."
+      calculator={<PaycheckCalculator />}
+      faqs={faqs}
+      sources={[
+        { label: "IRS — Tax inflation adjustments for tax year 2026 (Rev. Proc. 2025-32)", url: "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill" },
+        { label: "Social Security Administration — Contribution and benefit base", url: "https://www.ssa.gov/oact/cola/cbb.html" },
+        { label: "IRS — Topic 560, Additional Medicare Tax", url: "https://www.irs.gov/taxtopics/tc560" },
+        { label: "Each state's department of revenue (shown in the state note above)", url: "https://www.taxadmin.org/state-tax-agencies" },
+      ]}
+    >
+      <h2>How your take-home pay is calculated</h2>
+      <ol>
+        <li>
+          <strong>Pre-tax deductions</strong> come off first: traditional 401(k) or 403(b) contributions and your share of health,
+          dental and HSA/FSA premiums.
+        </li>
+        <li>
+          <strong>Federal income tax:</strong> we subtract the 2026 standard deduction ({usd0(F.stdDeduction.single)} single,{" "}
+          {usd0(F.stdDeduction.married)} married filing jointly) and apply the progressive brackets from 10% to 37%. Each rate only
+          applies to the slice of income inside its bracket.
+        </li>
+        <li>
+          <strong>Social Security:</strong> 6.2% of wages up to the 2026 wage base of {usd0(F.socialSecurity.wageBase)}.
+        </li>
+        <li>
+          <strong>Medicare:</strong> 1.45% of all wages, plus 0.9% on wages above {usd0(F.medicare.additionalThreshold.single)}{" "}
+          (single).
+        </li>
+        <li>
+          <strong>State taxes:</strong> your state&apos;s 2026 brackets or flat rate, its standard deduction, exemptions and credits,
+          plus employee-paid programs like disability or paid family leave where they apply.
+        </li>
+      </ol>
 
-      <div className="container-page py-8">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-slate-500">
-          <Link href="/" className="hover:text-ivy-700">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-700">{tool.shortTitle}</span>
-        </nav>
-
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Take-Home Paycheck Calculator
-        </h1>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600">
-          Find out what actually lands in your bank account. Enter your salary and this tool
-          estimates your net pay after federal tax, Social Security, Medicare, and state tax.
-        </p>
-
-        <AdSlot />
-
-        {/* Calculator */}
-        <div className="mt-6">
-          <PaycheckCalculator />
-        </div>
-
-        <AdSlot />
-
-        {/* How it works — unique, useful content (SEO + AdSense quality) */}
-        <article className="prose-content mt-10 max-w-none">
-          <h2>How this paycheck calculator works</h2>
-          <p>
-            When you get paid, the number on your offer letter (your gross salary) is not
-            the number that reaches your bank account. Several deductions come out first.
-            This calculator estimates each one and shows you the realistic take-home amount
-            for each paycheck.
-          </p>
-          <p>Here is the order the math follows:</p>
-          <ul>
-            <li>
-              <strong>Pre-tax deductions</strong> come out first (for example, a traditional
-              401(k) or certain health premiums). These lower your taxable income.
+      <h2>2026 federal tax brackets</h2>
+      <p>For single filers, taxable income (after the standard deduction) is taxed like this:</p>
+      <ul>
+        {F.single.map((b, i) => {
+          const next = F.single[i + 1];
+          return (
+            <li key={b.over}>
+              <strong>{Math.round(b.rate * 100)}%</strong> on income {next ? `from ${usd0(b.over)} to ${usd0(next.over)}` : `over ${usd0(b.over)}`}
             </li>
-            <li>
-              <strong>Federal income tax</strong> is calculated on your income after the
-              standard deduction, using the progressive 2024 tax brackets — meaning
-              different slices of your income are taxed at different rates.
-            </li>
-            <li>
-              <strong>Social Security</strong> is 6.2% of wages up to the annual wage cap
-              ($168,600 in 2024), and <strong>Medicare</strong> is 1.45% of all wages.
-            </li>
-            <li>
-              <strong>State income tax</strong> is applied as the flat rate you enter,
-              since it varies by state.
-            </li>
-          </ul>
-          <p>
-            Whatever remains is your net, or take-home, pay. Dividing that by your number of
-            pay periods gives your per-paycheck amount.
-          </p>
+          );
+        })}
+      </ul>
+      <p>
+        Married couples filing jointly have brackets roughly twice as wide. Your <em>marginal</em> rate (the top bracket you reach)
+        is always higher than your <em>effective</em> rate (total tax ÷ income), which the calculator shows above.
+      </p>
 
-          <h2>How to lower the taxes taken from your paycheck (legally)</h2>
-          <p>
-            The most common way to reduce the tax bite is to increase pre-tax contributions.
-            Adding to a traditional 401(k) or a Health Savings Account (HSA) lowers your
-            taxable income, which lowers the income tax withheld. You can test this in the
-            calculator: raise the pre-tax deductions field and watch how your take-home pay
-            changes by less than the amount you contribute — because part of that contribution
-            would otherwise have gone to taxes.
-          </p>
+      <h2>Why your state matters so much</h2>
+      <p>
+        Nine states don&apos;t tax wages at all, a growing group uses one flat rate, and the rest use brackets that top out above 10%
+        in states like California and New York. On the same salary the difference can be several thousand dollars a year — use the
+        &ldquo;Same salary, other states&rdquo; ranking to see exactly how much, or browse our{" "}
+        <Link href="/take-home-pay-by-state/">take-home pay by state table</Link> for $50k–$150k salaries.
+      </p>
 
-          <h2>Understanding your effective tax rate</h2>
-          <p>
-            The effective tax rate shown is your total tax divided by your gross salary. It is
-            almost always lower than your top tax bracket, because only the income in the
-            highest bracket is taxed at that top rate. This is why knowing your effective rate
-            gives a much more honest picture of your real tax burden than your bracket alone.
-          </p>
-        </article>
-
-        <FaqSection items={faqs} />
-
-        <div className="mt-8 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          <strong>Disclaimer:</strong> This is an estimate for informational purposes only and
-          is not tax or financial advice. Actual withholding depends on your W-4 and local
-          rules. See our{" "}
-          <Link href="/disclaimer/" className="underline">full disclaimer</Link>.
-        </div>
-
-        <RelatedTools slug={SLUG} />
-      </div>
-    </>
+      <h2>Ways to keep more of your paycheck</h2>
+      <ul>
+        <li>Raise your traditional 401(k) contribution — at least enough to get any employer match.</li>
+        <li>Use an HSA if you have a high-deductible health plan; contributions skip federal income tax and FICA through payroll.</li>
+        <li>Check your W-4 so you aren&apos;t over-withholding and waiting for a big refund.</li>
+        <li>
+          Converting an hourly offer? Try the <Link href="/salary-to-hourly-calculator/">salary to hourly calculator</Link>.
+        </li>
+      </ul>
+    </ToolLayout>
   );
 }

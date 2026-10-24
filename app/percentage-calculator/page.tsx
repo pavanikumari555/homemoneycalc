@@ -1,22 +1,16 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
-import { getTool } from "@/lib/site";
-import { ToolSchema, FaqSchema, BreadcrumbSchema, FaqItem } from "@/components/StructuredData";
-import FaqSection from "@/components/FaqSection";
-import RelatedTools from "@/components/RelatedTools";
-import AdSlot from "@/components/AdSlot";
+import { FaqItem } from "@/components/StructuredData";
+import ToolLayout from "@/components/ToolLayout";
 import PercentageCalculator from "./PercentageCalculator";
 
 const SLUG = "percentage-calculator";
-const tool = getTool(SLUG)!;
-const PATH = `/${SLUG}/`;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Percentage Calculator — Percent Of, Change & More",
+  title: "Percentage Calculator: %, Change, Increase & Off",
   description:
-    "Free percentage calculator. Work out what X% of Y is, what percent one number is of another, and percentage increase or decrease. Instant, no sign-up.",
-  path: PATH,
+    "Work out X% of Y, percent change, percent increase or decrease and discounts instantly, with the formula shown for each.",
+  path: `/${SLUG}/`,
   keywords: [
     "percentage calculator",
     "percent calculator",
@@ -51,80 +45,48 @@ const faqs: FaqItem[] = [
 
 export default function Page() {
   return (
-    <>
-      <ToolSchema name={tool.title} description={tool.blurb} path={PATH} />
-      <FaqSchema items={faqs} />
-      <BreadcrumbSchema toolName={tool.shortTitle} path={PATH} />
+    <ToolLayout
+      slug={SLUG}
+      h1="Percentage Calculator"
+      intro="Every common percentage question in one place, with the working shown so you can check it."
+      calculator={<PercentageCalculator />}
+      faqs={faqs}
+      finance={false}
+    >
+      <h2>How to work out percentages</h2>
+      <p>
+        A percentage is simply a number expressed as a fraction of 100. The word literally
+        means &quot;per hundred.&quot; Once you know that, every percentage problem becomes one of
+        three simple patterns. The calculator above covers those three plus increasing or decreasing a number by a percent.
+      </p>
 
-      <div className="container-page py-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-slate-500">
-          <Link href="/" className="hover:text-ivy-700">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-700">{tool.shortTitle}</span>
-        </nav>
+      <h3>1. Finding a percent of a number</h3>
+      <p>
+        To find X% of Y, convert the percent to a decimal (divide by 100) and multiply.
+        This is how you calculate a tip, a discount, or a tax. For instance, a 15% tip on a
+        $60 bill is 0.15 × 60 = $9.
+      </p>
 
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Percentage Calculator
-        </h1>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600">
-          Three quick tools for the most common percentage questions: a percent of a number,
-          what percent one value is of another, and percentage increase or decrease.
-        </p>
+      <h3>2. Finding what percent one number is of another</h3>
+      <p>
+        To find what percent A is of B, divide A by B and multiply by 100. This answers
+        questions like &quot;I scored 42 out of 50 — what percent is that?&quot; (42 ÷ 50 × 100 = 84%).
+      </p>
 
-        <AdSlot />
+      <h3>3. Finding a percentage increase or decrease</h3>
+      <p>
+        To find the percentage change between two values, take the difference, divide by the
+        original value, and multiply by 100. This is the go-to calculation for price changes,
+        growth rates, and comparing before-and-after figures.
+      </p>
 
-        <div className="mt-6">
-          <PercentageCalculator />
-        </div>
-
-        <AdSlot />
-
-        <article className="prose-content mt-10 max-w-none">
-          <h2>How to work out percentages</h2>
-          <p>
-            A percentage is simply a number expressed as a fraction of 100. The word literally
-            means &quot;per hundred.&quot; Once you know that, every percentage problem becomes one of
-            three simple patterns, which is exactly why this page splits into three tools.
-          </p>
-
-          <h3>1. Finding a percent of a number</h3>
-          <p>
-            To find X% of Y, convert the percent to a decimal (divide by 100) and multiply.
-            This is how you calculate a tip, a discount, or a tax. For instance, a 15% tip on a
-            $60 bill is 0.15 × 60 = $9.
-          </p>
-
-          <h3>2. Finding what percent one number is of another</h3>
-          <p>
-            To find what percent A is of B, divide A by B and multiply by 100. This answers
-            questions like &quot;I scored 42 out of 50 — what percent is that?&quot; (42 ÷ 50 × 100 = 84%).
-          </p>
-
-          <h3>3. Finding a percentage increase or decrease</h3>
-          <p>
-            To find the percentage change between two values, take the difference, divide by the
-            original value, and multiply by 100. This is the go-to calculation for price changes,
-            growth rates, and comparing before-and-after figures.
-          </p>
-
-          <h2>Everyday uses</h2>
-          <ul>
-            <li>Calculating sale discounts and final prices.</li>
-            <li>Working out tips and splitting bills.</li>
-            <li>Understanding interest rates and returns.</li>
-            <li>Comparing statistics, scores, and growth figures.</li>
-          </ul>
-        </article>
-
-        <FaqSection items={faqs} />
-
-        <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-          Results are calculated instantly in your browser. Nothing you type is stored or sent
-          anywhere.
-        </div>
-
-        <RelatedTools slug={SLUG} />
-      </div>
-    </>
+      <h2>Everyday uses</h2>
+      <ul>
+        <li>Calculating sale discounts and final prices.</li>
+        <li>Working out tips and splitting bills.</li>
+        <li>Understanding interest rates and returns.</li>
+        <li>Comparing statistics, scores, and growth figures.</li>
+      </ul>
+    </ToolLayout>
   );
 }

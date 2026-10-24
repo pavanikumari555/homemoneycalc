@@ -1,0 +1,160 @@
+{
+  "updated": "2026-10-24",
+  "note": "Owner's growth checklist (week 1 = the week the site goes live). Tick items by setting done:true or ask Claude.",
+  "tasks": [
+    {
+      "week": 1,
+      "task": "Set up Google Search Console and submit the sitemap",
+      "type": "setup",
+      "url": "https://search.google.com/search-console",
+      "done": false
+    },
+    {
+      "week": 1,
+      "task": "Set up Bing Webmaster Tools (import from Search Console)",
+      "type": "setup",
+      "url": "https://www.bing.com/webmasters",
+      "done": false
+    },
+    {
+      "week": 1,
+      "task": "Set up Ahrefs Webmaster Tools (free backlink tracking)",
+      "type": "setup",
+      "url": "https://ahrefs.com/webmaster-tools",
+      "done": false
+    },
+    {
+      "week": 1,
+      "task": "Install GA4 (Mediavine and Raptive review it)",
+      "type": "setup",
+      "url": "https://analytics.google.com",
+      "done": false
+    },
+    {
+      "week": 1,
+      "task": "Create brand profiles: X, LinkedIn page, GitHub org, YouTube, Crunchbase",
+      "type": "brand",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "List on AlternativeTo as an alternative to Calculator.net / NerdWallet / SmartAsset",
+      "type": "directory",
+      "url": "https://alternativeto.net",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "List on SaaSHub",
+      "type": "directory",
+      "url": "https://www.saashub.com",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "Sign up: Source of Sources (free journalist requests)",
+      "type": "pr",
+      "url": "https://www.sourceofsources.com",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "Sign up: HARO (free, relaunched by Featured)",
+      "type": "pr",
+      "url": "https://www.helpareporter.com",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "Sign up: Featured.com free + Qwoted free",
+      "type": "pr",
+      "url": "https://featured.com",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "Apply for AdSense",
+      "type": "money",
+      "url": "https://adsense.google.com",
+      "done": false
+    },
+    {
+      "week": 3,
+      "task": "Daily 30 min: answer Reddit/Quora money questions with real numbers, no links yet",
+      "type": "community",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 4,
+      "task": "Pitch 'Take-home pay by state 2026' to 50 local business reporters + 20 finance bloggers",
+      "type": "pr",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 5,
+      "task": "Post the state table as OC on r/dataisbeautiful (read the rules first)",
+      "type": "community",
+      "url": "https://www.reddit.com/r/dataisbeautiful/",
+      "done": false
+    },
+    {
+      "week": 7,
+      "task": "Ship the embeddable widget + /embed page; email 30 bloggers and credit unions",
+      "type": "links",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 8,
+      "task": "Record 8 Shorts/Reels: '$75k in Texas vs California', 'the minimum payment trap'",
+      "type": "social",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 10,
+      "task": "Product Hunt launch (hook: embed widget)",
+      "type": "directory",
+      "url": "https://www.producthunt.com",
+      "done": false
+    },
+    {
+      "week": 11,
+      "task": "Data study #2: the minimum payment trap (Fed G.19 APR)",
+      "type": "pr",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 12,
+      "task": "Outreach to 40 .edu / extension / credit-union resource pages",
+      "type": "links",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 13,
+      "task": "Apply to Mediavine Journey at 1,000 Tier-1 sessions in 30 days",
+      "type": "money",
+      "url": "https://www.mediavine.com/mediavine-requirements/",
+      "done": false
+    },
+    {
+      "week": 17,
+      "task": "Jan 1: publish '2027 take-home pay by state' and re-pitch everyone",
+      "type": "pr",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 24,
+      "task": "Mortgage & rent affordability study; review what earned links and double down",
+      "type": "pr",
+      "url": "",
+      "done": false
+    }
+  ]
+}

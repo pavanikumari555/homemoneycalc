@@ -6,8 +6,8 @@ export default function NotFound() {
   return (
     <div className="container-page py-20 text-center">
       <div className="text-6xl">🌿</div>
-      <h1 className="mt-4 text-3xl font-extrabold text-slate-900">Page not found</h1>
-      <p className="mx-auto mt-3 max-w-md text-slate-600">
+      <h1 className="mt-4 text-3xl font-extrabold text-ink">Page not found</h1>
+      <p className="mx-auto mt-3 max-w-md text-muted">
         The page you&apos;re looking for doesn&apos;t exist or may have moved. Try one of our
         calculators instead:
       </p>
@@ -16,7 +16,7 @@ export default function NotFound() {
           <Link
             key={t.slug}
             href={`/${t.slug}/`}
-            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-ivy-400"
+            className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-medium text-ink/80 hover:border-ivy-400"
           >
             {t.icon} {t.shortTitle}
           </Link>
