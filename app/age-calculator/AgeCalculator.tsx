@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { calcAge, parseDate, num } from "@/lib/calc";
 import { useToolState } from "@/lib/useToolState";
 import { ResultHero, Stat, Notice } from "@/components/calc/Results";
@@ -8,6 +8,8 @@ import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
 import { CalcShell, PanelTitle, useCelebrate } from "@/components/calc/CalcShell";
 
 const DEFAULTS = { dob: "1995-06-15", on: "" }; // on = "" means today
+
+const noopSubscribe = () => () => {};
 
 function isoToday() {
   const d = new Date();
@@ -17,9 +19,8 @@ function isoToday() {
 export default function AgeCalculator() {
   const state = useToolState("age-calculator", DEFAULTS);
   const v = state.values;
-  // "today" is only known in the browser (static page), so set it after mount
-  const [today, setToday] = useState("");
-  useEffect(() => setToday(isoToday()), []);
+  // "today" is only known in the browser (static page is built earlier)
+  const today = useSyncExternalStore(noopSubscribe, isoToday, () => "");
   const asOfStr = v.on || today;
 
   const res = useMemo(() => {

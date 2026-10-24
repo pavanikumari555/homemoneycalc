@@ -1,20 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { TOOLS } from "@/lib/site";
-import { getAllSaved, getFavorites, STORAGE_EVENT } from "@/lib/useToolState";
+import { getAllSaved, getFavorites, useStorageValue } from "@/lib/useToolState";
+
+const SLUGS = TOOLS.map((t) => t.slug);
+const readCount = () => getFavorites().length + getAllSaved(SLUGS).length;
 
 // Header link to the personal dashboard, with a live count of saved items.
 export default function MyMoneyLink() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const update = () => setCount(getFavorites().length + getAllSaved(TOOLS.map((t) => t.slug)).length);
-    update();
-    window.addEventListener(STORAGE_EVENT, update);
-    return () => window.removeEventListener(STORAGE_EVENT, update);
-  }, []);
+  const count = useStorageValue(readCount, 0);
 
   return (
     <Link

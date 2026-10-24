@@ -1,21 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import Icon from "./Icon";
 
 // Dark/light toggle. Choice localStorage me save hota hai; pehli baar system
 // setting follow karta hai. Flash rokne wala script layout.tsx ke <head> me hai.
-export default function ThemeToggle() {
-  const [dark, setDark] = useState<boolean | null>(null);
+// Asli source of truth <html class="dark"> hai — usi ko "store" ki tarah padhte hain.
 
-  useEffect(() => {
-    setDark(document.documentElement.classList.contains("dark"));
-  }, []);
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  return () => observer.disconnect();
+}
+
+const isDark = () => document.documentElement.classList.contains("dark");
+
+export default function ThemeToggle() {
+  const dark = useSyncExternalStore(subscribe, isDark, () => false);
 
   function toggle() {
-    const next = !document.documentElement.classList.contains("dark");
+    const next = !isDark();
     document.documentElement.classList.toggle("dark", next);
-    setDark(next);
     try {
       localStorage.setItem("calcivy-theme", next ? "dark" : "light");
     } catch {

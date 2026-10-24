@@ -1,22 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { getRecentTools } from "@/lib/useToolState";
+import { getRecentTools, useStorageValue, NONE } from "@/lib/useToolState";
 import { getTool, Tool } from "@/lib/site";
 import Icon from "./Icon";
 
 // "Continue where you left off" chips for returning visitors (browser memory only).
 export default function RecentTools() {
-  const [tools, setTools] = useState<Tool[]>([]);
-
-  useEffect(() => {
-    setTools(
-      getRecentTools()
-        .map((slug) => getTool(slug))
-        .filter((t): t is Tool => Boolean(t))
-    );
-  }, []);
+  const tools = useStorageValue(getRecentTools, NONE)
+    .map((slug) => getTool(slug))
+    .filter((t): t is Tool => Boolean(t));
 
   if (!tools.length) return null;
   return (

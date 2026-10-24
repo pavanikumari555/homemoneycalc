@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE, TOOLS } from "@/lib/site";
 
+// Static export: build ke waqt ek baar file ban jaati hai (Next.js 16 me zaroori)
+export const dynamic = "force-static";
+
 // Auto-generated sitemap. Next.js outputs /sitemap.xml at build time (static).
 // lastModified = tool ka asli "updated" date (lib/site.ts). Har build pe "aaj" dena
 // Google ko galat signal deta hai, isliye real date use karte hain.

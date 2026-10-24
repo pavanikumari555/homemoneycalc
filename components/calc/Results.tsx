@@ -16,16 +16,11 @@ export function CountUp({ value, format }: { value: number; format: (n: number) 
     const end = Number.isFinite(value) ? value : 0;
     if (start === end) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setShown(end);
-      from.current = end;
-      return;
-    }
     const t0 = performance.now();
-    const dur = 550;
+    const dur = reduce ? 0 : 550;
     let raf = 0;
     const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / dur);
+      const p = dur ? Math.min(1, (t - t0) / dur) : 1;
       const eased = 1 - Math.pow(1 - p, 3);
       const cur = start + (end - start) * eased;
       setShown(cur);

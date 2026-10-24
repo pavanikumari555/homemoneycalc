@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getFavorites, toggleFavorite } from "@/lib/useToolState";
+import { getFavorites, toggleFavorite, useStorageValue, NONE } from "@/lib/useToolState";
 
 // "Pin to My Money" star on every tool page. Pinned tools show first on the
 // home page and the My Money dashboard — ek click me wapas aane ka raasta.
 export default function FavoriteButton({ slug }: { slug: string }) {
-  const [on, setOn] = useState(false);
-  useEffect(() => setOn(getFavorites().includes(slug)), [slug]);
+  const on = useStorageValue(getFavorites, NONE).includes(slug);
 
   return (
     <button
       type="button"
-      onClick={() => setOn(toggleFavorite(slug))}
+      onClick={() => toggleFavorite(slug)}
       aria-pressed={on}
       className={`no-print inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition ${
         on

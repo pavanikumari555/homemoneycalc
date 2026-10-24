@@ -1,32 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
 import { TOOLS, getTool, Tool } from "@/lib/site";
-import { getAllSaved, getFavorites, getRecentTools, deleteSaved, planUrl, toggleFavorite, STORAGE_EVENT, ToolValues, Scenario } from "@/lib/useToolState";
+import { getAllSaved, getFavorites, getRecentTools, deleteSaved, planUrl, toggleFavorite, useStorageValue, useHydrated, NONE, ToolValues, Scenario } from "@/lib/useToolState";
 import Icon from "@/components/Icon";
 
 // Personal dashboard: pinned tools + every saved plan + recently used — sab ek
 // jagah, sirf is browser me. Isse log page ko bookmark karke baar baar aate hain.
+type SavedPlan = { tool: string; plan: Scenario<ToolValues> };
+const SLUGS = TOOLS.map((t) => t.slug);
+const readPlans = () => getAllSaved(SLUGS);
+const NO_PLANS: SavedPlan[] = [];
+const toTools = (slugs: string[]) => slugs.map(getTool).filter((t): t is Tool => Boolean(t));
+
 export default function MyMoney() {
-  const [favs, setFavs] = useState<Tool[]>([]);
-  const [recent, setRecent] = useState<Tool[]>([]);
-  const [plans, setPlans] = useState<{ tool: string; plan: Scenario<ToolValues> }[]>([]);
-  const [ready, setReady] = useState(false);
-
-  const load = useCallback(() => {
-    const toTools = (slugs: string[]) => slugs.map(getTool).filter((t): t is Tool => Boolean(t));
-    setFavs(toTools(getFavorites()));
-    setRecent(toTools(getRecentTools()));
-    setPlans(getAllSaved(TOOLS.map((t) => t.slug)));
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    load();
-    window.addEventListener(STORAGE_EVENT, load);
-    return () => window.removeEventListener(STORAGE_EVENT, load);
-  }, [load]);
+  // Live views of browser storage — update instantly when anything is saved/pinned
+  const favs = toTools(useStorageValue(getFavorites, NONE));
+  const recent = toTools(useStorageValue(getRecentTools, NONE));
+  const plans = useStorageValue(readPlans, NO_PLANS);
+  const ready = useHydrated();
 
   if (!ready) return <div className="h-64" />;
 

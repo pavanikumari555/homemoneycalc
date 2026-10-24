@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 // ============================================================================
 // TOOL STATE HOOK — har calculator ka "memory"
@@ -104,6 +104,9 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T) {
   const ready = useRef(false);
 
   // Load once on mount: URL params win, then last session, else defaults.
+  // Static page ka HTML defaults se banta hai; browser me aane ke baad hi URL/storage
+  // padh sakte hain - isliye ye ek baar ka hydration setState jaan-boojh ke effect me hai.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const fromUrl = sanitize(defaults, Object.fromEntries(params.entries()));
@@ -125,6 +128,7 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T) {
     ready.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tool]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Persist to URL + storage (debounced so typing stays smooth).
   useEffect(() => {
@@ -212,6 +216,40 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T) {
 }
 
 export type ToolState<T extends ToolValues> = ReturnType<typeof useToolState<T>>;
+
+// ---- Read browser-only values safely (React's external-store pattern) ----
+// Server/static HTML gets `fallback`; the browser gets the live value and
+// re-renders whenever our storage changes (any tab or component).
+
+function subscribeStorage(onChange: () => void) {
+  window.addEventListener(STORAGE_EVENT, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(STORAGE_EVENT, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+/** `read` and `fallback` must be stable (module-level), e.g. useStorageValue(getFavorites, NONE). */
+export function useStorageValue<V>(read: () => V, fallback: V): V {
+  const cache = useRef<{ key: string; value: V } | null>(null);
+  const getSnapshot = useCallback(() => {
+    const value = read();
+    const key = JSON.stringify(value);
+    if (cache.current?.key !== key) cache.current = { key, value };
+    return cache.current.value;
+  }, [read]);
+  return useSyncExternalStore(subscribeStorage, getSnapshot, () => fallback);
+}
+
+const noopSubscribe = () => () => {};
+
+/** false in static HTML, true once running in the browser (no extra render tricks). */
+export function useHydrated(): boolean {
+  return useSyncExternalStore(noopSubscribe, () => true, () => false);
+}
+
+export const NONE: string[] = [];
 
 /** Parse a numeric input string safely ("1,200" -> 1200, "" -> fallback). */
 export function n(value: string | undefined, fallback = 0): number {

@@ -11,12 +11,9 @@ const nextConfig = {
     unoptimized: true,
   },
 
-  // Fail the build on TS/lint errors so we never ship broken pages.
+  // Fail the build on TS errors so we never ship broken pages (lint runs separately: npm run lint).
   typescript: {
     ignoreBuildErrors: false,
-  },
-  eslint: {
-    ignoreDuringBuilds: false,
   },
 };
 

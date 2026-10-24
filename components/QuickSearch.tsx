@@ -20,7 +20,7 @@ export default function QuickSearch() {
       const typing = target.closest("input, textarea, select, [contenteditable=true]");
       if ((e.key === "/" && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k")) {
         e.preventDefault();
-        setOpen(true);
+        openPalette();
       } else if (e.key === "Escape") {
         setOpen(false);
       }
@@ -29,12 +29,15 @@ export default function QuickSearch() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Fresh search box every time the palette opens
+  function openPalette() {
+    setQ("");
+    setActive(0);
+    setOpen(true);
+  }
+
   useEffect(() => {
-    if (open) {
-      setQ("");
-      setActive(0);
-      window.setTimeout(() => input.current?.focus(), 10);
-    }
+    if (open) window.setTimeout(() => input.current?.focus(), 10);
   }, [open]);
 
   const results = useMemo(() => {
@@ -55,7 +58,7 @@ export default function QuickSearch() {
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={openPalette}
         className="hidden items-center gap-2 rounded-xl border border-line bg-surface px-3 py-1.5 text-sm text-muted transition hover:border-ivy-400 hover:text-ink lg:flex"
         aria-label="Search calculators"
       >
