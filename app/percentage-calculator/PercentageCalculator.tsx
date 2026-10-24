@@ -28,10 +28,10 @@ export default function PercentageCalculator() {
       <WelcomeBack state={state} />
       <div className="grid gap-3 md:grid-cols-2">
         <Card title="What is X% of Y?" result={fmt(r1)} working={`${v.a1}% × ${v.b1} = ${fmt(r1)}`}>
-          What is <Inline value={v.a1} onChange={set("a1")} suffix="%" /> of <Inline value={v.b1} onChange={set("b1")} />?
+          What is <Inline label="Percent" value={v.a1} onChange={set("a1")} suffix="%" /> of <Inline label="Number to take the percent of" value={v.b1} onChange={set("b1")} />?
         </Card>
         <Card title="X is what percent of Y?" result={`${fmt(r2)}%`} working={`${v.a2} ÷ ${v.b2} × 100 = ${fmt(r2)}%`}>
-          <Inline value={v.a2} onChange={set("a2")} /> is what % of <Inline value={v.b2} onChange={set("b2")} />?
+          <Inline label="Part value" value={v.a2} onChange={set("a2")} /> is what % of <Inline label="Whole value" value={v.b2} onChange={set("b2")} />?
         </Card>
         <Card
           title="Percentage change"
@@ -39,13 +39,13 @@ export default function PercentageCalculator() {
           tone={Number.isFinite(r3) ? (r3 >= 0 ? "up" : "down") : undefined}
           working={`(${v.b3} − ${v.a3}) ÷ |${v.a3}| × 100`}
         >
-          From <Inline value={v.a3} onChange={set("a3")} /> to <Inline value={v.b3} onChange={set("b3")} />
+          From <Inline label="Starting value" value={v.a3} onChange={set("a3")} /> to <Inline label="New value" value={v.b3} onChange={set("b3")} />
         </Card>
         <Card title="Increase by a percent" result={fmt(r4)} working={`${v.a4} × (1 + ${v.b4}/100)`} tone="up">
-          <Inline value={v.a4} onChange={set("a4")} /> increased by <Inline value={v.b4} onChange={set("b4")} suffix="%" />
+          <Inline label="Starting number" value={v.a4} onChange={set("a4")} /> increased by <Inline label="Increase percent" value={v.b4} onChange={set("b4")} suffix="%" />
         </Card>
         <Card title="Decrease by a percent (discounts)" result={fmt(r5)} working={`${v.a5} × (1 − ${v.b5}/100) · you save ${fmt(n(v.a5) - r5)}`} tone="down">
-          <Inline value={v.a5} onChange={set("a5")} /> minus <Inline value={v.b5} onChange={set("b5")} suffix="%" />
+          <Inline label="Original price" value={v.a5} onChange={set("a5")} /> minus <Inline label="Discount percent" value={v.b5} onChange={set("b5")} suffix="%" />
         </Card>
         <div className="flex items-center rounded-2xl bg-surface-2/60 p-5">
           <ToolActions state={state} />
@@ -55,7 +55,7 @@ export default function PercentageCalculator() {
   );
 }
 
-function Inline({ value, onChange, suffix }: { value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; suffix?: string }) {
+function Inline({ value, onChange, suffix, label }: { value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; suffix?: string; label: string }) {
   return (
     <span className="relative inline-block align-middle">
       <input
@@ -63,6 +63,7 @@ function Inline({ value, onChange, suffix }: { value: string; onChange: (e: Reac
         inputMode="decimal"
         value={value}
         onChange={onChange}
+        aria-label={label}
         className={`input-field inline-block w-24 px-2 py-1 text-center font-semibold ${suffix ? "pr-6" : ""}`}
       />
       {suffix && <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-sm text-muted">{suffix}</span>}
@@ -83,7 +84,7 @@ function Card({
   working: string;
   tone?: "up" | "down";
 }) {
-  const color = tone === "down" ? "text-sun-600 dark:text-sun-300" : "text-ivy-700 dark:text-ivy-300";
+  const color = tone === "down" ? "text-sun-700 dark:text-sun-300" : "text-ivy-700 dark:text-ivy-300";
   return (
     <section className="rounded-2xl border border-line bg-surface p-5">
       <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">{title}</h2>

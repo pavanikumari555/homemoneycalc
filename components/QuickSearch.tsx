@@ -12,6 +12,7 @@ export default function QuickSearch() {
   const [q, setQ] = useState("");
   const [active, setActive] = useState(0);
   const input = useRef<HTMLInputElement>(null);
+  const returnFocus = useRef<HTMLElement | null>(null); // where focus goes back after closing
   const router = useRouter();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function QuickSearch() {
         e.preventDefault();
         openPalette();
       } else if (e.key === "Escape") {
-        setOpen(false);
+        closePalette();
       }
     }
     window.addEventListener("keydown", onKey);
@@ -31,9 +32,15 @@ export default function QuickSearch() {
 
   // Fresh search box every time the palette opens
   function openPalette() {
+    returnFocus.current = document.activeElement as HTMLElement | null;
     setQ("");
     setActive(0);
     setOpen(true);
+  }
+
+  function closePalette() {
+    setOpen(false);
+    window.setTimeout(() => returnFocus.current?.focus?.(), 0);
   }
 
   useEffect(() => {
@@ -68,7 +75,7 @@ export default function QuickSearch() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-[12vh] backdrop-blur-sm" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-[12vh] backdrop-blur-sm" onClick={closePalette}>
           <div
             role="dialog"
             aria-modal="true"
@@ -80,6 +87,12 @@ export default function QuickSearch() {
               <Icon name="search" className="h-5 w-5 text-muted" />
               <input
                 ref={input}
+                role="combobox"
+                aria-expanded="true"
+                aria-controls="quick-search-list"
+                aria-autocomplete="list"
+                aria-activedescendant={results[active] ? `quick-search-${results[active].slug}` : undefined}
+                aria-label="Find a calculator"
                 value={q}
                 onChange={(e) => {
                   setQ(e.target.value);
@@ -94,6 +107,8 @@ export default function QuickSearch() {
                     setActive((a) => Math.max(a - 1, 0));
                   } else if (e.key === "Enter" && results[active]) {
                     go(results[active].slug);
+                  } else if (e.key === "Tab") {
+                    e.preventDefault(); // keep focus inside the dialog
                   }
                 }}
                 placeholder="Find a calculator…"
@@ -101,16 +116,18 @@ export default function QuickSearch() {
               />
               <kbd className="rounded border border-line bg-surface-2 px-1.5 font-mono text-[11px] text-muted">Esc</kbd>
             </div>
-            <ul className="max-h-[50vh] overflow-auto p-2">
+            <ul id="quick-search-list" role="listbox" aria-label="Calculators" className="max-h-[50vh] overflow-auto p-2">
               {results.length ? (
                 results.map((t, i) => (
-                  <li key={t.slug}>
-                    <button
-                      type="button"
-                      onMouseEnter={() => setActive(i)}
-                      onClick={() => go(t.slug)}
-                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left ${i === active ? "bg-surface-2" : ""}`}
-                    >
+                  <li
+                    key={t.slug}
+                    id={`quick-search-${t.slug}`}
+                    role="option"
+                    aria-selected={i === active}
+                    onMouseEnter={() => setActive(i)}
+                    onClick={() => go(t.slug)}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-left ${i === active ? "bg-surface-2" : ""}`}
+                  >
                       <span className="grid h-8 w-8 place-items-center rounded-lg bg-ivy-50 text-ivy-700 dark:bg-ivy-900/40 dark:text-ivy-300">
                         <Icon name={t.icon} className="h-4 w-4" />
                       </span>
@@ -118,11 +135,10 @@ export default function QuickSearch() {
                         <span className="block font-semibold text-ink">{t.title}</span>
                         <span className="block truncate text-xs text-muted">{t.blurb}</span>
                       </span>
-                    </button>
                   </li>
                 ))
               ) : (
-                <li className="px-3 py-4 text-sm text-muted">No match yet — try another word.</li>
+                <li role="option" aria-selected="false" aria-disabled="true" className="px-3 py-4 text-sm text-muted">No match yet — try another word.</li>
               )}
             </ul>
           </div>

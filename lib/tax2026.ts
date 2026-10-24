@@ -137,7 +137,7 @@ export const STATES: StateTax[] = [
     personalExemption: { single: 15_000, married: 24_000 },
     personalCredit: ZERO,
     payroll: [{ name: "CT Paid Leave", rate: 0.005, wageCap: SS_WAGE_BASE_2026 }],
-    notes: "Personal exemption phases out quickly ($1,000 per $1,000 of AGI over $30,000 single / $48,000 joint; gone by ~$44k/$71k) - not modeled, so tax is understated above those incomes. Personal tax credit, 2% bracket phase-out and benefit recapture ignored.",
+    notes: "Personal exemption phase-out ($1,000 per $1,000 over $30,000 single / $48,000 joint) is modeled. Personal tax credit, 2% bracket phase-out and benefit recapture are not, so tax can be slightly off at some incomes.",
     source: "https://portal.ct.gov/drs/individuals/individual-income-tax-portal",
   },
   {
@@ -393,7 +393,7 @@ export const STATES: StateTax[] = [
       { name: "NJ TDI", rate: 0.0019, wageCap: 171_100 },
       { name: "NJ FLI", rate: 0.0023, wageCap: 171_100 },
     ],
-    notes: "No standard deduction. Newark payroll tax is employer-paid.",
+    notes: "No standard deduction. 401(k) contributions are taxed by NJ (modeled). Newark payroll tax is employer-paid.",
     source: "https://www.nj.gov/treasury/taxation/taxtables.shtml",
   },
   {
@@ -485,7 +485,7 @@ export const STATES: StateTax[] = [
     single: br([[0, 0.0307]]), married: br([[0, 0.0307]]),
     stdDeduction: ZERO, personalExemption: ZERO, personalCredit: ZERO,
     payroll: [{ name: "PA Unemployment Comp (employee)", rate: 0.0007 }],
-    notes: "No standard deduction or exemption. Local Earned Income Tax (typically ~1%+), Philadelphia wage tax (~3.7%) and Local Services Tax NOT included.",
+    notes: "No standard deduction or exemption. 401(k) contributions are taxed by PA (modeled). Local Earned Income Tax (typically ~1%+), Philadelphia wage tax (~3.7%) and Local Services Tax NOT included.",
     source: "https://www.revenue.pa.gov/TaxTypes/PIT/Pages/default.aspx",
   },
   {

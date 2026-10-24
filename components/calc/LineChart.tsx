@@ -17,6 +17,7 @@ export interface Series {
 
 interface LineChartProps {
   series: Series[];
+  maxPoints?: number; // fewer points = lighter SVG (small charts don't need detail)
   height?: number;
   formatX: (x: number) => string;
   formatY: (y: number) => string;
@@ -41,8 +42,8 @@ function downsample(points: Series["points"], max = 160) {
   return Array.from({ length: max }, (_, i) => points[Math.round(i * step)]);
 }
 
-export default function LineChart({ series: rawSeries, height = 260, formatX, formatY, ariaLabel }: LineChartProps) {
-  const series = useMemo(() => rawSeries.map((s) => ({ ...s, points: downsample(s.points) })), [rawSeries]);
+export default function LineChart({ series: rawSeries, height = 260, formatX, formatY, ariaLabel, maxPoints = 160 }: LineChartProps) {
+  const series = useMemo(() => rawSeries.map((s) => ({ ...s, points: downsample(s.points, maxPoints) })), [rawSeries, maxPoints]);
   const wrap = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(300);
   const [hover, setHover] = useState<number | null>(null);

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TOOLS } from "@/lib/site";
+import Icon from "@/components/Icon";
 
 // Custom 404 — keeps users on the site with links to popular tools (reduces bounce).
 export default function NotFound() {
@@ -16,9 +17,9 @@ export default function NotFound() {
           <Link
             key={t.slug}
             href={`/${t.slug}/`}
-            className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-medium text-ink/80 hover:border-ivy-400"
+            className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2 text-sm font-medium text-ink/80 hover:border-ivy-400"
           >
-            {t.icon} {t.shortTitle}
+            <Icon name={t.icon} className="h-4 w-4 text-ivy-600" /> {t.shortTitle}
           </Link>
         ))}
       </div>

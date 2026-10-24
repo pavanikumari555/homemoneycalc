@@ -34,7 +34,11 @@ jobs:
           GSC_SITE: ${{ vars.GSC_SITE }}
           GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
+          # AI summary: any ONE of these (Gemini and Groq have free tiers)
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          AI_PROVIDER: ${{ vars.AI_PROVIDER }}
           CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
           SITE_LAUNCH_DATE: ${{ vars.SITE_LAUNCH_DATE }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -46,4 +50,5 @@ jobs:
           git add data/reports
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "chore(report): daily SEO report $(date -u +%F)"
+          git pull --rebase origin main
           git push

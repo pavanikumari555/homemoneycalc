@@ -14,6 +14,7 @@ const categories = [...src.matchAll(/^\s+(\w+): "[^"]+",$/gm)]
 const icons = readFileSync("components/Icon.tsx", "utf8");
 
 const errors = [];
+if (!tools.length) errors.push("No tools found in lib/site.ts TOOLS — registry format changed?");
 const seen = new Set();
 const slugs = new Set(tools.map((t) => t.slug));
 const REQUIRED = ["title:", "shortTitle:", "category:", "blurb:", "icon:", "updated:", "related:", "example:", "keywords:", "added:"];

@@ -45,29 +45,49 @@ function writeJson(key: string, value: unknown) {
   }
 }
 
-/** Only keep keys we know about, as strings (never trust URL/storage shape). */
-function sanitize<T extends ToolValues>(defaults: T, incoming: Record<string, unknown>): Partial<T> {
+/** Allowed values for "choice" fields (state, filing status, loan term...). */
+export type AllowedValues<T extends ToolValues> = Partial<Record<keyof T, readonly string[]>>;
+
+/** Only keep keys we know about, as strings, and only allowed choices (never trust URL/storage). */
+function sanitize<T extends ToolValues>(defaults: T, incoming: unknown, allowed?: AllowedValues<T>): Partial<T> {
   const out: Partial<T> = {};
+  if (!incoming || typeof incoming !== "object") return out;
   for (const key of Object.keys(defaults)) {
-    const v = incoming[key];
-    if (typeof v === "string" && v.length <= 200) (out as ToolValues)[key] = v;
+    const v = (incoming as Record<string, unknown>)[key];
+    if (typeof v !== "string" || v.length > 200) continue;
+    const choices = allowed?.[key as keyof T];
+    if (choices && !choices.includes(v)) continue; // e.g. ?st=ZZ or ?pp=0 -> keep the default
+    (out as ToolValues)[key] = v;
   }
   return out;
 }
 
+/** Read a stored list, dropping anything that isn't the expected shape (corrupt storage can't crash pages). */
+function readList<V>(key: string, isItem: (x: unknown) => x is V): V[] {
+  const raw = readJson<unknown>(key);
+  return Array.isArray(raw) ? raw.filter(isItem) : [];
+}
+
+const isString = (x: unknown): x is string => typeof x === "string";
+const isScenario = (x: unknown): x is Scenario<ToolValues> => {
+  const s = x as Scenario<ToolValues>;
+  return !!s && typeof s === "object" && typeof s.id === "string" && typeof s.name === "string" &&
+    typeof s.savedAt === "number" && !!s.values && typeof s.values === "object";
+};
+
 /** Remember which tools this visitor used recently (home page shows them). */
 function markRecent(tool: string) {
-  const list = readJson<string[]>(RECENT_KEY) ?? [];
+  const list = readList(RECENT_KEY, isString);
   writeJson(RECENT_KEY, [tool, ...list.filter((t) => t !== tool)].slice(0, 4));
 }
 
 export function getRecentTools(): string[] {
-  return readJson<string[]>(RECENT_KEY) ?? [];
+  return readList(RECENT_KEY, isString);
 }
 
 /** Pinned ("favorite") tools, shown first on My Money and the home page. */
 export function getFavorites(): string[] {
-  return readJson<string[]>(FAV_KEY) ?? [];
+  return readList(FAV_KEY, isString);
 }
 
 export function toggleFavorite(tool: string): boolean {
@@ -80,12 +100,12 @@ export function toggleFavorite(tool: string): boolean {
 /** Every saved plan across all tools (for the My Money dashboard). */
 export function getAllSaved(tools: string[]): { tool: string; plan: Scenario<ToolValues> }[] {
   return tools
-    .flatMap((tool) => (readJson<Scenario<ToolValues>[]>(SAVED_KEY(tool)) ?? []).map((plan) => ({ tool, plan })))
+    .flatMap((tool) => readList(SAVED_KEY(tool), isScenario).map((plan) => ({ tool, plan })))
     .sort((a, b) => b.plan.savedAt - a.plan.savedAt);
 }
 
 export function deleteSaved(tool: string, id: string) {
-  const list = readJson<Scenario<ToolValues>[]>(SAVED_KEY(tool)) ?? [];
+  const list = readList(SAVED_KEY(tool), isScenario);
   writeJson(SAVED_KEY(tool), list.filter((p) => p.id !== id));
 }
 
@@ -94,7 +114,8 @@ export function planUrl(tool: string, values: ToolValues): string {
   return `/${tool}/?${new URLSearchParams(values).toString()}`;
 }
 
-export function useToolState<T extends ToolValues>(tool: string, defaults: T) {
+/** `defaults` and `allowed` must be module-level constants (stable references). */
+export function useToolState<T extends ToolValues>(tool: string, defaults: T, allowed?: AllowedValues<T>) {
   const [values, setValues] = useState<T>(defaults);
   // "shared" = opened from someone's link, "restored" = our own last session
   const [origin, setOrigin] = useState<"default" | "shared" | "restored">("default");
@@ -109,21 +130,21 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T) {
   /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const fromUrl = sanitize(defaults, Object.fromEntries(params.entries()));
+    const fromUrl = sanitize(defaults, Object.fromEntries(params.entries()), allowed);
     if (Object.keys(fromUrl).length > 0) {
       setValues({ ...defaults, ...fromUrl });
       setOrigin("shared");
     } else {
-      const last = readJson<Record<string, unknown>>(LAST_KEY(tool));
+      const last = readJson<unknown>(LAST_KEY(tool));
       if (last) {
-        const restored = sanitize(defaults, last);
+        const restored = sanitize(defaults, last, allowed);
         if (Object.keys(restored).length > 0) {
           setValues({ ...defaults, ...restored });
           setOrigin("restored");
         }
       }
     }
-    setSaved(readJson<Scenario<T>[]>(SAVED_KEY(tool)) ?? []);
+    setSaved(readList(SAVED_KEY(tool), isScenario) as Scenario<T>[]);
     markRecent(tool);
     ready.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,11 +197,12 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T) {
         savedAt: Date.now(),
         summary: summary?.slice(0, 120),
       };
-      const next = [entry, ...saved].slice(0, MAX_SAVED);
+      const current = readList(SAVED_KEY(tool), isScenario) as Scenario<T>[]; // other tabs may have saved too
+      const next = [entry, ...current].slice(0, MAX_SAVED);
       setSaved(next);
       writeJson(SAVED_KEY(tool), next);
     },
-    [saved, values, tool]
+    [saved.length, values, tool]
   );
 
   const removeScenario = useCallback(
@@ -195,9 +217,9 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T) {
   const loadScenario = useCallback(
     (id: string) => {
       const s = saved.find((x) => x.id === id);
-      if (s) setMany({ ...defaults, ...sanitize(defaults, s.values) });
+      if (s) setMany({ ...defaults, ...sanitize(defaults, s.values, allowed) });
     },
-    [saved, setMany, defaults]
+    [saved, setMany, defaults, allowed]
   );
 
   return {

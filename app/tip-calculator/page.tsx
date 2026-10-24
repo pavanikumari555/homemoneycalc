@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import TipCalculator from "./TipCalculator";
+import { calcTip, usd } from "@/lib/calc";
 
 const SLUG = "tip-calculator";
 
@@ -36,11 +37,15 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const EX = calcTip({ bill: 86.4, tipPercent: 20, people: 3, roundUp: false });
+const ANSWER = `A 20% tip on an $86.40 bill is ${usd(EX.tip)}, making the total ${usd(EX.total)} — ${usd(EX.perPerson)} each for three people. Quick trick: move the decimal one place left (10%) and double it.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Tip Calculator"
+      answer={ANSWER}
       intro="Work out the tip and split the bill in seconds — with quick-pick percentages and optional rounding."
       calculator={<TipCalculator />}
       faqs={faqs}

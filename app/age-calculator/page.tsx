@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import AgeCalculator from "./AgeCalculator";
+import { calcAge, parseDate } from "@/lib/calc";
 
 const SLUG = "age-calculator";
 
@@ -37,11 +38,15 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const EX = calcAge(parseDate("1995-06-15")!, parseDate("2026-10-24")!)!;
+const ANSWER = `Count the full years since your last birthday, then the months and days after it. Someone born on June 15, 1995 is ${EX.years} years, ${EX.months} months and ${EX.days} days old on October 24, 2026.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Age Calculator"
+      answer={ANSWER}
       intro="Your exact age in years, months and days — plus how many days until your next birthday."
       calculator={<AgeCalculator />}
       faqs={faqs}

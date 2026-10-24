@@ -30,12 +30,14 @@ export default function InstallPrompt() {
     } catch {
       return;
     }
-    const onPrompt = (e: Event) => {
-      e.preventDefault();
-      setEvt(e as InstallEvent);
+    // The event is captured early by an inline script in layout.tsx
+    const take = () => {
+      const e = (window as unknown as { __installEvent?: InstallEvent }).__installEvent;
+      if (e) setEvt(e);
     };
-    window.addEventListener("beforeinstallprompt", onPrompt);
-    return () => window.removeEventListener("beforeinstallprompt", onPrompt);
+    take();
+    window.addEventListener("calcivy:installable", take);
+    return () => window.removeEventListener("calcivy:installable", take);
   }, []);
 
   if (!evt) return null;

@@ -6,6 +6,7 @@ import ToolLayout from "@/components/ToolLayout";
 import { FEDERAL_2026 } from "@/lib/tax2026";
 import { usd0 } from "@/lib/calc";
 import PaycheckCalculator from "./PaycheckCalculator";
+import { calcPaycheck } from "@/lib/paycheck";
 
 const SLUG = "paycheck-calculator";
 const F = FEDERAL_2026;
@@ -13,7 +14,7 @@ const F = FEDERAL_2026;
 export const metadata: Metadata = buildMetadata({
   title: "Paycheck Calculator 2026: Take-Home Pay, All 50 States",
   description:
-    "See federal, state and FICA taxes withheld and your exact take-home pay per paycheck. Updated for 2026 rules in every state.",
+    "Estimate your take-home pay per paycheck after federal, state and FICA taxes. 2026 federal rules plus the latest tax tables for all 50 states and DC.",
   path: `/${SLUG}/`,
   keywords: ["paycheck calculator", "take home pay calculator", "salary after tax 2026", "net pay calculator", "state paycheck calculator"],
 });
@@ -46,11 +47,16 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const exampleNet = (st: string) =>
+  calcPaycheck({ grossAnnual: 60_000, payPeriodsPerYear: 26, status: "single", stateCode: st, retirementPercent: 0, otherPretaxAnnual: 0 }).net;
+const ANSWER = `On a $60,000 salary, a single filer in Texas takes home about ${usd0(exampleNet("TX"))} a year (${usd0(exampleNet("TX") / 26)} every two weeks) after federal income tax, Social Security and Medicare. In California it's about ${usd0(exampleNet("CA"))}.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Paycheck Calculator 2026"
+      answer={ANSWER}
       intro="Your real take-home pay after federal, state, Social Security and Medicare taxes — for all 50 states and DC."
       calculator={<PaycheckCalculator />}
       faqs={faqs}

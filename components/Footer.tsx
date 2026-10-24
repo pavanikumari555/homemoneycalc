@@ -21,10 +21,10 @@ export default function Footer() {
           {categories.map((cat) => (
             <div key={cat}>
               <h3 className="mb-3 text-sm font-semibold text-ink">{CATEGORY_LABELS[cat]}</h3>
-              <ul className="space-y-2 text-sm text-muted">
+              <ul className="space-y-1 text-sm text-muted">
                 {toolsIn(cat).slice(0, 6).map((t) => (
                   <li key={t.slug}>
-                    <Link href={`/${t.slug}/`} className="hover:text-ivy-600">
+                    <Link href={`/${t.slug}/`} className="inline-block py-1.5 hover:text-ivy-600">
                       {t.shortTitle}
                     </Link>
                   </li>
@@ -35,15 +35,16 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-line pt-6 text-sm text-muted md:flex-row md:items-center md:justify-between">
-          <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            <li><Link href="/calculators/" className="hover:text-ivy-600">All calculators</Link></li>
-            <li><Link href="/about/" className="hover:text-ivy-600">About</Link></li>
-            <li><Link href="/methodology/" className="hover:text-ivy-600">Methodology</Link></li>
-            <li><Link href="/editorial-policy/" className="hover:text-ivy-600">Editorial policy</Link></li>
-            <li><Link href="/contact/" className="hover:text-ivy-600">Contact</Link></li>
-            <li><Link href="/privacy-policy/" className="hover:text-ivy-600">Privacy</Link></li>
-            <li><Link href="/terms/" className="hover:text-ivy-600">Terms</Link></li>
-            <li><Link href="/disclaimer/" className="hover:text-ivy-600">Disclaimer</Link></li>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1">
+            <li><Link href="/calculators/" className="inline-block py-1.5 hover:text-ivy-600">All calculators</Link></li>
+            <li><Link href="/about/" className="inline-block py-1.5 hover:text-ivy-600">About</Link></li>
+            <li><Link href="/methodology/" className="inline-block py-1.5 hover:text-ivy-600">Methodology</Link></li>
+            <li><Link href="/editorial-policy/" className="inline-block py-1.5 hover:text-ivy-600">Editorial policy</Link></li>
+            <li><Link href="/contact/" className="inline-block py-1.5 hover:text-ivy-600">Contact</Link></li>
+            <li><Link href="/privacy-policy/" className="inline-block py-1.5 hover:text-ivy-600">Privacy</Link></li>
+            <li><Link href="/advertising-disclosure/" className="inline-block py-1.5 hover:text-ivy-600">Advertising disclosure</Link></li>
+            <li><Link href="/terms/" className="inline-block py-1.5 hover:text-ivy-600">Terms</Link></li>
+            <li><Link href="/disclaimer/" className="inline-block py-1.5 hover:text-ivy-600">Disclaimer</Link></li>
           </ul>
           <p className="text-xs">
             © {new Date().getFullYear()} {SITE.name}. Estimates for information only — not financial advice.

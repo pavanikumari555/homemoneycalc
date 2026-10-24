@@ -33,13 +33,15 @@ function decode(s: string): Row[] {
 }
 
 const DEFAULTS = {
-  d: "Credit card~6500~24~180|Car loan~14000~7.5~320|Store card~1200~29~40|Student loan~18000~5.5~210",
+  d: "Credit card~6500~24~180|Car loan~14000~7.5~320|Personal loan~2500~11~90|Student loan~18000~5.5~210",
   x: "250",
   s: "avalanche",
 };
 
+const ALLOWED = { s: ["avalanche", "snowball"] };
+
 export default function DebtCalculator() {
-  const state = useToolState("debt-payoff-calculator", DEFAULTS);
+  const state = useToolState("debt-payoff-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
   const rows = useMemo(() => decode(v.d), [v.d]);
   const setRows = (next: Row[]) => state.set("d", encode(next));
@@ -68,6 +70,7 @@ export default function DebtCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: `Debt-free by (${strategy})`, value: ok ? monthsFromNow(chosen.months) : "Never at this budget" }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
@@ -95,9 +98,9 @@ export default function DebtCalculator() {
                   )}
                 </div>
                 <div className="mt-2 grid grid-cols-3 gap-2">
-                  <MiniField label="Balance" prefix="$" value={r.balance} onChange={(x) => update(i, "balance", x)} />
-                  <MiniField label="APR" suffix="%" value={r.rate} onChange={(x) => update(i, "rate", x)} />
-                  <MiniField label="Min/mo" prefix="$" value={r.min} onChange={(x) => update(i, "min", x)} />
+                  <MiniField label="Balance" name={r.name} prefix="$" value={r.balance} onChange={(x) => update(i, "balance", x)} />
+                  <MiniField label="APR" name={r.name} suffix="%" value={r.rate} onChange={(x) => update(i, "rate", x)} />
+                  <MiniField label="Min/mo" name={r.name} prefix="$" value={r.min} onChange={(x) => update(i, "min", x)} />
                 </div>
               </div>
             ))}
@@ -211,7 +214,7 @@ export default function DebtCalculator() {
   );
 }
 
-function MiniField({ label, value, onChange, prefix, suffix }: { label: string; value: string; onChange: (v: string) => void; prefix?: string; suffix?: string }) {
+function MiniField({ label, name, value, onChange, prefix, suffix }: { label: string; name: string; value: string; onChange: (v: string) => void; prefix?: string; suffix?: string }) {
   return (
     <label className="block">
       <span className="mb-1 block text-[11px] font-medium text-muted">{label}</span>
@@ -221,6 +224,7 @@ function MiniField({ label, value, onChange, prefix, suffix }: { label: string; 
           type="number"
           inputMode="decimal"
           className={`input-field px-2 py-1.5 text-sm ${prefix ? "pl-5" : ""} ${suffix ? "pr-6" : ""}`}
+          aria-label={`${name} ${label}`}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -240,7 +244,7 @@ function MethodCard({ title, result, active, best, onPick }: { title: string; re
     >
       <div className="flex items-center justify-between">
         <span className="font-semibold text-ink">{title}</span>
-        {best && ok && <span className="rounded-full bg-sun-100 px-2 py-0.5 text-[11px] font-semibold text-sun-600 dark:bg-sun-600/15 dark:text-sun-300">Least interest</span>}
+        {best && ok && <span className="rounded-full bg-sun-100 px-2 py-0.5 text-[11px] font-semibold text-sun-700 dark:bg-sun-600/15 dark:text-sun-300">Least interest</span>}
       </div>
       <div className="mt-2 text-sm text-muted">
         {ok ? (

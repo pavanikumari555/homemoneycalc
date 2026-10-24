@@ -4,7 +4,7 @@ import { SITE } from "@/lib/site";
 import PageShell from "@/components/PageShell";
 
 export const metadata: Metadata = buildMetadata({
-  title: "About CalcIvy",
+  title: "About Us",
   description:
     "Learn about CalcIvy — a free collection of fast, accurate financial calculators built to help people make clearer money decisions with no sign-up required.",
   path: "/about/",
@@ -51,8 +51,8 @@ export default function AboutPage() {
       <p>
         {SITE.name} is an independent site created and maintained by a small team that cares
         about clear, trustworthy financial tools. We are not a bank, lender, or financial
-        advisor, and we don&apos;t sell your data. The site is supported by advertising, which lets
-        us keep every tool free to use.
+        advisor, and we don&apos;t sell your data. The site is supported by clearly labeled affiliate
+        links and sponsorships, which let us keep every tool free to use.
       </p>
 
       <h2>Get in touch</h2>

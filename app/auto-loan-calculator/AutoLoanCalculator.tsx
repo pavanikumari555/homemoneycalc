@@ -11,9 +11,10 @@ import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 const DEFAULTS = { p: "35000", d: "3000", t: "8000", o: "2000", tax: "6.5", f: "600", r: "7.2", m: "60", c: "1" };
 
 const TERMS = [24, 36, 48, 60, 72, 84].map((t) => ({ value: String(t), label: `${t} months (${t / 12} yrs)` }));
+const ALLOWED = { m: TERMS.map((t) => t.value), c: ["0", "1"] };
 
 export default function AutoLoanCalculator() {
-  const state = useToolState("auto-loan-calculator", DEFAULTS);
+  const state = useToolState("auto-loan-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
 
   const res = useMemo(
@@ -37,6 +38,7 @@ export default function AutoLoanCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: "Monthly payment", value: usd(res.monthlyPayment) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>

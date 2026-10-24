@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import CompoundCalculator from "./CompoundCalculator";
+import { calcCompoundInterest, usd0 } from "@/lib/calc";
 
 const SLUG = "compound-interest-calculator";
 
@@ -53,11 +54,15 @@ const SOURCES = [
   { label: "FDIC — National rates and rate caps", url: "https://www.fdic.gov/national-rates-and-rate-caps" },
 ];
 
+const EX = calcCompoundInterest({ principal: 10_000, monthlyContribution: 300, annualRatePercent: 7, years: 20, compoundsPerYear: 12, annualIncreasePercent: 0 });
+const ANSWER = `$10,000 plus $300 a month at a 7% yearly return grows to about ${usd0(EX.futureValue)} in 20 years. You deposit ${usd0(EX.totalContributions)}; the rest, ${usd0(EX.totalInterest)}, is compound growth.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Compound Interest Calculator"
+      answer={ANSWER}
       intro="Watch your money grow with compound interest and monthly deposits — in dollars, pounds, euros, rupees and more."
       calculator={<CompoundCalculator />}
       faqs={faqs}

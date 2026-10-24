@@ -83,7 +83,7 @@ export default function Page() {
         </div>
         <div className="rounded-2xl border border-line bg-surface p-5">
           <div className="text-xs font-medium uppercase tracking-wider text-muted">Gap on the same $75k</div>
-          <div className="mt-1 text-2xl font-extrabold text-sun-600 dark:text-sun-300">{usd0(gap75)}</div>
+          <div className="mt-1 text-2xl font-extrabold text-sun-700 dark:text-sun-300">{usd0(gap75)}</div>
           <div className="text-muted">≈ {usd0(gap75 / 12)} a month</div>
         </div>
       </div>

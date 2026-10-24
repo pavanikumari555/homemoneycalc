@@ -105,13 +105,13 @@ export default function HomePage() {
       {/* HERO — headline + search on the left, live demo on the right */}
       <section className="relative overflow-hidden">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -top-40 left-1/4 h-[560px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-br from-ivy-200/70 via-ivy-100/40 to-transparent blur-3xl dark:from-ivy-800/30 dark:via-ivy-900/20" />
-          <div className="absolute -right-20 top-20 h-[380px] w-[380px] rounded-full bg-sun-100/70 blur-3xl dark:bg-sun-600/10" />
+          {/* Soft glow via radial gradients — looks like a blur but costs nothing to paint */}
+          <div className="absolute inset-0 bg-[radial-gradient(60%_55%_at_20%_0%,rgb(185_219_195/0.55),transparent_70%),radial-gradient(35%_40%_at_95%_25%,rgb(255_244_214/0.8),transparent_70%)] dark:bg-[radial-gradient(60%_55%_at_20%_0%,rgb(29_68_48/0.35),transparent_70%),radial-gradient(35%_40%_at_95%_25%,rgb(196_124_0/0.08),transparent_70%)]" />
         </div>
         <div className="container-page grid items-center gap-12 pb-16 pt-10 sm:pt-16 lg:grid-cols-2 lg:gap-14">
           <div className="min-w-0">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3 py-1 text-xs font-semibold text-muted shadow-sm">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-ivy-500" /> Updated with 2026 tax figures
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-ivy-500" /> Updated for the 2026 tax year
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
               Free money calculators that show you{" "}

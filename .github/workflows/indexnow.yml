@@ -1,0 +1,41 @@
+# After every merge to main, tell Bing/IndexNow which pages changed.
+# Waits for Cloudflare Pages to finish deploying first.
+name: IndexNow ping
+
+on:
+  push:
+    branches: [main]
+    paths: ["app/**", "lib/**", "components/**"]
+  workflow_dispatch:
+    inputs:
+      all:
+        description: "Submit every page"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Wait for Cloudflare deploy
+        run: sleep 180
+      - name: Submit changed pages
+        run: |
+          if [ "${{ inputs.all }}" = "true" ]; then
+            node scripts/agent/indexnow.mjs --all
+          else
+            node scripts/agent/indexnow.mjs $(git diff --name-only HEAD~1 HEAD)
+          fi

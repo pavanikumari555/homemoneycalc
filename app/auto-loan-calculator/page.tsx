@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import AutoLoanCalculator from "./AutoLoanCalculator";
+import { calcAutoLoan, usd0 } from "@/lib/calc";
 
 const SLUG = "auto-loan-calculator";
 
@@ -53,11 +54,15 @@ const SOURCES = [
   { label: "CFPB — What is amortization?", url: "https://www.consumerfinance.gov/ask-cfpb/what-is-amortization-and-how-could-it-affect-my-auto-loan-en-771/" },
 ];
 
+const EX = calcAutoLoan({ vehiclePrice: 35000, downPayment: 3000, tradeInValue: 8000, amountOwedOnTrade: 2000, salesTaxPercent: 6.5, fees: 600, annualRatePercent: 7.2, termMonths: 60, taxCreditOnTradeIn: true });
+const ANSWER = `A $35,000 car with $3,000 down and an $8,000 trade-in (still owing $2,000) at 7.2% APR for 60 months costs about ${usd0(EX.monthlyPayment)} a month, including 6.5% sales tax and $600 in fees.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Auto Loan Calculator with Trade-In"
+      answer={ANSWER}
       intro="Your real monthly car payment with trade-in, sales tax and fees — and how the loan length changes what you pay in total."
       calculator={<AutoLoanCalculator />}
       faqs={faqs}

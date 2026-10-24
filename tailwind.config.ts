@@ -41,6 +41,7 @@ const config: Config = {
           400: "#f7b733",
           500: "#e89b0c",
           600: "#c47c00",
+          700: "#8a5a00", // text on light amber backgrounds (AA contrast)
         },
       },
       fontFamily: {

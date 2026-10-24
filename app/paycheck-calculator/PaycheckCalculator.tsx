@@ -11,6 +11,7 @@ import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
 import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 
 const DEFAULTS = { g: "75000", st: "CA", f: "single", pp: "26", k: "5", o: "1800" };
+const ALLOWED = { st: STATES.map((s) => s.code), f: ["single", "married"], pp: ["52", "26", "24", "12"] };
 
 const PERIODS = [
   { value: "52", label: "Weekly (52 a year)" },
@@ -31,7 +32,7 @@ const COLORS = {
 };
 
 export default function PaycheckCalculator() {
-  const state = useToolState("paycheck-calculator", DEFAULTS);
+  const state = useToolState("paycheck-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
   const [view, setView] = useState<"period" | "year">("period");
   const [showAll, setShowAll] = useState(false);
@@ -68,11 +69,19 @@ export default function PaycheckCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: view === "period" ? "Take-home per paycheck" : "Take-home per year", value: usd(res.net / div) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
           <PanelTitle>Your pay</PanelTitle>
-          <NumberField label="Annual salary (gross)" prefix="$" value={v.g} onChange={(x) => state.set("g", x)} slider={{ min: 15000, max: 300000, step: 1000 }} />
+          <NumberField
+            label={v.f === "married" ? "Household wages (gross, per year)" : "Annual salary (gross)"}
+            prefix="$"
+            value={v.g}
+            onChange={(x) => state.set("g", x)}
+            slider={{ min: 15000, max: 300000, step: 1000 }}
+            hint={v.f === "married" ? "Both spouses' wages combined. Social Security is capped per worker, so two high earners may pay a bit more than shown." : undefined}
+          />
           <SelectField
             label="State you work in"
             value={v.st}
@@ -90,7 +99,14 @@ export default function PaycheckCalculator() {
           />
           <SelectField label="How often you're paid" value={v.pp} onChange={(x) => state.set("pp", x)} options={PERIODS} />
           <PanelTitle>Pre-tax deductions</PanelTitle>
-          <NumberField label="401(k) contribution" suffix="% of pay" value={v.k} onChange={(x) => state.set("k", x)} slider={{ min: 0, max: 30, step: 1 }} />
+          <NumberField
+            label="401(k) contribution"
+            suffix="% of pay"
+            value={v.k}
+            onChange={(x) => state.set("k", x)}
+            slider={{ min: 0, max: 30, step: 1 }}
+            hint={res.retirementCapped ? "Capped at the 2026 IRS limit of $24,500 (age 50+ can add catch-up contributions)." : undefined}
+          />
           <NumberField label="Health, dental & other pre-tax" prefix="$" suffix="/yr" value={v.o} onChange={(x) => state.set("o", x)} hint="Your share of premiums, HSA/FSA" />
         </>
       }
@@ -110,6 +126,7 @@ export default function PaycheckCalculator() {
 
           <div className="flex items-center justify-between gap-3">
             <Segmented
+              ariaLabel="Show amounts per paycheck or per year"
               value={view}
               onChange={(x) => setView(x as "period" | "year")}
               options={[
@@ -149,6 +166,11 @@ export default function PaycheckCalculator() {
             </div>
           </div>
 
+          {res.state.taxYear !== 2026 && (
+            <p className="rounded-xl bg-sun-100/60 px-4 py-2 text-xs text-[#6b4300] dark:bg-sun-600/10 dark:text-sun-300">
+              {res.state.name} hasn&apos;t published its 2026 tax tables yet, so its {res.state.taxYear} figures are used.
+            </p>
+          )}
           {res.state.notes && (
             <details className="group rounded-xl border border-line bg-surface-2 px-4 py-3 text-sm">
               <summary className="cursor-pointer list-none font-medium text-ink marker:content-none [&::-webkit-details-marker]:hidden">

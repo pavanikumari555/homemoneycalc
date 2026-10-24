@@ -303,9 +303,10 @@ function simulateDebts(debts: Debt[], extra: number, strategy: DebtStrategy): De
 
 export function calcDebtPayoff(debts: Debt[], extraBudget: number): DebtResult {
   const clean = debts
+    .map((d, i) => ({ ...d, row: i }))
     .filter((d) => d.balance > 0)
-    .map((d, i) => ({
-      name: d.name.trim() || `Debt ${i + 1}`,
+    .map((d) => ({
+      name: d.name.trim() || `Debt ${d.row + 1}`,
       balance: clamp(d.balance, 0, 100_000_000),
       annualRatePercent: clamp(d.annualRatePercent, 0, 100),
       minPayment: clamp(d.minPayment, 0, 1_000_000),
@@ -610,25 +611,31 @@ export interface AgeResult {
 export function parseDate(s: string): Date | null {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
   if (!m) return null;
-  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-  return Number.isNaN(d.getTime()) ? null : d;
+  const [y, mo, day] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const d = new Date(y, mo - 1, day);
+  // Reject impossible dates like 2026-02-31 (JS would silently roll them into March)
+  return d.getFullYear() === y && d.getMonth() === mo - 1 && d.getDate() === day ? d : null;
+}
+
+/** birth + k months, clamping the day (Jan 31 + 1 month = Feb 28/29). */
+function addMonthsClamped(birth: Date, k: number): Date {
+  const y = birth.getFullYear() + Math.floor((birth.getMonth() + k) / 12);
+  const mo = (((birth.getMonth() + k) % 12) + 12) % 12;
+  const lastDay = new Date(y, mo + 1, 0).getDate();
+  return new Date(y, mo, Math.min(birth.getDate(), lastDay));
 }
 
 export function calcAge(birth: Date, asOf: Date): AgeResult | null {
   if (birth > asOf) return null;
-  let years = asOf.getFullYear() - birth.getFullYear();
-  let months = asOf.getMonth() - birth.getMonth();
-  let days = asOf.getDate() - birth.getDate();
-  if (days < 0) {
-    months--;
-    days += new Date(asOf.getFullYear(), asOf.getMonth(), 0).getDate(); // days in previous month
-  }
-  if (months < 0) {
-    years--;
-    months += 12;
-  }
   const DAY = 86_400_000;
   const utc = (d: Date) => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  // Count whole months to the last "monthiversary" on or before asOf, then the days after it
+  let fullMonths = (asOf.getFullYear() - birth.getFullYear()) * 12 + (asOf.getMonth() - birth.getMonth());
+  if (utc(addMonthsClamped(birth, fullMonths)) > utc(asOf)) fullMonths--;
+  const anchor = addMonthsClamped(birth, fullMonths);
+  const days = Math.round((utc(asOf) - utc(anchor)) / DAY);
+  const years = Math.floor(fullMonths / 12);
+  const months = fullMonths % 12;
   const totalDays = Math.round((utc(asOf) - utc(birth)) / DAY);
 
   // Feb 29 birthdays celebrate on Feb 28 in non-leap years

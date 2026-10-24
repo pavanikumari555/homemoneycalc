@@ -16,10 +16,18 @@ permissions:
 
 jobs:
   claude:
-    # Only the repo owner can trigger it (protects your API budget)
+    # Only YOUR OWN issues/comments can trigger it. A stranger's issue text is never run,
+    # even if you comment on it. Keep the repo private so nobody else can comment at all.
     if: |
-      github.actor == github.repository_owner &&
-      (contains(github.event.issue.body, '@claude') || contains(github.event.comment.body, '@claude'))
+      github.actor == github.repository_owner && (
+        (github.event_name == 'issues' &&
+          github.event.issue.user.login == github.repository_owner &&
+          contains(github.event.issue.body, '@claude')) ||
+        (github.event_name == 'issue_comment' &&
+          github.event.comment.user.login == github.repository_owner &&
+          github.event.issue.user.login == github.repository_owner &&
+          contains(github.event.comment.body, '@claude'))
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:

@@ -47,6 +47,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={sans.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/* Install prompt ka event React load hone se pehle aa sakta hai — yahin pakad ke rakhte hain */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__installEvent=e;window.dispatchEvent(new Event('calcivy:installable'))});",
+          }}
+        />
         {/* AdSense loader — only injected AFTER you set adsensePublisherId in lib/site.ts.
             Google needs this script on every page for ads + for site verification. */}
         {SITE.adsensePublisherId ? (

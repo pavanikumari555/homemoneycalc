@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import DebtCalculator from "./DebtCalculator";
+import { calcDebtPayoff, duration, usd0 } from "@/lib/calc";
 
 const SLUG = "debt-payoff-calculator";
 
@@ -53,11 +54,23 @@ const SOURCES = [
   { label: "Federal Reserve — Consumer credit (G.19) interest rates", url: "https://www.federalreserve.gov/releases/g19/current/" },
 ];
 
+const EX = calcDebtPayoff(
+  [
+    { name: "Credit card", balance: 6500, annualRatePercent: 24, minPayment: 180 },
+    { name: "Car loan", balance: 14000, annualRatePercent: 7.5, minPayment: 320 },
+    { name: "Personal loan", balance: 2500, annualRatePercent: 11, minPayment: 90 },
+    { name: "Student loan", balance: 18000, annualRatePercent: 5.5, minPayment: 210 },
+  ],
+  250
+);
+const ANSWER = `The avalanche method (highest interest rate first) always costs the least interest; the snowball method (smallest balance first) clears your first debt sooner. With $41,000 of typical debts and $250 extra a month, avalanche finishes in ${duration(EX.avalanche.months)} and saves ${usd0(Math.max(0, EX.snowball.totalInterest - EX.avalanche.totalInterest))} in interest versus snowball (${duration(EX.snowball.months)}).`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Debt Payoff Calculator"
+      answer={ANSWER}
       intro="Compare the snowball and avalanche methods side by side, see every milestone, and get your debt-free date."
       calculator={<DebtCalculator />}
       faqs={faqs}

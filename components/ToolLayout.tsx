@@ -22,6 +22,8 @@ interface ToolLayoutProps {
   slug: string;
   h1: string;
   intro: React.ReactNode;
+  // One-sentence direct answer with a worked example (what search/AI answers quote)
+  answer?: React.ReactNode;
   calculator: React.ReactNode;
   children: React.ReactNode; // the explainer article
   faqs: FaqItem[];
@@ -33,7 +35,7 @@ function formatDate(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
-export default function ToolLayout({ slug, h1, intro, calculator, children, faqs, sources = [], finance = true }: ToolLayoutProps) {
+export default function ToolLayout({ slug, h1, intro, answer, calculator, children, faqs, sources = [], finance = true }: ToolLayoutProps) {
   const tool = getTool(slug)!;
   const path = `/${slug}/`;
 
@@ -59,6 +61,11 @@ export default function ToolLayout({ slug, h1, intro, calculator, children, faqs
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{h1}</h1>
               <p className="mt-2 max-w-2xl text-lg text-muted">{intro}</p>
+              {answer && (
+                <p className="mt-3 max-w-2xl rounded-xl border-l-4 border-ivy-500 bg-surface/80 px-3 py-2 text-sm leading-relaxed text-ink/90">
+                  <strong className="text-ink">Quick answer:</strong> {answer}
+                </p>
+              )}
               <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted">
                 <FavoriteButton slug={slug} />
                 <span>

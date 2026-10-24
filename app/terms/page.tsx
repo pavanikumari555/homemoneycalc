@@ -49,7 +49,7 @@ export default function TermsPage() {
         The Site is provided &quot;as is&quot; without warranties of any kind.
       </p>
 
-      <h2>Third-party links and ads</h2>
+      <h2>Third-party and affiliate links</h2>
       <p>
         The Site may contain advertising and links to third-party websites. We are not
         responsible for the content, products, or practices of those third parties. Your

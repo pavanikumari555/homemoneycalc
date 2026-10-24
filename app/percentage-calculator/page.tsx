@@ -43,11 +43,14 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const ANSWER = "To find X% of a number, multiply the number by X and divide by 100: 20% of 150 is 150 × 20 ÷ 100 = 30. Percentage change is (new − old) ÷ old × 100.";
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Percentage Calculator"
+      answer={ANSWER}
       intro="Every common percentage question in one place, with the working shown so you can check it."
       calculator={<PercentageCalculator />}
       faqs={faqs}

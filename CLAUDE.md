@@ -1,6 +1,6 @@
 # CalcIvy — guide for Claude (local sessions and the GitHub agent)
 
-CalcIvy (calcivy.com) is a free US money-calculator site. Static Next.js 16 export (React 19) on Cloudflare Pages, Tailwind, TypeScript. No server, no database, no accounts. Revenue: display ads (AdSense → Mediavine/Raptive) + clearly-labeled affiliates later. Goal: $5,000/month in 18–36 months from US search traffic.
+CalcIvy (calcivy.com) is a free US money-calculator site. Static Next.js 16 export (React 19) on Cloudflare Pages, Tailwind, TypeScript. No server, no database, no accounts. Revenue: **no Google ad products** (owner's old AdSense was closed for invalid traffic — never suggest a new AdSense account, in any name). Earn via clearly-labeled finance affiliates, own templates (Payhip), sponsors — see `docs/MONETIZATION.md`. Goal: $5,000/month in 18–36 months from US search traffic.
 
 The owner is a beginner from India. Talk to them in Hinglish: why first, then how, small steps. Code comments in this repo are short Hinglish/English mixes — match that.
 

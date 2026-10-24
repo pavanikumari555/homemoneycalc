@@ -30,8 +30,9 @@ export default function Page() {
 
       <h2>Independence</h2>
       <p>
-        CalcIvy is free because of advertising. Advertisers have no say in our calculators, results or explanations. If we ever
-        include affiliate links, they will be clearly labeled, and they will never change how a calculator works or what it shows.
+        CalcIvy is free because of clearly labeled affiliate links and sponsorships. Partners have no say in our calculators,
+        results or explanations, and they never change how a calculator works or what it shows. See our{" "}
+        <Link href="/advertising-disclosure/">advertising disclosure</Link>.
       </p>
 
       <h2>Not financial advice</h2>

@@ -118,14 +118,16 @@
       "primaryKeyword": "no tax on overtime calculator",
       "secondary": [
         "overtime deduction 2026",
-        "qualified overtime deduction married filing jointly"
+        "qualified overtime deduction married filing jointly",
+        "w-2 code tt",
+        "box 12 tt overtime"
       ],
       "volume": "10k-100k (peaks Jan-Apr)",
       "difficulty": "low-med",
       "wave": 1,
       "targetDate": "2026-10-30",
       "status": "planned",
-      "why": "New OBBBA deduction (2025-2028); SERP led by small sites; $12.5k/$25k cap, phase-out from $150k/$300k MAGI"
+      "why": "New OBBBA deduction (2025-2028); SERP led by small sites; $12.5k/$25k cap, phase-out from $150k/$300k MAGI. New W-2 Box 12 code TT on 2026 W-2s (issued by Feb 1, 2027) -> 'my W-2 shows TT, how much do I save?' searches Jan-Apr"
     },
     {
       "slug": "no-tax-on-tips-calculator",
@@ -133,14 +135,16 @@
       "primaryKeyword": "no tax on tips calculator",
       "secondary": [
         "tips deduction 2026",
-        "no tax on tips refund"
+        "no tax on tips refund",
+        "w-2 code tp",
+        "box 12 tp tips"
       ],
       "volume": "1k-10k",
       "difficulty": "low",
       "wave": 1,
       "targetDate": "2026-11-03",
       "status": "planned",
-      "why": "New deduction; links to tip calculator"
+      "why": "New deduction; links to tip calculator. New W-2 Box 12 code TP on 2026 W-2s"
     },
     {
       "slug": "overtime-calculator",
@@ -232,6 +236,36 @@
       "why": "Seasonal, cheap traffic"
     },
     {
+      "slug": "social-security-cola-calculator",
+      "title": "Social Security COLA Calculator 2027",
+      "primaryKeyword": "social security cola 2027 calculator",
+      "secondary": [
+        "2027 cola increase",
+        "how much will my social security increase"
+      ],
+      "volume": "10k-100k (Oct-Jan)",
+      "difficulty": "low-med",
+      "wave": 1,
+      "targetDate": "2026-11-26",
+      "status": "planned",
+      "why": "2027 COLA announced Oct 14, 2026 - verify the official % on ssa.gov before publishing; evergreen every October"
+    },
+    {
+      "slug": "trump-account-calculator",
+      "title": "Trump Account Calculator",
+      "primaryKeyword": "trump account calculator",
+      "secondary": [
+        "trump account growth",
+        "trump account for kids $1000"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low",
+      "wave": 2,
+      "targetDate": "2026-12-02",
+      "status": "planned",
+      "why": "Accounts launched Jul 4, 2026 ($1,000 seed, up to $5k/yr); few dedicated tools; local news coverage"
+    },
+    {
       "slug": "tax-refund-calculator",
       "title": "Tax Refund Estimator 2026",
       "primaryKeyword": "tax refund calculator 2026 with dependents",
@@ -259,6 +293,21 @@
       "targetDate": "2026-12-08",
       "status": "planned",
       "why": "Review season"
+    },
+    {
+      "slug": "rap-student-loan-calculator",
+      "title": "RAP Student Loan Payment Calculator",
+      "primaryKeyword": "rap student loan calculator",
+      "secondary": [
+        "repayment assistance plan calculator",
+        "save to rap payment"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 2,
+      "targetDate": "2026-12-10",
+      "status": "planned",
+      "why": "RAP launched Jul 1, 2026; SAVE borrowers moving; rules still changing - date-stamp it"
     },
     {
       "slug": "fsa-calculator",
@@ -635,5 +684,77 @@
     "retirement calculator / 401k calculator (head)",
     "loan calculator / personal loan calculator",
     "best-X affiliate listicles"
+  ],
+  "projects": [
+    {
+      "id": "answer-blocks",
+      "title": "One-line answer block + worked example at the top of every tool",
+      "why": "What AI search (ChatGPT via Bing, AI Overviews) quotes; schema and llms.txt showed no measurable effect",
+      "effort": "S",
+      "when": "before launch"
+    },
+    {
+      "id": "bing-indexnow",
+      "title": "Bing Webmaster Tools + IndexNow ping on every deploy",
+      "why": "ChatGPT citations track Bing rankings closely",
+      "effort": "S",
+      "when": "launch week"
+    },
+    {
+      "id": "preferred-source-cta",
+      "title": "'Add CalcIvy as a preferred source on Google' button on data studies",
+      "why": "Preferred Sources now also feeds AI Mode / AI Overviews",
+      "effort": "S",
+      "when": "month 1"
+    },
+    {
+      "id": "content-800",
+      "title": "Grow age, tip, percentage pages to 800+ words of genuinely useful guide",
+      "why": "Raptive asks for long-form content on most pages; helps AdSense review",
+      "effort": "S",
+      "when": "before AdSense apply"
+    },
+    {
+      "id": "embed-widget",
+      "title": "Free embed widget + /embed page (later a WordPress plugin)",
+      "why": "Backlinks from realtors, credit unions, tax preparers",
+      "effort": "M",
+      "when": "week 7"
+    },
+    {
+      "id": "state-salary-pages",
+      "title": "'$X salary after tax in [state]' — max 50 states x 5 salaries, each with real numbers + chart",
+      "why": "High-volume long tail; safe only because the data differs per page",
+      "effort": "M",
+      "when": "month 3, only if first batch gets indexed"
+    },
+    {
+      "id": "spanish-top-tools",
+      "title": "Spanish (es-US) versions of paycheck, auto loan, mortgage, overtime deduction — human-reviewed",
+      "why": "~61M US Spanish speakers, thin competition; RPM lower (est. 30-60% of English)",
+      "effort": "M",
+      "when": "month 4-6"
+    },
+    {
+      "id": "annual-data-studies",
+      "title": "Annual data studies (2027 take-home by state on Jan 1; overtime deduction value by state)",
+      "why": "Journalist links + Discover rewards original data",
+      "effort": "M",
+      "when": "Jan 2027"
+    },
+    {
+      "id": "ics-reminders",
+      "title": "'Remind me' calendar files (.ics): W-2 arrival, Apr 15, quarterly taxes, COLA day",
+      "why": "Retention; no server needed",
+      "effort": "S",
+      "when": "month 2"
+    },
+    {
+      "id": "chatgpt-app",
+      "title": "ChatGPT app (MCP) wrapping the tax engine",
+      "why": "Early directory, brand reach; needs a hosted endpoint",
+      "effort": "M",
+      "when": "later"
+    }
   ]
 }

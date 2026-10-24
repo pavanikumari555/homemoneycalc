@@ -102,10 +102,12 @@ async function main() {
     health: health.ran ? { pageCount: health.pageCount, errors: health.errors, warnings: health.warnings, issues: health.issues } : { pageCount: 0, errors: 0, warnings: 0, issues: [], note: health.reason },
     roadmap: { live: roadmap.tools.length - planned.length, planned: planned.length, overdue, dueSoon },
     growth: { week, thisWeek },
+    // Earning goals (Google ad networks are closed to the owner — see docs/MONETIZATION.md).
+    // metric = which number the admin panel compares.
     milestones: {
-      journey: { target: 1000, label: "Mediavine Journey (1,000 Tier-1 sessions / 30 days)" },
-      raptive: { target: 25000, label: "Raptive (25,000 pageviews / month)" },
-      mediavine: { target: 50000, label: "Mediavine full (50,000 sessions / month)" },
+      first100: { target: 100, metric: "revenueMonth", label: "First $100 month (affiliates + templates)" },
+      k1: { target: 1000, metric: "revenueMonth", label: "$1,000 month" },
+      goal: { target: 5000, metric: "revenueMonth", label: "$5,000 month (goal)" },
     },
     previousDate: previous?.date ?? null,
     notes,

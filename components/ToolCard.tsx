@@ -16,7 +16,7 @@ export default function ToolCard({ tool }: { tool: Tool }) {
         </span>
         <h3 className="text-lg font-bold leading-snug text-ink group-hover:text-ivy-700 dark:group-hover:text-ivy-300">{tool.shortTitle}</h3>
         {isNewTool(tool) && (
-          <span className="ml-auto rounded-full bg-sun-100 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-sun-600 dark:bg-sun-600/15 dark:text-sun-300">
+          <span className="ml-auto rounded-full bg-sun-100 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-sun-700 dark:bg-sun-600/15 dark:text-sun-300">
             New
           </span>
         )}

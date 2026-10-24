@@ -1,6 +1,8 @@
 // ============================================================================
-// AI SUMMARY — Claude se roz ki report ka Hinglish summary + "aaj kya karo" list.
-// ANTHROPIC_API_KEY na ho to rule-based summary (agent fir bhi chalta hai).
+// AI SUMMARY — roz ki report ka Hinglish summary + "aaj kya karo" list.
+// Providers (jo key mile wahi use hota hai, ya AI_PROVIDER se chuno):
+//   GEMINI_API_KEY (free tier) · GROQ_API_KEY (free tier) · ANTHROPIC_API_KEY (paid)
+// Koi key nahi / AI fail -> rule-based summary (agent fir bhi chalta hai).
 // ============================================================================
 import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
@@ -14,26 +16,98 @@ const Summary = z.object({
   risks: z.array(z.string()).describe("Problems to watch (traffic drops, errors, policy risks); empty if none"),
 });
 
-const SYSTEM = `You are the SEO analyst for CalcIvy (calcivy.com), a free US money-calculator website.
+// Same shape as plain JSON Schema (for providers that take a schema directly)
+const SUMMARY_SCHEMA = {
+  type: "object",
+  properties: {
+    headline: { type: "string" },
+    summary: { type: "string" },
+    youDo: { type: "array", items: { type: "string" } },
+    agentNext: { type: "array", items: { type: "string" } },
+    risks: { type: "array", items: { type: "string" } },
+  },
+  required: ["headline", "summary", "youDo", "agentNext", "risks"],
+};
+
+const SYSTEM = `You are the SEO analyst for CalcIvy, a free US money-calculator website.
 The owner is a beginner from India who reads Hinglish (Hindi in Roman script mixed with simple English). Write for them: short, warm, specific, no jargon without a 3-word explanation.
-Goal: grow Google traffic from the US safely and reach $5,000/month from ads + affiliates over 18-36 months.
+Goal: grow Google traffic from the US safely and reach $5,000/month from finance affiliates, templates and sponsors over 18-36 months (no Google ad products).
 Rules you must follow:
 - Only use numbers present in the data. If a data source is not connected, say so and give the setup step instead of inventing numbers.
-- Never suggest anything against Google's spam policies: no bought links, no mass AI pages, no fake traffic, no clicking own ads.
+- Never suggest anything against Google's spam policies: no bought links, no mass AI pages, no fake traffic.
 - Prefer actions with the best payoff for a new site: fixing technical errors, improving pages ranking in positions 8-30, shipping the next roadmap tool on time, earning links from the growth checklist.
 - Keep every task doable in under 1 hour and say where to do it.`;
 
-export async function summarize(report) {
-  if (!process.env.ANTHROPIC_API_KEY && !process.env.ANTHROPIC_AUTH_TOKEN) return { ...fallback(report), by: "rules" };
+const env = process.env;
+const pickProvider = () =>
+  env.AI_PROVIDER ||
+  (env.GEMINI_API_KEY ? "gemini" : env.GROQ_API_KEY ? "groq" : env.ANTHROPIC_API_KEY || env.ANTHROPIC_AUTH_TOKEN ? "anthropic" : "rules");
 
+export async function summarize(report) {
+  const provider = pickProvider();
+  const prompt = `Today's data (JSON):\n${JSON.stringify(report)}`;
+  try {
+    if (provider === "gemini") return await viaGemini(prompt);
+    if (provider === "groq") return await viaGroq(prompt);
+    if (provider === "anthropic") return await viaAnthropic(prompt, report);
+  } catch (e) {
+    console.warn(`AI summary via ${provider} failed: ${String(e.message ?? e).slice(0, 200)}`);
+  }
+  return { ...fallback(report), by: "rules" };
+}
+
+/** Google Gemini (free tier, key from aistudio.google.com). Alias stays current; override with GEMINI_MODEL. */
+async function viaGemini(prompt) {
+  const model = env.GEMINI_MODEL || "gemini-flash-latest";
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM }] },
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig: { responseMimeType: "application/json", responseSchema: SUMMARY_SCHEMA, temperature: 0.4 },
+    }),
+  });
+  if (!res.ok) throw new Error(`Gemini ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  const data = await res.json();
+  const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
+  return { ...Summary.parse(JSON.parse(text)), by: `gemini:${model}` };
+}
+
+/** Groq (free tier, OpenAI-compatible API, key from console.groq.com). Override with GROQ_MODEL. */
+async function viaGroq(prompt) {
+  const model = env.GROQ_MODEL || "llama-3.3-70b-versatile";
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: { "content-type": "application/json", authorization: `Bearer ${env.GROQ_API_KEY}` },
+    body: JSON.stringify({
+      model,
+      temperature: 0.4,
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content: `${SYSTEM}\nReply with ONLY a JSON object with keys: headline (string), summary (string), youDo (string[]), agentNext (string[]), risks (string[]).`,
+        },
+        { role: "user", content: prompt },
+      ],
+    }),
+  });
+  if (!res.ok) throw new Error(`Groq ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  const data = await res.json();
+  return { ...Summary.parse(JSON.parse(data.choices?.[0]?.message?.content ?? "{}")), by: `groq:${model}` };
+}
+
+/** Anthropic Claude (paid API key or Claude subscription token). */
+async function viaAnthropic(prompt, report) {
   const client = new Anthropic();
   const response = await client.messages.parse({
     // Model is configurable; default is Claude Opus 5.5 at low effort (~$0.15/run for this size).
-    model: process.env.CLAUDE_MODEL || "claude-opus-5-5",
+    model: env.CLAUDE_MODEL || "claude-opus-5-5",
     max_tokens: 16000,
-    output_config: { effort: process.env.CLAUDE_EFFORT || "low", format: zodOutputFormat(Summary) },
+    output_config: { effort: env.CLAUDE_EFFORT || "low", format: zodOutputFormat(Summary) },
     system: SYSTEM,
-    messages: [{ role: "user", content: `Today's data (JSON):\n${JSON.stringify(report)}` }],
+    messages: [{ role: "user", content: prompt }],
   });
 
   if (response.stop_reason === "refusal" || !response.parsed_output) return { ...fallback(report), by: "rules" };

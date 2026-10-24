@@ -14,6 +14,7 @@ export default function MyMoneyLink() {
   return (
     <Link
       href="/my-money/"
+      aria-label={count > 0 ? `My Money (${count} saved)` : "My Money"}
       className="relative flex items-center gap-1.5 rounded-xl px-3 py-2 text-muted transition hover:bg-surface hover:text-ink"
     >
       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">

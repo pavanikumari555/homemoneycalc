@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { SITE, TOOLS } from "@/lib/site";
@@ -63,6 +64,10 @@ function Kpi({ label, value, delta, hint }: { label: string; value: string; delt
 }
 
 export default function AdminPage() {
+  // Public site build me admin bilkul nahi banta (data leak nahi ho sakta).
+  // Sirf alag, Cloudflare Access se locked "admin" Pages project BUILD_ADMIN=1 ke saath ise banata hai.
+  // (Local "npm run dev" pe dikhta hai — wo sirf 127.0.0.1 pe chalta hai.)
+  if (process.env.NODE_ENV === "production" && process.env.BUILD_ADMIN !== "1") notFound();
   const reports = loadReports();
   const r = reports[reports.length - 1];
   const roadmap = read("roadmap.json", { tools: [] });
@@ -77,7 +82,12 @@ export default function AdminPage() {
   const today = r?.date ?? new Date().toISOString().slice(0, 10);
   const lastRevenue = revenue.months[revenue.months.length - 1];
   const revenuePct = lastRevenue ? Math.min(100, Math.round((lastRevenue.total / revenue.goalMonthly) * 100)) : 0;
-  const sessions = r?.kpis?.sessions ?? 0;
+  // Values the ad-network milestones are measured against
+  const milestoneValue: Record<string, number> = {
+    sessions: r?.kpis?.sessions ?? 0,
+    pageviews: r?.kpis?.pageviews ?? 0,
+    revenueMonth: lastRevenue?.total ?? 0,
+  };
 
   return (
     <div className="container-page py-8">
@@ -98,7 +108,8 @@ export default function AdminPage() {
             <span className="rounded-xl border border-dashed border-line px-3 py-2 text-muted">Set SITE.repo in lib/site.ts to enable “Report a problem”</span>
           )}
           <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer" className="btn-ghost">Search Console</a>
-          <a href="https://adsense.google.com" target="_blank" rel="noopener noreferrer" className="btn-ghost">AdSense</a>
+          <a href="https://app.impact.com" target="_blank" rel="noopener noreferrer" className="btn-ghost">Impact</a>
+          <a href="https://payhip.com" target="_blank" rel="noopener noreferrer" className="btn-ghost">Payhip</a>
         </div>
       </div>
 
@@ -169,11 +180,11 @@ export default function AdminPage() {
           <div className="mt-3 h-3 overflow-hidden rounded-full bg-surface-2">
             <div className="h-full rounded-full bg-gradient-to-r from-ivy-500 to-sun-400" style={{ width: `${revenuePct}%` }} />
           </div>
-          <p className="mt-2 text-xs text-muted">{lastRevenue ? `${lastRevenue.month}: ads $${fmt(lastRevenue.ads)}, affiliate $${fmt(lastRevenue.affiliate)}` : "Add monthly earnings in data/revenue.json (or tell Claude)."}</p>
+          <p className="mt-2 text-xs text-muted">{lastRevenue ? `${lastRevenue.month}: affiliate ${fmt(lastRevenue.affiliate)}, templates ${fmt(lastRevenue.templates)}, other ${fmt(lastRevenue.other)}` : "Add monthly earnings in data/revenue.json (or tell Claude)."}</p>
           <div className="mt-4 space-y-2">
             {r?.milestones &&
               Object.values(r.milestones).map((m: Json) => {
-                const p = Math.min(100, Math.round((sessions / m.target) * 100));
+                const p = Math.min(100, Math.round(((milestoneValue[m.metric ?? "sessions"] ?? 0) / m.target) * 100));
                 return (
                   <div key={m.label}>
                     <div className="flex justify-between text-xs text-muted">
@@ -250,7 +261,7 @@ export default function AdminPage() {
                   </div>
                   <span
                     className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold ${
-                      t.status === "drafted" ? "bg-sun-100 text-sun-600" : late ? "bg-red-100 text-red-600" : "bg-surface-2 text-muted"
+                      t.status === "drafted" ? "bg-sun-100 text-sun-700" : late ? "bg-red-100 text-red-600" : "bg-surface-2 text-muted"
                     }`}
                   >
                     {t.status === "drafted" ? "draft PR" : late ? `late · ${t.targetDate}` : t.targetDate}
@@ -263,8 +274,9 @@ export default function AdminPage() {
         </Card>
 
         <Card title={`Growth checklist — week ${r?.growth?.week ?? 1}`}>
-          <ul className="space-y-2 text-sm">
-            {growth.tasks.slice(0, 14).map((t: Json) => (
+          {/* Open tasks up to next week first, then the rest stay scrollable */}
+          <ul className="max-h-[28rem] space-y-2 overflow-auto pr-1 text-sm">
+            {[...growth.tasks.filter((t: Json) => !t.done), ...growth.tasks.filter((t: Json) => t.done)].map((t: Json) => (
               <li key={t.task} className="flex items-start gap-2">
                 <span className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded border text-[10px] ${t.done ? "border-ivy-500 bg-ivy-500 text-white" : "border-line"}`}>{t.done ? "✓" : ""}</span>
                 <span className={t.done ? "text-muted line-through" : "text-ink"}>

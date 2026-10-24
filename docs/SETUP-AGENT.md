@@ -28,6 +28,7 @@ Ye sab **ek baar** karna hai. Har step ke saath likha hai **kyun**.
 
 ## Step 3 — GA4 (sessions, US share — Mediavine/Raptive ye dekhte hain)
 1. [Google Analytics](https://analytics.google.com) → property `CalcIvy` → Web stream `calcivy.com` → **Measurement ID** (G-XXXX) Claude ko batao, wo site me laga dega.
+   - *Privacy:* calculator ke numbers URL me hote hain (share link ke liye). GA lagate waqt `page_location` se `?…` hissa hataya jaayega, taaki salary/debt jaise numbers Google ko na jaayein (privacy policy yahi vaada karti hai).
 2. **Admin → Property access management → +** → service account email → **Viewer**.
 3. **Admin → Property details** → **Property ID** (sirf number) note karo.
 
@@ -57,12 +58,15 @@ Repo → **Settings → Secrets and variables → Actions**.
 Then: Repo → **Settings → Actions → General → Workflow permissions → Read and write** ✅, aur **Allow GitHub Actions to create and approve pull requests** ✅.
 Aur: [Claude GitHub App](https://github.com/apps/claude) install karo is repo pe.
 
-## Step 6 — Admin panel ko lock karo (Cloudflare Access, free)
-*Kyun: `/admin/` me aapka traffic data hai — sirf aap dekh sako.*
-1. Cloudflare dashboard → **Zero Trust** (free plan, 50 users tak).
-2. **Access → Applications → Add → Self-hosted** → Domain `calcivy.com`, Path `admin`.
-3. Policy: **Allow** → **Emails** → aapka CalcIvy Gmail.
-4. Ab `calcivy.com/admin/` kholne pe pehle email OTP aayega. Baaki duniya ke liye band.
+## Step 6 — Admin panel: alag, locked project (free)
+*Kyun: `/admin/` me traffic aur kamai ka data hai. Public site ke build me admin **banta hi nahi** (`BUILD_ADMIN` ke bina 404), isliye `*.pages.dev` ya preview links se bhi leak nahi ho sakta.*
+1. Cloudflare → **Workers & Pages → Create → Pages → Connect to Git** → **wahi repo**, project name `homemoneycalc-admin`.
+   - Build command `npm run build`, output `out`, **Environment variable `BUILD_ADMIN = 1`**.
+2. Custom domain: `admin.<aapka-domain>`.
+3. **Zero Trust → Access → Applications → Add → Self-hosted**:
+   - Domain `admin.<aapka-domain>` (poora subdomain) **aur** `homemoneycalc-admin.pages.dev` + `*.homemoneycalc-admin.pages.dev`.
+   - Policy: **Allow → Emails →** sirf aapka Gmail.
+4. Ab `admin.<domain>/admin/` kholne pe pehle email OTP aayega. Baaki duniya ke liye band.
 
 ## Step 7 — Pehli baar chala ke dekho
 GitHub → **Actions → SEO daily report → Run workflow**. 2–3 minute me `data/reports/` me report aayegi aur deploy ke baad `calcivy.com/admin/` pe dikhegi.

@@ -14,7 +14,7 @@ const MENU_PER_CATEGORY = 5;
 // sirf theme toggle client-side hai.
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/95">
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Link href="/" className="shrink-0" aria-label="CalcIvy home">
           <Logo />

@@ -4,6 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import CreditCardCalculator from "./CreditCardCalculator";
+import { calcCreditCard, duration, usd0 } from "@/lib/calc";
 
 const SLUG = "credit-card-payoff-calculator";
 
@@ -43,11 +44,15 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const EX = calcCreditCard({ balance: 6000, aprPercent: 22.9, mode: "payment", monthlyPayment: 250, goalMonths: 24 });
+const ANSWER = `Paying $250 a month on a $6,000 card at 22.9% APR clears it in ${duration(EX.plan.months)} and costs ${usd0(EX.plan.totalInterest)} in interest. Paying only the minimum would take ${duration(EX.minimumPlan.months)}.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Credit Card Payoff Calculator"
+      answer={ANSWER}
       intro="See your payoff date and total interest — or the exact payment you need to be card-debt-free by a goal date."
       calculator={<CreditCardCalculator />}
       faqs={faqs}

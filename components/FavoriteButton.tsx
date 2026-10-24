@@ -14,8 +14,8 @@ export default function FavoriteButton({ slug }: { slug: string }) {
       aria-pressed={on}
       className={`no-print inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition ${
         on
-          ? "border-sun-300 bg-sun-100 text-sun-600 dark:border-sun-600/50 dark:bg-sun-600/15 dark:text-sun-300"
-          : "border-line bg-surface text-muted hover:border-sun-300 hover:text-sun-600"
+          ? "border-sun-300 bg-sun-100 text-sun-700 dark:border-sun-600/50 dark:bg-sun-600/15 dark:text-sun-300"
+          : "border-line bg-surface text-muted hover:border-sun-300 hover:text-sun-700"
       }`}
     >
       <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill={on ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" aria-hidden="true">

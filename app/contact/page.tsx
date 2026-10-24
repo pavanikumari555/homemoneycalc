@@ -4,7 +4,7 @@ import { SITE } from "@/lib/site";
 import PageShell from "@/components/PageShell";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Contact CalcIvy",
+  title: "Contact Us",
   description:
     "Get in touch with CalcIvy. Questions, corrections, or calculator suggestions are always welcome — email us and we'll get back to you.",
   path: "/contact/",

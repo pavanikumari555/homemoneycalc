@@ -93,17 +93,32 @@ export function SelectField({ label, value, onChange, options, hint }: SelectFie
 
 interface SegmentedProps {
   label?: string;
+  ariaLabel?: string; // name for screen readers when there's no visible label
   value: string;
   onChange: (v: string) => void;
   options: { value: string; label: string }[];
 }
 
 /** Pill-style toggle group (e.g. Single / Married, Snowball / Avalanche). */
-export function Segmented({ label, value, onChange, options }: SegmentedProps) {
+export function Segmented({ label, ariaLabel, value, onChange, options }: SegmentedProps) {
   return (
     <div>
       {label && <span className="label-field">{label}</span>}
-      <div role="radiogroup" aria-label={label} className="flex rounded-xl border border-line bg-surface-2 p-1">
+      <div
+        role="radiogroup"
+        aria-label={label ?? ariaLabel}
+        className="flex rounded-xl border border-line bg-surface-2 p-1"
+        onKeyDown={(e) => {
+          // Arrow keys move between options (standard radio-group keyboard behaviour)
+          const i = options.findIndex((o) => o.value === value);
+          const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+          if (!step) return;
+          e.preventDefault();
+          const next = options[(i + step + options.length) % options.length];
+          onChange(next.value);
+          (e.currentTarget.querySelectorAll("button")[options.indexOf(next)] as HTMLButtonElement | undefined)?.focus();
+        }}
+      >
         {options.map((o) => {
           const active = o.value === value;
           return (
@@ -112,8 +127,9 @@ export function Segmented({ label, value, onChange, options }: SegmentedProps) {
               type="button"
               role="radio"
               aria-checked={active}
+              tabIndex={active ? 0 : -1}
               onClick={() => onChange(o.value)}
-              className={`flex-1 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
+              className={`flex-1 rounded-lg px-2 py-1.5 text-sm font-semibold leading-tight transition sm:px-3 ${
                 active ? "bg-surface text-ivy-700 shadow-sm dark:text-ivy-300" : "text-muted hover:text-ink"
               }`}
             >

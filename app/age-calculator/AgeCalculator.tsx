@@ -34,6 +34,7 @@ export default function AgeCalculator() {
 
   return (
     <CalcShell
+      summary={res ? { label: "Your age", value: `${res.years} yrs ${res.months} mo ${res.days} d` } : undefined}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
@@ -73,7 +74,9 @@ export default function AgeCalculator() {
         </>
       }
       results={
-        !res ? (
+        !asOfStr ? (
+          <div className="h-48 animate-pulse rounded-2xl bg-surface-2" aria-hidden="true" />
+        ) : !res ? (
           <Notice>{asOfStr ? "The birth date needs to be on or before the date you're measuring to." : "Pick a date of birth."}</Notice>
         ) : (
           <>

@@ -10,9 +10,10 @@ import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
 import { CalcShell, PanelTitle, useCelebrate } from "@/components/calc/CalcShell";
 
 const DEFAULTS = { b: "6000", apr: "22.9", mode: "payment", p: "250", g: "24" };
+const ALLOWED = { mode: ["payment", "goal"] };
 
 export default function CreditCardCalculator() {
-  const state = useToolState("credit-card-payoff-calculator", DEFAULTS);
+  const state = useToolState("credit-card-payoff-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
   const mode = v.mode === "goal" ? "goal" : "payment";
 
@@ -34,6 +35,7 @@ export default function CreditCardCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: mode === "payment" ? "Paid off in" : "Pay each month", value: !ok ? "Never at this payment" : mode === "payment" ? duration(res.plan.months) : usd(res.payment) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>

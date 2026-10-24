@@ -28,7 +28,16 @@ export function CountUp({ value, format }: { value: number; format: (n: number) 
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    // Background tabs pause animation frames — make sure the real number still shows
+    const fallback = window.setTimeout(() => {
+      cancelAnimationFrame(raf);
+      setShown(end);
+      from.current = end;
+    }, dur + 150);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(fallback);
+    };
   }, [value]);
 
   return <>{format(shown)}</>;
@@ -49,8 +58,7 @@ export function ResultHero({ eyebrow, children, sub, tone = "ivy" }: ResultHeroP
       : "from-sun-500 via-sun-600 to-[#8a4b00]";
   return (
     <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${bg} p-6 text-white shadow-lift sm:p-7`}>
-      <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10 blur-2xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-10 h-40 w-40 rounded-full bg-sun-300/20 blur-2xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(40%_60%_at_100%_0%,rgb(255_255_255/0.14),transparent_70%),radial-gradient(30%_50%_at_15%_110%,rgb(255_209_102/0.18),transparent_70%)]" />
       <div className="relative">
         <div className="text-sm font-medium uppercase tracking-wider text-white/75">{eyebrow}</div>
         <div className="mt-2 text-4xl font-extrabold tracking-tight tabular-nums sm:text-5xl" aria-live="polite">

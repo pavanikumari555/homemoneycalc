@@ -7,6 +7,7 @@
     "dev": "next dev -H 127.0.0.1",
     "prebuild": "node scripts/check-tools.mjs && node scripts/gen-ads-txt.mjs",
     "build": "next build",
+    "postbuild": "node scripts/fix-rsc-prefetch.mjs",
     "start": "next start -H 127.0.0.1",
     "lint": "eslint .",
     "check-tools": "node scripts/check-tools.mjs",

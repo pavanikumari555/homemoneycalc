@@ -17,7 +17,7 @@ export default function HeroDemo() {
 
   return (
     <div className="relative min-w-0">
-      <div aria-hidden="true" className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-ivy-300/40 via-transparent to-sun-300/40 blur-2xl dark:from-ivy-700/30 dark:to-sun-600/20" />
+      <div aria-hidden="true" className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[radial-gradient(closest-side,rgb(139_192_158/0.35),transparent)] dark:bg-[radial-gradient(closest-side,rgb(34_85_56/0.35),transparent)]" />
       <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-lift">
         <div className="flex items-center justify-between border-b border-line px-5 py-3">
           <span className="flex items-center gap-2 text-sm font-semibold text-ink">
@@ -26,7 +26,7 @@ export default function HeroDemo() {
             </span>
             Try it: Mortgage payoff
           </span>
-          <span className="rounded-full bg-sun-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-sun-600 dark:bg-sun-600/15 dark:text-sun-300">
+          <span className="rounded-full bg-sun-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-sun-700 dark:bg-sun-600/15 dark:text-sun-300">
             Live demo
           </span>
         </div>
@@ -77,6 +77,7 @@ export default function HeroDemo() {
 
           <LineChart
             height={150}
+            maxPoints={60}
             ariaLabel="Loan balance with and without extra payments"
             formatX={(m) => `Yr ${Math.round(m / 12)}`}
             formatY={(y) => shortMoney(y)}

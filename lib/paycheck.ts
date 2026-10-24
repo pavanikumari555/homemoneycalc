@@ -21,6 +21,7 @@ export interface PaycheckInput {
 
 export interface PaycheckResult {
   gross: number;
+  retirementCapped: boolean; // 401(k) % would exceed the annual IRS limit
   retirement: number;
   otherPretax: number;
   federalTax: number;
@@ -58,10 +59,21 @@ export function getState(code: string): StateTax {
   return STATES.find((s) => s.code === code) ?? STATES.find((s) => s.code === "TX") ?? STATES[0];
 }
 
+// 2026 employee 401(k)/403(b) elective deferral limit (IRS, before age-50 catch-up)
+export const RETIREMENT_LIMIT_2026 = 24_500;
+
+// States that do NOT let 401(k) deferrals reduce state taxable wages
+const NO_STATE_401K_DEDUCTION = new Set(["PA", "NJ"]);
+
+// Personal exemption that shrinks as income rises ($1 lost per $1 over the start)
+const EXEMPTION_PHASE_OUT: Record<string, { single: number; married: number }> = {
+  CT: { single: 30_000, married: 48_000 }, // CT DRS: gone by ~$45k single / ~$72k joint
+};
+
 export function calcPaycheck(input: PaycheckInput): PaycheckResult {
   const gross = clamp(input.grossAnnual, 0, 100_000_000);
   const status = input.status;
-  const retirement = gross * (clamp(input.retirementPercent, 0, 100) / 100);
+  const retirement = Math.min(gross * (clamp(input.retirementPercent, 0, 100) / 100), RETIREMENT_LIMIT_2026);
   const otherPretax = clamp(input.otherPretaxAnnual, 0, Math.max(0, gross - retirement));
   const state = getState(input.stateCode);
 
@@ -78,10 +90,12 @@ export function calcPaycheck(input: PaycheckInput): PaycheckResult {
   // State income tax (simplified: most states follow federal treatment of 401(k)/premiums)
   let stateTax = 0;
   if (state.type !== "none") {
-    const stateTaxable = Math.max(
-      0,
-      gross - retirement - otherPretax - state.stdDeduction[status] - state.personalExemption[status]
-    );
+    const stateWages = gross - otherPretax - (NO_STATE_401K_DEDUCTION.has(state.code) ? 0 : retirement);
+    const phaseOut = EXEMPTION_PHASE_OUT[state.code];
+    const exemption = phaseOut
+      ? Math.max(0, state.personalExemption[status] - Math.ceil(Math.max(0, stateWages - phaseOut[status]) / 1000) * 1000)
+      : state.personalExemption[status];
+    const stateTaxable = Math.max(0, stateWages - state.stdDeduction[status] - exemption);
     stateTax = Math.max(0, bracketTax(stateTaxable, state[status]) - state.personalCredit[status]);
   }
 
@@ -96,6 +110,7 @@ export function calcPaycheck(input: PaycheckInput): PaycheckResult {
 
   return {
     gross,
+    retirementCapped: retirement >= RETIREMENT_LIMIT_2026 && gross * (clamp(input.retirementPercent, 0, 100) / 100) > RETIREMENT_LIMIT_2026,
     retirement,
     otherPretax,
     federalTax,

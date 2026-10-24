@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import SalaryCalculator from "./SalaryCalculator";
+import { calcSalary, usd } from "@/lib/calc";
 
 const SLUG = "salary-to-hourly-calculator";
 
@@ -42,11 +43,14 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const ANSWER = `$50,000 a year is ${usd(calcSalary({ mode: "salary", amount: 50_000, hoursPerWeek: 40, weeksPerYear: 52, overtimeHoursPerWeek: 0 }).hourly)} an hour for a full-time job (40 hours × 52 weeks = 2,080 hours). Divide the salary by your yearly hours.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Salary to Hourly Calculator"
+      answer={ANSWER}
       intro="Turn a yearly salary into an hourly wage — or the other way round — with weekly, biweekly and monthly pay included."
       calculator={<SalaryCalculator />}
       faqs={faqs}

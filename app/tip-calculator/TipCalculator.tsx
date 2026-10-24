@@ -10,9 +10,10 @@ import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 
 const DEFAULTS = { b: "86.40", t: "18", p: "2", r: "0" };
 const QUICK = [10, 15, 18, 20, 22, 25];
+const ALLOWED = { r: ["0", "1"] };
 
 export default function TipCalculator() {
-  const state = useToolState("tip-calculator", DEFAULTS);
+  const state = useToolState("tip-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
   const people = Math.max(1, Math.round(n(v.p, 1)));
 
@@ -23,6 +24,7 @@ export default function TipCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: people > 1 ? "Each person pays" : "Total to pay", value: usd(people > 1 ? res.perPerson : res.total) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>

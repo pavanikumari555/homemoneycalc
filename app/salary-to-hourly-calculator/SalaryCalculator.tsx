@@ -10,9 +10,10 @@ import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 import Link from "next/link";
 
 const DEFAULTS = { mode: "salary", amt: "65000", h: "40", w: "52", ot: "0" };
+const ALLOWED = { mode: ["salary", "hourly"] };
 
 export default function SalaryCalculator() {
-  const state = useToolState("salary-to-hourly-calculator", DEFAULTS);
+  const state = useToolState("salary-to-hourly-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
   const mode = v.mode === "hourly" ? "hourly" : "salary";
 
@@ -30,6 +31,7 @@ export default function SalaryCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: mode === "salary" ? "Hourly rate" : "Yearly salary", value: mode === "salary" ? usd(res.hourly) : usd0(res.annual) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>

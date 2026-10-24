@@ -35,6 +35,7 @@ export default function MortgageCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: "Mortgage-free by", value: !ok ? "Never at this payment" : res.withExtra.months === 0 ? "Paid off today" : monthsFromNow(res.withExtra.months) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
@@ -76,7 +77,7 @@ export default function MortgageCalculator() {
                 )
               }
             >
-              {monthsFromNow(res.withExtra.months)}
+              {res.withExtra.months === 0 ? "Paid off today 🎉" : monthsFromNow(res.withExtra.months)}
             </ResultHero>
           )}
 

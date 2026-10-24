@@ -10,6 +10,7 @@ import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
 import { CalcShell, PanelTitle, useCelebrate } from "@/components/calc/CalcShell";
 
 const DEFAULTS = { cur: "USD", p: "10000", m: "300", r: "7", y: "20", c: "12", g: "0" };
+const ALLOWED = { cur: CURRENCIES.map((c) => c.code), c: ["1", "4", "12", "365"] };
 
 const COMPOUNDING = [
   { value: "1", label: "Yearly" },
@@ -19,7 +20,7 @@ const COMPOUNDING = [
 ];
 
 export default function CompoundCalculator() {
-  const state = useToolState("compound-interest-calculator", DEFAULTS);
+  const state = useToolState("compound-interest-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
   const cur = CURRENCIES.find((c) => c.code === v.cur) ?? CURRENCIES[0];
   const fmt = (x: number) => money(x, cur.code, 0);
@@ -42,6 +43,7 @@ export default function CompoundCalculator() {
 
   return (
     <CalcShell
+      summary={{ label: `In ${num(n(v.y, 10), 0)} years`, value: fmt(res.futureValue) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>

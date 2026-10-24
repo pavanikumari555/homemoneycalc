@@ -1,5 +1,7 @@
 # CalcIvy — Growth Plan v2 ($5,000/month)
 
+> ⚠️ **Update (24 Oct 2026): Google ad networks (AdSense, Mediavine, Raptive, Ezoic) owner ke liye band hain.** Earning ab affiliates + templates + sponsors se — `docs/MONETIZATION.md` dekho. Neeche ke ads wale hisse sirf reference ke liye hain.
+
 > Research: 24 Oct 2026 (competitor teardown, AdSense/RPM policy, keyword roadmap, backlinks). Numbers marked *est.* are estimates (no paid SEO tool).
 > Live data files: `data/roadmap.json` (kaunsa tool kab), `data/growth-tasks.json` (hafte ke kaam), `data/reports/` (roz ki report). Sab `/admin/` me dikhta hai.
 
@@ -15,7 +17,9 @@ Earning = US traffic × RPM + affiliate commissions
 | Mediavine/Raptive ($15–30 session RPM) | 1.7–3.3 lakh sessions | 2–3 saal |
 | **Ads + affiliate mix (hamara plan)** | **~1.2 lakh sessions** | **18–36 mahine** |
 
-Milestones: 1k sessions → Mediavine Journey · 25k pageviews (50% Tier-1, domain 6 mahine) → Raptive · 50k sessions → full Mediavine.
+Milestones (Oct 2026 rules): 1k Tier-1 sessions/30 din → Mediavine Journey · 25k pageviews (50% Tier-1, domain 6 mahine, long-form content) → Raptive · **$5,000 ad revenue / 12 mahine → Mediavine Official** (Jan 2026 se traffic nahi, kamai ka rule; Journey se apne aap upgrade).
+
+> India se chalane ke liye (AdSense payment, W-8BEN, tax/GST, ad networks kyun, naye mauke): **`docs/INDIA-OWNER-GUIDE.md`**
 
 ---
 

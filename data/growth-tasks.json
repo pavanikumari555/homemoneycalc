@@ -25,16 +25,30 @@
     },
     {
       "week": 1,
-      "task": "Install GA4 (Mediavine and Raptive review it)",
-      "type": "setup",
-      "url": "https://analytics.google.com",
+      "task": "Create brand profiles: X, LinkedIn page, GitHub org, YouTube, Crunchbase",
+      "type": "brand",
+      "url": "",
       "done": false
     },
     {
       "week": 1,
-      "task": "Create brand profiles: X, LinkedIn page, GitHub org, YouTube, Crunchbase",
-      "type": "brand",
-      "url": "",
+      "task": "Cloudflare Email Routing: hello@calcivy.com -> your CalcIvy Gmail (free)",
+      "type": "setup",
+      "url": "https://developers.cloudflare.com/email-routing/",
+      "done": false
+    },
+    {
+      "week": 1,
+      "task": "Bing Webmaster Tools: verify + submit sitemap (ChatGPT search uses Bing)",
+      "type": "setup",
+      "url": "https://www.bing.com/webmasters",
+      "done": false
+    },
+    {
+      "week": 1,
+      "task": "Install GA4 (traffic numbers for affiliate applications and sponsors)",
+      "type": "setup",
+      "url": "https://analytics.google.com",
       "done": false
     },
     {
@@ -74,9 +88,23 @@
     },
     {
       "week": 2,
-      "task": "Apply for AdSense",
+      "task": "Open a Payoneer USD account (CJ pays here) and keep PAN ready for W-8BEN forms",
       "type": "money",
-      "url": "https://adsense.google.com",
+      "url": "https://www.payoneer.com/in/",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "Payhip: list 3 templates — Debt Snowball Planner, Paycheck Budget, Mortgage Payoff Tracker ($7–19)",
+      "type": "money",
+      "url": "https://payhip.com",
+      "done": false
+    },
+    {
+      "week": 2,
+      "task": "Buy Me a Coffee page (check India payout first)",
+      "type": "money",
+      "url": "https://buymeacoffee.com",
       "done": false
     },
     {
@@ -94,10 +122,45 @@
       "done": false
     },
     {
+      "week": 4,
+      "task": "Meet a CA once: Section 58 presumptive (new Income-tax Act 2025), GST export of services, advance tax",
+      "type": "money",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 4,
+      "task": "Apply to Impact (Rocket Money, Monarch, Upstart) — W-8BEN",
+      "type": "money",
+      "url": "https://impact.com/partners/",
+      "done": false
+    },
+    {
+      "week": 4,
+      "task": "Apply to Awin (Tiller, National Debt Relief, Autopay)",
+      "type": "money",
+      "url": "https://www.awin.com/us/publishers",
+      "done": false
+    },
+    {
       "week": 5,
       "task": "Post the state table as OC on r/dataisbeautiful (read the rules first)",
       "type": "community",
       "url": "https://www.reddit.com/r/dataisbeautiful/",
+      "done": false
+    },
+    {
+      "week": 5,
+      "task": "Apply to CJ (TaxAct, FreeTaxUSA, TurboTax, LendingTree) — tax links must be live before Jan 1",
+      "type": "money",
+      "url": "https://www.cj.com/publisher",
+      "done": false
+    },
+    {
+      "week": 5,
+      "task": "Apply to FlexOffers (Freedom Debt Relief, Caribou, CIT Bank, H&R Block)",
+      "type": "money",
+      "url": "https://www.flexoffers.com/affiliates/",
       "done": false
     },
     {
@@ -115,10 +178,24 @@
       "done": false
     },
     {
+      "week": 8,
+      "task": "Make a one-page media kit (traffic, audience) and pitch 5 local CPA/payroll firms for state paycheck page sponsorships",
+      "type": "money",
+      "url": "",
+      "done": false
+    },
+    {
       "week": 10,
       "task": "Product Hunt launch (hook: embed widget)",
       "type": "directory",
       "url": "https://www.producthunt.com",
+      "done": false
+    },
+    {
+      "week": 10,
+      "task": "Optional, only if honest: one appeal of the old AdSense account (never appealed + clicks were not yours)",
+      "type": "money",
+      "url": "https://support.google.com/adsense/contact/appeal_form_adsense_admob",
       "done": false
     },
     {
@@ -136,13 +213,6 @@
       "done": false
     },
     {
-      "week": 13,
-      "task": "Apply to Mediavine Journey at 1,000 Tier-1 sessions in 30 days",
-      "type": "money",
-      "url": "https://www.mediavine.com/mediavine-requirements/",
-      "done": false
-    },
-    {
       "week": 17,
       "task": "Jan 1: publish '2027 take-home pay by state' and re-pitch everyone",
       "type": "pr",
@@ -153,6 +223,13 @@
       "week": 24,
       "task": "Mortgage & rent affordability study; review what earned links and double down",
       "type": "pr",
+      "url": "",
+      "done": false
+    },
+    {
+      "week": 24,
+      "task": "Debt pay-per-call (CuraDebt via Marketcall) once debt pages pass ~5k visits/month",
+      "type": "money",
       "url": "",
       "done": false
     }

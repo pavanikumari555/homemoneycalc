@@ -3,6 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import MortgageCalculator from "./MortgageCalculator";
+import { calcMortgage, duration, usd0 } from "@/lib/calc";
 
 const SLUG = "mortgage-payoff-calculator";
 
@@ -42,11 +43,15 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const EX = calcMortgage({ principal: 300_000, annualRatePercent: 6.5, yearsLeft: 30, extraMonthly: 200, extraYearly: 0, oneTime: 0 });
+const ANSWER = `Paying $200 extra a month on a $300,000, 6.5%, 30-year mortgage pays it off ${duration(EX.monthsSaved)} early and saves about ${usd0(EX.interestSaved)} in interest.`;
+
 export default function Page() {
   return (
     <ToolLayout
       slug={SLUG}
       h1="Mortgage Payoff Calculator"
+      answer={ANSWER}
       intro="Find your mortgage-free date and see how much time and interest extra payments save."
       calculator={<MortgageCalculator />}
       faqs={faqs}

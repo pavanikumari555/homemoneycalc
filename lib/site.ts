@@ -28,6 +28,9 @@ export const SITE = {
   // GitHub repo URL (e.g. "https://github.com/you/calcivy"). Admin panel ka
   // "Report a problem" button isi repo me issue kholta hai -> Claude fix karta hai.
   repo: "",
+  // IndexNow key (public by design): Bing/Yandex/ChatGPT-search ko naye pages turant batata hai.
+  // Same value ki file public/<key>.txt me hai — dono saath badalna.
+  indexNowKey: "003c58862834fce1e9714cc87fd0d1e2",
 } as const;
 
 export type AdPlacement = "afterTool" | "inArticle" | "multiplex";
@@ -118,7 +121,7 @@ export const TOOLS: Tool[] = [
     icon: "chain",
     updated: "2026-10-24",
     related: ["credit-card-payoff-calculator", "paycheck-calculator", "mortgage-payoff-calculator"],
-    example: { input: "4 debts + $250/month extra", output: "Debt-free in 3 yr 11 mo" },
+    example: { input: "4 debts + $250/month extra", output: "Debt-free in 3 yr 9 mo" },
     keywords: "snowball avalanche debt free loans consolidate",
     added: "2026-10-24",
   },
