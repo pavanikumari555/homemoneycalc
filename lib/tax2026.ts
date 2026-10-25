@@ -222,7 +222,7 @@ export const STATES: StateTax[] = [
     personalExemption: { single: 1_000, married: 2_000 },
     personalCredit: ZERO,
     payroll: [],
-    notes: "Rate 3.0% -> 2.95% for 2026. County income taxes (roughly 0.5%-3%) are not included and apply in every county.",
+    notes: "Rate 3.0% -> 2.95% for 2026. Every Indiana county also charges a county income tax (set by your county of residence on Jan 1). We could not load DOR's 2026 county table to verify a default, so enter your county's rate from Departmental Notice #1 (in.gov/dor/files/dn01.pdf); until you do, county tax is NOT included.",
     source: "https://www.in.gov/dor/individual-income-taxes/",
   },
   {
@@ -289,7 +289,7 @@ export const STATES: StateTax[] = [
     personalExemption: { single: 3_200, married: 6_400 },
     personalCredit: ZERO,
     payroll: [],
-    notes: "County/Baltimore City local income tax (2.25%-3.3% of MD taxable income) is NOT included and is significant. Exemption phases out above $100k/$150k AGI (not modeled). FAMLI employee contributions start 2027.",
+    notes: "County/Baltimore City local income tax (2.25%-3.30% of MD taxable income, set by where you live) IS included: pick your county, or we use 3.20% (the rate most counties charge in 2026). Exemption phases out above $100k/$150k AGI (not modeled). FAMLI employee contributions start 2027.",
     source: "https://www.marylandtaxes.gov/individual/income/tax-info/tax-rates.php",
   },
   {
@@ -594,8 +594,8 @@ export const STATES: StateTax[] = [
     personalExemption: { single: 700, married: 1_400 },
     personalCredit: ZERO,
     payroll: [],
-    notes: "Std deduction shown is the maximum of a sliding scale that phases to zero as income rises (not modeled; tax understated for middle/high earners).",
-    source: "https://www.revenue.wi.gov/Pages/FAQS/pcs-taxrates.aspx",
+    notes: "Sliding-scale std deduction is modeled: the maximum shrinks by 12% of income over $20,120 (single, gone at ~$136,453) or 19.778% over $29,040 (joint, gone at ~$159,690), per WI DOR's 2026 Form 1-ES / WT-4A tables. Uses wages after pre-tax deductions as Wisconsin income.",
+    source: "https://www.revenue.wi.gov/TaxForms2026/2026-Form1-ES-Inst.pdf",
   },
   {
     code: "WY", name: "Wyoming", type: "none", taxYear: 2026,
@@ -606,3 +606,88 @@ export const STATES: StateTax[] = [
     source: "https://revenue.wyo.gov/",
   },
 ];
+
+// ============================================================================
+// LOCAL (county/city) INCOME TAX — 2026
+// Maryland + Indiana: har resident ko county tax dena padta hai, isliye model kiya.
+// PA / OH / NY(NYC): city/school district pe depend karta hai -> sirf note dikhate hain.
+// ============================================================================
+
+/** One county option: brackets apply to the same taxable income as the state tax. */
+export interface LocalTaxOption { code: string; name: string; single: Bracket[]; married: Bracket[] }
+
+export interface LocalIncomeTax {
+  stateCode: string;
+  label: string;            // "Maryland county tax"
+  defaultCode: string | null; // option used when the user picks nothing; null = no verified default (warn instead)
+  options: LocalTaxOption[];
+  note: string;
+  source: string;
+}
+
+const flatLocal = (code: string, name: string, pct: number): LocalTaxOption => ({
+  code, name, single: br([[0, pct / 100]]), married: br([[0, pct / 100]]),
+});
+
+export const LOCAL_INCOME_TAX: Record<string, LocalIncomeTax> = {
+  MD: {
+    stateCode: "MD",
+    label: "Maryland county tax",
+    defaultCode: "typical",
+    // Comptroller of Maryland, Central Payroll Bureau memo "2026 Maryland State and Local
+    // Income Tax Withholding Information" (Feb 4, 2026), Attachment 1. Allegany 3.03 -> 3.20,
+    // Kent 3.20 -> 3.30 for 2026. Anne Arundel and Frederick are graduated (marginal) rates.
+    options: [
+      flatLocal("typical", "Not sure (3.20%, most common)", 3.2),
+      flatLocal("AL", "Allegany County", 3.2),
+      {
+        code: "AA", name: "Anne Arundel County",
+        single: br([[0, 0.027], [50_000, 0.0294], [400_000, 0.032]]),
+        married: br([[0, 0.027], [75_000, 0.0294], [480_000, 0.032]]),
+      },
+      flatLocal("BA", "Baltimore County", 3.2),
+      flatLocal("BC", "Baltimore City", 3.2),
+      flatLocal("CV", "Calvert County", 3.2),
+      flatLocal("CR", "Caroline County", 3.2),
+      flatLocal("CL", "Carroll County", 3.03),
+      flatLocal("CE", "Cecil County", 2.74),
+      flatLocal("CH", "Charles County", 3.03),
+      flatLocal("DR", "Dorchester County", 3.3),
+      {
+        code: "FR", name: "Frederick County",
+        single: br([[0, 0.0225], [25_000, 0.0275], [50_000, 0.0296], [150_000, 0.032]]),
+        married: br([[0, 0.0225], [25_000, 0.0275], [100_000, 0.0296], [250_000, 0.032]]),
+      },
+      flatLocal("GR", "Garrett County", 2.65),
+      flatLocal("HF", "Harford County", 3.06),
+      flatLocal("HW", "Howard County", 3.2),
+      flatLocal("KT", "Kent County", 3.3),
+      flatLocal("MG", "Montgomery County", 3.2),
+      flatLocal("PG", "Prince George's County", 3.2),
+      flatLocal("QA", "Queen Anne's County", 3.2),
+      flatLocal("SM", "St. Mary's County", 3.2),
+      flatLocal("SS", "Somerset County", 3.2),
+      flatLocal("TA", "Talbot County", 2.4),
+      flatLocal("WA", "Washington County", 2.95),
+      flatLocal("WI", "Wicomico County", 3.2),
+      flatLocal("WO", "Worcester County", 2.25),
+    ],
+    note: "Maryland counties and Baltimore City tax your Maryland taxable income at 2.25%-3.30%, based on where you live.",
+    source: "https://www.marylandcomptroller.gov/content/dam/mdcomp/md/state-payroll/memos/2026/2026-maryland-state-and-local-withholding-information.pdf",
+  },
+  IN: {
+    stateCode: "IN",
+    label: "Indiana county tax",
+    defaultCode: null, // DOR's 2026 county table could not be verified -> user enters their rate
+    options: [],
+    note: "Every Indiana county charges an income tax based on the county you lived in on January 1. Rates differ a lot by county; find yours in DOR Departmental Notice #1.",
+    source: "https://www.in.gov/dor/files/dn01.pdf",
+  },
+};
+
+/** States where city/school-district income taxes are common but depend on your address (shown as a note, not modeled). */
+export const LOCAL_TAX_NOTES: Record<string, string> = {
+  PA: "Most Pennsylvania cities, boroughs and school districts charge a local Earned Income Tax, and Philadelphia's wage tax is much higher. These depend on your address and are not included above.",
+  OH: "Most Ohio cities and villages, and many school districts, charge their own income tax. These depend on where you live and work and are not included above.",
+  NY: "If you live in New York City or Yonkers, city income tax is extra and is not included above.",
+};

@@ -11,15 +11,16 @@ export interface FaqItem {
   answer: string;
 }
 
+// JSON ko <script> ke andar daalne layak banao: har "<" ko unicode escape (u003c) — taaki kisi FAQ/text me
+// "</script>" aa jaaye (agent ka likha content bhi) to bhi HTML tod ke script inject na ho.
+export function safeJson(data: object): string {
+  const BACKSLASH = String.fromCharCode(92); // escape sequence likhne ka saaf tareeka
+  return JSON.stringify(data).replace(/</g, `${BACKSLASH}u003c`);
+}
+
 // Renders a <script type="application/ld+json"> block safely.
 function JsonLd({ data }: { data: object }) {
-  return (
-    <script
-      type="application/ld+json"
-      // JSON.stringify output is safe here (our own data, not user input)
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJson(data) }} />;
 }
 
 // WebApplication schema for a calculator tool page.
@@ -117,14 +118,26 @@ export function BreadcrumbSchema({
 // Organization + WebSite schema for the homepage (site-wide identity).
 export function SiteSchema() {
   return (
-    <JsonLd
-      data={{
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        name: SITE.name,
-        url: SITE.url,
-        description: SITE.description,
-      }}
-    />
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE.name,
+          url: SITE.url,
+          description: SITE.description,
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: SITE.name,
+          url: SITE.url,
+          logo: `${SITE.url}/favicon.svg`,
+          email: SITE.email,
+        }}
+      />
+    </>
   );
 }

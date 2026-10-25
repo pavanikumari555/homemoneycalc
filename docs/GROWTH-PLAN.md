@@ -1,4 +1,4 @@
-# CalcIvy — Growth Plan v2 ($5,000/month)
+# HomeMoney Calc — Growth Plan v2 ($5,000/month)
 
 > ⚠️ **Update (24 Oct 2026): Google ad networks (AdSense, Mediavine, Raptive, Ezoic) owner ke liye band hain.** Earning ab affiliates + templates + sponsors se — `docs/MONETIZATION.md` dekho. Neeche ke ads wale hisse sirf reference ke liye hain.
 
@@ -34,7 +34,7 @@ Milestones (Oct 2026 rules): 1k Tier-1 sessions/30 din → Mediavine Journey · 
 | timeanddate | 57M/mo, **38% direct** | Personal saved views, embeddable widgets | — (return-visit ka role model) |
 | Naye indie sites (Numveo etc.) | chhote | Client-side, no signup | Saved scenarios / compare nahi — users ne khud maanga. **Hamare paas hai.** |
 
-**CalcIvy ka formula = calculator.net ki breadth + Omni ka trust + timeanddate ki "wapas aane ki aadat" + modern design.**
+**HomeMoney Calc ka formula = calculator.net ki breadth + Omni ka trust + timeanddate ki "wapas aane ki aadat" + modern design.**
 
 ### Jo ab site me hai (is round me bana)
 | Feature | Kyun |
@@ -100,7 +100,7 @@ Week-by-week list `data/growth-tasks.json` me hai (admin panel me checklist).
 | W17 | Jan 1: "2027 take-home pay by state" — sab ko dobara pitch |
 
 **Skip:** Google Business Profile (online-only allowed nahi), "290+ directory" lists, paid links, Pinterest pe zyada time (2025–26 me traffic gira).
-**Journalist reply formula:** 1 ghante ke andar, ek unique number + 2 line method + exact calculator link, signed "Founder, CalcIvy".
+**Journalist reply formula:** 1 ghante ke andar, ek unique number + 2 line method + exact calculator link, signed "Founder, HomeMoney Calc".
 **Targets (est.):** Month 3 → 30–50 referring domains; Month 6 → DR 15–25 agar ek data study chal gayi.
 
 ---

@@ -81,6 +81,13 @@ export default function AutoLoanCalculator() {
             {usd(res.monthlyPayment)}
           </ResultHero>
 
+          {res.excessCash > 0 && (
+            <Notice tone="info">
+              Your down payment and trade-in cover more than the car&apos;s price, tax and fees, so you don&apos;t need a loan. The extra{" "}
+              {usd0(res.excessCash)} isn&apos;t counted as a cost — lower your down payment by that much, or expect it back from the dealer.
+            </Notice>
+          )}
+
           {res.netTradeIn < 0 && (
             <Notice>
               You owe {usd0(-res.netTradeIn)} more on your trade-in than it&apos;s worth. That negative equity is added to your new loan.
@@ -91,7 +98,7 @@ export default function AutoLoanCalculator() {
             <Stat label="Amount financed" value={usd0(res.loanAmount)} />
             <Stat label="Sales tax" value={usd0(res.salesTax)} note={v.c === "1" && n(v.t) > 0 ? `Saved ${usd0(Math.min(n(v.t), n(v.p)) * n(v.tax) / 100)} with trade-in` : undefined} />
             <Stat label="Net trade-in" value={usd0(res.netTradeIn)} />
-            <Stat label="Total cost" accent value={usd0(res.totalCostOfVehicle)} note="Down + trade + all payments" />
+            <Stat label="Total cost" accent value={usd0(res.totalCostOfVehicle)} note={res.excessCash > 0 ? "Price + tax + fees (no loan)" : "Down + trade + all payments"} />
           </div>
 
           <div className="rounded-2xl border border-line p-4">

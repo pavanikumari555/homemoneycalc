@@ -1,0 +1,6 @@
+# Security issue mila? Yahan batao — hum jaldi theek karenge. (RFC 9116)
+Contact: mailto:hello@homemoneycalc.com
+Expires: 2027-10-25T00:00:00.000Z
+Preferred-Languages: en, hi
+Canonical: https://homemoneycalc.com/.well-known/security.txt
+Policy: https://homemoneycalc.com/editorial-policy/

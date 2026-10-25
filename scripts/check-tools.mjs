@@ -3,10 +3,10 @@
 // Naya tool add karte waqt koi cheez bhool gaye to build yahin ruk jaayega
 // aur saaf bata dega kya missing hai. Isse live site kabhi tootegi nahi.
 // ============================================================================
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync } from "node:fs";
 
 const src = readFileSync("lib/site.ts", "utf8");
-const block = src.slice(src.indexOf("export const TOOLS"), src.indexOf("export const CATEGORY_LABELS"));
+const block = src.slice(src.indexOf("export const ALL_TOOLS"), src.indexOf("export const CATEGORY_LABELS"));
 const tools = [...block.matchAll(/\{\s*slug: "([^"]+)"[\s\S]*?\n  \},/g)].map((m) => ({ slug: m[1], body: m[0] }));
 const categories = [...src.matchAll(/^\s+(\w+): "[^"]+",$/gm)]
   .filter((m) => src.indexOf(m[0]) > src.indexOf("CATEGORY_LABELS"))
@@ -38,6 +38,19 @@ for (const t of tools) {
     const rs = r.slice(1, -1);
     if (!slugs.has(rs)) errors.push(`${where}: related tool "${rs}" does not exist`);
     if (rs === t.slug) errors.push(`${where}: related list includes itself`);
+  }
+}
+
+// Release queue guard: koi page aise tool ko link na kare jo uske BAAD publish hoga (beech ke dino me 404)
+const addedOf = Object.fromEntries(tools.map((t) => [t.slug, /added: "([^"]+)"/.exec(t.body)?.[1] ?? ""]));
+for (const t of tools) {
+  const dir = `app/${t.slug}`;
+  if (!existsSync(dir)) continue;
+  const code = readdirSync(dir).map((f) => readFileSync(`${dir}/${f}`, "utf8")).join("\n");
+  for (const o of tools) {
+    if (o.slug !== t.slug && addedOf[o.slug] > addedOf[t.slug] && code.includes(`/${o.slug}/`)) {
+      errors.push(`Tool "${t.slug}" (live ${addedOf[t.slug]}) links to "${o.slug}" which only goes live ${addedOf[o.slug]} — same date do ya link hatao`);
+    }
   }
 }
 

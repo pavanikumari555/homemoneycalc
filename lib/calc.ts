@@ -400,7 +400,8 @@ export interface AutoLoanResult {
   loanAmount: number;
   monthlyPayment: number;
   totalInterest: number;
-  totalCostOfVehicle: number; // everything you pay: down + trade equity + all payments
+  totalCostOfVehicle: number; // everything you pay: down + trade equity + all payments (minus any excess, see below)
+  excessCash: number; // down + trade-in equity beyond price + tax + fees (no loan needed; not counted as cost)
   byTerm: { term: number; payment: number; interest: number }[]; // comparison table
   balances: { x: number; y: number }[];
 }
@@ -418,7 +419,9 @@ export function calcAutoLoan(input: AutoLoanInput): AutoLoanResult {
   const netTradeIn = tradeIn - owed;
   const taxableAmount = input.taxCreditOnTradeIn ? Math.max(0, price - tradeIn) : price;
   const salesTax = taxableAmount * taxRate;
-  const loanAmount = Math.max(0, price + salesTax + fees - down - netTradeIn);
+  const amountDue = price + salesTax + fees - down - netTradeIn;
+  const loanAmount = Math.max(0, amountDue); // can't borrow a negative amount
+  const excessCash = Math.max(0, -amountDue); // you'd get this back / wouldn't actually pay it
 
   const loanFor = (months: number) => {
     const payment = amortizedPayment(loanAmount, rate, months);
@@ -434,7 +437,8 @@ export function calcAutoLoan(input: AutoLoanInput): AutoLoanResult {
     loanAmount,
     monthlyPayment: main.payment,
     totalInterest: main.interest,
-    totalCostOfVehicle: down + netTradeIn + main.payment * term,
+    totalCostOfVehicle: down + netTradeIn + main.payment * term - excessCash,
+    excessCash,
     byTerm: [36, 48, 60, 72, 84].map((t) => ({ term: t, ...loanFor(t) })),
     balances: plan.balances,
   };
@@ -536,11 +540,18 @@ export interface SalaryResult {
   semimonthly: number;
   monthly: number;
   annual: number;
+  /** Hours/week was 0, empty or out of range (1-120) and got clamped -> UI should show a message, not the rate. */
+  hoursInvalid: boolean;
+  /** Paid weeks/year was 0, empty or out of range (1-52) and got clamped. */
+  weeksInvalid: boolean;
 }
 
 export function calcSalary(input: SalaryInput): SalaryResult {
   const hours = clamp(input.hoursPerWeek, 1, 120);
   const weeks = clamp(input.weeksPerYear, 1, 52);
+  // clamp chupke se 0 ko 1 bana deta -> flag do taaki UI galat rate na dikhaye
+  const hoursInvalid = !(input.hoursPerWeek >= 1 && input.hoursPerWeek <= 120);
+  const weeksInvalid = !(input.weeksPerYear >= 1 && input.weeksPerYear <= 52);
   const ot = input.mode === "hourly" ? clamp(input.overtimeHoursPerWeek, 0, 80) : 0;
   const amount = clamp(input.amount, 0, 1_000_000_000);
 
@@ -556,6 +567,8 @@ export function calcSalary(input: SalaryInput): SalaryResult {
     semimonthly: annual / 24,
     monthly: annual / 12,
     annual,
+    hoursInvalid,
+    weeksInvalid,
   };
 }
 

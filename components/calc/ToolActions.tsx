@@ -125,6 +125,29 @@ export function ToolActions<T extends ToolValues>({ state, csv, shareText }: Too
               </li>
             ))}
           </ul>
+          {/* 2+ plans: ek nazar me compare ("15 saal vs 30 saal") — decide karne ke liye log wapas aate hain */}
+          {state.saved.filter((s) => s.summary).length >= 2 && (
+            <details className="mt-3 rounded-xl border border-line bg-surface p-3 text-sm">
+              <summary className="cursor-pointer font-semibold text-ink">Compare saved plans</summary>
+              <table className="mt-2 w-full text-left">
+                <tbody className="divide-y divide-line">
+                  {state.saved
+                    .filter((s) => s.summary)
+                    .map((s) => (
+                      <tr key={s.id}>
+                        <td className="py-1.5 pr-3 font-medium text-ink">{s.name}</td>
+                        <td className="py-1.5 text-muted">{s.summary}</td>
+                        <td className="py-1.5 pl-3 text-right">
+                          <button type="button" onClick={() => state.loadScenario(s.id)} className="text-xs font-semibold text-ivy-600 hover:underline dark:text-ivy-400">
+                            Open
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </details>
+          )}
         </div>
       )}
     </div>

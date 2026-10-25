@@ -3,15 +3,23 @@
 import { useMemo, useState } from "react";
 import { usd, usd0 } from "@/lib/calc";
 import { calcPaycheck, compareStates, FilingStatus } from "@/lib/paycheck";
-import { STATES } from "@/lib/tax2026";
+import { STATES, LOCAL_INCOME_TAX } from "@/lib/tax2026";
 import { useToolState, n } from "@/lib/useToolState";
 import { NumberField, SelectField, Segmented } from "@/components/calc/Fields";
-import { ResultHero, SplitBar, CountUp } from "@/components/calc/Results";
+import { ResultHero, SplitBar, CountUp, Notice } from "@/components/calc/Results";
 import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
 import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 
-const DEFAULTS = { g: "75000", st: "CA", f: "single", pp: "26", k: "5", o: "1800" };
-const ALLOWED = { st: STATES.map((s) => s.code), f: ["single", "married"], pp: ["52", "26", "24", "12"] };
+// sp = spouse's part of household wages (0 = one earner, so old share links work the same)
+// hsa = HSA contribution (CA/NJ tax it), lc = Maryland county, lr = typed county rate %
+const DEFAULTS = { g: "75000", st: "CA", f: "single", pp: "26", k: "5", o: "1800", sp: "0", hsa: "0", lc: "typical", lr: "" };
+const MD_COUNTIES = LOCAL_INCOME_TAX.MD.options;
+const ALLOWED = {
+  st: STATES.map((s) => s.code),
+  f: ["single", "married"],
+  pp: ["52", "26", "24", "12"],
+  lc: [...MD_COUNTIES.map((o) => o.code), "custom"],
+};
 
 const PERIODS = [
   { value: "52", label: "Weekly (52 a year)" },
@@ -27,6 +35,7 @@ const COLORS = {
   ss: "#8bc09e",
   medicare: "#b9dbc3",
   payroll: "#c47c00",
+  local: "#d9822b",
   retirement: "#5aa074",
   other: "#97a89e",
 };
@@ -37,16 +46,23 @@ export default function PaycheckCalculator() {
   const [view, setView] = useState<"period" | "year">("period");
   const [showAll, setShowAll] = useState(false);
 
+  const married = v.f === "married";
+  const hasLocal = v.st in LOCAL_INCOME_TAX; // MD, IN: county tax for every resident
+  const typedRate = v.st === "IN" || (v.st === "MD" && v.lc === "custom");
   const input = useMemo(
     () => ({
       grossAnnual: n(v.g),
       payPeriodsPerYear: n(v.pp, 26),
-      status: (v.f === "married" ? "married" : "single") as FilingStatus,
+      status: (married ? "married" : "single") as FilingStatus,
       stateCode: v.st,
       retirementPercent: n(v.k),
-      otherPretaxAnnual: n(v.o),
+      otherPretaxAnnual: n(v.o) + n(v.hsa),
+      hsaAnnual: n(v.hsa),
+      spouseWages: married ? n(v.sp) : 0,
+      localCode: v.st === "MD" && v.lc !== "custom" ? v.lc : undefined,
+      localRatePercent: hasLocal && typedRate ? n(v.lr) : undefined,
     }),
-    [v]
+    [v, married, hasLocal, typedRate]
   );
   const res = useMemo(() => calcPaycheck(input), [input]);
   const ranking = useMemo(() => compareStates(input), [input]);
@@ -60,11 +76,12 @@ export default function PaycheckCalculator() {
   const rows = [
     { label: "Federal income tax", value: res.federalTax, color: COLORS.federal },
     { label: `${res.state.name} income tax`, value: res.stateTax, color: COLORS.state },
+    { label: res.local ? `${res.local.label}${res.localName ? ` (${res.localName})` : ""}` : "County tax", value: res.localTax, color: COLORS.local },
     { label: "Social Security (6.2%)", value: res.socialSecurity, color: COLORS.ss },
     { label: "Medicare", value: res.medicare, color: COLORS.medicare },
     ...res.statePayroll.map((p) => ({ label: p.name, value: p.amount, color: COLORS.payroll })),
     { label: "401(k) / retirement", value: res.retirement, color: COLORS.retirement },
-    { label: "Health & other pre-tax", value: res.otherPretax, color: COLORS.other },
+    { label: "Health, HSA & other pre-tax", value: res.otherPretax, color: COLORS.other },
   ].filter((r) => r.value > 0.004);
 
   return (
@@ -75,12 +92,12 @@ export default function PaycheckCalculator() {
         <>
           <PanelTitle>Your pay</PanelTitle>
           <NumberField
-            label={v.f === "married" ? "Household wages (gross, per year)" : "Annual salary (gross)"}
+            label={married ? "Household wages (gross, per year)" : "Annual salary (gross)"}
             prefix="$"
             value={v.g}
             onChange={(x) => state.set("g", x)}
             slider={{ min: 15000, max: 300000, step: 1000 }}
-            hint={v.f === "married" ? "Both spouses' wages combined. Social Security is capped per worker, so two high earners may pay a bit more than shown." : undefined}
+            hint={married ? "Both spouses' wages added together." : undefined}
           />
           <SelectField
             label="State you work in"
@@ -97,6 +114,46 @@ export default function PaycheckCalculator() {
               { value: "married", label: "Married, jointly" },
             ]}
           />
+          {married && (
+            <NumberField
+              label="Of that, your spouse earns"
+              prefix="$"
+              suffix="/yr"
+              value={v.sp}
+              onChange={(x) => state.set("sp", x)}
+              hint={
+                n(v.sp) > n(v.g)
+                  ? "This is more than the household total above, so we treat all the wages as your spouse's."
+                  : "Leave 0 if only one of you works. Social Security's wage cap and the 401(k) limit apply to each of you separately."
+              }
+            />
+          )}
+          {v.st === "MD" && (
+            <SelectField
+              label="Maryland county you live in"
+              value={v.lc}
+              onChange={(x) => state.set("lc", x)}
+              options={[
+                ...MD_COUNTIES.map((o) => ({ value: o.code, label: o.name })),
+                { value: "custom", label: "Other / type my rate" },
+              ]}
+              hint="Every Maryland resident pays county (or Baltimore City) income tax of 2.25%-3.30%."
+            />
+          )}
+          {hasLocal && typedRate && (
+            <NumberField
+              label={v.st === "IN" ? "Your Indiana county's income tax rate" : "Your county's income tax rate"}
+              suffix="%"
+              value={v.lr}
+              onChange={(x) => state.set("lr", x)}
+              step={0.01}
+              hint={
+                v.st === "IN"
+                  ? "Every Indiana county charges one, based on where you lived on January 1. Look up your county in the state's Departmental Notice #1."
+                  : "Leave empty to use 3.20%, the rate most Maryland counties charge."
+              }
+            />
+          )}
           <SelectField label="How often you're paid" value={v.pp} onChange={(x) => state.set("pp", x)} options={PERIODS} />
           <PanelTitle>Pre-tax deductions</PanelTitle>
           <NumberField
@@ -105,9 +162,17 @@ export default function PaycheckCalculator() {
             value={v.k}
             onChange={(x) => state.set("k", x)}
             slider={{ min: 0, max: 30, step: 1 }}
-            hint={res.retirementCapped ? "Capped at the 2026 IRS limit of $24,500 (age 50+ can add catch-up contributions)." : undefined}
+            hint={res.retirementCapped ? `Capped at the 2026 IRS limit of $24,500 per person${res.earners > 1 ? " (each spouse has their own limit)" : ""}. Age 50+ can add catch-up contributions.` : undefined}
           />
-          <NumberField label="Health, dental & other pre-tax" prefix="$" suffix="/yr" value={v.o} onChange={(x) => state.set("o", x)} hint="Your share of premiums, HSA/FSA" />
+          <NumberField label="Health, dental & other pre-tax" prefix="$" suffix="/yr" value={v.o} onChange={(x) => state.set("o", x)} hint="Your share of premiums, FSA" />
+          <NumberField
+            label="HSA contribution (through payroll)"
+            prefix="$"
+            suffix="/yr"
+            value={v.hsa}
+            onChange={(x) => state.set("hsa", x)}
+            hint={v.st === "CA" || v.st === "NJ" ? `${res.state.name} taxes HSA contributions, so they only lower your federal tax and FICA here.` : "Skips federal tax, FICA and (in most states) state tax."}
+          />
         </>
       }
       results={
@@ -166,6 +231,17 @@ export default function PaycheckCalculator() {
             </div>
           </div>
 
+          {res.localMissing && (
+            <Notice>
+              <strong>Indiana county tax is not included yet.</strong> Every Indiana county charges an income tax, so your real take-home is
+              lower than shown. Enter your county&apos;s rate above (from the Indiana Department of Revenue&apos;s{" "}
+              <a href={res.local?.source} target="_blank" rel="noopener noreferrer" className="link">
+                Departmental Notice #1
+              </a>
+              ).
+            </Notice>
+          )}
+          {res.localNote && <Notice tone="info">{res.localNote}</Notice>}
           {res.state.taxYear !== 2026 && (
             <p className="rounded-xl bg-sun-100/60 px-4 py-2 text-xs text-[#6b4300] dark:bg-sun-600/10 dark:text-sun-300">
               {res.state.name} hasn&apos;t published its 2026 tax tables yet, so its {res.state.taxYear} figures are used.

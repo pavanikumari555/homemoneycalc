@@ -2,10 +2,25 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "calcivy-dev",
+      "name": "homemoneycalc-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "-p", "3123"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3123"
+      ],
       "port": 3123
+    },
+    {
+      "name": "homemoneycalc-live-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/serve-out.mjs",
+        "3124"
+      ],
+      "port": 3124
     }
   ]
 }

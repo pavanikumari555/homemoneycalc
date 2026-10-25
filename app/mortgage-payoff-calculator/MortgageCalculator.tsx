@@ -7,6 +7,7 @@ import { NumberField } from "@/components/calc/Fields";
 import { ResultHero, Stat, Notice, CountUp } from "@/components/calc/Results";
 import LineChart, { shortMoney } from "@/components/calc/LineChart";
 import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
+import { CheckIn } from "@/components/calc/CheckIn";
 import { CalcShell, PanelTitle, useCelebrate } from "@/components/calc/CalcShell";
 
 const DEFAULTS = { b: "300000", r: "6.5", y: "30", x: "200", a: "0", o: "0" };
@@ -114,6 +115,7 @@ export default function MortgageCalculator() {
               ],
             })}
           />
+          {ok && <CheckIn tool="mortgage-payoff-calculator" label="mortgage balance" plan={res.withExtra.balances} url="/mortgage-payoff-calculator/" />}
 
           {ok && res.withExtra.yearly.length > 0 && (
             <div>

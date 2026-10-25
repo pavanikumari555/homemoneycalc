@@ -1,7 +1,8 @@
 // ============================================================================
 // DAILY SEO AGENT — GitHub Actions roz chalata hai (.github/workflows/seo-daily.yml).
 // 1. Data laata hai (Search Console, GA4, PageSpeed) + site ki technical jaanch
-// 2. Opportunities nikalta hai (position 8-30 keywords, roadmap deadlines)
+// 2. Opportunities nikalta hai (position 8-30 keywords, roadmap deadlines) + growth ideas
+//    (CTR title tests, refresh, seasonal alerts, keyword gap, outreach drafts, Pinterest/Shorts)
 // 3. Claude se Hinglish summary + aaj ke kaam
 // 4. data/reports/YYYY-MM-DD.json likhta hai -> admin panel (/admin/) me dikhta hai
 // Local run: npm run build && node scripts/agent/daily.mjs
@@ -10,8 +11,10 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 
 import { searchConsole, analytics, pageSpeed } from "./google.mjs";
 import { auditSite } from "./audit.mjs";
 import { summarize } from "./summarize.mjs";
+import { bingWebmaster } from "./bing.mjs";
+import { growthIdeas } from "./ideas.mjs";
 
-const SITE_URL = "https://calcivy.com";
+const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
 const today = new Date().toISOString().slice(0, 10);
 const env = process.env;
@@ -32,14 +35,15 @@ async function main() {
   const notes = [];
   mkdirSync(REPORTS, { recursive: true });
 
-  const [gsc, ga4, psi] = await Promise.all([
-    safely("Search Console", () => searchConsole({ saJson: env.GOOGLE_SA_JSON, site: env.GSC_SITE || "sc-domain:calcivy.com" }), notes),
+  const [gsc, ga4, psi, bing] = await Promise.all([
+    safely("Search Console", () => searchConsole({ saJson: env.GOOGLE_SA_JSON, site: env.GSC_SITE || "sc-domain:homemoneycalc.com" }), notes),
     safely("GA4", () => analytics({ saJson: env.GOOGLE_SA_JSON, propertyId: env.GA4_PROPERTY_ID }), notes),
     safely(
       "PageSpeed",
       () => pageSpeed({ apiKey: env.PSI_API_KEY, urls: [`${SITE_URL}/`, `${SITE_URL}/paycheck-calculator/`, `${SITE_URL}/mortgage-payoff-calculator/`] }),
       notes
     ),
+    safely("Bing Webmaster", () => bingWebmaster({ apiKey: env.BING_WEBMASTER_KEY, site: env.BING_SITE || `${SITE_URL}/` }), notes),
   ]);
   const health = auditSite("out", SITE_URL);
 
@@ -91,13 +95,22 @@ async function main() {
   const report = {
     date: today,
     generatedAt: new Date().toISOString(),
-    sources: { gsc: Boolean(gsc.connected), ga4: Boolean(ga4.connected), psi: Boolean(psi.connected), ai: false },
+    sources: { gsc: Boolean(gsc.connected), ga4: Boolean(ga4.connected), psi: Boolean(psi.connected), bing: Boolean(bing.connected), ai: false },
     kpis,
     trend: gsc.daily ?? [],
     topQueries: (gsc.topQueries ?? []).slice(0, 15),
     topPages: (gsc.topPages ?? []).slice(0, 15).map((p) => ({ ...p, page: p.page.replace(SITE_URL, "") || "/" })),
     opportunities,
     lowCtr,
+    bing: bing.connected ? { totals: bing.totals, topQueries: bing.topQueries } : null,
+    ideas: (() => {
+      try {
+        return growthIdeas({ gsc, siteUrl: SITE_URL, siteName: "HomeMoney Calc", today });
+      } catch (e) {
+        notes.push(`Growth ideas failed: ${String(e.message ?? e).slice(0, 200)}`);
+        return null;
+      }
+    })(),
     speed: psi.results ?? [],
     health: health.ran ? { pageCount: health.pageCount, errors: health.errors, warnings: health.warnings, issues: health.issues } : { pageCount: 0, errors: 0, warnings: 0, issues: [], note: health.reason },
     roadmap: { live: roadmap.tools.length - planned.length, planned: planned.length, overdue, dueSoon },
@@ -124,7 +137,7 @@ async function main() {
 
   // Optional: short Telegram ping (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID)
   if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID && report.ai) {
-    const text = `📊 CalcIvy ${today}\n${report.ai.headline}\n\n${report.ai.youDo.map((t, i) => `${i + 1}. ${t}`).join("\n")}`;
+    const text = `📊 HomeMoney Calc ${today}\n${report.ai.headline}\n\n${report.ai.youDo.map((t, i) => `${i + 1}. ${t}`).join("\n")}`;
     await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "content-type": "application/json" },

@@ -1,4 +1,4 @@
-# CalcIvy — India se chalane ki poori guide
+# HomeMoney Calc — India se chalane ki poori guide
 
 > Research: 24 Oct 2026 (Google AdSense Help, Income Tax Act 2025 summaries, GST notifications, Mediavine/Raptive help centers, Cloudflare docs).
 > **[V]** = official source se verify · **[S]** = bharosemand secondary source · **[A]** = anecdotal.
@@ -27,11 +27,11 @@
 
 | Step | Kya karna | Kyun / dhyan |
 |---|---|---|
-| 1 | **Naya Gmail** sirf CalcIvy ke liye | Sab accounts isi pe — ek problem baaki projects tak na jaaye |
+| 1 | **Naya Gmail** sirf HomeMoney Calc ke liye | Sab accounts isi pe — ek problem baaki projects tak na jaaye |
 | 2 | **2FA har jagah** (authenticator app/passkey), backup codes offline | Domain ya AdSense chori = sab khatam |
 | 3 | **Domain kharidna** — Cloudflare Registrar (sasta, at-cost) ya Namecheap | Cloudflare pe Indian card ke saath **3DS mandatory** aur auto-renewal aksar fail hota hai (RBI rules) [V]. **Hal:** 2–3 saal ek saath le lo, ya Namecheap (PayPal/Indian card + account balance) [A]. Renewal date calendar me daalo |
 | 4 | **WHOIS privacy** | Cloudflare me default, Namecheap me free. Details sahi bharo |
-| 5 | **Email:** Cloudflare Email Routing → `hello@calcivy.com` aapke Gmail me (free) [V] | Reply bhi usi naam se: Gmail → "Send mail as" (SMTP relay) |
+| 5 | **Email:** Cloudflare Email Routing → `hello@homemoneycalc.com` aapke Gmail me (free) [V] | Reply bhi usi naam se: Gmail → "Send mail as" (SMTP relay) |
 | 6 | **Address site pe?** | Zaroorat nahi — sirf email + Privacy/Terms/Disclaimer [S] |
 
 ---
@@ -42,7 +42,7 @@
 
 | Point | Detail |
 |---|---|
-| **Ek insaan = ek account** [V] | Agar pehle se **koi bhi AdSense account** hai (YouTube monetization wala bhi), **calcivy.com usi me add karo**. Doosra account = dono ban |
+| **Ek insaan = ek account** [V] | Agar pehle se **koi bhi AdSense account** hai (YouTube monetization wala bhi), **homemoneycalc.com usi me add karo**. Doosra account = dono ban |
 | Eligibility [V] | 18+, content aapka, site ka HTML aapke control me |
 | Identity verification [V] | PAN/ID se — 45 din ka time |
 | **Address PIN** [V] | Earnings ~$10 hone pe Google post se 6-digit PIN bhejta hai (~3 hafte). Address wahi do jo ID/PAN pe hai. 4 mahine me verify nahi kiya → ads band |

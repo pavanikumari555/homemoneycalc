@@ -29,12 +29,13 @@ const SUMMARY_SCHEMA = {
   required: ["headline", "summary", "youDo", "agentNext", "risks"],
 };
 
-const SYSTEM = `You are the SEO analyst for CalcIvy, a free US money-calculator website.
+const SYSTEM = `You are the SEO analyst for HomeMoney Calc, a free US money-calculator website.
 The owner is a beginner from India who reads Hinglish (Hindi in Roman script mixed with simple English). Write for them: short, warm, specific, no jargon without a 3-word explanation.
 Goal: grow Google traffic from the US safely and reach $5,000/month from finance affiliates, templates and sponsors over 18-36 months (no Google ad products).
 Rules you must follow:
 - Only use numbers present in the data. If a data source is not connected, say so and give the setup step instead of inventing numbers.
 - Never suggest anything against Google's spam policies: no bought links, no mass AI pages, no fake traffic.
+- The report has an 'ideas' section (title tests, refresh, seasonal alerts, keyword gap, outreach drafts, social ideas). Use it, but outreach is always sent by the owner by hand.
 - Prefer actions with the best payoff for a new site: fixing technical errors, improving pages ranking in positions 8-30, shipping the next roadmap tool on time, earning links from the growth checklist.
 - Keep every task doable in under 1 hour and say where to do it.`;
 
@@ -123,6 +124,11 @@ function fallback(r) {
   if (r.opportunities?.length) youDo.push(`"${r.opportunities[0].query}" position ${r.opportunities[0].position.toFixed(1)} pe hai — us page ko improve karne ka kaam agent ko do.`);
   const due = r.roadmap?.dueSoon?.[0];
   if (due) youDo.push(`Next tool: ${due.title} (target ${due.targetDate}).`);
+  const refresh = r.ideas?.refresh?.find((x) => x.priority === "high");
+  if (refresh) youDo.push(`Content refresh: ${refresh.reason}`);
+  const season = r.ideas?.seasonal?.[0];
+  if (season) youDo.push(`Season alert — ${season.name} (${season.status}): ${season.idea}`);
+  if (r.ideas?.titleTests?.length) youDo.push(`${r.ideas.titleTests[0].page} ka CTR kam hai — admin me 'Title tests' se ek naya title chuno.`);
   const task = r.growth?.thisWeek?.[0];
   if (task) youDo.push(`Growth task: ${task.task}`);
   if (r.kpis?.clicksChange != null && r.kpis.clicksChange < -20) risks.push(`Google clicks ${r.kpis.clicksChange}% gire hain — Search Console me check karo.`);

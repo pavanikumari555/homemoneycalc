@@ -16,7 +16,7 @@ const decode = (s) =>
   s.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 const attr = (html, re) => decode(re.exec(html)?.[1]?.trim() ?? "");
 
-export function auditSite(outDir = "out", siteUrl = "https://calcivy.com") {
+export function auditSite(outDir = "out", siteUrl = "https://homemoneycalc.com") {
   if (!existsSync(outDir)) return { ran: false, reason: "out/ not found — run npm run build first" };
 
   const htmlFiles = walk(outDir).filter((f) => f.endsWith(".html"));
@@ -33,7 +33,7 @@ export function auditSite(outDir = "out", siteUrl = "https://calcivy.com") {
   const issues = [];
   for (const file of htmlFiles) {
     const route = "/" + relative(outDir, file).replace(/\\/g, "/").replace(/index\.html$/, "");
-    if (route.startsWith("/404") || route.startsWith("/_not-found") || route.startsWith("/admin")) continue;
+    if (route.startsWith("/404") || route.startsWith("/_not-found") || route.startsWith("/admin") || route.startsWith("/embed")) continue; // embed = noindex iframe widget
     const html = readFileSync(file, "utf8");
     const title = attr(html, /<title>([^<]*)<\/title>/);
     const desc = attr(html, /<meta name="description" content="([^"]*)"/);

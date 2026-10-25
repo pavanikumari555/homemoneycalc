@@ -7,6 +7,7 @@ import { NumberField, Segmented } from "@/components/calc/Fields";
 import { ResultHero, Stat, Notice } from "@/components/calc/Results";
 import LineChart, { shortMoney } from "@/components/calc/LineChart";
 import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
+import { CheckIn } from "@/components/calc/CheckIn";
 import { CalcShell, PanelTitle, useCelebrate } from "@/components/calc/CalcShell";
 
 const DEFAULTS = { b: "6000", apr: "22.9", mode: "payment", p: "250", g: "24" };
@@ -119,6 +120,7 @@ export default function CreditCardCalculator() {
           )}
 
           <ToolActions state={state} shareText={ok ? `My card will be paid off by ${monthsFromNow(res.plan.months)} 💳` : undefined} />
+          {ok && <CheckIn tool="credit-card-payoff-calculator" label="card balance" plan={res.plan.balances} url="/credit-card-payoff-calculator/" />}
         </>
       }
     />

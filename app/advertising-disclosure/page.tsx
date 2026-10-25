@@ -7,7 +7,7 @@ import PageShell from "@/components/PageShell";
 export const metadata: Metadata = buildMetadata({
   title: "Advertising & Affiliate Disclosure",
   description:
-    "How CalcIvy makes money: clearly labeled affiliate links and sponsorships that never change how our calculators work or what they show.",
+    "How HomeMoney Calc makes money: clearly labeled affiliate links and sponsorships that never change how our calculators work or what they show.",
   path: "/advertising-disclosure/",
 });
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = buildMetadata({
 // box pe "Affiliate disclosure" label + yahan link hona chahiye.
 export default function Page() {
   return (
-    <PageShell title="Advertising & affiliate disclosure" intro="How we keep CalcIvy free — and independent.">
+    <PageShell title="Advertising & affiliate disclosure" intro="How we keep HomeMoney Calc free — and independent.">
       <h2>How we make money</h2>
       <p>
         {SITE.name} is free to use. To pay for it, some pages show a relevant next step — for example a budgeting app

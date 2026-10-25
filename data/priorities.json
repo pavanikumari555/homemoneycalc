@@ -1,0 +1,96 @@
+{
+  "updated": "2026-10-25",
+  "note": "Master priority list (admin panel ka 'Bada plan' card). status: done | doing | todo | you (owner ka kaam). Order = importance. Detail: docs/PRIORITY-PLAN.md",
+  "items": [
+    {
+      "n": 1,
+      "task": "Site live karo: bhabhi ka GitHub (private repo) + HomeMoneyCalc.com domain + Cloudflare Pages",
+      "why": "Google ki ghadi live hone ke din se chalti hai. Har din ki deri = ek din kam ranking time.",
+      "status": "you"
+    },
+    {
+      "n": 2,
+      "task": "Search Console + Bing Webmaster connect, sitemap submit, Email Routing (hello@)",
+      "why": "Bina iske Google ko pata hi nahi chalega, aur report me data nahi aayega.",
+      "status": "you"
+    },
+    {
+      "n": 3,
+      "task": "Wave 1 tools (9) bane + release queue me (28 Oct–20 Nov) — aapka review baaki",
+      "why": "Naya 2025 tax law, competition kam; Jan–Apr 2027 me search peak. Dec se pehle live + indexed hone chahiye.",
+      "status": "done"
+    },
+    {
+      "n": 4,
+      "task": "10 purane tools ke explainers 600+ words + sahi worked examples",
+      "why": "Money pages pe Google gehra, bharosemand content chahta hai. Audit me sab pages patle mile.",
+      "status": "done"
+    },
+    {
+      "n": 5,
+      "task": "Paycheck engine fixes: married 2-earner Social Security, Maryland/Indiana county tax, WI, CA/NJ HSA",
+      "why": "Galat number = trust khatam. Ye results hazaron dollar galat aa sakte the.",
+      "status": "done"
+    },
+    {
+      "n": 6,
+      "task": "Release queue + daily auto-publish + Bing ping",
+      "why": "Tool pehle se ready, date pe apne aap live. Aapko roz kuch nahi karna.",
+      "status": "done"
+    },
+    {
+      "n": 7,
+      "task": "Wapas laane wale features: monthly check-in, calendar reminders, plans compare, har tool ki share image",
+      "why": "Jo user khud wapas aata hai wo free traffic hai, aur brand search badhata hai.",
+      "status": "done"
+    },
+    {
+      "n": 8,
+      "task": "Affiliate + template boxes (/go/ links) — approval milte hi link daalna",
+      "why": "Kamai ka asli raasta. Tax software links 1 Jan se pehle live hone chahiye.",
+      "status": "you"
+    },
+    {
+      "n": 9,
+      "task": "Payhip pe 3 templates (Debt Snowball, Paycheck Budget, Mortgage Tracker)",
+      "why": "Sabse jaldi pehla paisa — affiliate approval ka intezaar nahi.",
+      "status": "todo"
+    },
+    {
+      "n": 10,
+      "task": "About page pe owner ka asli naam + chhota bio",
+      "why": "Google money sites pe dekhta hai ki kaun likh raha hai (E-E-A-T). Nakli naam kabhi nahi.",
+      "status": "you"
+    },
+    {
+      "n": 11,
+      "task": "Weekly SEO routine shuru (Reddit/Quora madad, journalists, outreach, Pinterest)",
+      "why": "Backlinks sirf insaan kama sakta hai — ranking ka sabse bada lever.",
+      "status": "you"
+    },
+    {
+      "n": 12,
+      "task": "Wave 2 tools (Dec–Feb): tax refund, W-4, self-employment, quarterly tax, PMI, DTI…",
+      "why": "Tax season ke liye. Har tool review ke baad queue me.",
+      "status": "todo"
+    },
+    {
+      "n": 13,
+      "task": "Data study #2 + '2027 take-home pay by state' (1 Jan)",
+      "why": "Journalists isi tarah ka data cite karte hain = sabse taakatwar links.",
+      "status": "todo"
+    },
+    {
+      "n": 14,
+      "task": "50 state paycheck pages (asli state data ke saath)",
+      "why": "Har state ka tax sach me alag — safe programmatic SEO.",
+      "status": "todo"
+    },
+    {
+      "n": 15,
+      "task": "Spanish (es-US) versions of top 4 tools",
+      "why": "US me 4 crore+ Spanish speakers, competition kam.",
+      "status": "todo"
+    }
+  ]
+}

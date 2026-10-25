@@ -22,7 +22,7 @@ export default function ThemeToggle() {
     const next = !isDark();
     document.documentElement.classList.toggle("dark", next);
     try {
-      localStorage.setItem("calcivy-theme", next ? "dark" : "light");
+      localStorage.setItem("hmc-theme", next ? "dark" : "light");
     } catch {
       // storage blocked (private mode) - toggle still works for this visit
     }
@@ -41,4 +41,4 @@ export default function ThemeToggle() {
 }
 
 // Runs before paint (inlined in <head>) so the page never flashes the wrong theme.
-export const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('calcivy-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();`;
+export const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('hmc-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();`;

@@ -1,6 +1,6 @@
-# CalcIvy 🌿
+# HomeMoney Calc 🌿
 
-Free financial calculators for the US. Static Next.js site — hosts free on Cloudflare Pages, only cost is the domain (calcivy.com).
+Free financial calculators for the US. Static Next.js site — hosts free on Cloudflare Pages, only cost is the domain (homemoneycalc.com).
 
 ## What's inside
 
@@ -27,7 +27,7 @@ npm --version
 
 ## STEP 2 — Install dependencies
 
-From inside the `calcivy` folder:
+From inside the project folder:
 
 ```powershell
 npm install
@@ -59,7 +59,7 @@ This creates an `out/` folder with pure HTML/CSS/JS — that's your whole websit
    - **Build command:** `npm run build`
    - **Build output directory:** `out`
 4. Deploy. Cloudflare gives you a free `*.pages.dev` URL instantly.
-5. Add your custom domain `calcivy.com` in the Pages project → Custom Domains. Follow the DNS steps (Cloudflare walks you through it).
+5. Add your custom domain `homemoneycalc.com` in the Pages project → Custom Domains. Follow the DNS steps (Cloudflare walks you through it).
 
 Every time you push to GitHub, Cloudflare rebuilds and redeploys automatically. Free, unlimited bandwidth.
 

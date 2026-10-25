@@ -6,13 +6,13 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Editorial Policy: How We Create & Review Content",
   description:
-    "How CalcIvy builds, checks and updates its calculators and guides, how we use AI tools, and how we keep our content independent and accurate.",
+    "How HomeMoney Calc builds, checks and updates its calculators and guides, how we use AI tools, and how we keep our content independent and accurate.",
   path: "/editorial-policy/",
 });
 
 export default function Page() {
   return (
-    <PageShell title="Editorial policy" intro="How we build, check and update everything on CalcIvy.">
+    <PageShell title="Editorial policy" intro="How we build, check and update everything on HomeMoney Calc.">
       <h2>Accuracy first</h2>
       <p>
         Every calculator is tested against worked examples before it is published, and every tax figure is checked against the
@@ -30,7 +30,7 @@ export default function Page() {
 
       <h2>Independence</h2>
       <p>
-        CalcIvy is free because of clearly labeled affiliate links and sponsorships. Partners have no say in our calculators,
+        HomeMoney Calc is free because of clearly labeled affiliate links and sponsorships. Partners have no say in our calculators,
         results or explanations, and they never change how a calculator works or what it shows. See our{" "}
         <Link href="/advertising-disclosure/">advertising disclosure</Link>.
       </p>

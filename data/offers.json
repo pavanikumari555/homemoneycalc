@@ -1,0 +1,93 @@
+{
+  "note": "Affiliate offers + own templates. url khaali = box chhupa rahega. Approval milte hi network ka tracking link 'url' me daalo (ya Claude ko do). Site pe link /go/<id>/ dikhta hai (public/_redirects build ke waqt banta hai). months = sirf in mahino me dikhe (1=Jan); khaali = poora saal. Rules: docs/MONETIZATION.md",
+  "offers": [
+    {
+      "id": "tax-software",
+      "kind": "affiliate",
+      "network": "CJ / FlexOffers",
+      "name": "File your 2026 taxes",
+      "blurb": "Compare free and paid tax software — several let simple returns file free.",
+      "cta": "Compare tax software",
+      "url": "",
+      "tools": ["paycheck-calculator", "salary-to-hourly-calculator", "no-tax-on-overtime-calculator", "no-tax-on-tips-calculator", "senior-deduction-calculator", "car-loan-interest-deduction-calculator", "bonus-tax-calculator"],
+      "months": [1, 2, 3, 4]
+    },
+    {
+      "id": "budget-app",
+      "kind": "affiliate",
+      "network": "Impact (Monarch / Rocket Money)",
+      "name": "Track every paycheck automatically",
+      "blurb": "A budgeting app connects your accounts and shows where each paycheck goes.",
+      "cta": "See the budgeting app",
+      "url": "",
+      "tools": ["paycheck-calculator", "salary-to-hourly-calculator", "compound-interest-calculator", "holiday-budget-calculator", "overtime-calculator"],
+      "months": [5, 6, 7, 8, 9, 10, 11, 12]
+    },
+    {
+      "id": "debt-consolidation",
+      "kind": "affiliate",
+      "network": "Impact / CJ (Upstart, LendingTree)",
+      "name": "Check a lower-rate consolidation loan",
+      "blurb": "Pre-qualifying usually uses a soft credit check, so it won't affect your score.",
+      "cta": "Check your rate",
+      "url": "",
+      "tools": ["debt-payoff-calculator", "credit-card-payoff-calculator"],
+      "months": []
+    },
+    {
+      "id": "high-yield-savings",
+      "kind": "affiliate",
+      "network": "FlexOffers (CIT) / Raisin",
+      "name": "Earn more on savings",
+      "blurb": "High-yield savings accounts often pay several times the national average rate.",
+      "cta": "Compare savings rates",
+      "url": "",
+      "tools": ["compound-interest-calculator", "mortgage-payoff-calculator", "hsa-calculator"],
+      "months": []
+    },
+    {
+      "id": "auto-refi",
+      "kind": "affiliate",
+      "network": "FlexOffers (Caribou) / Awin (Autopay)",
+      "name": "Lower your car payment",
+      "blurb": "If rates dropped or your credit improved, refinancing can cut the monthly payment.",
+      "cta": "See refinance offers",
+      "url": "",
+      "tools": ["auto-loan-calculator", "car-loan-interest-deduction-calculator"],
+      "months": []
+    },
+    {
+      "id": "snowball-sheet",
+      "kind": "template",
+      "network": "Payhip (own product)",
+      "name": "Debt Snowball Planner (Google Sheets)",
+      "blurb": "Your plan in a spreadsheet: payoff order, monthly tracker and progress chart.",
+      "cta": "Get the planner",
+      "url": "",
+      "tools": ["debt-payoff-calculator", "credit-card-payoff-calculator"],
+      "months": []
+    },
+    {
+      "id": "paycheck-budget-sheet",
+      "kind": "template",
+      "network": "Payhip (own product)",
+      "name": "Paycheck Budget Sheet",
+      "blurb": "Split each paycheck into bills, savings and fun money — works in Google Sheets and Excel.",
+      "cta": "Get the sheet",
+      "url": "",
+      "tools": ["paycheck-calculator", "holiday-budget-calculator"],
+      "months": []
+    },
+    {
+      "id": "mortgage-tracker",
+      "kind": "template",
+      "network": "Payhip (own product)",
+      "name": "Mortgage Payoff Tracker",
+      "blurb": "Log extra payments and watch your payoff date move — Google Sheets and Excel.",
+      "cta": "Get the tracker",
+      "url": "",
+      "tools": ["mortgage-payoff-calculator"],
+      "months": []
+    }
+  ]
+}

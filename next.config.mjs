@@ -3,6 +3,11 @@ const nextConfig = {
   // Static export -> pure HTML/CSS/JS. No server needed. Deploy free on Cloudflare Pages.
   output: 'export',
 
+  // Release queue ki date build ke waqt fix (lib/site.ts BUILD_DATE). Server + browser dono me same.
+  env: {
+    BUILD_DATE: process.env.BUILD_DATE || new Date().toISOString().slice(0, 10),
+  },
+
   // Every route becomes /route/index.html -> clean URLs, works on any static host.
   trailingSlash: true,
 
