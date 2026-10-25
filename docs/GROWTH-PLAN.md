@@ -1,6 +1,5 @@
 # HomeMoney Calc — Growth Plan v2 ($5,000/month)
 
-> ⚠️ **Update (24 Oct 2026): Google ad networks (AdSense, Mediavine, Raptive, Ezoic) owner ke liye band hain.** Earning ab affiliates + templates + sponsors se — `docs/MONETIZATION.md` dekho. Neeche ke ads wale hisse sirf reference ke liye hain.
 
 > Research: 24 Oct 2026 (competitor teardown, AdSense/RPM policy, keyword roadmap, backlinks). Numbers marked *est.* are estimates (no paid SEO tool).
 > Live data files: `data/roadmap.json` (kaunsa tool kab), `data/growth-tasks.json` (hafte ke kaam), `data/reports/` (roz ki report). Sab `/admin/` me dikhta hai.
