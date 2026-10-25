@@ -1,6 +1,6 @@
 {
   "date": "2026-10-25",
-  "generatedAt": "2026-10-25T18:50:57.040Z",
+  "generatedAt": "2026-10-25T18:56:57.223Z",
   "sources": {
     "gsc": false,
     "ga4": false,
@@ -315,20 +315,26 @@
     {
       "path": "/",
       "http": 403,
-      "status": "fail",
-      "message": "Expected HTTP 200, got 403"
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a50371b53a1ce643-IAD",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "/paycheck-calculator/",
       "http": 403,
-      "status": "fail",
-      "message": "Expected HTTP 200, got 403"
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a50371b53db83e81-IAD",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "/sitemap.xml",
       "http": 403,
-      "status": "fail",
-      "message": "Expected HTTP 200, got 403"
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a50371b52c510242-IAD",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "/robots.txt",
@@ -339,14 +345,18 @@
     {
       "path": "/admin/",
       "http": 403,
-      "status": "fail",
-      "message": "Expected HTTP 302, got 403; Secure admin entry destination mismatch"
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a50371b53d6bb885-IAD",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "/embed/paycheck-calculator/",
       "http": 403,
-      "status": "fail",
-      "message": "Expected HTTP 200, got 403; Embed framing blocked"
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a50371b538417b59-IAD",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     }
   ],
   "business": {
@@ -492,66 +502,6 @@
   },
   "actions": [
     {
-      "id": "live-/",
-      "title": "Live page check: /",
-      "why": "Expected HTTP 200, got 403",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "Live response aur recent deployment compare karo.",
-        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
-      ],
-      "url": ""
-    },
-    {
-      "id": "live-/paycheck-calculator/",
-      "title": "Live page check: /paycheck-calculator/",
-      "why": "Expected HTTP 200, got 403",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "Live response aur recent deployment compare karo.",
-        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
-      ],
-      "url": ""
-    },
-    {
-      "id": "live-/sitemap.xml",
-      "title": "Live page check: /sitemap.xml",
-      "why": "Expected HTTP 200, got 403",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "Live response aur recent deployment compare karo.",
-        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
-      ],
-      "url": ""
-    },
-    {
-      "id": "live-/admin/",
-      "title": "Live page check: /admin/",
-      "why": "Expected HTTP 302, got 403; Secure admin entry destination mismatch",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "Live response aur recent deployment compare karo.",
-        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
-      ],
-      "url": ""
-    },
-    {
-      "id": "live-/embed/paycheck-calculator/",
-      "title": "Live page check: /embed/paycheck-calculator/",
-      "why": "Expected HTTP 200, got 403; Embed framing blocked",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "Live response aur recent deployment compare karo.",
-        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
-      ],
-      "url": ""
-    },
-    {
       "id": "gsc-data",
       "title": "Google report connection poora karo",
       "why": "Site verification aur agent ka data access alag hain. Agent ko abhi Google clicks nahi mil rahe.",
@@ -576,26 +526,41 @@
         "Service account ko read access aur GitHub mein GA4_PROPERTY_ID do."
       ],
       "url": "https://analytics.google.com/"
+    },
+    {
+      "id": "monitoring-access",
+      "title": "Cloudflare monitoring access verify karo",
+      "why": "5 automated requests Cloudflare ne block kiye. Ye confirmed website outage nahi; monitoring coverage incomplete hai.",
+      "who": "owner",
+      "priority": 2,
+      "steps": [
+        "Website normal browser mein kholkar access verify karo.",
+        "Cloudflare Security Events mein monitoring request/ray dekho; verified search crawlers ka access bhi check karo.",
+        "Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo."
+      ],
+      "url": "https://dash.cloudflare.com/"
     }
   ],
   "ai": {
-    "headline": "HomeMoney Calc Growth Report: 403 Errors Detected and Connections Pending",
-    "summary": "Live checks return 403 HTTP status errors on key pages like / and /paycheck-calculator/, blocking users and search engines. Additionally, Google Search Console and GA4 are not yet connected for this agent, and AdSense approval requires verifying traffic data first.",
+    "headline": "Cloudflare ne automated checks roke; GSC aur GA4 setup karna zaroori hai",
+    "summary": "Website ka internal code audit pass hai (22 pages check huye, 0 errors). Par 5 live monitoring checks ko Cloudflare ne block (HTTP 403) kar diya hai, jisse status confirm nahi ho pa raha (ye confirmed site down nahi hai). Bing par abhi 0 clicks aur 0 impressions hain. Google Search Console (GSC) aur GA4 agent se connected nahi hain, isliye organic traffic numbers available nahi hain. AdSense ke liye abhi apply nahi karna hai — pehle real US traffic aur data aane dein.",
     "youDo": [
-      "Connect Search Console API in Google Cloud to give this agent data access.",
-      "Set up GA4 traffic tracking so visitor numbers and analytics can be read.",
-      "Review server routing and deployment settings to resolve the 403 HTTP errors."
+      "Browser mein homemoneycalc.com kholkar check karo ki site sahi chal rahi hai, fir Cloudflare dash.cloudflare.com mein jaakar blocked Ray IDs (Security Events) dekho.",
+      "Search Console service account connect karo: Google Cloud mein Search Console API enable karke service account banao aur GitHub secrets set karo taaki data agent ko dikhe.",
+      "Google Analytics 4 (GA4) create aur connect karo taaki genuine visitors count ho sakein (AdSense aur affiliate readiness ke liye zaroori hai).",
+      "Week 1 setup task poora karo: Ahrefs Webmaster Tools (free backlink tracking - link ahrefs.com/webmaster-tools) set up karo.",
+      "Social content: Canva par salary-to-hourly-calculator ke liye 1000x1500 tall pin banao ($65k/yr = $31.25/hr) aur post karo (< 30 mins)."
     ],
     "agentNext": [
-      "Verify live routing fixes once the 403 server block is removed.",
-      "Monitor incoming search queries and performance once GSC data access is active.",
-      "Check upcoming tool launches and seasonal optimization tasks."
+      "2027 tax engine update ke liye IRS/SSA official numbers aate hi lib/tax2027.ts ka structure review karenge.",
+      "Roadmap ke 3 drafted tools verify karenge: senior-deduction-calculator, social-security-cola-calculator, aur no-tax-on-overtime-calculator jo 28-30 Oct ko planned hain.",
+      "GSC aur GA4 API credentials milte hi clicks, top queries aur indexing data track karna start karenge."
     ],
     "risks": [
-      "HTTP 403 errors prevent users and search engines from accessing your site, hurting rankings.",
-      "Lack of GA4 and GSC data prevents accurate tracking of user growth and AdSense readiness.",
-      "Applying for AdSense prematurely without verified traffic data can lead to account delays."
+      "Cloudflare automated check block: 5 monitoring requests block huye hain, verify karna zaroori hai ki genuine search engine crawlers (Googlebot vagairah) block na ho rahe hon.",
+      "Data blindness: GSC aur GA4 connected na hone ki wajah se site ki asal rank aur traffic growth track nahi ho pa rahi.",
+      "Premature AdSense risk: 0 traffic par AdSense apply karne se direct rejection milega; traffic build hone tak rukna zaroori hai."
     ],
-    "by": "gemini:gemini-flash-lite-latest"
+    "by": "gemini:gemini-flash-latest"
   }
 }
