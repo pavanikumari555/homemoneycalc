@@ -1,6 +1,6 @@
 @echo off
 REM ============================================================================
-REM ADMIN PANEL KHOLO — is file pe double-click karo.
+REM ADMIN PANEL KHOLO - is file pe double-click karo.
 REM 1) GitHub se aaj ki nayi report laata hai (roz subah 8 baje AI agent banata hai)
 REM 2) Site ko sirf IS computer pe chalu karta hai (bahar se koi nahi dekh sakta)
 REM 3) Browser me admin panel kholta hai -> sabse upar "Aaj aapka kaam"
