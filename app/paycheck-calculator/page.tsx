@@ -71,6 +71,7 @@ export default function Page() {
         { label: "IRS — Publication 15-T, Federal Income Tax Withholding Methods", url: "https://www.irs.gov/publications/p15t" },
         { label: "IRS — Publication 15 (Circular E), supplemental wage withholding", url: "https://www.irs.gov/publications/p15" },
         { label: "IRS — 401(k) limit increases to $24,500 for 2026", url: "https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500" },
+        { label: "New Jersey Division of Taxation — wages and 401(k) contributions", url: "https://www.nj.gov/treasury/taxation/njit5.shtml" },
         { label: "Each state's department of revenue (shown in the state note above)", url: "https://www.taxadmin.org/state-tax-agencies" },
       ]}
     >
@@ -189,9 +190,11 @@ export default function Page() {
       <h2>When this estimate doesn&apos;t fit</h2>
       <p>
         Your employer&apos;s payroll system follows IRS Publication 15-T and the choices on your Form W-4, so dependents, extra
-        withholding, other income or a second job can make real checks differ from this estimate. The calculator doesn&apos;t
-        include local income taxes, which apply in places like New York City, many Pennsylvania and Ohio cities, and Maryland and
-        Indiana counties. It also skips itemized deductions, tax credits such as the Child Tax Credit, and self-employment tax —
+        withholding, other income or a second job can make real checks differ from this estimate. Maryland county income tax
+        is included for the selected county; Indiana county tax is included when you enter your county rate. Other local
+        taxes, such as New York City and Pennsylvania or Ohio city taxes, are not included. The retirement input models a
+        traditional 401(k); New Jersey treats some other plans, including 403(b), differently. It also skips itemized
+        deductions, tax credits such as the Child Tax Credit, and self-employment tax —
         if you&apos;re a contractor paid on a 1099, nothing is withheld and you pay both halves of Social Security and Medicare
         yourself.
       </p>

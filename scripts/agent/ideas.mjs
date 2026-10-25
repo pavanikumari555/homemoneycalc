@@ -28,6 +28,7 @@ export function readTools(file = "lib/site.ts") {
       category: get("category"),
       blurb: get("blurb"),
       updated: get("updated"),
+      added: get("added"),
       keywords: get("keywords"),
       example: { input: ex?.[1] ?? "", output: ex?.[2] ?? "" },
     };
@@ -230,7 +231,7 @@ export function socialIdeas({ tools, siteUrl, today }) {
 
 /** Sab ek saath — daily.mjs isi ko call karta hai. */
 export function growthIdeas({ gsc, siteUrl, siteName, today, outDir = "out" }) {
-  const tools = readTools();
+  const tools = readTools().filter((t) => t.added <= today);
   const roadmap = existsSync("data/roadmap.json") ? JSON.parse(readFileSync("data/roadmap.json", "utf8")) : { tools: [] };
   const competitors = existsSync("data/competitor-topics.json") ? JSON.parse(readFileSync("data/competitor-topics.json", "utf8")) : { topics: [] };
   const year = Number(today.slice(0, 4)) + (Number(today.slice(5, 7)) >= 11 ? 1 : 0);

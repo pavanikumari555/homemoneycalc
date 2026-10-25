@@ -23,7 +23,7 @@ const HOME_PER_CATEGORY = 6;
 
 const POPULAR = ["paycheck-calculator", "mortgage-payoff-calculator", "debt-payoff-calculator", "credit-card-payoff-calculator"];
 
-const TRUST = ["100% free", "No sign-up", "Numbers stay on your device", "2026 tax data"];
+const TRUST = ["100% free", "No sign-up", "Calculations in your browser", "2026 tax data"];
 
 const STEPS: { icon: AnyIcon; title: string; text: string }[] = [
   { icon: "search", title: "Pick a calculator", text: "Paycheck, mortgage, debt, savings… search or browse below." },
@@ -81,10 +81,10 @@ const FEATURES: { icon: AnyIcon; title: string; text: string; demo: React.ReactN
   {
     icon: "shield",
     title: "Private by design",
-    text: "Everything runs in your browser. We never see what you type.",
+    text: "Calculations run in your browser. Saved plans stay on this device; share links include your inputs.",
     demo: (
       <div className="flex items-center gap-2 text-xs font-semibold text-ivy-700 dark:text-ivy-300">
-        <Icon name="check" className="h-4 w-4" /> No account · No data sent
+        <Icon name="check" className="h-4 w-4" /> No account · Saved on this device
       </div>
     ),
   },
@@ -267,7 +267,8 @@ export default function HomePage() {
             as you type, and you can drag a slider to try &ldquo;what if I paid $100 more?&rdquo; in a second.
           </p>
           <p>
-            Every tool runs entirely in your browser, so the numbers you enter never leave your device. If you come back later on
+            Every tool runs entirely in your browser, and saved plans stay on this device. Inputs also appear in the page address
+            for share links, so they may appear in hosting logs, as explained in our <Link href="/privacy-policy/">privacy policy</Link>. If you come back later on
             the same device, your last numbers are waiting for you. Save several plans, print a summary, or share a link that opens
             with your exact figures.
           </p>

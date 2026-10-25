@@ -12,7 +12,8 @@ import { searchConsole, analytics, pageSpeed } from "./google.mjs";
 import { auditSite } from "./audit.mjs";
 import { summarize } from "./summarize.mjs";
 import { bingWebmaster } from "./bing.mjs";
-import { growthIdeas } from "./ideas.mjs";
+import { growthIdeas, readTools } from "./ideas.mjs";
+import { roadmapSummary } from "./roadmap.mjs";
 
 const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
@@ -67,9 +68,7 @@ async function main() {
 
   // --- Roadmap + growth checklist
   const roadmap = readJson("data/roadmap.json", { tools: [] });
-  const planned = roadmap.tools.filter((t) => t.status !== "live");
-  const overdue = planned.filter((t) => t.targetDate < today && t.status === "planned");
-  const dueSoon = planned.filter((t) => t.targetDate >= today).slice(0, 3);
+  const { live, planned, overdue, dueSoon } = roadmapSummary(roadmap.tools, readTools(), today);
   const growth = readJson("data/growth-tasks.json", { tasks: [] });
   const launch = env.SITE_LAUNCH_DATE; // YYYY-MM-DD the site went live (week 1)
   const week = launch ? Math.max(1, Math.floor((Date.parse(today) - Date.parse(launch)) / (7 * 86_400_000)) + 1) : 1;
@@ -113,9 +112,9 @@ async function main() {
     })(),
     speed: psi.results ?? [],
     health: health.ran ? { pageCount: health.pageCount, errors: health.errors, warnings: health.warnings, issues: health.issues } : { pageCount: 0, errors: 0, warnings: 0, issues: [], note: health.reason },
-    roadmap: { live: roadmap.tools.length - planned.length, planned: planned.length, overdue, dueSoon },
+    roadmap: { live, planned, overdue, dueSoon },
     growth: { week, thisWeek },
-    // Earning goals (Google ad networks are closed to the owner — see docs/MONETIZATION.md).
+    // Earning goals: AdSense, affiliates, templates and sponsors (docs/MONETIZATION.md).
     // metric = which number the admin panel compares.
     milestones: {
       first100: { target: 100, metric: "revenueMonth", label: "First $100 month (affiliates + templates)" },

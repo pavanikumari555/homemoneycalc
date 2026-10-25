@@ -393,7 +393,7 @@ export const STATES: StateTax[] = [
       { name: "NJ TDI", rate: 0.0019, wageCap: 171_100 },
       { name: "NJ FLI", rate: 0.0023, wageCap: 171_100 },
     ],
-    notes: "No standard deduction. 401(k) contributions are taxed by NJ (modeled). Newark payroll tax is employer-paid.",
+    notes: "No standard deduction. Traditional 401(k) contributions reduce NJ taxable wages; other retirement plans such as 403(b) can differ. HSA contributions remain taxable. Newark payroll tax is employer-paid.",
     source: "https://www.nj.gov/treasury/taxation/taxtables.shtml",
   },
   {

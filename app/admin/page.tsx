@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import { SITE, TOOLS, QUEUED_TOOLS, BUILD_DATE } from "@/lib/site";
+import { SITE, TOOLS, ALL_TOOLS, QUEUED_TOOLS, BUILD_DATE } from "@/lib/site";
+import { roadmapSummary } from "@/scripts/agent/roadmap.mjs";
 import AdminTrend from "./AdminTrend";
 import { GrowthIdeas, SeoRoutine } from "./Growth";
 
@@ -86,6 +87,7 @@ export default function AdminPage() {
   const reports = loadReports();
   const r = reports[reports.length - 1];
   const roadmap = read("roadmap.json", { tools: [] });
+  const pendingRoadmap = roadmapSummary(roadmap.tools, ALL_TOOLS, BUILD_DATE).pending;
   const growth = read("growth-tasks.json", { tasks: [] });
   const revenue = read("revenue.json", { goalMonthly: 5000, months: [] });
   const priorities = read("priorities.json", { items: [] });
@@ -372,10 +374,9 @@ export default function AdminPage() {
             </ul>
           </Section>
 
-          <Section title={`Tool roadmap — ${roadmap.tools.filter((t: Json) => t.status !== "live").length} planned`} hint="Kaunsa tool kab (data/roadmap.json).">
+          <Section title={`Tool roadmap — ${pendingRoadmap.length} planned`} hint="Kaunsa tool kab (data/roadmap.json).">
             <ul className="max-h-80 divide-y divide-line overflow-auto text-sm">
-              {roadmap.tools
-                .filter((t: Json) => t.status !== "live")
+              {pendingRoadmap
                 .map((t: Json) => (
                   <li key={t.slug} className="flex justify-between gap-3 py-1.5">
                     <span className="text-ink">{t.title}</span>

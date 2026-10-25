@@ -14,7 +14,7 @@ export default function Footer() {
             <Logo />
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
               Free money calculators with charts, plain-English results and shareable links.
-              Everything runs in your browser — your numbers never leave your device.
+              Calculations run in your browser, and saved plans stay on this device.
             </p>
           </div>
 

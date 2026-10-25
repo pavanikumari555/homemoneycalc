@@ -102,7 +102,7 @@ export default function BonusCalculator() {
             prefix="$"
             value={v.ytd}
             onChange={(x) => state.set("ytd", x)}
-            hint="Before this bonus. Used for the $184,500 Social Security cap and the 0.9% Medicare surtax over $200,000."
+            hint="Before this bonus. Used for Social Security and state payroll wage caps, and the 0.9% Medicare surtax over $200,000."
           />
           <NumberField
             label="Other bonuses already paid this year"

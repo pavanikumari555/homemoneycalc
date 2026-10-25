@@ -12,12 +12,20 @@ title HomeMoney Calc - Admin
 echo.
 echo  [1/3] GitHub se aaj ki report la rahe hain...
 git switch main >nul 2>&1
+if errorlevel 1 (
+  echo  Main branch par switch nahi hua. Local changes ko pehle save/commit karvao.
+  pause
+  exit /b 1
+)
 git pull --ff-only
 if errorlevel 1 echo  (Report update nahi hui - internet check karo. Purani report dikhegi.)
 
-if not exist node_modules (
-  echo  [*] Pehli baar: zaroori files install ho rahi hain, 1-2 minute...
-  call npm install --no-audit --no-fund
+echo  [*] Project ke lockfile ke mutabik dependencies sync ho rahi hain...
+call npm ci --no-audit --no-fund
+if errorlevel 1 (
+  echo  Dependencies install nahi hui. Internet aur npm error check karo.
+  pause
+  exit /b 1
 )
 
 echo  [2/3] Admin panel chalu ho raha hai...
