@@ -1,6 +1,6 @@
 {
   "date": "2026-10-25",
-  "generatedAt": "2026-10-25T09:53:34.474Z",
+  "generatedAt": "2026-10-25T18:50:57.040Z",
   "sources": {
     "gsc": false,
     "ga4": false,
@@ -238,8 +238,8 @@
     "outreach": [
       {
         "to": "Personal-finance blogger jisne haal me is topic pe post likhi ho",
-        "subject": "A free paycheck tool for your readers",
-        "body": "Hi [Name],\n\nI enjoyed your post \"[their post title]\" — especially [one specific point].\n\nI run HomeMoney Calc, a free, no-sign-up set of US money calculators. Our take-home paycheck calculator might be a useful extra for that post: https://homemoneycalc.com/paycheck-calculator/ (example: $75,000 salary in California → $2,081 per paycheck).\n\nIf it helps your readers, you're welcome to link it or embed it (free embed code is at the bottom of the page). No pressure at all if it's not a fit.\n\nThanks,\n[Your name]\nFounder, HomeMoney Calc",
+        "subject": "A free credit card payoff tool for your readers",
+        "body": "Hi [Name],\n\nI enjoyed your post \"[their post title]\" — especially [one specific point].\n\nI run HomeMoney Calc, a free, no-sign-up set of US money calculators. Our credit card payoff calculator might be a useful extra for that post: https://homemoneycalc.com/credit-card-payoff-calculator/ (example: $6,000 at 22.9%, paying $250 → Paid off in 2 yr 9 mo).\n\nIf it helps your readers, you're welcome to link it or embed it (free embed code is at the bottom of the page). No pressure at all if it's not a fit.\n\nThanks,\n[Your name]\nFounder, HomeMoney Calc",
         "rules": "Personalize karo, ek-ek bhejo, din me 5 se zyada nahi. Paisa/link exchange kabhi offer mat karna."
       },
       {
@@ -250,19 +250,19 @@
       }
     ],
     "social": {
-      "tool": "debt-payoff-calculator",
+      "tool": "salary-to-hourly-calculator",
       "pinterest": {
-        "title": "4 debts + $250/month extra → Debt-free in 3 yr 9 mo",
-        "description": "Compare snowball and avalanche side by side and get your debt-free date. Free debt payoff calculator (snowball vs avalanche) — no sign-up, works on your phone.",
-        "board": "Debt Free Journey",
-        "link": "https://homemoneycalc.com/debt-payoff-calculator/",
+        "title": "$65,000 a year, 40 hrs/week → $31.25 an hour",
+        "description": "Convert an annual salary to hourly, weekly and monthly pay — or an hourly wage to a yearly salary. Free salary to hourly calculator — no sign-up, works on your phone.",
+        "board": "Salary & Paycheck Tips",
+        "link": "https://homemoneycalc.com/salary-to-hourly-calculator/",
         "design": "Tall 1000x1500 pin: upar bada sawaal, beech me answer number, neeche site naam. Canva free template."
       },
       "shorts": {
-        "hook": "4 debts + $250/month extra? Here's the real number.",
+        "hook": "$65,000 a year, 40 hrs/week? Here's the real number.",
         "beats": [
-          "Screen record: Debt Snowball me values daalo",
-          "Answer dikhao: Debt-free in 3 yr 9 mo",
+          "Screen record: Salary ↔ Hourly me values daalo",
+          "Answer dikhao: $31.25 an hour",
           "Ek tip: kaunsa input badalne se sabse zyada farak padta hai"
         ],
         "cta": "Link in bio / description (seedha tool page)."
@@ -271,16 +271,124 @@
   },
   "speed": [],
   "health": {
+    "ran": true,
     "pageCount": 22,
     "errors": 0,
     "warnings": 0,
-    "issues": []
+    "issues": [],
+    "coverage": [
+      "Titles/descriptions",
+      "Canonical URLs",
+      "Sitemap and internal links",
+      "Local scripts/styles/images",
+      "JSON-LD validity",
+      "Images and heading structure"
+    ]
+  },
+  "quality": [
+    {
+      "id": "tests",
+      "label": "Calculator regression tests",
+      "status": "pass",
+      "summary": "Check passed."
+    },
+    {
+      "id": "registry",
+      "label": "Tool registry",
+      "status": "pass",
+      "summary": "Check passed."
+    },
+    {
+      "id": "lint",
+      "label": "Code quality",
+      "status": "pass",
+      "summary": "Check passed."
+    },
+    {
+      "id": "dependencies",
+      "label": "Dependency security audit",
+      "status": "pass",
+      "summary": "0 known dependency vulnerabilities reported."
+    }
+  ],
+  "liveChecks": [
+    {
+      "path": "/",
+      "http": 403,
+      "status": "fail",
+      "message": "Expected HTTP 200, got 403"
+    },
+    {
+      "path": "/paycheck-calculator/",
+      "http": 403,
+      "status": "fail",
+      "message": "Expected HTTP 200, got 403"
+    },
+    {
+      "path": "/sitemap.xml",
+      "http": 403,
+      "status": "fail",
+      "message": "Expected HTTP 200, got 403"
+    },
+    {
+      "path": "/robots.txt",
+      "http": 200,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    },
+    {
+      "path": "/admin/",
+      "http": 403,
+      "status": "fail",
+      "message": "Expected HTTP 302, got 403; Secure admin entry destination mismatch"
+    },
+    {
+      "path": "/embed/paycheck-calculator/",
+      "http": 403,
+      "status": "fail",
+      "message": "Expected HTTP 200, got 403; Embed framing blocked"
+    }
+  ],
+  "business": {
+    "goalMonthly": 5000,
+    "goalIsEstimate": true,
+    "waitForTrafficBeforeAdsense": true
   },
   "roadmap": {
     "live": 10,
     "planned": 38,
     "overdue": [],
     "dueSoon": [
+      {
+        "slug": "senior-deduction-calculator",
+        "title": "Senior $6,000 Deduction Calculator",
+        "primaryKeyword": "senior deduction calculator",
+        "secondary": [
+          "$6000 senior deduction",
+          "enhanced deduction over 65"
+        ],
+        "volume": "1k-10k",
+        "difficulty": "low",
+        "wave": 1,
+        "targetDate": "2026-10-28",
+        "status": "drafted",
+        "why": "New deduction, little competition"
+      },
+      {
+        "slug": "social-security-cola-calculator",
+        "title": "Social Security COLA Calculator 2027",
+        "primaryKeyword": "social security cola 2027 calculator",
+        "secondary": [
+          "2027 cola increase",
+          "how much will my social security increase"
+        ],
+        "volume": "10k-100k (Oct-Jan)",
+        "difficulty": "low-med",
+        "wave": 1,
+        "targetDate": "2026-10-28",
+        "status": "drafted",
+        "why": "2027 COLA announced Oct 14, 2026 - verify the official % on ssa.gov before publishing; evergreen every October"
+      },
       {
         "slug": "no-tax-on-overtime-calculator",
         "title": "No Tax on Overtime Calculator",
@@ -297,58 +405,12 @@
         "targetDate": "2026-10-30",
         "status": "drafted",
         "why": "New OBBBA deduction (2025-2028); SERP led by small sites; $12.5k/$25k cap, phase-out from $150k/$300k MAGI. New W-2 Box 12 code TT on 2026 W-2s (issued by Feb 1, 2027) -> 'my W-2 shows TT, how much do I save?' searches Jan-Apr"
-      },
-      {
-        "slug": "no-tax-on-tips-calculator",
-        "title": "No Tax on Tips Calculator",
-        "primaryKeyword": "no tax on tips calculator",
-        "secondary": [
-          "tips deduction 2026",
-          "no tax on tips refund",
-          "w-2 code tp",
-          "box 12 tp tips"
-        ],
-        "volume": "1k-10k",
-        "difficulty": "low",
-        "wave": 1,
-        "targetDate": "2026-10-30",
-        "status": "drafted",
-        "why": "New deduction; links to tip calculator. New W-2 Box 12 code TP on 2026 W-2s"
-      },
-      {
-        "slug": "overtime-calculator",
-        "title": "Overtime Pay Calculator",
-        "primaryKeyword": "overtime calculator",
-        "secondary": [
-          "time and a half calculator",
-          "overtime calculator after taxes"
-        ],
-        "volume": "10k-100k",
-        "difficulty": "med",
-        "wave": 1,
-        "targetDate": "2026-10-30",
-        "status": "drafted",
-        "why": "Hub for the paycheck cluster"
       }
     ]
   },
   "growth": {
     "week": 1,
     "thisWeek": [
-      {
-        "week": 1,
-        "task": "Set up Google Search Console and submit the sitemap",
-        "type": "setup",
-        "url": "https://search.google.com/search-console",
-        "done": false
-      },
-      {
-        "week": 1,
-        "task": "Set up Bing Webmaster Tools (import from Search Console)",
-        "type": "setup",
-        "url": "https://www.bing.com/webmasters",
-        "done": false
-      },
       {
         "week": 1,
         "task": "Set up Ahrefs Webmaster Tools (free backlink tracking)",
@@ -365,9 +427,9 @@
       },
       {
         "week": 1,
-        "task": "Cloudflare Email Routing: hello@homemoneycalc.com -> your HomeMoney Calc Gmail (free)",
+        "task": "Install GA4 (traffic numbers for affiliate applications and sponsors)",
         "type": "setup",
-        "url": "https://developers.cloudflare.com/email-routing/",
+        "url": "https://analytics.google.com",
         "done": false
       }
     ]
@@ -386,29 +448,154 @@
     "goal": {
       "target": 5000,
       "metric": "revenueMonth",
-      "label": "$5,000 month (goal)"
+      "label": "Adjustable monthly goal (estimate, not a ceiling)"
     }
   },
   "previousDate": "2026-10-24",
   "notes": [],
+  "adsenseReadiness": {
+    "status": "needs-data",
+    "checks": [
+      {
+        "id": "sessions",
+        "label": "Genuine visits (GA4 sessions)",
+        "value": null,
+        "target": 1000,
+        "passed": false
+      },
+      {
+        "id": "clicks",
+        "label": "Google se clicks",
+        "value": null,
+        "target": 200,
+        "passed": false
+      },
+      {
+        "id": "days",
+        "label": "Alag din Google traffic aaya",
+        "value": null,
+        "target": 14,
+        "passed": false
+      },
+      {
+        "id": "pages",
+        "label": "Pages par Google traffic aaya",
+        "value": null,
+        "target": 3,
+        "passed": false
+      }
+    ],
+    "passed": 0,
+    "technicalReady": false,
+    "officialMinimum": false,
+    "automaticApplication": false
+  },
+  "actions": [
+    {
+      "id": "live-/",
+      "title": "Live page check: /",
+      "why": "Expected HTTP 200, got 403",
+      "who": "agent",
+      "priority": 0,
+      "steps": [
+        "Live response aur recent deployment compare karo.",
+        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
+      ],
+      "url": ""
+    },
+    {
+      "id": "live-/paycheck-calculator/",
+      "title": "Live page check: /paycheck-calculator/",
+      "why": "Expected HTTP 200, got 403",
+      "who": "agent",
+      "priority": 0,
+      "steps": [
+        "Live response aur recent deployment compare karo.",
+        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
+      ],
+      "url": ""
+    },
+    {
+      "id": "live-/sitemap.xml",
+      "title": "Live page check: /sitemap.xml",
+      "why": "Expected HTTP 200, got 403",
+      "who": "agent",
+      "priority": 0,
+      "steps": [
+        "Live response aur recent deployment compare karo.",
+        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
+      ],
+      "url": ""
+    },
+    {
+      "id": "live-/admin/",
+      "title": "Live page check: /admin/",
+      "why": "Expected HTTP 302, got 403; Secure admin entry destination mismatch",
+      "who": "agent",
+      "priority": 0,
+      "steps": [
+        "Live response aur recent deployment compare karo.",
+        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
+      ],
+      "url": ""
+    },
+    {
+      "id": "live-/embed/paycheck-calculator/",
+      "title": "Live page check: /embed/paycheck-calculator/",
+      "why": "Expected HTTP 200, got 403; Embed framing blocked",
+      "who": "agent",
+      "priority": 0,
+      "steps": [
+        "Live response aur recent deployment compare karo.",
+        "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."
+      ],
+      "url": ""
+    },
+    {
+      "id": "gsc-data",
+      "title": "Google report connection poora karo",
+      "why": "Site verification aur agent ka data access alag hain. Agent ko abhi Google clicks nahi mil rahe.",
+      "who": "owner",
+      "priority": 1,
+      "steps": [
+        "Google Cloud mein Search Console API enable karo aur service account banao.",
+        "Search Console mein service-account email ko access do.",
+        "GitHub secret GOOGLE_SA_JSON aur variable GSC_SITE set karo. Private key chat mein mat bhejo."
+      ],
+      "url": "https://console.cloud.google.com/"
+    },
+    {
+      "id": "ga4-data",
+      "title": "Website traffic tracking connect karo",
+      "why": "Visitors aur unke sources ke bina earning ya AdSense readiness ka sahi signal nahi milta.",
+      "who": "owner",
+      "priority": 1,
+      "steps": [
+        "GA4 property aur web stream banao.",
+        "Measurement ID se tracking implement karvao; calculator inputs/URL query analytics mein na bhejein.",
+        "Service account ko read access aur GitHub mein GA4_PROPERTY_ID do."
+      ],
+      "url": "https://analytics.google.com/"
+    }
+  ],
   "ai": {
-    "headline": "GSC setup complete karein aur 30 October ke naye tax calculators par focus karein",
-    "summary": "Google Search Console aur GA4 abhi connect nahi hain, isliye organic clicks aur traffic data null show ho raha hai. Bing connected hai par abhi 0 clicks hain. Site ki health achhi hai (22 pages live, 0 errors). Agle 5 din me 3 naye tools release hone hain aur 7 din me Open Enrollment season shuru ho raha hai.",
+    "headline": "HomeMoney Calc Growth Report: 403 Errors Detected and Connections Pending",
+    "summary": "Live checks return 403 HTTP status errors on key pages like / and /paycheck-calculator/, blocking users and search engines. Additionally, Google Search Console and GA4 are not yet connected for this agent, and AdSense approval requires verifying traffic data first.",
     "youDo": [
-      "Google Search Console setup: search.google.com/search-console par jaakar sitemap submit karein taaki Google indexation track ho sake (Search Console matlab Google traffic tracker). Time: 15 mins.",
-      "Cloudflare Email Routing set karein: dash.cloudflare.com par hello@homemoneycalc.com ko apne Gmail par forward karein taaki outreach reply seedhe milein. Time: 15 mins.",
-      "Open Enrollment update: paycheck-calculator page ke code me 401(k) aur HSA changes ka ek short example box jodein kyunki seasonal demand 7 din me shuru ho rahi hai. Time: 30 mins.",
-      "Pinterest Pin post karein: Canva par debt-payoff-calculator ke liye 1000x1500 pin banakar Pinterest ke 'Debt Free Journey' board par post karein. Time: 20 mins."
+      "Connect Search Console API in Google Cloud to give this agent data access.",
+      "Set up GA4 traffic tracking so visitor numbers and analytics can be read.",
+      "Review server routing and deployment settings to resolve the 403 HTTP errors."
     ],
     "agentNext": [
-      "30 October ke 3 roadmap tools (No Tax on Overtime, No Tax on Tips, Overtime Pay) ke formulas aur copy draft verify karna.",
-      "IRS aur SSA ki official releases monitor karke lib/tax2027.ts update ready rakhna.",
-      "Search Console connect hote hi top queries aur position 8-30 wale opportunities identify karna."
+      "Verify live routing fixes once the 403 server block is removed.",
+      "Monitor incoming search queries and performance once GSC data access is active.",
+      "Check upcoming tool launches and seasonal optimization tasks."
     ],
     "risks": [
-      "Search Console connected na hone ki wajah se indexing issues ya ranking drops ka pata turant nahi chalega.",
-      "Outreach me kabhi bhi paid link ya link exchange offer mat karein, hamesha manual personalized email bhejein warna Google spam policy violate ho sakti hai."
+      "HTTP 403 errors prevent users and search engines from accessing your site, hurting rankings.",
+      "Lack of GA4 and GSC data prevents accurate tracking of user growth and AdSense readiness.",
+      "Applying for AdSense prematurely without verified traffic data can lead to account delays."
     ],
-    "by": "gemini:gemini-flash-latest"
+    "by": "gemini:gemini-flash-lite-latest"
   }
 }
