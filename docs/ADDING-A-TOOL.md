@@ -53,4 +53,4 @@ npm run build
 ## Rules (Google-safe)
 - Ek tool = ek asli kaam. Sirf naam badal ke copy pages **nahi** (scaled content abuse).
 - State/city pages tabhi jab har page me sach me alag data ho.
-- AI agent jo draft banaye, use merge karne se pehle khud dekho.
+- Local chat mein requested tool ko sources/examples aur checks se verify karke direct `main` par push karo (CLAUDE.md rule 3). Unattended weekly-agent drafts ka configured PR flow alag hai.

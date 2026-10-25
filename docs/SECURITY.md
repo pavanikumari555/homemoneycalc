@@ -13,7 +13,7 @@ Admin panel ka **🔒 Security** card yahi checklist dikhata hai (`data/security
 | Khatra | Kya kiya / kya karna hai | User pe asar |
 |---|---|---|
 | Account chori (password leak) | Sab accounts pe **2FA** (authenticator app). Recovery codes ghar pe. **Aapka kaam.** | Koi nahi |
-| GitHub se seedha live site badalna | Repo private + `main` branch protection (sirf PR se). Agent bhi sirf PR banata hai | Koi nahi |
+| GitHub se galat change deploy hona | Repo private; owner-approved local work mein tests/build ke baad direct `main` push. Commit history aur Cloudflare rollback available. Unattended Claude workflows apne configured PR flow mein rehte hain | Local work mein manual merge step nahi |
 | Domain chori ya expire | Namecheap **Domain Lock + auto-renew**. Renewal date yaad rakho (1 saal) | Koi nahi |
 | Page me script ghusana (XSS) | ✅ CSP header: sirf apni site ki script chalti hai. ✅ URL se aaye inputs sirf allowed values, max 200 akshar. ✅ Schema me "<" escape. React har text escape karta hai | Koi nahi |
 | Dusri site hamara page iframe me daal ke dhokha de (clickjacking) | ✅ `X-Frame-Options` + `frame-ancestors 'self'`. Sirf `/embed/` frame ho sakta hai, usme koi login/payment nahi | Koi nahi |

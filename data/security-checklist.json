@@ -21,10 +21,10 @@
       "done": true
     },
     {
-      "task": "GitHub: main branch protection (sirf PR se change) — repo private ✅ ho chuka",
-      "why": "Koi galti se ya chori ke token se seedha live site badal na sake.",
+      "task": "Local workflow: tests/build ke baad direct main push — owner approved 25 Oct 2026",
+      "why": "Har authorized local change ko check karke push karo; commit history rakho aur force-push mat karo.",
       "who": "claude",
-      "done": false
+      "done": true
     },
     {
       "task": "GitHub: secret scanning + Dependabot alerts ON",

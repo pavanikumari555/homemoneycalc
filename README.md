@@ -52,7 +52,7 @@ npm run build
 This creates an `out/` folder with pure HTML/CSS/JS — that's your whole website, ready to host anywhere.
 
 Preview that production export locally with `npm start` at http://127.0.0.1:3000.
-Before opening a PR, run `npm test`, `npm run check-tools`, `npm run lint`, and `npm run build`.
+Owner-approved local workflow: sync `main`, make changes, run `npm test`, `npm run check-tools`, `npm run lint`, and `npm run build`, then commit and push directly to `main`. Cloudflare deploys automatically; no PR/merge step is required for this local work. Do not push failed checks or force-push.
 
 ---
 
@@ -75,7 +75,7 @@ Every time you push to GitHub, Cloudflare rebuilds and redeploys automatically. 
 1. Add the site in the owner's AdSense dashboard and check its verification/approval status there.
 2. Implement the dashboard-provided code with the owner's actual publisher ID; the current code has no `AdSlot` component or `adsensePublisherId` config.
 3. Add the necessary Google domains to the CSP in `public/_headers` and the dashboard-provided `ads.txt` entry in `public/ads.txt`.
-4. Review ad placement and privacy requirements, then build, test, and deploy through a PR. Do not assume approval or revenue before checking the dashboard.
+4. Review ad placement and privacy requirements, then build, test, commit and push to `main`. Do not assume approval or revenue before checking the dashboard.
 
 ---
 

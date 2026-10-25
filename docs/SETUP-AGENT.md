@@ -9,7 +9,7 @@ Ye sab **ek baar** karna hai. Har step ke saath likha hai **kyun**.
 | Admin panel se "Report a problem" → Claude fix karke PR | `owner-request.yml` | Sirf jab use karo |
 | Har PR ka automatic build check | `ci.yml` | Free |
 
-> **Golden rule:** Agent kabhi khud site pe kuch live nahi karta. Har content change ek Pull Request banta hai — aap preview dekh ke **Merge** dabate ho, tab live hota hai. Isse Google ko "human-reviewed" content milta hai aur galti live nahi jaati.
+> **Local workflow — owner approved 25 Oct 2026:** local chat mein requested kaam ke liye changes → tests/build → commit → direct `main` push → automatic deployment. PR/merge required nahi. Neeche documented unattended weekly aur issue-triggered Claude jobs apne configured PR flow mein rehte hain; local direct-push preference un jobs ki publishing permissions nahi badalti.
 
 ---
 

@@ -35,7 +35,7 @@ Domain homemoneycalc.com ke andar:
 - **C. Security rules → Create rule → Rate limiting rules:** name `Affiliate link limit`, expression `starts_with(http.request.uri.path, "/go/")`, characteristics IP, **10 requests / 10 seconds**, action **Block** for 10 seconds → Deploy. (Kyun: bot clicks se affiliate account ko risk na ho.)
 - **D. Bot Fight Mode** ON (Security → Settings / Overview quick start) — agar pehle nahi kiya.
 - **Verify (AI kare):** `curl -sI https://homemoneycalc.com/wp-login.php` → 403; `curl -sI https://homemoneycalc.com/` → 200; `curl -sI http://homemoneycalc.com/` → 301 to https.
-- Phir `data/security-checklist.json` me jo ho gaya `done: true` karo (branch + PR).
+- Phir `data/security-checklist.json` me jo ho gaya `done: true` karo; local workflow ke mutabik checks ke baad main par push karo.
 
 ### Step 9 — Email forwarding ✅ DONE 25 Oct (hello@ → Gmail tested, SPF + DMARC p=quarantine)
 Cloudflare → homemoneycalc.com → **Email → Email Routing** → Get started → custom address `hello` → destination `homemoneycalc.site@gmail.com` → Gmail me verify link → "Add records and enable" (MX + SPF khud aate hain). Phir DNS me DMARC TXT: name `_dmarc`, value `v=DMARC1; p=quarantine; rua=mailto:homemoneycalc.site@gmail.com`. Test: kisi aur email se hello@homemoneycalc.com pe mail bhejo.
@@ -56,7 +56,7 @@ bing.com/webmasters → "Import from Google Search Console" → Settings → API
 - Repo variables: `SITE_LAUNCH_DATE` = `2026-10-25`, `GSC_SITE` (upar).
 - Free AI summary: aistudio.google.com se Gemini key → secret `GEMINI_API_KEY` (owner khud daale).
 - Settings → Code security: Dependabot alerts + secret scanning ON.
-- `main` branch protection: PR required. ⚠️ `seo-daily.yml` roz `data/reports/` seedha main pe commit karta hai — protection lagate waqt GitHub Actions ko bypass do, warna daily report fail hogi. Lagane ke baad ek baar "SEO daily report" workflow manually chala ke check karo.
+- Owner ka local workflow (25 Oct): tests/build pass hone ke baad direct `main` push. PR-only restriction required nahi hai. `seo-daily.yml` bhi `data/reports/` main pe commit karta hai.
 
 ### Step 14 — Admin panel ✅ DECIDED 25 Oct: owner uses it LOCALLY — double-click `Admin-Kholo.bat` (git pull + dev server + opens http://127.0.0.1:3123/admin/). Online locked project only later, when real traffic/earnings data exists. Old plan kept for reference:
 Cloudflare → Workers & Pages → Create → **Pages** ("Continue to Pages", Workers wala nahi) → same repo → project `homemoneycalc-admin` → build `npm run build`, output `out`, env `NODE_VERSION=22` **aur** `BUILD_ADMIN=1` → custom domain `admin.homemoneycalc.com` → Zero Trust → Access → Self-hosted app for `admin.homemoneycalc.com` + `homemoneycalc-admin.pages.dev` + `*.homemoneycalc-admin.pages.dev`, policy: Allow email `homemoneycalc.site@gmail.com`. Detail: `docs/SETUP-AGENT.md` Step 6. Admin data roz ke rebuild pe update hota hai (deploy hook isi project ka bhi bana ke release.yml me jod sakte ho — optional).
@@ -79,7 +79,7 @@ Cloudflare → Workers & Pages → Create → **Pages** ("Continue to Pages", Wo
 - **Sep 2027:** domain renewal (auto-renew ON, card valid ho).
 
 ## 5. Kaam karne ka tareeka (AI ke liye)
-- Kabhi `main` pe seedha push nahi. Branch → `gh pr create` → owner merge karega (CLAUDE.md rule 3).
-- Har change ke baad: `npm run check-tools`, `npm run lint`, `npm run build`; security headers test: `node scripts/serve-out.mjs` (port 3124).
+- Owner ne local chat ke kaam ke liye direct push approve kiya hai: latest `main` sync → changes → checks → commit → `git push origin main`. Naya PR/merge step zaroori nahi (CLAUDE.md rule 3).
+- Push se pehle: `npm test`, `npm run check-tools`, `npm run lint`, `npm run build`; security headers test: `node scripts/serve-out.mjs` (port 3124). Failed checks fix karo; unrelated local edits preserve karo; force-push mat karo.
 - Live check: `curl -sI https://homemoneycalc.com/...`.
 - Plan/priority: `docs/PRIORITY-PLAN.md`, `data/priorities.json`. Security: `docs/SECURITY.md`. SEO routine (owner ka weekly kaam): `docs/SEO-ROUTINE.md`.
