@@ -1,5 +1,6 @@
 {
   "goalMonthly": 5000,
-  "note": "One entry per month: {\"month\":\"2027-01\",\"affiliate\":0,\"templates\":0,\"other\":0,\"total\":0}. Or tell Claude the numbers.",
+  "goalIsEstimate": true,
+  "note": "goalMonthly is adjustable planning only, not a promised income, fixed ceiling, or deadline. One actual entry per month: {\"month\":\"2027-01\",\"adsense\":0,\"affiliate\":0,\"templates\":0,\"other\":0,\"total\":0}. Tell the assistant actual totals to update the shared record. Dashboard goal preferences are browser-local.",
   "months": []
 }

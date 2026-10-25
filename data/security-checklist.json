@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-25",
+  "updated": "2026-10-26",
   "note": "Admin panel ka '🔒 Security' card. who: claude (accounts milne pe Claude karega) | you (aapko khud karna hai — password/2FA kabhi chat me nahi). done:true jab ho jaaye (ya Claude ko bolo). Detail: docs/SECURITY.md",
   "items": [
     {
@@ -63,16 +63,16 @@
       "done": true
     },
     {
-      "task": "Cloudflare Access: admin panel sirf aapke email se (OTP)",
-      "why": "Kamai/traffic data koi aur na dekh sake.",
+      "task": "Admin dashboard: existing username/password login aur no-store/noindex protection",
+      "why": "Private dashboard par har request authentication se guzarti hai; website/admin sirf secure shortcut hai.",
       "who": "claude",
-      "done": false
+      "done": true
     },
     {
       "task": "Email: SPF + DMARC record (Email Routing ke saath)",
       "why": "Koi aapke domain ke naam se fake email na bhej sake.",
       "who": "claude",
-      "done": false
+      "done": true
     },
     {
       "task": "Search Console: Manual actions + Security issues har hafte ek nazar",

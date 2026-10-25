@@ -1,5 +1,7 @@
 # START HERE — HomeMoney Calc handoff (last updated 25 Oct 2026, ~1 PM IST)
 
+> **Current owner decisions — 26 Oct 2026:** Admin entry is https://homemoneycalc.com/admin/ (shortcut to existing password-protected dashboard). Dashboard is simplified into Overview, Visitors, Earning, Agent and Settings. $5,000 is an adjustable estimate, not an income ceiling or guarantee. Do not apply for AdSense yet; wait for genuine traffic and final readiness review. Compliant affiliates/templates may coexist with AdSense. One PayPal account is available; receiving eligibility is not yet verified. `data/business.json` stores the shared business/readiness assumptions. Daily agent now records code checks, live checks, explicit audit coverage and a prioritized action queue; autonomous source-code repair still needs local Codex or the separate configured coding workflow.
+
 > **AI/assistant ke liye:** pehle `CLAUDE.md` padho (rules), phir ye file. Owner beginner hai (India) — Hinglish me baat karo, "kyun" pehle, chhote steps, screenshot maang lo. Password/2FA/API key kabhi chat me mat mangwao.
 > **Human ke liye:** VS Code me folder `D:\cybersecurity\calcivy` kholo → Terminal me `git switch main` aur `git pull` → phir AI ko bolo: *"docs/NEXT-STEPS.md padho aur agla step batao"*.
 
@@ -58,8 +60,8 @@ bing.com/webmasters → "Import from Google Search Console" → Settings → API
 - Settings → Code security: Dependabot alerts + secret scanning ON.
 - Owner ka local workflow (25 Oct): tests/build pass hone ke baad direct `main` push. PR-only restriction required nahi hai. `seo-daily.yml` bhi `data/reports/` main pe commit karta hai.
 
-### Step 14 — Admin panel ✅ DECIDED 25 Oct: owner uses it LOCALLY — double-click `Admin-Kholo.bat` (git pull + dev server + opens http://127.0.0.1:3123/admin/). Online locked project only later, when real traffic/earnings data exists. Old plan kept for reference:
-Cloudflare → Workers & Pages → Create → **Pages** ("Continue to Pages", Workers wala nahi) → same repo → project `homemoneycalc-admin` → build `npm run build`, output `out`, env `NODE_VERSION=22` **aur** `BUILD_ADMIN=1` → custom domain `admin.homemoneycalc.com` → Zero Trust → Access → Self-hosted app for `admin.homemoneycalc.com` + `homemoneycalc-admin.pages.dev` + `*.homemoneycalc-admin.pages.dev`, policy: Allow email `homemoneycalc.site@gmail.com`. Detail: `docs/SETUP-AGENT.md` Step 6. Admin data roz ke rebuild pe update hota hai (deploy hook isi project ka bhi bana ke release.yml me jod sakte ho — optional).
+### Step 14 — Admin panel: secure website/admin entry
+Open https://homemoneycalc.com/admin/ → existing protected dashboard on homemoneycalc-admin.pages.dev → enter existing username/password. The public URL is a shortcut; the address bar changes to the protected host. Public builds still omit the dashboard; authentication stays on the separate admin deployment. Local preview remains `Admin-Kholo.bat`. New dashboard guide: `docs/ADMIN-AND-AGENT.md`.
 
 ### Step 15 — Kamai shuru (owner)
 - Payoneer + W-8BEN → Impact, CJ, FlexOffers, Awin apply (`docs/MONETIZATION.md`). **Tax software links 1 Jan se pehle** — `data/offers.json` me `url` bharo (sirf `https://` link; build galat link pe ruk jaata hai).

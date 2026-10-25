@@ -4,6 +4,7 @@ Run by `.github/workflows/seo-weekly.yml` every Monday. Follow the steps in orde
 
 ## 1. Read the situation (no edits yet)
 - Latest file in `data/reports/` — KPIs, `opportunities`, `lowCtr`, `health.issues`, `ai.agentNext`.
+- Start with its deterministic `actions` whose `who` is `agent`, sorted by priority. Read `quality` and `liveChecks`; missing checks are not passes. Reproduce each issue before editing. Do not promise rankings or revenue. The monthly goal is adjustable and may be exceeded.
 - `data/roadmap.json` — find tools with `status: "planned"` whose `targetDate` is within the next 10 days or already passed.
 - Open GitHub issues labeled `owner-request` that have no linked PR (use `gh issue list --label owner-request`). Owner requests come first.
 
@@ -25,6 +26,7 @@ Follow `docs/ADDING-A-TOOL.md` exactly. Also:
 ## 4. Check your work
 ```bash
 npm run check-tools
+npm test
 npm run lint
 npm run build
 ```

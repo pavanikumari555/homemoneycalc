@@ -4,7 +4,7 @@
 // Variables and Secrets me ADMIN_USER + ADMIN_PASS (Encrypt/Secret) owner khud daalti hai.
 // - Password set nahi -> admin band (403). Galti se bhi khula nahi rehta ("fail closed").
 // - Galat password -> 401, browser dobara poochhta hai. Sahi -> page, kabhi cache nahi.
-// Public site (project "homemoneycalc") pe ADMIN_PASS hota hi nahi -> wahan /admin hamesha band.
+// Public /admin is a shortcut to the existing protected dashboard; no credentials are copied.
 // ============================================================================
 
 const REALM = "HomeMoney Calc Admin";
@@ -36,6 +36,14 @@ const deny = (status, text, extra = {}) =>
   new Response(text, { status, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex, nofollow", ...extra } });
 
 export async function onRequest({ request, env, next }) {
+  const hostname = new URL(request.url).hostname;
+  if (["homemoneycalc.com", "www.homemoneycalc.com", "homemoneycalc.pages.dev"].includes(hostname) || hostname.endsWith(".homemoneycalc.pages.dev")) {
+    return new Response(null, { status: 302, headers: {
+      location: "https://homemoneycalc-admin.pages.dev/admin/",
+      "cache-control": "no-store",
+      "x-robots-tag": "noindex, nofollow",
+    } });
+  }
   const user = env.ADMIN_USER;
   const pass = env.ADMIN_PASS;
   // Bahut chhota password = galti; admin band rakho jab tak strong password na ho

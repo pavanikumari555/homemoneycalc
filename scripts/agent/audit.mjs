@@ -3,7 +3,7 @@
 // Koi external service nahi; build ke baad free me chalta hai.
 // ============================================================================
 import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
-import { join, relative } from "node:path";
+import { join, relative, resolve, isAbsolute } from "node:path";
 
 function walk(dir) {
   return readdirSync(dir).flatMap((name) => {
@@ -31,6 +31,17 @@ export function auditSite(outDir = "out", siteUrl = "https://homemoneycalc.com")
 
   const pages = [];
   const issues = [];
+  const seenTitles = new Map();
+  const seenCanonicals = new Map();
+  const localAsset = (path) => {
+    try {
+      const root = resolve(outDir);
+      const target = resolve(root, `.${decodeURIComponent(path)}`);
+      const rel = relative(root, target);
+      if (rel.startsWith("..") || isAbsolute(rel)) return false;
+      return existsSync(target);
+    } catch { return false; }
+  };
   for (const file of htmlFiles) {
     const route = "/" + relative(outDir, file).replace(/\\/g, "/").replace(/index\.html$/, "");
     if (route.startsWith("/404") || route.startsWith("/_not-found") || route.startsWith("/admin") || route.startsWith("/embed")) continue; // embed = noindex iframe widget
@@ -59,6 +70,21 @@ export function auditSite(outDir = "out", siteUrl = "https://homemoneycalc.com")
     if (!canonical && !noindex) add("warn", "Missing canonical link");
     if (!noindex && words < 300) add("warn", `Thin content: ~${words} words`);
     if (!noindex && !sitemapUrls.includes(route)) add("warn", "Indexable page not in sitemap.xml");
+    if (!noindex && title) {
+      if (seenTitles.has(title)) add("warn", `Duplicate title also used on ${seenTitles.get(title)}`);
+      else seenTitles.set(title, route);
+    }
+    if (!noindex && canonical) {
+      if (canonical !== `${siteUrl}${route}`) add("error", "Canonical does not match the public page URL");
+      if (seenCanonicals.has(canonical)) add("error", `Duplicate canonical also used on ${seenCanonicals.get(canonical)}`);
+      else seenCanonicals.set(canonical, route);
+    }
+    for (const m of html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
+      try { JSON.parse(m[1]); } catch { add("error", "Invalid JSON-LD structured data"); }
+    }
+    for (const m of html.matchAll(/(?:src|href)="(\/[^"?#]+\.(?:js|css|svg|png|ico|woff2?))(?:[?#][^"]*)?"/g)) {
+      if (!localAsset(m[1])) add("error", `Missing local asset → ${m[1]}`);
+    }
 
     // Broken internal links
     for (const m of html.matchAll(/href="(\/[^"#?]*)/g)) {
@@ -88,5 +114,6 @@ export function auditSite(outDir = "out", siteUrl = "https://homemoneycalc.com")
     warnings: unique.filter((i) => i.severity === "warn").length,
     issues: unique.slice(0, 100),
     pages,
+    coverage: ["Titles/descriptions", "Canonical URLs", "Sitemap and internal links", "Local scripts/styles/images", "JSON-LD validity", "Images and heading structure"],
   };
 }

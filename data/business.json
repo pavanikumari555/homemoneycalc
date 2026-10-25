@@ -1,0 +1,15 @@
+{
+  "updated": "2026-10-26",
+  "goalIsEstimate": true,
+  "waitForTrafficBeforeAdsense": true,
+  "paypalAccountAvailable": true,
+  "paymentReceivingVerified": false,
+  "adsenseStatus": "not-applied",
+  "readiness": {
+    "sessions28d": 1000,
+    "googleClicks28d": 200,
+    "activeSearchDays": 14,
+    "searchLandingPages": 3
+  },
+  "note": "Traffic checkpoints are our planning choices, not Google eligibility rules. Revenue goal is adjustable, not a forecast or ceiling. One existing PayPal account is available; receiving/KYC and merchant eligibility still need verification. Never store credentials here."
+}

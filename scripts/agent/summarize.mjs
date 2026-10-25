@@ -31,9 +31,11 @@ const SUMMARY_SCHEMA = {
 
 const SYSTEM = `You are the SEO analyst for HomeMoney Calc, a free US money-calculator website.
 The owner is a beginner from India who reads Hinglish (Hindi in Roman script mixed with simple English). Write for them: short, warm, specific, no jargon without a 3-word explanation.
-Goal: grow Google traffic from the US safely and reach $5,000/month from Google AdSense, finance affiliates, templates and sponsors over 18-36 months. AdSense approval and account status must be verified, never assumed.
+Goal: grow useful US traffic and sustainable revenue from Google AdSense, finance affiliates, templates and sponsors. business.goalMonthly is an adjustable planning estimate, not promised revenue, a fixed ceiling, or a timeline guarantee. Do not apply for AdSense yet; wait for traffic and the owner's readiness review. AdSense approval and account status must be verified, never assumed.
 Rules you must follow:
 - Only use numbers present in the data. If a data source is not connected, say so and give the setup step instead of inventing numbers.
+- Use the deterministic actions list first: explain why, who can act, and the exact next steps. Never say every possible problem was checked or promise fast rankings. Missing/failed checks are not healthy results. health.ran=false means no completed technical audit.
+- The owner already has one PayPal account; do not suggest a second one. Account availability does not prove that receiving/KYC or an affiliate payout method is ready.
 - sources.gsc=false only means THIS AGENT can't read Search Console yet (service account missing, docs/NEXT-STEPS.md Step 11.4). Tasks marked done in growth.thisWeek / the checklist are already finished by the owner — never ask for them again.
 - Never suggest anything against Google's spam policies: no bought links, no mass AI pages, no fake traffic.
 - The report has an 'ideas' section (title tests, refresh, seasonal alerts, keyword gap, outreach drafts, social ideas). Use it, but outreach is always sent by the owner by hand.
@@ -160,9 +162,9 @@ async function viaAnthropic(prompt, report) {
 
 /** No-AI fallback so the report is always useful. */
 function fallback(r) {
-  const youDo = [];
+  const youDo = (r.actions ?? []).filter((a) => a.who === "owner").slice(0, 3).map((a) => `${a.title}: ${a.steps.join(" ")}`);
   const risks = [];
-  if (!r.sources.gsc) youDo.push("Report-agent ko Search Console ka data padhne do: service account jodo (docs/NEXT-STEPS.md Step 11.4) — bina iske ranking data report me nahi aayega.");
+  if (!r.sources.gsc && !(r.actions ?? []).some((a) => a.id === "gsc-data")) youDo.push("Report-agent ko Search Console ka data padhne do: service account jodo (docs/NEXT-STEPS.md Step 11.4) — bina iske ranking data report me nahi aayega.");
   if (r.health?.errors) youDo.push(`Site me ${r.health.errors} technical error(s) hain — admin panel ke 'Site health' me dekho.`);
   if (r.opportunities?.length) youDo.push(`"${r.opportunities[0].query}" position ${r.opportunities[0].position.toFixed(1)} pe hai — us page ko improve karne ka kaam agent ko do.`);
   const due = r.roadmap?.dueSoon?.[0];
@@ -176,12 +178,12 @@ function fallback(r) {
   if (task) youDo.push(`Growth task: ${task.task}`);
   if (r.kpis?.clicksChange != null && r.kpis.clicksChange < -20) risks.push(`Google clicks ${r.kpis.clicksChange}% gire hain — Search Console me check karo.`);
   return {
-    headline: r.sources.gsc ? `Last 28 days: ${r.kpis.clicks} clicks, ${r.kpis.impressions} impressions` : "Site ready — ab Search Console connect karna hai",
+    headline: r.sources.gsc ? `Last 28 days: ${r.kpis.clicks} clicks, ${r.kpis.impressions} impressions` : "Google report connection poora karna hai",
     summary: r.sources.gsc
       ? `Google se ${r.kpis.clicks} clicks aaye (avg position ${r.kpis.position?.toFixed?.(1)}). ${r.opportunities?.length ?? 0} keywords position 8-30 me hain jinko thoda improve karke page 1 pe la sakte hain.`
-      : `Abhi traffic data connect nahi hai, isliye sirf site ki technical jaanch hui: ${r.health?.pageCount ?? 0} pages, ${r.health?.errors ?? 0} errors, ${r.health?.warnings ?? 0} warnings.`,
+      : r.health?.ran === true ? `Abhi traffic data connect nahi hai. Technical audit mein ${r.health.pageCount} pages check hue: ${r.health.errors} errors, ${r.health.warnings} warnings. Live aur code checks ki coverage alag dekhein.` : "Traffic data missing hai aur technical audit complete nahi hua. Missing checks ko zero errors na samjhein.",
     youDo: youDo.slice(0, 5),
-    agentNext: due ? [`Draft ${due.title} (${due.slug})`] : [],
+    agentNext: (r.actions ?? []).filter((a) => a.who === "agent").slice(0, 4).map((a) => `${a.title}: ${a.steps.join(" ")}`),
     risks,
   };
 }

@@ -2,7 +2,7 @@
 
 **Start here:** read `docs/NEXT-STEPS.md` first — current status (site is LIVE), accounts, and the exact next step.
 
-HomeMoney Calc (homemoneycalc.com) is a free US money-calculator site. Static Next.js 16 export (React 19) on Cloudflare Pages, Tailwind, TypeScript. No server, no database, no accounts. Revenue: **Google AdSense, Google ad products, clearly-labeled finance affiliates, own templates (Payhip), sponsors** — see `docs/MONETIZATION.md`. Goal: $5,000/month in 18–36 months from US search traffic.
+HomeMoney Calc (homemoneycalc.com) is a free US money-calculator site. Static Next.js 16 export (React 19) on Cloudflare Pages, Tailwind, TypeScript. Public calculators need no database or account. Revenue plan: **Google AdSense, clearly-labeled finance affiliates, own templates, sponsors** — see `docs/MONETIZATION.md`. The initial $5,000/month target is an adjustable estimate, not a revenue promise, ceiling, or fixed deadline. Wait for genuine traffic and an owner's readiness review before applying for AdSense. The owner has one PayPal account; receiving/KYC and merchant compatibility still need verification. Admin entry is `https://homemoneycalc.com/admin/`, which redirects to the existing protected dashboard.
 
 The owner is a beginner from India. Talk to them in Hinglish: why first, then how, small steps. Code comments in this repo are short Hinglish/English mixes — match that.
 

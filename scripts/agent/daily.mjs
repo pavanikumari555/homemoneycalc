@@ -14,6 +14,9 @@ import { summarize } from "./summarize.mjs";
 import { bingWebmaster } from "./bing.mjs";
 import { growthIdeas, readTools } from "./ideas.mjs";
 import { roadmapSummary } from "./roadmap.mjs";
+import { adsenseReadiness, actionPlan } from "./advisor.mjs";
+import { qualityChecks } from "./quality.mjs";
+import { liveChecks } from "./live.mjs";
 
 const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
@@ -47,6 +50,10 @@ async function main() {
     safely("Bing Webmaster", () => bingWebmaster({ apiKey: env.BING_WEBMASTER_KEY, site: env.BING_SITE || `${SITE_URL}/` }), notes),
   ]);
   const health = auditSite("out", SITE_URL);
+  const quality = qualityChecks();
+  const liveHealth = await liveChecks(SITE_URL);
+  const business = readJson("data/business.json", { readiness: { sessions28d: 1000, googleClicks28d: 200, activeSearchDays: 14, searchLandingPages: 3 } });
+  const revenue = readJson("data/revenue.json", { goalMonthly: 5000 });
 
   // --- Opportunities: queries on page 1-3 with real impressions (best ROI for a new site)
   const opportunities = (gsc.queryPage ?? [])
@@ -111,7 +118,10 @@ async function main() {
       }
     })(),
     speed: psi.results ?? [],
-    health: health.ran ? { pageCount: health.pageCount, errors: health.errors, warnings: health.warnings, issues: health.issues } : { pageCount: 0, errors: 0, warnings: 0, issues: [], note: health.reason },
+    health: health.ran ? { ran: true, pageCount: health.pageCount, errors: health.errors, warnings: health.warnings, issues: health.issues, coverage: health.coverage } : { ran: false, pageCount: 0, errors: null, warnings: null, issues: [], note: health.reason },
+    quality,
+    liveChecks: liveHealth,
+    business: { goalMonthly: revenue.goalMonthly, goalIsEstimate: true, waitForTrafficBeforeAdsense: true },
     roadmap: { live, planned, overdue, dueSoon },
     growth: { week, thisWeek },
     // Earning goals: AdSense, affiliates, templates and sponsors (docs/MONETIZATION.md).
@@ -119,11 +129,13 @@ async function main() {
     milestones: {
       first100: { target: 100, metric: "revenueMonth", label: "First $100 month (affiliates + templates)" },
       k1: { target: 1000, metric: "revenueMonth", label: "$1,000 month" },
-      goal: { target: 5000, metric: "revenueMonth", label: "$5,000 month (goal)" },
+      goal: { target: revenue.goalMonthly, metric: "revenueMonth", label: "Adjustable monthly goal (estimate, not a ceiling)" },
     },
     previousDate: previous?.date ?? null,
     notes,
   };
+  report.adsenseReadiness = adsenseReadiness(report, business, today);
+  report.actions = actionPlan(report, business, today);
 
   const ai = await safely("AI summary", () => summarize(report), notes);
   report.ai = ai && !ai.error ? ai : null;
