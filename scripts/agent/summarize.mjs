@@ -1,6 +1,6 @@
 // ============================================================================
 // AI SUMMARY — roz ki report ka Hinglish summary + "aaj kya karo" list.
-// Providers (jo key mile wahi use hota hai, ya AI_PROVIDER se chuno):
+// Providers (jitni keys hain sab backup ki tarah order me try hoti hain; AI_PROVIDER se pehla chuno):
 //   GEMINI_API_KEY (free tier) · GROQ_API_KEY (free tier) · ANTHROPIC_API_KEY (paid)
 // Koi key nahi / AI fail -> rule-based summary (agent fir bhi chalta hai).
 // ============================================================================
@@ -40,19 +40,29 @@ Rules you must follow:
 - Keep every task doable in under 1 hour and say where to do it.`;
 
 const env = process.env;
-const pickProvider = () =>
-  env.AI_PROVIDER ||
-  (env.GEMINI_API_KEY ? "gemini" : env.GROQ_API_KEY ? "groq" : env.ANTHROPIC_API_KEY || env.ANTHROPIC_AUTH_TOKEN ? "anthropic" : "rules");
+
+/** Jitni keys hain, sab order me try: AI_PROVIDER (agar diya) pehle, phir Gemini → Groq → Anthropic. */
+function providerChain() {
+  const available = [
+    env.GEMINI_API_KEY && "gemini",
+    env.GROQ_API_KEY && "groq",
+    (env.ANTHROPIC_API_KEY || env.ANTHROPIC_AUTH_TOKEN) && "anthropic",
+  ].filter(Boolean);
+  const first = env.AI_PROVIDER && available.includes(env.AI_PROVIDER) ? [env.AI_PROVIDER] : [];
+  return [...new Set([...first, ...available])];
+}
 
 export async function summarize(report) {
-  const provider = pickProvider();
   const prompt = `Today's data (JSON):\n${JSON.stringify(report)}`;
-  try {
-    if (provider === "gemini") return await viaGemini(prompt);
-    if (provider === "groq") return await viaGroq(prompt);
-    if (provider === "anthropic") return await viaAnthropic(prompt, report);
-  } catch (e) {
-    console.warn(`AI summary via ${provider} failed: ${String(e.message ?? e).slice(0, 200)}`);
+  // Ek provider busy/down ho to agla — free tiers kabhi-kabhi "high demand" dete hain
+  for (const provider of providerChain()) {
+    try {
+      if (provider === "gemini") return await viaGemini(prompt);
+      if (provider === "groq") return await viaGroq(prompt);
+      if (provider === "anthropic") return await viaAnthropic(prompt, report);
+    } catch (e) {
+      console.warn(`AI summary via ${provider} failed: ${String(e.message ?? e).slice(0, 200)}`);
+    }
   }
   return { ...fallback(report), by: "rules" };
 }
