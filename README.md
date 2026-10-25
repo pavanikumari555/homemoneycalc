@@ -1,5 +1,7 @@
 # HomeMoney Calc 🌿
 
+> 👉 **Kaam aage badhana hai? Pehle [docs/NEXT-STEPS.md](docs/NEXT-STEPS.md) padho** (status + agla step).
+
 Free financial calculators for the US. Static Next.js site — hosts free on Cloudflare Pages, only cost is the domain (homemoneycalc.com).
 
 ## What's inside

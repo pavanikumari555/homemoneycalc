@@ -2,17 +2,77 @@
   "updated": "2026-10-25",
   "note": "Admin panel ka '🔒 Security' card. who: claude (accounts milne pe Claude karega) | you (aapko khud karna hai — password/2FA kabhi chat me nahi). done:true jab ho jaaye (ya Claude ko bolo). Detail: docs/SECURITY.md",
   "items": [
-    { "task": "Gmail, GitHub, Cloudflare, Namecheap — sab pe 2-step verification (authenticator app, SMS nahi)", "why": "Hacker site tak sirf inhi accounts se pahunch sakta hai. 2FA = password chori ho tab bhi andar nahi aa sakta.", "who": "you", "done": false },
-    { "task": "Recovery codes print karke ghar pe safe rakho (phone kho jaaye tab kaam aate hain)", "why": "Bina inke phone khone pe khud ka account lock ho sakta hai.", "who": "you", "done": false },
-    { "task": "Namecheap: Domain Lock ON + auto-renew ON", "why": "Domain chori (transfer) ya bhool se expire hone se bachaav — expire hua to koi aur khareed lega.", "who": "you", "done": false },
-    { "task": "GitHub: repo private + main branch protection (sirf PR se change)", "why": "Koi galti se ya chori ke token se seedha live site badal na sake.", "who": "claude", "done": false },
-    { "task": "GitHub: secret scanning + Dependabot alerts ON", "why": "Galti se key commit ho ya kisi package me bug mile to turant email.", "who": "claude", "done": false },
-    { "task": "Cloudflare: Always HTTPS, TLS 1.2+, DNSSEC ON", "why": "Beech me data churana / fake DNS se bachaav.", "who": "claude", "done": false },
-    { "task": "Cloudflare: Bot Fight Mode ON (Google/Bing jaise achhe bots allowed rehte hain)", "why": "Scraper aur bekaar bots khud ruk jaate hain, users ko kuch nahi dikhta.", "who": "claude", "done": false },
-    { "task": "Cloudflare: /go/ affiliate links pe rate limit (bot clicks rokne ke liye)", "why": "Bot ke fake clicks se affiliate account band ho sakta hai (purane AdSense jaisa). Ye sabse zaroori.", "who": "claude", "done": false },
-    { "task": "Cloudflare: WAF rule — /wp-admin, /.env, /xmlrpc.php jaise hacker-scan block", "why": "Logs saaf, bekaar load kam. (Hamari site pe ye files hain hi nahi.)", "who": "claude", "done": false },
-    { "task": "Cloudflare Access: admin panel sirf aapke email se (OTP)", "why": "Kamai/traffic data koi aur na dekh sake.", "who": "claude", "done": false },
-    { "task": "Email: SPF + DMARC record (Email Routing ke saath)", "why": "Koi aapke domain ke naam se fake email na bhej sake.", "who": "claude", "done": false },
-    { "task": "Search Console: Manual actions + Security issues har hafte ek nazar", "why": "Google koi problem dekhe to sabse pehle yahin batata hai.", "who": "you", "done": false }
+    {
+      "task": "Gmail, GitHub, Cloudflare, Namecheap — sab pe 2-step verification (authenticator app, SMS nahi)",
+      "why": "Hacker site tak sirf inhi accounts se pahunch sakta hai. 2FA = password chori ho tab bhi andar nahi aa sakta.",
+      "who": "you",
+      "done": false
+    },
+    {
+      "task": "Recovery codes print karke ghar pe safe rakho (phone kho jaaye tab kaam aate hain)",
+      "why": "Bina inke phone khone pe khud ka account lock ho sakta hai.",
+      "who": "you",
+      "done": false
+    },
+    {
+      "task": "Namecheap: Domain Lock ON + auto-renew ON",
+      "why": "Domain chori (transfer) ya bhool se expire hone se bachaav — expire hua to koi aur khareed lega.",
+      "who": "you",
+      "done": true
+    },
+    {
+      "task": "GitHub: repo private + main branch protection (sirf PR se change)",
+      "why": "Koi galti se ya chori ke token se seedha live site badal na sake.",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "GitHub: secret scanning + Dependabot alerts ON",
+      "why": "Galti se key commit ho ya kisi package me bug mile to turant email.",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "Cloudflare: Always HTTPS, TLS 1.2+, DNSSEC ON",
+      "why": "Beech me data churana / fake DNS se bachaav.",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "Cloudflare: Bot Fight Mode ON (Google/Bing jaise achhe bots allowed rehte hain)",
+      "why": "Scraper aur bekaar bots khud ruk jaate hain, users ko kuch nahi dikhta.",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "Cloudflare: /go/ affiliate links pe rate limit (bot clicks rokne ke liye)",
+      "why": "Bot ke fake clicks se affiliate account band ho sakta hai (purane AdSense jaisa). Ye sabse zaroori.",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "Cloudflare: WAF rule — /wp-admin, /.env, /xmlrpc.php jaise hacker-scan block",
+      "why": "Logs saaf, bekaar load kam. (Hamari site pe ye files hain hi nahi.)",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "Cloudflare Access: admin panel sirf aapke email se (OTP)",
+      "why": "Kamai/traffic data koi aur na dekh sake.",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "Email: SPF + DMARC record (Email Routing ke saath)",
+      "why": "Koi aapke domain ke naam se fake email na bhej sake.",
+      "who": "claude",
+      "done": false
+    },
+    {
+      "task": "Search Console: Manual actions + Security issues har hafte ek nazar",
+      "why": "Google koi problem dekhe to sabse pehle yahin batata hai.",
+      "who": "you",
+      "done": false
+    }
   ]
 }
