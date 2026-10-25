@@ -1,6 +1,7 @@
 # HomeMoney Calc — Earning plan: AdSense + affiliates + templates + sponsors
 
 > **Owner-confirmed goal (25 Oct 2026):** Google AdSense aur doosre earning sources (affiliates, templates, sponsors). AdSense setup aur application pending hain; approval assume na karein.
+> **AdSense setup:** Owner ke apne publisher ID ke saath site setup karein; implementation mein CSP, ads.txt aur placements check karein. Ads calculator inputs/buttons ko interfere na karein. Account aur site approval status dashboard se verify karein.
 > [O] official · [3P] third-party listing · (est.) estimate — payouts dashboard me confirm karna.
 
 ---
