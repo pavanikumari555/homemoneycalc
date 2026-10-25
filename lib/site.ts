@@ -19,7 +19,7 @@ export const SITE = {
   twitter: "", // optional @handle
   // GitHub repo URL (e.g. "https://github.com/you/homemoneycalc"). Admin panel ka
   // "Report a problem" button isi repo me issue kholta hai -> Claude fix karta hai.
-  repo: "",
+  repo: "https://github.com/pavanikumari555/homemoneycalc",
   // IndexNow key (public by design): Bing/Yandex/ChatGPT-search ko naye pages turant batata hai.
   // Same value ki file public/<key>.txt me hai — dono saath badalna.
   indexNowKey: "003c58862834fce1e9714cc87fd0d1e2",
