@@ -52,3 +52,11 @@ https://homemoneycalc.pages.dev/*
   X-Robots-Tag: noindex
 https://:version.homemoneycalc.pages.dev/*
   X-Robots-Tag: noindex
+
+# Admin project (username/password wala) ki poori copy Google me na aaye — duplicate site nahi chahiye
+https://admin.homemoneycalc.com/*
+  X-Robots-Tag: noindex, nofollow
+https://homemoneycalc-admin.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+https://:version.homemoneycalc-admin.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
