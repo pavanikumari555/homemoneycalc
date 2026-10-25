@@ -44,3 +44,10 @@ Owner can say: **"Automation checkpoint padhkar jahan se ruke the wahi se contin
 27 tests passed; final lint passed. Public and BUILD_ADMIN=1 builds passed. Browser verified sixth nav, empty queue honesty, unavailable API explanation, expandable numbered server-secret setup and source statuses. Preview screenshot saved in this chat's outputs/Agent-Approval-Inbox-Preview.png. Account window snapshot at checkpoint: 90% used (about 10% remaining); this changes with further usage.
 
 Live approval submission is NOT verified because the restricted admin-host secret has not been configured. No owner proposal was approved on their behalf. Deployment status must be checked after the commit below is pushed.
+
+## Deployment evidence
+
+- Main implementation commit: `aadbb6e` (direct push). GitHub CI and both Cloudflare Pages deployments completed successfully.
+- Live unauthenticated probes: website root 200; `/admin/` 302 to the protected admin host, no-store; `/admin/api/approvals` on the admin host 401 with authentication challenge and no-store.
+- Dispatched real daily workflow run `40228099546` to verify hosted reporting. Check its final result before assuming a fresh report exists.
+- Follow-up test maintenance uses a stable standalone page fixture so a legitimate approved title edit won't break a regression test that hardcodes the site's old title. All 27 tests, registry check, lint and public build passed again.

@@ -1,6 +1,5 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import { sealProposal, validateProposal, applyMetadata, proposalQueue } from "../scripts/agent/proposals.mjs";
 import { decide } from "../scripts/agent/decide.mjs";
 import { robotsAllowed, sourceText, observeSources } from "../scripts/agent/research.mjs";
@@ -11,8 +10,9 @@ import { evaluateExperiments } from "../scripts/agent/experiments.mjs";
 
 const today = "2026-10-26";
 const payload = { kind: "metadata", topic: "title-paycheck", created: today, expires: "2026-11-09", title: "Review paycheck title", reason: "Observed search demand; hypothesis only.", evidence: [{ url: "https://homemoneycalc.com/paycheck-calculator/", observation: "Observed query from GSC." }], reviewChecklist: ["Reviewed actual supported features."], change: { slug: "paycheck-calculator", field: "title", before: "Take-Home Paycheck Calculator", after: "Take-Home Paycheck Calculator — Free" } };
-payload.change.before = "Paycheck Calculator 2026: Take-Home Pay, All 50 States";
-const source = readFileSync("app/paycheck-calculator/page.tsx", "utf8");
+const source = `import { buildMetadata } from "@/lib/seo";
+export const metadata = buildMetadata({ title: "Take-Home Paycheck Calculator", description: "A useful take-home estimate with assumptions.", path: "/paycheck-calculator/" });
+export default function Page() { return <div>Stable calculator code</div>; }`;
 test("approved metadata edits only the reviewed string; executable code and dates remain unchanged", () => {
   const p = sealProposal(payload);
   const edited = applyMetadata(source, p, today);
