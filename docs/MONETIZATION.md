@@ -2,6 +2,7 @@
 
 > **Kyun badla:** Owner ka purana AdSense account (5+ saal pehle) invalid traffic se band hua tha. Google ka rule: aise publisher **AdSense me dobara participate nahi kar sakte** — naya account (apne ya kisi aur ke naam se) = ban todna. Iska asar: **AdSense, Ad Manager/AdX, AdMob, Mediavine, Raptive, Ezoic — sab band** (ye sab Google demand pe chalte hain).
 > **Ek hi Google raasta:** purane account ki **ek appeal** — sirf agar pehle appeal nahi ki aur imaandari se keh sakte ho ki clicks aapki wajah se nahi the. (Form: https://support.google.com/adsense/contact/appeal_form_adsense_admob)
+> **Agar appeal pass ho jaye (25 Oct 2026 update):** tab AdSense (aur Google demand wale networks) allowed hain — sirf **usi purane account** se. Steps: (1) owner Claude ko confirm kare + `ca-pub-...` ID de, (2) `public/_headers` ki CSP me Google ad domains jodo (abhi `script-src 'self'` sab block karta hai), (3) ads result ke neeche/content ke beech, kabhi inputs/buttons ke paas nahi, (4) `/go/` jaisa bot protection rakho. Appeal fail ho = ye plan (bina Google) hi chalega. Naya account kabhi nahi.
 > [O] official · [3P] third-party listing · (est.) estimate — payouts dashboard me confirm karna.
 
 ---
