@@ -1,0 +1,410 @@
+{
+  "date": "2026-10-25",
+  "generatedAt": "2026-10-25T09:27:36.662Z",
+  "sources": {
+    "gsc": false,
+    "ga4": false,
+    "psi": false,
+    "bing": true,
+    "ai": false
+  },
+  "kpis": {
+    "clicks": null,
+    "impressions": null,
+    "ctr": null,
+    "position": null,
+    "clicksChange": null,
+    "impressionsChange": null,
+    "sessions": null,
+    "sessionsChange": null,
+    "usShare": null,
+    "pageviews": null
+  },
+  "trend": [],
+  "topQueries": [],
+  "topPages": [],
+  "opportunities": [],
+  "lowCtr": [],
+  "bing": {
+    "totals": {
+      "clicks": 0,
+      "impressions": 0
+    },
+    "topQueries": []
+  },
+  "ideas": {
+    "titleTests": [],
+    "refresh": [
+      {
+        "slug": "lib/tax engine",
+        "reason": "2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath).",
+        "tools": [
+          "paycheck-calculator",
+          "salary-to-hourly-calculator"
+        ],
+        "priority": "high"
+      }
+    ],
+    "seasonal": [
+      {
+        "name": "Open enrollment & raises",
+        "starts": "2026-11-01",
+        "ends": "2026-12-15",
+        "status": "7 din me shuru",
+        "tools": [
+          "paycheck-calculator"
+        ],
+        "idea": "401(k)/HSA change ka paycheck pe asar — paycheck page pe example."
+      },
+      {
+        "name": "Black Friday & holiday spending",
+        "starts": "2026-11-20",
+        "ends": "2026-12-31",
+        "status": "26 din me shuru",
+        "tools": [
+          "credit-card-payoff-calculator",
+          "percentage-calculator",
+          "tip-calculator"
+        ],
+        "idea": "Discount % aur 'holiday credit card bill kab tak chukega' angle."
+      },
+      {
+        "name": "Year-end car deals",
+        "starts": "2026-12-01",
+        "ends": "2026-12-31",
+        "status": "37 din me shuru",
+        "tools": [
+          "auto-loan-calculator"
+        ],
+        "idea": "Dealer deal vs loan length — total interest comparison pin."
+      }
+    ],
+    "keywordGap": {
+      "missingTopics": [
+        {
+          "keyword": "mortgage calculator",
+          "slug": "mortgage-calculator",
+          "seenOn": [
+            "calculator.net",
+            "NerdWallet",
+            "Bankrate"
+          ]
+        },
+        {
+          "keyword": "amortization calculator",
+          "slug": "amortization-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Bankrate"
+          ]
+        },
+        {
+          "keyword": "loan calculator",
+          "slug": "loan-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Bankrate",
+            "NerdWallet"
+          ]
+        },
+        {
+          "keyword": "personal loan calculator",
+          "slug": "personal-loan-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate"
+          ]
+        },
+        {
+          "keyword": "refinance calculator",
+          "slug": "refinance-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "heloc calculator",
+          "slug": "heloc-calculator",
+          "seenOn": [
+            "Bankrate",
+            "NerdWallet"
+          ]
+        },
+        {
+          "keyword": "income tax calculator",
+          "slug": "income-tax-calculator",
+          "seenOn": [
+            "SmartAsset",
+            "NerdWallet",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "capital gains tax calculator",
+          "slug": "capital-gains-tax-calculator",
+          "seenOn": [
+            "SmartAsset",
+            "NerdWallet"
+          ]
+        },
+        {
+          "keyword": "sales tax calculator",
+          "slug": "sales-tax-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "retirement calculator",
+          "slug": "retirement-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "SmartAsset",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "401k calculator",
+          "slug": "401k-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "savings goal calculator",
+          "slug": "savings-goal-calculator",
+          "seenOn": [
+            "Bankrate",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "cd calculator",
+          "slug": "cd-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "simple interest calculator",
+          "slug": "simple-interest-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "discount calculator",
+          "slug": "discount-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "hours calculator",
+          "slug": "hours-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "net worth calculator",
+          "slug": "net-worth-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "SmartAsset"
+          ]
+        },
+        {
+          "keyword": "gas cost calculator",
+          "slug": "gas-cost-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        }
+      ],
+      "unservedQueries": []
+    },
+    "outreach": [
+      {
+        "to": "Personal-finance blogger jisne haal me is topic pe post likhi ho",
+        "subject": "A free paycheck tool for your readers",
+        "body": "Hi [Name],\n\nI enjoyed your post \"[their post title]\" — especially [one specific point].\n\nI run HomeMoney Calc, a free, no-sign-up set of US money calculators. Our take-home paycheck calculator might be a useful extra for that post: https://homemoneycalc.com/paycheck-calculator/ (example: $75,000 salary in California → $2,081 per paycheck).\n\nIf it helps your readers, you're welcome to link it or embed it (free embed code is at the bottom of the page). No pressure at all if it's not a fit.\n\nThanks,\n[Your name]\nFounder, HomeMoney Calc",
+        "rules": "Personalize karo, ek-ek bhejo, din me 5 se zyada nahi. Paisa/link exchange kabhi offer mat karna."
+      },
+      {
+        "to": "Local/finance journalist (Qwoted, Featured ya unka 'tips' email)",
+        "subject": "State-by-state take-home pay data for 2026 (free to use)",
+        "body": "Hi [Name],\n\nSaw you cover [beat]. We put together a free table of 2026 take-home pay for the same salary in all 50 states: https://homemoneycalc.com/take-home-pay-by-state/\n\nOne example: $75,000 salary in California takes home about $2,081 per paycheck. Method and official sources (IRS, state revenue departments) are on the page. Happy to pull a custom number for your story.\n\nBest,\n[Your name]\nFounder, HomeMoney Calc",
+        "rules": "Personalize karo, ek-ek bhejo, din me 5 se zyada nahi. Paisa/link exchange kabhi offer mat karna."
+      }
+    ],
+    "social": {
+      "tool": "debt-payoff-calculator",
+      "pinterest": {
+        "title": "4 debts + $250/month extra → Debt-free in 3 yr 9 mo",
+        "description": "Compare snowball and avalanche side by side and get your debt-free date. Free debt payoff calculator (snowball vs avalanche) — no sign-up, works on your phone.",
+        "board": "Debt Free Journey",
+        "link": "https://homemoneycalc.com/debt-payoff-calculator/",
+        "design": "Tall 1000x1500 pin: upar bada sawaal, beech me answer number, neeche site naam. Canva free template."
+      },
+      "shorts": {
+        "hook": "4 debts + $250/month extra? Here's the real number.",
+        "beats": [
+          "Screen record: Debt Snowball me values daalo",
+          "Answer dikhao: Debt-free in 3 yr 9 mo",
+          "Ek tip: kaunsa input badalne se sabse zyada farak padta hai"
+        ],
+        "cta": "Link in bio / description (seedha tool page)."
+      }
+    }
+  },
+  "speed": [],
+  "health": {
+    "pageCount": 22,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  "roadmap": {
+    "live": 10,
+    "planned": 38,
+    "overdue": [],
+    "dueSoon": [
+      {
+        "slug": "no-tax-on-overtime-calculator",
+        "title": "No Tax on Overtime Calculator",
+        "primaryKeyword": "no tax on overtime calculator",
+        "secondary": [
+          "overtime deduction 2026",
+          "qualified overtime deduction married filing jointly",
+          "w-2 code tt",
+          "box 12 tt overtime"
+        ],
+        "volume": "10k-100k (peaks Jan-Apr)",
+        "difficulty": "low-med",
+        "wave": 1,
+        "targetDate": "2026-10-30",
+        "status": "drafted",
+        "why": "New OBBBA deduction (2025-2028); SERP led by small sites; $12.5k/$25k cap, phase-out from $150k/$300k MAGI. New W-2 Box 12 code TT on 2026 W-2s (issued by Feb 1, 2027) -> 'my W-2 shows TT, how much do I save?' searches Jan-Apr"
+      },
+      {
+        "slug": "no-tax-on-tips-calculator",
+        "title": "No Tax on Tips Calculator",
+        "primaryKeyword": "no tax on tips calculator",
+        "secondary": [
+          "tips deduction 2026",
+          "no tax on tips refund",
+          "w-2 code tp",
+          "box 12 tp tips"
+        ],
+        "volume": "1k-10k",
+        "difficulty": "low",
+        "wave": 1,
+        "targetDate": "2026-10-30",
+        "status": "drafted",
+        "why": "New deduction; links to tip calculator. New W-2 Box 12 code TP on 2026 W-2s"
+      },
+      {
+        "slug": "overtime-calculator",
+        "title": "Overtime Pay Calculator",
+        "primaryKeyword": "overtime calculator",
+        "secondary": [
+          "time and a half calculator",
+          "overtime calculator after taxes"
+        ],
+        "volume": "10k-100k",
+        "difficulty": "med",
+        "wave": 1,
+        "targetDate": "2026-10-30",
+        "status": "drafted",
+        "why": "Hub for the paycheck cluster"
+      }
+    ]
+  },
+  "growth": {
+    "week": 1,
+    "thisWeek": [
+      {
+        "week": 1,
+        "task": "Set up Google Search Console and submit the sitemap",
+        "type": "setup",
+        "url": "https://search.google.com/search-console",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Set up Bing Webmaster Tools (import from Search Console)",
+        "type": "setup",
+        "url": "https://www.bing.com/webmasters",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Set up Ahrefs Webmaster Tools (free backlink tracking)",
+        "type": "setup",
+        "url": "https://ahrefs.com/webmaster-tools",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Create brand profiles: X, LinkedIn page, GitHub org, YouTube, Crunchbase",
+        "type": "brand",
+        "url": "",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Cloudflare Email Routing: hello@homemoneycalc.com -> your HomeMoney Calc Gmail (free)",
+        "type": "setup",
+        "url": "https://developers.cloudflare.com/email-routing/",
+        "done": false
+      }
+    ]
+  },
+  "milestones": {
+    "first100": {
+      "target": 100,
+      "metric": "revenueMonth",
+      "label": "First $100 month (affiliates + templates)"
+    },
+    "k1": {
+      "target": 1000,
+      "metric": "revenueMonth",
+      "label": "$1,000 month"
+    },
+    "goal": {
+      "target": 5000,
+      "metric": "revenueMonth",
+      "label": "$5,000 month (goal)"
+    }
+  },
+  "previousDate": "2026-10-24",
+  "notes": [],
+  "ai": {
+    "headline": "Site ready — ab Search Console connect karna hai",
+    "summary": "Abhi traffic data connect nahi hai, isliye sirf site ki technical jaanch hui: 22 pages, 0 errors, 0 warnings.",
+    "youDo": [
+      "Search Console connect karo (docs/SETUP-AGENT.md, Step 2) — bina iske ranking data nahi milega.",
+      "Next tool: No Tax on Overtime Calculator (target 2026-10-30).",
+      "Content refresh: 2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath).",
+      "Season alert — Open enrollment & raises (7 din me shuru): 401(k)/HSA change ka paycheck pe asar — paycheck page pe example.",
+      "Growth task: Set up Google Search Console and submit the sitemap"
+    ],
+    "agentNext": [
+      "Draft No Tax on Overtime Calculator (no-tax-on-overtime-calculator)"
+    ],
+    "risks": [],
+    "by": "rules"
+  }
+}
