@@ -79,8 +79,9 @@ export function getState(code: string): StateTax {
 // 2026 employee 401(k)/403(b) elective deferral limit (IRS, before age-50 catch-up) — per person
 export const RETIREMENT_LIMIT_2026 = 24_500;
 
-// States that do NOT let 401(k) deferrals reduce state taxable wages
-const NO_STATE_401K_DEDUCTION = new Set(["PA", "NJ"]);
+// NJ excludes traditional 401(k) deferrals (other retirement plans can differ).
+// Source: https://www.nj.gov/treasury/taxation/njit5.shtml
+const NO_STATE_401K_DEDUCTION = new Set(["PA"]);
 
 // States that tax HSA contributions (no state exclusion)
 const NO_STATE_HSA_EXCLUSION = new Set(["CA", "NJ"]);

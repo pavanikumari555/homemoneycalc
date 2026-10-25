@@ -6,7 +6,7 @@
 // ============================================================================
 import { createServer } from "node:http";
 import { readFileSync, existsSync, statSync } from "node:fs";
-import { join, extname, normalize } from "node:path";
+import { join, extname, resolve, relative, isAbsolute } from "node:path";
 
 const OUT = "out";
 const port = Number(process.argv[2] || 3124);
@@ -26,9 +26,17 @@ for (const line of readFileSync("public/_headers", "utf8").split(/\r?\n/)) {
 const matches = (pattern, path) => !pattern.startsWith("http") && new RegExp(`^${pattern.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*")}$`).test(path);
 
 createServer((req, res) => {
-  const path = decodeURIComponent(new URL(req.url, "http://x").pathname);
-  let file = normalize(join(OUT, path));
-  if (!file.startsWith(normalize(OUT))) return res.writeHead(403).end();
+  let path;
+  try {
+    path = decodeURIComponent(new URL(req.url, "http://x").pathname);
+    if (path.includes("\0")) return res.writeHead(400).end();
+  } catch {
+    return res.writeHead(400).end();
+  }
+  const root = resolve(OUT);
+  let file = resolve(root, `.${path}`);
+  const rel = relative(root, file);
+  if (rel === ".." || rel.startsWith("../") || rel.startsWith("..\\") || isAbsolute(rel)) return res.writeHead(403).end();
   if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
   const found = existsSync(file);
   if (!found) file = join(OUT, "404.html");

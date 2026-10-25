@@ -6,17 +6,17 @@ Free financial calculators for the US. Static Next.js site — hosts free on Clo
 
 ## What's inside
 
-- **6 calculators:** Paycheck, Mortgage Payoff, Debt Payoff (Snowball vs Avalanche), Auto Loan (Trade-In), Percentage, Compound Interest
+- **19 implemented calculators:** 10 public and 9 queued as of 25 Oct 2026. Publish dates in `lib/site.ts` control which tools appear.
 - **Support pages:** About, Contact, Privacy Policy, Terms, Disclaimer
 - **SEO built in:** per-page metadata, canonical URLs, Open Graph, JSON-LD structured data (WebApplication + FAQ + Breadcrumb), auto sitemap, robots.txt
-- **AdSense-ready:** ad slots placed, just add your publisher ID after approval
+- **Earning setup:** affiliate/template offer components exist; AdSense integration and publisher/site approval still need setup.
 - **Security-hardened:** security headers via `_headers`, everything runs client-side (no server, tiny attack surface)
 
 ---
 
 ## STEP 1 — Install Node.js (one time)
 
-This machine doesn't have Node yet. Install it:
+Use Node.js 22 or newer (GitHub CI uses Node 22). If Node is missing, install it:
 
 1. Go to https://nodejs.org and download the **LTS** version for Windows.
 2. Run the installer (keep defaults).
@@ -32,7 +32,7 @@ npm --version
 From inside the project folder:
 
 ```powershell
-npm install
+npm ci
 ```
 
 ## STEP 3 — Preview locally (optional but recommended)
@@ -50,6 +50,9 @@ npm run build
 ```
 
 This creates an `out/` folder with pure HTML/CSS/JS — that's your whole website, ready to host anywhere.
+
+Preview that production export locally with `npm start` at http://127.0.0.1:3000.
+Before opening a PR, run `npm test`, `npm run check-tools`, `npm run lint`, and `npm run build`.
 
 ---
 
@@ -69,24 +72,19 @@ Every time you push to GitHub, Cloudflare rebuilds and redeploys automatically. 
 
 ## Turning on AdSense (after approval)
 
-1. Apply at https://adsense.google.com once the site is live with content.
-2. After approval, open `lib/site.ts` and set your publisher ID:
-   ```ts
-   adsensePublisherId: "ca-pub-XXXXXXXXXXXXXXXX",
-   ```
-3. (Optional) Give each `<AdSlot />` a real `slot` ID from your AdSense dashboard for manual ad units. Auto ads work with just the publisher ID.
-4. Rebuild and redeploy. Ads appear where the "Ad space" placeholders are now.
-
-Until you set the publisher ID, ad areas show a subtle placeholder — the site never looks broken.
+1. Add the site in the owner's AdSense dashboard and check its verification/approval status there.
+2. Implement the dashboard-provided code with the owner's actual publisher ID; the current code has no `AdSlot` component or `adsensePublisherId` config.
+3. Add the necessary Google domains to the CSP in `public/_headers` and the dashboard-provided `ads.txt` entry in `public/ads.txt`.
+4. Review ad placement and privacy requirements, then build, test, and deploy through a PR. Do not assume approval or revenue before checking the dashboard.
 
 ---
 
 ## Adding a new calculator later (the weekly habit)
 
-1. Add an entry to the `TOOLS` array in `lib/site.ts`.
+1. Add an entry to `ALL_TOOLS` in `lib/site.ts`, with its real publish date (`added`). `TOOLS` is the filtered public list.
 2. Create `app/<your-slug>/page.tsx` (copy an existing tool page as a template) and a client component for the calculator UI.
 3. Add the math function to `lib/calc.ts`.
-4. That's it — the home hub, footer links, related-tools, and sitemap all update automatically from the `TOOLS` array.
+4. Register its widget in `app/embed/[slug]/page.tsx`, update the roadmap, and follow `docs/ADDING-A-TOOL.md`. The home hub, footer links, related tools, and sitemap update from the registry.
 
 ---
 

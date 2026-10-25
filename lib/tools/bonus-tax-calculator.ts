@@ -133,10 +133,11 @@ export function calcBonusTax(input: BonusInput): BonusResult {
   }
 
   // State payroll taxes (e.g. CA SDI, NJ/NY/WA/MA paid leave) also apply to bonus pay
-  const pBase = { payPeriodsPerYear: periods, status, stateCode: st.code, retirementPercent: 0, otherPretaxAnnual: 0 };
-  const statePayroll = st.payroll.length
-    ? Math.max(0, calcPaycheck({ ...pBase, grossAnnual: salary + bonus }).statePayrollTotal - calcPaycheck({ ...pBase, grossAnnual: salary }).statePayrollTotal)
-    : 0;
+  // Wage caps concern money already paid this year, not the projected annual salary.
+  const statePayroll = st.payroll.reduce((total, p) => {
+    const room = Math.max(0, (p.wageCap ?? Infinity) - ytdWages);
+    return total + Math.min(bonus, room) * p.rate;
+  }, 0);
 
   const totalWithheld = federal + socialSecurity + medicare + state + statePayroll;
 
