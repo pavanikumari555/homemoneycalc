@@ -57,22 +57,39 @@ export async function summarize(report) {
   return { ...fallback(report), by: "rules" };
 }
 
-/** Google Gemini (free tier, key from aistudio.google.com). Alias stays current; override with GEMINI_MODEL. */
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Google Gemini (free tier, key from aistudio.google.com). Aliases stay current; override with GEMINI_MODEL.
+ * Free model kabhi "high demand" (503) ya rate limit (429) deta hai -> thoda ruk ke retry,
+ * phir halka flash-lite model. Galat key (400/403) pe turant fail (retry bekaar hai).
+ */
 async function viaGemini(prompt) {
-  const model = env.GEMINI_MODEL || "gemini-flash-latest";
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: SYSTEM }] },
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: { responseMimeType: "application/json", responseSchema: SUMMARY_SCHEMA, temperature: 0.4 },
-    }),
-  });
-  if (!res.ok) throw new Error(`Gemini ${res.status}: ${(await res.text()).slice(0, 200)}`);
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
-  return { ...Summary.parse(JSON.parse(text)), by: `gemini:${model}` };
+  const models = [...new Set([env.GEMINI_MODEL || "gemini-flash-latest", "gemini-flash-lite-latest"])];
+  let lastError;
+  for (const model of models) {
+    for (const wait of [0, 10_000, 30_000]) {
+      if (wait) await sleep(wait);
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: SYSTEM }] },
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: "application/json", responseSchema: SUMMARY_SCHEMA, temperature: 0.4 },
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
+        return { ...Summary.parse(JSON.parse(text)), by: `gemini:${model}` };
+      }
+      lastError = new Error(`Gemini ${model} ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      if (res.status !== 503 && res.status !== 429 && res.status !== 500) throw lastError; // retry sirf busy/limit pe
+      console.warn(`Gemini ${model} busy (${res.status}), retrying...`);
+    }
+  }
+  throw lastError;
 }
 
 /** Groq (free tier, OpenAI-compatible API, key from console.groq.com). Override with GROQ_MODEL. */
