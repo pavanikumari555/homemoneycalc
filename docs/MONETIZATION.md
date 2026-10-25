@@ -1,7 +1,6 @@
-# HomeMoney Calc — Earning plan WITHOUT Google (v3, 24 Oct 2026)
+# HomeMoney Calc — Earning plan: AdSense + affiliates + templates + sponsors
 
-> **Kyun badla:** Owner ka purana AdSense account (5+ saal pehle) invalid traffic se band hua tha. Google ka rule: aise publisher **AdSense me dobara participate nahi kar sakte** — naya account (apne ya kisi aur ke naam se) = ban todna. Iska asar: **AdSense, Ad Manager/AdX, AdMob, Mediavine, Raptive, Ezoic — sab band** (ye sab Google demand pe chalte hain).
-> **Ek hi Google raasta:** purane account ki **ek appeal** — sirf agar pehle appeal nahi ki aur imaandari se keh sakte ho ki clicks aapki wajah se nahi the. (Form: https://support.google.com/adsense/contact/appeal_form_adsense_admob)
+> **Owner-confirmed goal (25 Oct 2026):** Google AdSense aur doosre earning sources (affiliates, templates, sponsors). AdSense setup aur application pending hain; approval assume na karein.
 > [O] official · [3P] third-party listing · (est.) estimate — payouts dashboard me confirm karna.
 
 ---

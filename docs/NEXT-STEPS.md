@@ -32,7 +32,7 @@ Domain homemoneycalc.com ke andar:
 - **A. SSL/TLS → Edge Certificates:** Always Use HTTPS = ON, Minimum TLS = 1.2, Automatic HTTPS Rewrites = ON.
 - **B. Security → Security rules → Create rule → Custom rules:** name `Block hacker scans`, "Edit expression":
   `(http.request.uri.path contains "/wp-") or (http.request.uri.path contains "/xmlrpc.php") or (http.request.uri.path contains "/.env") or (http.request.uri.path contains "/.git") or (http.request.uri.path contains "/phpmyadmin")` → Action **Block** → Deploy.
-- **C. Security rules → Create rule → Rate limiting rules:** name `Affiliate link limit`, expression `starts_with(http.request.uri.path, "/go/")`, characteristics IP, **10 requests / 10 seconds**, action **Block** for 10 seconds → Deploy. (Kyun: bot clicks se affiliate account ban na ho — owner ka purana AdSense invalid traffic se band hua tha.)
+- **C. Security rules → Create rule → Rate limiting rules:** name `Affiliate link limit`, expression `starts_with(http.request.uri.path, "/go/")`, characteristics IP, **10 requests / 10 seconds**, action **Block** for 10 seconds → Deploy. (Kyun: bot clicks se affiliate account ko risk na ho.)
 - **D. Bot Fight Mode** ON (Security → Settings / Overview quick start) — agar pehle nahi kiya.
 - **Verify (AI kare):** `curl -sI https://homemoneycalc.com/wp-login.php` → 403; `curl -sI https://homemoneycalc.com/` → 200; `curl -sI http://homemoneycalc.com/` → 301 to https.
 - Phir `data/security-checklist.json` me jo ho gaya `done: true` karo (branch + PR).

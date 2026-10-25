@@ -33,7 +33,7 @@ Admin panel ka **🔒 Security** card yahi checklist dikhata hai (`data/security
 **Cloudflare settings (account milne pe main lagaunga):**
 1. **Bot Fight Mode ON.** Bekaar bots ko chupchaap rokta hai. Googlebot/Bingbot jaise "verified" bots allowed rehte hain, isliye ranking pe asar nahi.
 2. **Rate limit (free plan me 1 rule) — sirf `/go/*` pe.** Ek IP 10 second me 10 se zyada affiliate clicks kare to 10 second block.
-   - Kyun sabse zaroori: bot ke fake clicks se affiliate network account band kar deta hai, jaise purana AdSense hua tha. Insaan itni jaldi click karta hi nahi, to UX pe asar nahi.
+   - Kyun sabse zaroori: bot ke fake clicks se affiliate network account ko risk ho sakta hai. Insaan itni jaldi click karta hi nahi, to UX pe asar nahi.
 3. **WAF custom rule:** `/wp-admin`, `/wp-login.php`, `/xmlrpc.php`, `/.env`, `/.git` pe Block. Ye hacker ke scanners hain; hamari site pe ye files hain hi nahi.
 4. **Always Use HTTPS, Minimum TLS 1.2, DNSSEC ON.**
 5. **"Under Attack Mode" OFF rakhna.** Ye har visitor ko 5 second ka challenge dikhata hai, jo UX kharab karta hai. Sirf emergency me (neeche dekho).

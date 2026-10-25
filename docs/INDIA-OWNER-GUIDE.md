@@ -38,7 +38,6 @@
 
 ## 3. AdSense — India se kaise
 
-> ⚠️ **Owner ke liye lagu nahi:** purana account invalid traffic se band hai, isliye naya account nahi bana sakte. Earning plan: `docs/MONETIZATION.md`. Payment/W-8BEN/FIRA wali baatein affiliates pe bhi lagu hoti hain.
 
 | Point | Detail |
 |---|---|
@@ -73,7 +72,6 @@
 
 ## 5. Ad networks — ye wale kyun, baaki kyun nahi
 
-> ⚠️ **Update:** AdSense ban ki wajah se Mediavine, Raptive, Ezoic, Newor bhi band (sab Google demand pe chalte hain). Ye section ab sirf reference hai — asli plan `docs/MONETIZATION.md`.
 
 ### Hamara raasta
 | Step | Network | Kab | Kyun |

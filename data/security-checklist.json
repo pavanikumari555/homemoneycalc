@@ -52,7 +52,7 @@
     },
     {
       "task": "Cloudflare: /go/ affiliate links pe rate limit (bot clicks rokne ke liye)",
-      "why": "Bot ke fake clicks se affiliate account band ho sakta hai (purane AdSense jaisa). Ye sabse zaroori.",
+      "why": "Bot ke fake clicks se affiliate account ko risk ho sakta hai.",
       "who": "claude",
       "done": true
     },
