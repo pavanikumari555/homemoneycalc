@@ -21,7 +21,7 @@
       "done": true
     },
     {
-      "task": "GitHub: repo private + main branch protection (sirf PR se change)",
+      "task": "GitHub: main branch protection (sirf PR se change) — repo private ✅ ho chuka",
       "why": "Koi galti se ya chori ke token se seedha live site badal na sake.",
       "who": "claude",
       "done": false
@@ -33,8 +33,14 @@
       "done": false
     },
     {
-      "task": "Cloudflare: Always HTTPS, TLS 1.2+, DNSSEC ON",
-      "why": "Beech me data churana / fake DNS se bachaav.",
+      "task": "Cloudflare: Always HTTPS + minimum TLS 1.2",
+      "why": "Beech me data churana mushkil; purane kamzor connection band.",
+      "who": "claude",
+      "done": true
+    },
+    {
+      "task": "Cloudflare: DNSSEC ON (Namecheap me DS record ke saath)",
+      "why": "Fake DNS se bachaav — koi hamare domain ka nakli address na bana sake.",
       "who": "claude",
       "done": false
     },
@@ -42,19 +48,19 @@
       "task": "Cloudflare: Bot Fight Mode ON (Google/Bing jaise achhe bots allowed rehte hain)",
       "why": "Scraper aur bekaar bots khud ruk jaate hain, users ko kuch nahi dikhta.",
       "who": "claude",
-      "done": false
+      "done": true
     },
     {
       "task": "Cloudflare: /go/ affiliate links pe rate limit (bot clicks rokne ke liye)",
       "why": "Bot ke fake clicks se affiliate account band ho sakta hai (purane AdSense jaisa). Ye sabse zaroori.",
       "who": "claude",
-      "done": false
+      "done": true
     },
     {
       "task": "Cloudflare: WAF rule — /wp-admin, /.env, /xmlrpc.php jaise hacker-scan block",
       "why": "Logs saaf, bekaar load kam. (Hamari site pe ye files hain hi nahi.)",
       "who": "claude",
-      "done": false
+      "done": true
     },
     {
       "task": "Cloudflare Access: admin panel sirf aapke email se (OTP)",

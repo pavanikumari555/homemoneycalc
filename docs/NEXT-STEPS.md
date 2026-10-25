@@ -27,7 +27,7 @@
 
 ## 2. Agle steps (isi order me)
 
-### Step 8 — Cloudflare security (owner dashboard me karega, ~10 min) ← **YAHAN SE SHURU**
+### Step 8 — Cloudflare security ✅ DONE 25 Oct (verified: http→https 301, TLS<1.2 band, /wp-login.php etc. 403, /go/ rate limit 429, Bot Fight Mode ON)
 Domain homemoneycalc.com ke andar:
 - **A. SSL/TLS → Edge Certificates:** Always Use HTTPS = ON, Minimum TLS = 1.2, Automatic HTTPS Rewrites = ON.
 - **B. Security → Security rules → Create rule → Custom rules:** name `Block hacker scans`, "Edit expression":
@@ -37,7 +37,7 @@ Domain homemoneycalc.com ke andar:
 - **Verify (AI kare):** `curl -sI https://homemoneycalc.com/wp-login.php` → 403; `curl -sI https://homemoneycalc.com/` → 200; `curl -sI http://homemoneycalc.com/` → 301 to https.
 - Phir `data/security-checklist.json` me jo ho gaya `done: true` karo (branch + PR).
 
-### Step 9 — Email forwarding (5 min)
+### Step 9 — Email forwarding (5 min) ← **YAHAN SE SHURU**
 Cloudflare → homemoneycalc.com → **Email → Email Routing** → Get started → custom address `hello` → destination `homemoneycalc.site@gmail.com` → Gmail me verify link → "Add records and enable" (MX + SPF khud aate hain). Phir DNS me DMARC TXT: name `_dmarc`, value `v=DMARC1; p=quarantine; rua=mailto:homemoneycalc.site@gmail.com`. Test: kisi aur email se hello@homemoneycalc.com pe mail bhejo.
 
 ### Step 10 — DNSSEC (5 min)
