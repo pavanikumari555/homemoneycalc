@@ -2,7 +2,7 @@
 
 **Start here:** read `docs/NEXT-STEPS.md` first — current status (site is LIVE), accounts, and the exact next step.
 
-HomeMoney Calc (homemoneycalc.com) is a free US money-calculator site. Static Next.js 16 export (React 19) on Cloudflare Pages, Tailwind, TypeScript. No server, no database, no accounts. Revenue: **Google AdSense, Google ad products, clearly-labeled finance affiliates, own templates (Payhip), sponsors** — see `docs/MONETIZATION.md`. Goal: $5,000/month in 18–36 months from US search traffic.
+HomeMoney Calc (homemoneycalc.com) is a free US money-calculator site. Static Next.js 16 export (React 19) on Cloudflare Pages, Tailwind, TypeScript. No server, no database, no accounts. Revenue: **clearly-labeled finance affiliates, own templates (Payhip), sponsors**, plus **Google AdSense via the owner's own account** (owner confirmed 25 Oct 2026 it is active and in good standing) — see `docs/MONETIZATION.md`. Use only that one account; never a second AdSense account in any name. Goal: $5,000/month in 18–36 months from US search traffic.
 
 The owner is a beginner from India. Talk to them in Hinglish: why first, then how, small steps. Code comments in this repo are short Hinglish/English mixes — match that.
 
@@ -25,7 +25,7 @@ The owner is a beginner from India. Talk to them in Hinglish: why first, then ho
 2. **Accuracy over speed.** Tax/finance numbers must come from official sources (IRS, SSA, state revenue departments, CFPB, Fed). Cite them in the page's `sources`. If you can't verify a figure, say so in the PR instead of guessing.
 3. **Humans publish.** Never push content to `main`. Always work on a branch and open a PR for the owner to review. Merged tools with a future `added` date go live automatically on that date (`.github/workflows/release.yml`) — that is the owner-approved release queue, not auto-publishing. (The daily report job is the only thing that commits to main, and only `data/reports/`.)
 4. **No link schemes.** No paid links, PBNs, link exchanges, keyword-anchor widget links, or comment spam. Suggest outreach; never perform it.
-5. **Offers policy:** Google AdSense ads and other Google ad products are allowed, including compliant placements near calculator content, but never in positions that encourage accidental clicks or interfere with calculator inputs/buttons. Affiliate/template offers only via `components/OfferBox.tsx` + `data/offers.json` (labelled, `rel="sponsored"`, disclosure link). Google AdSense code is allowed. Never encourage clicks.
+5. **Offers policy:** Google AdSense / Google ad code is allowed, only with the owner's own `ca-pub` ID (ask them; never invent one). Compliant placements near calculator content are OK, but never in positions that encourage accidental clicks or interfere with calculator inputs/buttons; it also needs the Google ad domains added to the CSP in `public/_headers` (see `docs/SECURITY.md`). Affiliate/template offers only via `components/OfferBox.tsx` + `data/offers.json` (labelled, `rel="sponsored"`, disclosure link). Never encourage clicks.
 6. **Privacy.** Calculations stay client-side. Don't add trackers, forms that send data, or third-party scripts without the owner's OK.
 7. Only change the `updated` date of a tool when its content or math really changed.
 

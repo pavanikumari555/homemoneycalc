@@ -1,7 +1,8 @@
-# HomeMoney Calc — Earning plan WITHOUT Google (v3, 24 Oct 2026)
+# HomeMoney Calc — Earning plan (v4, 25 Oct 2026: AdSense + affiliates)
 
 > **Kyun badla:** Owner ka purana AdSense account (5+ saal pehle) invalid traffic se band hua tha. Google ka rule: aise publisher **AdSense me dobara participate nahi kar sakte** — naya account (apne ya kisi aur ke naam se) = ban todna. Iska asar: **AdSense, Ad Manager/AdX, AdMob, Mediavine, Raptive, Ezoic — sab band** (ye sab Google demand pe chalte hain).
 > **Ek hi Google raasta:** purane account ki **ek appeal** — sirf agar pehle appeal nahi ki aur imaandari se keh sakte ho ki clicks aapki wajah se nahi the. (Form: https://support.google.com/adsense/contact/appeal_form_adsense_admob)
+> **✅ UPDATE 25 Oct 2026 — upar wali baat ab lagu nahi:** owner ne confirm kiya ki unka AdSense account **theek hai, koi problem nahi**. Isliye AdSense (aur Google demand wale networks jaise Mediavine/Raptive/Ezoic, traffic aane pe) **allowed hain** — affiliates + templates ke saath extra income. Sirf **owner ka yahi ek account**; doosra account kabhi nahi. Lagane ke steps: (1) owner apna `ca-pub-...` ID de aur AdSense me site add kare, (2) `public/_headers` ki CSP me Google ad domains jodo (abhi `script-src 'self'` sab block karta hai), (3) ads result ke neeche/content ke beech, kabhi inputs/buttons ke paas nahi, (4) `ads.txt` file `public/` me daalo, (5) bot protection ON rakho aur khud apne ads pe kabhi click mat karo (invalid traffic = account band). Neeche ka affiliate plan waise hi chalega.
 > [O] official · [3P] third-party listing · (est.) estimate — payouts dashboard me confirm karna.
 
 ---
