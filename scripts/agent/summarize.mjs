@@ -34,6 +34,7 @@ The owner is a beginner from India who reads Hinglish (Hindi in Roman script mix
 Goal: grow Google traffic from the US safely and reach $5,000/month from finance affiliates, templates and sponsors over 18-36 months (no Google ad products).
 Rules you must follow:
 - Only use numbers present in the data. If a data source is not connected, say so and give the setup step instead of inventing numbers.
+- sources.gsc=false only means THIS AGENT can't read Search Console yet (service account missing, docs/NEXT-STEPS.md Step 11.4). Tasks marked done in growth.thisWeek / the checklist are already finished by the owner — never ask for them again.
 - Never suggest anything against Google's spam policies: no bought links, no mass AI pages, no fake traffic.
 - The report has an 'ideas' section (title tests, refresh, seasonal alerts, keyword gap, outreach drafts, social ideas). Use it, but outreach is always sent by the owner by hand.
 - Prefer actions with the best payoff for a new site: fixing technical errors, improving pages ranking in positions 8-30, shipping the next roadmap tool on time, earning links from the growth checklist.
@@ -102,9 +103,24 @@ async function viaGemini(prompt) {
   throw lastError;
 }
 
-/** Groq (free tier, OpenAI-compatible API, key from console.groq.com). Override with GROQ_MODEL. */
+// Groq models jaldi retire hote hain (llama-3.3-70b-versatile 2026 me hat gaya) — pasand ka order,
+// aur jo account pe abhi available ho wahi chuno. Override: GROQ_MODEL.
+const GROQ_PREFERRED = ["openai/gpt-oss-120b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b", "llama-3.1-8b-instant"];
+
+async function pickGroqModel() {
+  const wanted = [env.GROQ_MODEL, ...GROQ_PREFERRED].filter(Boolean);
+  try {
+    const res = await fetch("https://api.groq.com/openai/v1/models", { headers: { authorization: `Bearer ${env.GROQ_API_KEY}` } });
+    const ids = new Set(((await res.json()).data ?? []).map((m) => m.id));
+    return wanted.find((m) => ids.has(m)) ?? wanted[0];
+  } catch {
+    return wanted[0];
+  }
+}
+
+/** Groq (free tier, OpenAI-compatible API, key from console.groq.com). */
 async function viaGroq(prompt) {
-  const model = env.GROQ_MODEL || "llama-3.3-70b-versatile";
+  const model = await pickGroqModel();
   const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: { "content-type": "application/json", authorization: `Bearer ${env.GROQ_API_KEY}` },
@@ -146,7 +162,7 @@ async function viaAnthropic(prompt, report) {
 function fallback(r) {
   const youDo = [];
   const risks = [];
-  if (!r.sources.gsc) youDo.push("Search Console connect karo (docs/SETUP-AGENT.md, Step 2) — bina iske ranking data nahi milega.");
+  if (!r.sources.gsc) youDo.push("Report-agent ko Search Console ka data padhne do: service account jodo (docs/NEXT-STEPS.md Step 11.4) — bina iske ranking data report me nahi aayega.");
   if (r.health?.errors) youDo.push(`Site me ${r.health.errors} technical error(s) hain — admin panel ke 'Site health' me dekho.`);
   if (r.opportunities?.length) youDo.push(`"${r.opportunities[0].query}" position ${r.opportunities[0].position.toFixed(1)} pe hai — us page ko improve karne ka kaam agent ko do.`);
   const due = r.roadmap?.dueSoon?.[0];

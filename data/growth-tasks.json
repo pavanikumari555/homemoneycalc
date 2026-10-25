@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "note": "Owner's growth checklist (week 1 = the week the site goes live). Tick items by setting done:true or ask Claude.",
   "tasks": [
     {
@@ -7,14 +7,14 @@
       "task": "Set up Google Search Console and submit the sitemap",
       "type": "setup",
       "url": "https://search.google.com/search-console",
-      "done": false
+      "done": true
     },
     {
       "week": 1,
       "task": "Set up Bing Webmaster Tools (import from Search Console)",
       "type": "setup",
       "url": "https://www.bing.com/webmasters",
-      "done": false
+      "done": true
     },
     {
       "week": 1,
@@ -35,14 +35,14 @@
       "task": "Cloudflare Email Routing: hello@homemoneycalc.com -> your HomeMoney Calc Gmail (free)",
       "type": "setup",
       "url": "https://developers.cloudflare.com/email-routing/",
-      "done": false
+      "done": true
     },
     {
       "week": 1,
       "task": "Bing Webmaster Tools: verify + submit sitemap (ChatGPT search uses Bing)",
       "type": "setup",
       "url": "https://www.bing.com/webmasters",
-      "done": false
+      "done": true
     },
     {
       "week": 1,
