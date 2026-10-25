@@ -23,7 +23,10 @@ jobs:
           HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
         run: |
           if [ -z "$HOOK" ]; then echo "CLOUDFLARE_DEPLOY_HOOK not set - skipping"; exit 0; fi
-          curl -fsS -X POST "$HOOK" > /dev/null && echo "Deploy triggered"
+          # Secret me galti se "curl -X POST ...", quotes ya space aa jaaye to bhi sirf hook URL nikalo
+          URL=$(printf '%s' "$HOOK" | grep -oE 'https://api\.cloudflare\.com/[^"'"'"'[:space:]]+' | head -n 1)
+          if [ -z "$URL" ]; then echo "::error::CLOUDFLARE_DEPLOY_HOOK me https://api.cloudflare.com/... wala URL nahi mila"; exit 1; fi
+          curl -fsS -X POST "$URL" > /dev/null && echo "Deploy triggered"
       - name: Which tools went live today?
         id: fresh
         run: echo "paths=$(node scripts/release.mjs)" >> "$GITHUB_OUTPUT"
