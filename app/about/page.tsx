@@ -6,14 +6,14 @@ import PageShell from "@/components/PageShell";
 export const metadata: Metadata = buildMetadata({
   title: "About Us",
   description:
-    "Learn about CalcIvy — a free collection of fast, accurate financial calculators built to help people make clearer money decisions with no sign-up required.",
+    "Learn about HomeMoney Calc — free, fast, accurate money calculators that help people make clearer money decisions, with no sign-up required.",
   path: "/about/",
 });
 
 export default function AboutPage() {
   return (
     <PageShell
-      title="About CalcIvy"
+      title="About HomeMoney Calc"
       intro="Free, fast, and honest financial calculators — built to help you make clearer money decisions."
     >
       <h2>Our mission</h2>
@@ -34,9 +34,10 @@ export default function AboutPage() {
         trust the number.
       </p>
       <p>
-        Our calculators run entirely in your browser. Nothing you enter is sent to a server or
-        stored anywhere. That keeps your financial details private and makes every tool fast on
-        any device.
+        Our calculators do the math entirely in your browser — there are no accounts and no forms
+        that send your numbers to us. Your inputs do appear in the page address (that&apos;s what makes
+        share links work), so they can show up in our host&apos;s standard request logs; our{" "}
+        <a href="/privacy-policy/">privacy policy</a> explains exactly what is and isn&apos;t collected.
       </p>
 
       <h2>Our commitment to accuracy and honesty</h2>
@@ -47,10 +48,10 @@ export default function AboutPage() {
         recommend confirming important decisions with a qualified professional.
       </p>
 
-      <h2>Who is behind CalcIvy?</h2>
+      <h2>Who is behind HomeMoney Calc?</h2>
       <p>
-        {SITE.name} is an independent site created and maintained by a small team that cares
-        about clear, trustworthy financial tools. We are not a bank, lender, or financial
+        {SITE.name} is an independent, family-run site: one person owns and edits it, and a
+        developer in the family builds and tests the calculators. We are not a bank, lender, or financial
         advisor, and we don&apos;t sell your data. The site is supported by clearly labeled affiliate
         links and sponsorships, which let us keep every tool free to use.
       </p>

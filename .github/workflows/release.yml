@@ -1,0 +1,43 @@
+# Release queue: roz subah (5:45 AM India) site dobara build hoti hai, taaki jin tools ki
+# publish date (lib/site.ts -> added) aaj hai wo apne aap live ho jaayein. Phir Bing ko IndexNow ping.
+# Setup (ek baar): Cloudflare Pages -> Settings -> Builds -> Deploy hooks -> "daily" -> URL ko
+# GitHub secret CLOUDFLARE_DEPLOY_HOOK me daalo. Detail: docs/SETUP-AGENT.md
+name: Daily release
+
+on:
+  schedule:
+    - cron: "15 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild live site on Cloudflare
+        env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "CLOUDFLARE_DEPLOY_HOOK not set - skipping"; exit 0; fi
+          curl -fsS -X POST "$HOOK" > /dev/null && echo "Deploy triggered"
+      - name: Which tools went live today?
+        id: fresh
+        run: echo "paths=$(node scripts/release.mjs)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        if: steps.fresh.outputs.paths != ''
+        with:
+          node-version: 22
+          cache: npm
+      - if: steps.fresh.outputs.paths != ''
+        run: npm ci && npm run build
+      - name: Wait for Cloudflare deploy, then ping Bing (IndexNow)
+        if: steps.fresh.outputs.paths != ''
+        env:
+          PATHS: ${{ steps.fresh.outputs.paths }} # env se pass (seedha shell me ${{ }} = injection risk)
+        run: |
+          sleep 240
+          node scripts/agent/indexnow.mjs $PATHS

@@ -7,7 +7,7 @@ import PageShell from "@/components/PageShell";
 export const metadata: Metadata = buildMetadata({
   title: "Privacy Policy",
   description:
-    "How CalcIvy handles information: calculators run in your browser, saved plans stay on your device, plus analytics, affiliate links and your choices.",
+    "How HomeMoney Calc handles information: calculators run in your browser, saved plans stay on your device, plus analytics, affiliate links and your choices.",
   path: "/privacy-policy/",
 });
 

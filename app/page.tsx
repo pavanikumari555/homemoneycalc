@@ -53,7 +53,7 @@ const FEATURES: { icon: AnyIcon; title: string; text: string; demo: React.ReactN
     icon: "share",
     title: "Share with one link",
     text: "Send your exact numbers to a partner — the link opens with them filled in.",
-    demo: <div className="truncate rounded-lg border border-line bg-surface-2 px-3 py-2 font-mono text-xs text-muted">calcivy.com/debt-payoff…?x=250</div>,
+    demo: <div className="truncate rounded-lg border border-line bg-surface-2 px-3 py-2 font-mono text-xs text-muted">homemoneycalc.com/debt-payoff…?x=250</div>,
   },
   {
     icon: "bookmark",
@@ -241,7 +241,7 @@ export default function HomePage() {
         </section>
 
         {/* STATS BAND */}
-        <section className="mt-20 overflow-hidden rounded-3xl bg-gradient-to-br from-ivy-700 via-ivy-800 to-ivy-950 px-6 py-10 text-white shadow-lift sm:px-10" aria-label="CalcIvy in numbers">
+        <section className="mt-20 overflow-hidden rounded-3xl bg-gradient-to-br from-ivy-700 via-ivy-800 to-ivy-950 px-6 py-10 text-white shadow-lift sm:px-10" aria-label="HomeMoney Calc in numbers">
           <div className="grid gap-8 text-center sm:grid-cols-4">
             {STATS.map((s) => (
               <div key={s.label}>
@@ -262,7 +262,7 @@ export default function HomePage() {
         <section className="prose-content mt-20">
           <h2>Calculators that explain the answer</h2>
           <p>
-            Most calculators give you one number and leave you to work out what it means. CalcIvy shows the whole picture: when
+            Most calculators give you one number and leave you to work out what it means. HomeMoney Calc shows the whole picture: when
             you&apos;ll be debt-free, how much interest an extra payment saves, where every dollar of your paycheck goes. Results update
             as you type, and you can drag a slider to try &ldquo;what if I paid $100 more?&rdquo; in a second.
           </p>

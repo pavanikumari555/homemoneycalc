@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { safeJson } from "@/components/StructuredData";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { calcPaycheck } from "@/lib/paycheck";
@@ -13,7 +14,7 @@ import { SITE } from "@/lib/site";
 // ============================================================================
 
 const SALARIES = [50_000, 75_000, 100_000, 150_000];
-const UPDATED = "2026-10-24";
+const UPDATED = "2026-10-25";
 
 export const metadata: Metadata = buildMetadata({
   title: "Take-Home Pay by State 2026: $50k, $75k, $100k, $150k",
@@ -33,6 +34,11 @@ const best = rows[0];
 const worst = rows[rows.length - 1];
 const noTax = rows.filter((r) => r.type === "none").map((r) => r.name);
 const gap75 = best.nets[1] - worst.nets[1];
+// States whose 2026 tables aren't published yet (e.g. California) -> disclose on page + in schema
+const olderTables = STATES.filter((s) => s.taxYear !== 2026);
+const olderNote = olderTables.length
+  ? `${olderTables.map((s) => `${s.name} uses its ${s.taxYear} tax tables`).join("; ")} because 2026 tables were not yet published.`
+  : "";
 
 export default function Page() {
   return (
@@ -40,11 +46,11 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJson({
             "@context": "https://schema.org",
             "@type": "Dataset",
             name: "Take-home pay by US state, 2026",
-            description: "Estimated annual take-home pay for single filers at four salary levels in all 50 states and DC, 2026 tax year.",
+            description: `Estimated annual take-home pay for single filers at four salary levels in all 50 states and DC, 2026 tax year.${olderNote ? ` ${olderNote}` : ""}`,
             url: `${SITE.url}/take-home-pay-by-state/`,
             dateModified: UPDATED,
             creator: { "@type": "Organization", name: SITE.name, url: SITE.url },
@@ -92,6 +98,7 @@ export default function Page() {
         <table className="w-full min-w-[640px] text-sm tabular-nums">
           <caption className="px-4 pt-4 text-left text-sm text-muted">
             Annual take-home pay, single filer, standard deduction, no pre-tax deductions. Sorted by the $75,000 column.
+            {olderNote && <> Note: {olderNote}</>}
           </caption>
           <thead className="text-left text-xs uppercase tracking-wide text-muted">
             <tr className="border-b border-line">
@@ -110,6 +117,7 @@ export default function Page() {
                 <td className="px-4 py-2 text-muted">{i + 1}</td>
                 <td className="px-4 py-2 font-medium text-ink">
                   {r.name}
+                  {olderTables.some((s) => s.code === r.code) && <span className="ml-1 text-xs text-muted">*</span>}
                   {r.type === "none" && <span className="ml-2 rounded-full bg-ivy-50 px-2 py-0.5 text-[10px] font-semibold text-ivy-700 dark:bg-ivy-900/40 dark:text-ivy-300">no income tax</span>}
                 </td>
                 {r.nets.map((n, j) => (
@@ -147,13 +155,15 @@ export default function Page() {
           Each figure is gross salary minus 2026 federal income tax (standard deduction of {usd0(FEDERAL_2026.stdDeduction.single)}{" "}
           for single filers), Social Security (6.2% up to {usd0(FEDERAL_2026.socialSecurity.wageBase)}), Medicare (1.45%), the
           state&apos;s income tax using its published brackets, deductions and credits, and employee-paid state payroll taxes such as
-          disability and paid-leave insurance. Local and city income taxes are not included, which matters most in Maryland, New
-          York City, Pennsylvania, Ohio and Michigan cities. Full details are on our <Link href="/methodology/">methodology page</Link>.
+          disability and paid-leave insurance. Maryland figures include a 3.20% county income tax, the rate most Maryland counties
+          charge in 2026. Other local and city income taxes are not included, which matters most in Indiana (every county taxes
+          income), New York City, Pennsylvania, Ohio and Michigan cities. {olderNote && <>* {olderNote} </>}Full details are on our{" "}
+          <Link href="/methodology/">methodology page</Link>.
         </p>
 
         <h2>Using this data</h2>
         <p>
-          Journalists, teachers and bloggers are welcome to use these figures. Please credit &ldquo;CalcIvy&rdquo; with a link to this
+          Journalists, teachers and bloggers are welcome to use these figures. Please credit &ldquo;HomeMoney Calc&rdquo; with a link to this
           page. Need a different salary or filing status? Use the <Link href="/paycheck-calculator/">paycheck calculator</Link> and
           its &ldquo;Same salary, other states&rdquo; ranking.
         </p>

@@ -9,8 +9,8 @@ interface InstallEvent extends Event {
   prompt: () => Promise<void>;
 }
 
-const VISITS = "calcivy:visits";
-const SNOOZE = "calcivy:install-snooze";
+const VISITS = "hmc:visits";
+const SNOOZE = "hmc:install-snooze";
 
 export default function InstallPrompt() {
   const [evt, setEvt] = useState<InstallEvent | null>(null);
@@ -18,10 +18,10 @@ export default function InstallPrompt() {
   useEffect(() => {
     let visits = 0;
     try {
-      if (!sessionStorage.getItem("calcivy:counted")) {
+      if (!sessionStorage.getItem("hmc:counted")) {
         visits = Number(localStorage.getItem(VISITS) ?? 0) + 1;
         localStorage.setItem(VISITS, String(visits));
-        sessionStorage.setItem("calcivy:counted", "1");
+        sessionStorage.setItem("hmc:counted", "1");
       } else {
         visits = Number(localStorage.getItem(VISITS) ?? 0);
       }
@@ -36,8 +36,8 @@ export default function InstallPrompt() {
       if (e) setEvt(e);
     };
     take();
-    window.addEventListener("calcivy:installable", take);
-    return () => window.removeEventListener("calcivy:installable", take);
+    window.addEventListener("hmc:installable", take);
+    return () => window.removeEventListener("hmc:installable", take);
   }, []);
 
   if (!evt) return null;
@@ -52,12 +52,12 @@ export default function InstallPrompt() {
   }
 
   return (
-    <div className="no-print fixed inset-x-3 bottom-3 z-40 mx-auto flex max-w-md items-center gap-3 rounded-2xl border border-line bg-surface p-3 shadow-lift sm:bottom-5">
+    <div data-install-prompt className="no-print fixed inset-x-3 bottom-3 z-40 mx-auto flex max-w-md items-center gap-3 rounded-2xl border border-line bg-surface p-3 shadow-lift sm:bottom-5">
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-ivy-600 text-white">
         <Icon name="bolt" className="h-5 w-5" />
       </span>
       <div className="min-w-0 flex-1 text-sm">
-        <div className="font-semibold text-ink">Keep CalcIvy one tap away</div>
+        <div className="font-semibold text-ink">Keep HomeMoney Calc one tap away</div>
         <div className="text-muted">Install it — works offline, opens like an app.</div>
       </div>
       <button

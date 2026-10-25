@@ -6,13 +6,13 @@ import PageShell from "@/components/PageShell";
 export const metadata: Metadata = buildMetadata({
   title: "Terms of Service",
   description:
-    "The terms of service for using CalcIvy's free financial calculators, including acceptable use and limitation of liability.",
+    "The terms of service for using HomeMoney Calc's free financial calculators, including acceptable use and limitation of liability.",
   path: "/terms/",
 });
 
 export default function TermsPage() {
   return (
-    <PageShell title="Terms of Service" intro="Last updated: January 2026">
+    <PageShell title="Terms of Service" intro="Last updated: October 25, 2026">
       <p>
         By using {SITE.domain} (the &quot;Site&quot;), you agree to these Terms of Service. If you do not
         agree, please do not use the Site.
@@ -21,7 +21,9 @@ export default function TermsPage() {
       <h2>Use of the Site</h2>
       <p>
         {SITE.name} provides free online calculators and related informational content. You may
-        use the Site for your personal, non-commercial purposes. You agree not to misuse the
+        use the Site for your personal, non-commercial purposes, and you may place our calculators on
+        your own website using the free embed code shown on each tool page (please keep the
+        &ldquo;Powered by&rdquo; credit inside the widget). You agree not to misuse the
         Site, including by attempting to disrupt it, access it through automated means at a rate
         that burdens it, or use it for any unlawful purpose.
       </p>

@@ -20,11 +20,11 @@ export interface Scenario<T extends ToolValues> {
   summary?: string; // headline result at save time, shown on My Money
 }
 
-const LAST_KEY = (tool: string) => `calcivy:last:${tool}`;
-const SAVED_KEY = (tool: string) => `calcivy:saved:${tool}`;
-const RECENT_KEY = "calcivy:recent";
-const FAV_KEY = "calcivy:favorites";
-export const STORAGE_EVENT = "calcivy:storage"; // fired so header/dashboard update live
+const LAST_KEY = (tool: string) => `hmc:last:${tool}`;
+const SAVED_KEY = (tool: string) => `hmc:saved:${tool}`;
+const RECENT_KEY = "hmc:recent";
+const FAV_KEY = "hmc:favorites";
+export const STORAGE_EVENT = "hmc:storage"; // fired so header/dashboard update live
 const MAX_SAVED = 8;
 
 function readJson<T>(key: string): T | null {
@@ -185,7 +185,9 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
   const shareUrl = useCallback(() => {
     const params = new URLSearchParams();
     for (const [k, v] of Object.entries(values)) params.set(k, v);
-    return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+    // Embed widget (/embed/x/) se share karo to bhi asli tool page ka link bane
+    const path = window.location.pathname.replace(/^\/embed\//, "/");
+    return `${window.location.origin}${path}?${params.toString()}`;
   }, [values]);
 
   const saveScenario = useCallback(

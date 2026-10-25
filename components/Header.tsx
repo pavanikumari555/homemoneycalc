@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/95">
       <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="shrink-0" aria-label="CalcIvy home">
+        <Link href="/" className="shrink-0" aria-label="HomeMoney Calc home">
           <Logo />
         </Link>
 

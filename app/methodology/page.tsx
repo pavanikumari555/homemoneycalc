@@ -6,13 +6,13 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "How We Calculate — Methodology & Data Sources",
   description:
-    "The formulas, tax data and assumptions behind every CalcIvy calculator, with links to the official sources we use and how often we update them.",
+    "The formulas, tax data and assumptions behind every HomeMoney Calc calculator, with links to the official sources we use and how often we update them.",
   path: "/methodology/",
 });
 
 export default function Page() {
   return (
-    <PageShell title="How we calculate" intro="The math, data and assumptions behind every CalcIvy calculator — in plain English.">
+    <PageShell title="How we calculate" intro="The math, data and assumptions behind every HomeMoney Calc calculator — in plain English.">
       <h2>Our principles</h2>
       <ul>
         <li>

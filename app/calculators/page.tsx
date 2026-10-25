@@ -7,7 +7,7 @@ import ToolSearch from "@/components/ToolSearch";
 
 export const metadata: Metadata = buildMetadata({
   title: "All Calculators — Free Money & Everyday Calculators",
-  description: `Browse all ${TOOLS.length} free CalcIvy calculators: pay and salary, loans and debt, savings and everyday math. Charts, share links, no sign-up.`,
+  description: `Browse all ${TOOLS.length} free HomeMoney Calc calculators: pay and salary, loans and debt, savings and everyday math. Charts, share links, no sign-up.`,
   path: "/calculators/",
 });
 

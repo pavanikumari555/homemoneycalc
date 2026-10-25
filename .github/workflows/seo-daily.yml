@@ -34,6 +34,8 @@ jobs:
           GSC_SITE: ${{ vars.GSC_SITE }}
           GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
+          BING_WEBMASTER_KEY: ${{ secrets.BING_WEBMASTER_KEY }}
+          BING_SITE: ${{ vars.BING_SITE }}
           # AI summary: any ONE of these (Gemini and Groq have free tiers)
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -45,7 +47,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       - name: Save report (triggers a deploy so /admin/ updates)
         run: |
-          git config user.name "calcivy-agent"
+          git config user.name "homemoneycalc-agent"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/reports
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi

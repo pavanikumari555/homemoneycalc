@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { calcSalary, usd, usd0 } from "@/lib/calc";
 import { useToolState, n } from "@/lib/useToolState";
 import { NumberField, Segmented } from "@/components/calc/Fields";
-import { ResultHero, BreakdownTable } from "@/components/calc/Results";
+import { ResultHero, BreakdownTable, Notice } from "@/components/calc/Results";
 import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
 import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 import Link from "next/link";
@@ -28,10 +28,13 @@ export default function SalaryCalculator() {
       }),
     [v, mode]
   );
+  // 0 / empty hours ya weeks -> rate bematlab hoga, isliye number ki jagah message
+  const invalid = res.hoursInvalid || res.weeksInvalid;
+  const headline = invalid ? "—" : mode === "salary" ? usd(res.hourly) : usd0(res.annual);
 
   return (
     <CalcShell
-      summary={{ label: mode === "salary" ? "Hourly rate" : "Yearly salary", value: mode === "salary" ? usd(res.hourly) : usd0(res.annual) }}
+      summary={{ label: mode === "salary" ? "Hourly rate" : "Yearly salary", value: headline }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
@@ -53,8 +56,18 @@ export default function SalaryCalculator() {
           />
           <PanelTitle>Your schedule</PanelTitle>
           <div className="grid grid-cols-2 gap-4">
-            <NumberField label="Hours per week" value={v.h} onChange={(x) => state.set("h", x)} />
-            <NumberField label="Paid weeks per year" value={v.w} onChange={(x) => state.set("w", x)} hint="52 if vacation is paid" />
+            <NumberField
+              label="Hours per week"
+              value={v.h}
+              onChange={(x) => state.set("h", x)}
+              hint={res.hoursInvalid ? "Enter 1 to 120 hours." : undefined}
+            />
+            <NumberField
+              label="Paid weeks per year"
+              value={v.w}
+              onChange={(x) => state.set("w", x)}
+              hint={res.weeksInvalid ? "Enter 1 to 52 weeks." : "52 if vacation is paid"}
+            />
           </div>
           {mode === "hourly" && (
             <NumberField label="Overtime hours per week" value={v.ot} onChange={(x) => state.set("ot", x)} hint="Paid at 1.5× your hourly rate" />
@@ -63,10 +76,19 @@ export default function SalaryCalculator() {
       }
       results={
         <>
+          {invalid && (
+            <Notice>
+              {res.hoursInvalid && <>Hours per week must be between 1 and 120. </>}
+              {res.weeksInvalid && <>Paid weeks per year must be between 1 and 52. </>}
+              Fix that and your {mode === "salary" ? "hourly rate" : "yearly pay"} will show here.
+            </Notice>
+          )}
           <ResultHero
             eyebrow={mode === "salary" ? "Your hourly rate" : "Your yearly salary"}
             sub={
-              mode === "salary" ? (
+              invalid ? (
+                <>Waiting for a valid schedule.</>
+              ) : mode === "salary" ? (
                 <>
                   {usd0(n(v.amt))} a year at {v.h || 0} hours a week works out to <strong>{usd(res.hourly)} an hour</strong> before tax.
                 </>
@@ -78,20 +100,22 @@ export default function SalaryCalculator() {
               )
             }
           >
-            {mode === "salary" ? usd(res.hourly) : usd0(res.annual)}
+            {headline}
           </ResultHero>
 
-          <BreakdownTable
-            rows={[
-              { label: "Hourly", value: usd(res.hourly) },
-              { label: "Daily (5-day week)", value: usd(res.daily) },
-              { label: "Weekly", value: usd(res.weekly) },
-              { label: "Every two weeks (biweekly)", value: usd(res.biweekly) },
-              { label: "Twice a month (semimonthly)", value: usd(res.semimonthly) },
-              { label: "Monthly", value: usd(res.monthly) },
-              { label: "Yearly", value: usd(res.annual), strong: true },
-            ]}
-          />
+          {!invalid && (
+            <BreakdownTable
+              rows={[
+                { label: "Hourly", value: usd(res.hourly) },
+                { label: "Daily (5-day week)", value: usd(res.daily) },
+                { label: "Weekly", value: usd(res.weekly) },
+                { label: "Every two weeks (biweekly)", value: usd(res.biweekly) },
+                { label: "Twice a month (semimonthly)", value: usd(res.semimonthly) },
+                { label: "Monthly", value: usd(res.monthly) },
+                { label: "Yearly", value: usd(res.annual), strong: true },
+              ]}
+            />
+          )}
 
           <p className="rounded-xl bg-surface-2 px-4 py-3 text-sm text-ink/80">
             These are gross (pre-tax) figures. See what actually lands in your bank account with the{" "}

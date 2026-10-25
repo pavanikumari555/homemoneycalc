@@ -1,13 +1,13 @@
 {
-  "name": "calcivy",
+  "name": "homemoneycalc",
   "version": "1.0.0",
   "private": true,
-  "description": "CalcIvy - Free online financial calculators for the US. Paycheck, mortgage payoff, debt payoff, auto loan, percentage, and compound interest calculators.",
+  "description": "HomeMoney Calc - Free online financial calculators for the US. Paycheck, mortgage payoff, debt payoff, auto loan, percentage, and compound interest calculators.",
   "scripts": {
     "dev": "next dev -H 127.0.0.1",
-    "prebuild": "node scripts/check-tools.mjs && node scripts/gen-ads-txt.mjs",
+    "prebuild": "node scripts/check-tools.mjs && node scripts/gen-redirects.mjs",
     "build": "next build",
-    "postbuild": "node scripts/fix-rsc-prefetch.mjs",
+    "postbuild": "node scripts/fix-rsc-prefetch.mjs && node scripts/prune-unreleased.mjs",
     "start": "next start -H 127.0.0.1",
     "lint": "eslint .",
     "check-tools": "node scripts/check-tools.mjs",

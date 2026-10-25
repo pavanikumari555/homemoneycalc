@@ -7,6 +7,7 @@ import { NumberField, Segmented } from "@/components/calc/Fields";
 import { ResultHero, Notice } from "@/components/calc/Results";
 import LineChart, { shortMoney } from "@/components/calc/LineChart";
 import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
+import { CheckIn } from "@/components/calc/CheckIn";
 import { CalcShell, PanelTitle, useCelebrate } from "@/components/calc/CalcShell";
 import Icon from "@/components/Icon";
 
@@ -208,6 +209,7 @@ export default function DebtCalculator() {
           )}
 
           <ToolActions state={state} shareText={ok ? `My debt-free date: ${monthsFromNow(chosen.months)} 🎉` : undefined} />
+          {ok && <CheckIn tool="debt-payoff-calculator" label="total debt balance" plan={chosen.timeline} url="/debt-payoff-calculator/" />}
         </>
       }
     />

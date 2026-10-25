@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SITE, CATEGORY_LABELS, ToolCategory, toolsIn } from "@/lib/site";
 import Logo from "./Logo";
 
-// Footer with tool links (internal linking = SEO juice) + legal pages (AdSense needs these).
+// Footer with tool links (internal linking = SEO juice) + legal/trust pages.
 export default function Footer() {
   const categories = Object.keys(CATEGORY_LABELS) as ToolCategory[];
 

@@ -3,9 +3,9 @@
 // Static assets (_next/static, fonts, icons) = cache first (they're versioned).
 // Only same-origin GET requests are touched — ads/analytics pass straight through.
 // Private pages (admin, My Money) are never cached.
-const CACHE = "calcivy-v2";
+const CACHE = "hmc-v1"; // postbuild (prune-unreleased.mjs) har build pe naya naam deta hai
 const MAX_ENTRIES = 150; // old deploys' chunks get pruned, cache can't grow forever
-const NEVER_CACHE = ["/admin", "/my-money"];
+const NEVER_CACHE = ["/admin", "/my-money", "/embed", "/go/"];
 
 self.addEventListener("install", () => self.skipWaiting());
 
@@ -38,7 +38,7 @@ self.addEventListener("fetch", (event) => {
         (hit) =>
           hit ||
           fetch(req).then((res) => {
-            if (res.ok) putAndTrim(req, res.clone());
+            if (res.ok) event.waitUntil(putAndTrim(req, res.clone()));
             return res;
           })
       )
@@ -51,7 +51,7 @@ self.addEventListener("fetch", (event) => {
       fetch(req)
         .then((res) => {
           // cache by path only, so ?share-params still hit the cached page offline
-          if (res.ok) putAndTrim(url.pathname, res.clone());
+          if (res.ok) event.waitUntil(putAndTrim(url.pathname, res.clone()));
           return res;
         })
         .catch(() => caches.match(url.pathname).then((hit) => hit || caches.match("/")))

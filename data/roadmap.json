@@ -126,7 +126,7 @@
       "difficulty": "low-med",
       "wave": 1,
       "targetDate": "2026-10-30",
-      "status": "planned",
+      "status": "drafted",
       "why": "New OBBBA deduction (2025-2028); SERP led by small sites; $12.5k/$25k cap, phase-out from $150k/$300k MAGI. New W-2 Box 12 code TT on 2026 W-2s (issued by Feb 1, 2027) -> 'my W-2 shows TT, how much do I save?' searches Jan-Apr"
     },
     {
@@ -142,8 +142,8 @@
       "volume": "1k-10k",
       "difficulty": "low",
       "wave": 1,
-      "targetDate": "2026-11-03",
-      "status": "planned",
+      "targetDate": "2026-10-30",
+      "status": "drafted",
       "why": "New deduction; links to tip calculator. New W-2 Box 12 code TP on 2026 W-2s"
     },
     {
@@ -157,8 +157,8 @@
       "volume": "10k-100k",
       "difficulty": "med",
       "wave": 1,
-      "targetDate": "2026-11-06",
-      "status": "planned",
+      "targetDate": "2026-10-30",
+      "status": "drafted",
       "why": "Hub for the paycheck cluster"
     },
     {
@@ -173,7 +173,7 @@
       "difficulty": "low",
       "wave": 1,
       "targetDate": "2026-11-10",
-      "status": "planned",
+      "status": "drafted",
       "why": "New deduction; links to auto loan. Verify phase-out against IRS Schedule 1-A"
     },
     {
@@ -187,8 +187,8 @@
       "volume": "1k-10k",
       "difficulty": "low",
       "wave": 1,
-      "targetDate": "2026-11-13",
-      "status": "planned",
+      "targetDate": "2026-10-28",
+      "status": "drafted",
       "why": "New deduction, little competition"
     },
     {
@@ -203,7 +203,7 @@
       "difficulty": "med",
       "wave": 1,
       "targetDate": "2026-11-17",
-      "status": "planned",
+      "status": "drafted",
       "why": "Open enrollment; 2027 limits $4,500/$9,000"
     },
     {
@@ -218,7 +218,7 @@
       "difficulty": "med",
       "wave": 1,
       "targetDate": "2026-11-20",
-      "status": "planned",
+      "status": "drafted",
       "why": "Bonus season; state supplemental rates differ"
     },
     {
@@ -231,8 +231,8 @@
       "volume": "1k-10k (Nov-Dec)",
       "difficulty": "low",
       "wave": 1,
-      "targetDate": "2026-11-24",
-      "status": "planned",
+      "targetDate": "2026-11-01",
+      "status": "drafted",
       "why": "Seasonal, cheap traffic"
     },
     {
@@ -246,8 +246,8 @@
       "volume": "10k-100k (Oct-Jan)",
       "difficulty": "low-med",
       "wave": 1,
-      "targetDate": "2026-11-26",
-      "status": "planned",
+      "targetDate": "2026-10-28",
+      "status": "drafted",
       "why": "2027 COLA announced Oct 14, 2026 - verify the official % on ssa.gov before publishing; evergreen every October"
     },
     {
@@ -702,7 +702,7 @@
     },
     {
       "id": "preferred-source-cta",
-      "title": "'Add CalcIvy as a preferred source on Google' button on data studies",
+      "title": "'Add HomeMoney Calc as a preferred source on Google' button on data studies",
       "why": "Preferred Sources now also feeds AI Mode / AI Overviews",
       "effort": "S",
       "when": "month 1"

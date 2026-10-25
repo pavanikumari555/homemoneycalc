@@ -1,16 +1,29 @@
 import Link from "next/link";
-import { getTool } from "@/lib/site";
+import { notFound } from "next/navigation";
+import { SITE, getTool, isReleased } from "@/lib/site";
 import { ToolSchema, FaqSchema, BreadcrumbSchema, FaqItem } from "./StructuredData";
 import FaqSection from "./FaqSection";
 import RelatedTools from "./RelatedTools";
-import AdSlot from "./AdSlot";
+import OfferBox from "./OfferBox";
 import Icon from "./Icon";
 import FavoriteButton from "./FavoriteButton";
+import { TaxDatesButton } from "./calc/CheckIn";
+import { TAX_DATES_2027 } from "@/lib/ics";
+
+// In tools pe "tax deadlines calendar me daalo" button (Jan-Apr me log wapas aate hain)
+const TAX_TOOLS = new Set([
+  "paycheck-calculator",
+  "no-tax-on-overtime-calculator",
+  "no-tax-on-tips-calculator",
+  "car-loan-interest-deduction-calculator",
+  "senior-deduction-calculator",
+  "bonus-tax-calculator",
+]);
 
 // ============================================================================
 // TOOL PAGE LAYOUT — har calculator page ka same structure (SEO + E-E-A-T):
-// breadcrumb -> H1 + intro -> calculator -> ad -> explainer -> sources ->
-// FAQ -> disclaimer -> related tools. Page sirf content deta hai.
+// breadcrumb -> H1 + intro -> calculator -> explainer -> sources -> partner offer ->
+// FAQ -> disclaimer -> embed -> related tools. Page sirf content deta hai.
 // ============================================================================
 
 export interface Source {
@@ -37,6 +50,8 @@ function formatDate(iso: string) {
 
 export default function ToolLayout({ slug, h1, intro, answer, calculator, children, faqs, sources = [], finance = true }: ToolLayoutProps) {
   const tool = getTool(slug)!;
+  // Release queue: publish date se pehle public build me page nahi banta (404)
+  if (!isReleased(tool)) notFound();
   const path = `/${slug}/`;
 
   return (
@@ -68,6 +83,7 @@ export default function ToolLayout({ slug, h1, intro, answer, calculator, childr
               )}
               <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted">
                 <FavoriteButton slug={slug} />
+                {TAX_TOOLS.has(slug) && <TaxDatesButton events={TAX_DATES_2027} />}
                 <span>
                   Updated {formatDate(tool.updated)} ·{" "}
                   <Link href="/methodology/" className="underline underline-offset-2 hover:text-ivy-600">
@@ -83,8 +99,6 @@ export default function ToolLayout({ slug, h1, intro, answer, calculator, childr
       </div>
 
       <div className="container-page">
-        <AdSlot placement="afterTool" />
-
         <article className="prose-content mt-10">{children}</article>
 
         {sources.length > 0 && (
@@ -109,7 +123,7 @@ export default function ToolLayout({ slug, h1, intro, answer, calculator, childr
           </section>
         )}
 
-        <AdSlot placement="inArticle" />
+        <OfferBox slug={slug} />
 
         <FaqSection items={faqs} />
 
@@ -121,7 +135,19 @@ export default function ToolLayout({ slug, h1, intro, answer, calculator, childr
           </div>
         )}
 
-        <AdSlot placement="multiplex" />
+        {/* Bloggers/teachers ke liye copy-paste iframe. Credit link iframe ke andar hi hai
+            (brand naam, nofollow) — bahar koi keyword link nahi, taaki link-scheme na lage. */}
+        <details className="mt-8 max-w-3xl rounded-2xl border border-line bg-surface p-4 text-sm">
+          <summary className="cursor-pointer font-semibold text-ink">Embed this calculator on your site (free)</summary>
+          <p className="mt-2 text-muted">Copy this code into your blog or class page. It stays free and updates automatically.</p>
+          <textarea
+            readOnly
+            rows={3}
+            aria-label="Embed code"
+            className="mt-2 w-full rounded-xl border border-line bg-surface-2 p-2 font-mono text-xs text-ink"
+            defaultValue={`<iframe src="${SITE.url}/embed/${slug}/" title="${tool.title}" width="100%" height="760" style="border:0;max-width:720px" loading="lazy"></iframe>`}
+          />
+        </details>
 
         <RelatedTools slug={slug} />
       </div>

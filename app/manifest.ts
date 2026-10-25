@@ -4,7 +4,7 @@ import { SITE } from "@/lib/site";
 // Static export: build ke waqt ek baar file ban jaati hai (Next.js 16 me zaroori)
 export const dynamic = "force-static";
 
-// Web app manifest — "Add to Home Screen" pe CalcIvy ek app ki tarah khulta hai.
+// Web app manifest — "Add to Home Screen" pe HomeMoney Calc ek app ki tarah khulta hai.
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${SITE.name} — Money Calculators`,

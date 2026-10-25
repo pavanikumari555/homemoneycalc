@@ -2,26 +2,53 @@
 # SECURITY HEADERS (Cloudflare Pages reads this file automatically)
 # Ye headers browser ko batate hain site ko safely load kare -> XSS, clickjacking,
 # MIME-sniffing jaise attacks se bachaav. Static site pe ye extra hardening hai.
+# User ko kuch nahi dikhta — page waise hi khulta hai. Detail: docs/SECURITY.md
 # ============================================================================
 
 /*
-  # Site ko iframe me embed hone se roko (clickjacking se bachaav)
+  # Site ko dusri site ke iframe me embed hone se roko (clickjacking se bachaav)
   X-Frame-Options: SAMEORIGIN
   # Browser ko file type guess karne se roko (MIME-sniffing attack se bachaav)
   X-Content-Type-Options: nosniff
   # Referrer info leak kam karo
   Referrer-Policy: strict-origin-when-cross-origin
   # Purani powerful browser features band rakho
-  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  # Dusri site wala tab hamari window ko control na kar sake (popup/opener attacks)
+  Cross-Origin-Opener-Policy: same-origin
   # HTTPS force karo (1 saal), subdomains bhi
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  # Content Security Policy — sirf trusted sources se script/style load ho.
-  # Sirf Google Analytics (GA4) ke domains allow. Naya third-party script (affiliate widget,
-  # tip jar) lagao to yahan uska domain jodna padega, warna browser block karega.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'
+  # Content Security Policy — sirf apni site se script/style/image/font. Koi third-party script nahi.
+  # GA4 ya koi widget lagana ho to uska domain yahan jodna padega (docs/SECURITY.md), warna browser block karega.
+  # frame-ancestors 'self' = koi dusri site hamare pages ko iframe me nahi daal sakti (embed ko chhod ke, neeche).
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+
+# Build files ke naam me hash hota hai -> saal bhar cache. Repeat visit fast + DDoS me CDN se hi serve.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
 
 # Private pages: never index (admin panel is also protected by Cloudflare Access)
 /admin/*
   X-Robots-Tag: noindex, nofollow
 /my-money/*
+  X-Robots-Tag: noindex
+
+# Affiliate redirects: search engines na follow karein, na index
+/go/*
+  X-Robots-Tag: noindex, nofollow
+
+# Embed widget: dusri sites iframe me laga sakein (sirf /embed/ — baaki site SAMEORIGIN hi rahegi).
+# Embed me koi login/payment button nahi, isliye clickjacking ka khatra nahi.
+/embed/*
+  ! X-Frame-Options
+  ! Content-Security-Policy
+  ! Cross-Origin-Opener-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors *; upgrade-insecure-requests
+  X-Robots-Tag: noindex
+
+# *.pages.dev copy (Cloudflare ka default address) Google me na aaye — warna duplicate site ban jaati.
+# Asli site sirf homemoneycalc.com. (Project ka naam alag rakha to yahan bhi badalna.)
+https://homemoneycalc.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.homemoneycalc.pages.dev/*
   X-Robots-Tag: noindex

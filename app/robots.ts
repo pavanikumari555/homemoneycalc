@@ -10,9 +10,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/"], // private owner dashboard
+      // Admin public build me hota hi nahi (aur X-Robots-Tag), isliye yahan naam nahi likhte
+      disallow: ["/go/", "/embed/"], // affiliate redirects, iframe widgets
     },
     sitemap: `${SITE.url}/sitemap.xml`,
-    host: SITE.url,
   };
 }

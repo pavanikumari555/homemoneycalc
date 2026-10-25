@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import { FEDERAL_2026 } from "@/lib/tax2026";
-import { usd0 } from "@/lib/calc";
+import { usd, usd0 } from "@/lib/calc";
 import PaycheckCalculator from "./PaycheckCalculator";
 import { calcPaycheck } from "@/lib/paycheck";
 
@@ -49,6 +49,10 @@ const faqs: FaqItem[] = [
 
 const exampleNet = (st: string) =>
   calcPaycheck({ grossAnnual: 60_000, payPeriodsPerYear: 26, status: "single", stateCode: st, retirementPercent: 0, otherPretaxAnnual: 0 }).net;
+// Worked example — single filer, Texas (no state or local income tax), $60k, biweekly
+const EX = calcPaycheck({ grossAnnual: 60_000, payPeriodsPerYear: 26, status: "single", stateCode: "TX", retirementPercent: 0, otherPretaxAnnual: 0 });
+const EX401 = calcPaycheck({ grossAnnual: 60_000, payPeriodsPerYear: 26, status: "single", stateCode: "TX", retirementPercent: 5, otherPretaxAnnual: 0 });
+const SS_MAX = F.socialSecurity.wageBase * F.socialSecurity.rate;
 const ANSWER = `On a $60,000 salary, a single filer in Texas takes home about ${usd0(exampleNet("TX"))} a year (${usd0(exampleNet("TX") / 26)} every two weeks) after federal income tax, Social Security and Medicare. In California it's about ${usd0(exampleNet("CA"))}.`;
 
 export default function Page() {
@@ -64,6 +68,9 @@ export default function Page() {
         { label: "IRS — Tax inflation adjustments for tax year 2026 (Rev. Proc. 2025-32)", url: "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill" },
         { label: "Social Security Administration — Contribution and benefit base", url: "https://www.ssa.gov/oact/cola/cbb.html" },
         { label: "IRS — Topic 560, Additional Medicare Tax", url: "https://www.irs.gov/taxtopics/tc560" },
+        { label: "IRS — Publication 15-T, Federal Income Tax Withholding Methods", url: "https://www.irs.gov/publications/p15t" },
+        { label: "IRS — Publication 15 (Circular E), supplemental wage withholding", url: "https://www.irs.gov/publications/p15" },
+        { label: "IRS — 401(k) limit increases to $24,500 for 2026", url: "https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500" },
         { label: "Each state's department of revenue (shown in the state note above)", url: "https://www.taxadmin.org/state-tax-agencies" },
       ]}
     >
@@ -91,6 +98,41 @@ export default function Page() {
         </li>
       </ol>
 
+      <p>
+        In formula form: <code>take-home = gross − pre-tax deductions − federal tax − Social Security − Medicare − state taxes</code>,
+        then divided by your number of paychecks (52 weekly, 26 every two weeks, 24 twice a month, 12 monthly). Federal and state
+        income tax are figured on the year as a whole and spread evenly across your checks.
+      </p>
+
+      <h2>A worked example: $60,000, single, Texas</h2>
+      <p>
+        Take a single filer earning $60,000 a year, paid every two weeks, living in Texas (no state or local income tax), with no
+        401(k) or pre-tax benefits:
+      </p>
+      <ol>
+        <li>
+          Federal taxable income: $60,000 − {usd0(F.stdDeduction.single)} standard deduction ={" "}
+          <strong>{usd0(EX.federalTaxable)}</strong>.
+        </li>
+        <li>
+          Federal income tax: 10% on the first {usd0(F.single[1].over)} plus 12% on the rest ={" "}
+          <strong>{usd0(EX.federalTax)}</strong>. The top dollar is taxed at {Math.round(EX.marginalFederal * 100)}%, but the
+          overall federal rate is only about {Math.round((EX.federalTax / EX.gross) * 1000) / 10}% of salary.
+        </li>
+        <li>Social Security: 6.2% × $60,000 = <strong>{usd0(EX.socialSecurity)}</strong>.</li>
+        <li>Medicare: 1.45% × $60,000 = <strong>{usd0(EX.medicare)}</strong>.</li>
+        <li>
+          Take-home: <strong>{usd0(EX.net)}</strong> a year, or <strong>{usd(EX.net / 26)}</strong> per paycheck. Total taxes are
+          about {Math.round(EX.effectiveRate * 1000) / 10}% of gross.
+        </li>
+      </ol>
+      <p>
+        Now add a 5% traditional 401(k) contribution ({usd0(EX401.retirement)} a year). Federal tax falls to{" "}
+        {usd0(EX401.federalTax)}, while Social Security and Medicare stay the same, because 401(k) deferrals are still FICA wages.
+        Take-home becomes {usd0(EX401.net)} ({usd(EX401.net / 26)} per check) — so saving {usd0(EX401.retirement)} only costs you{" "}
+        {usd0(EX.net - EX401.net)} of spendable pay.
+      </p>
+
       <h2>2026 federal tax brackets</h2>
       <p>For single filers, taxable income (after the standard deduction) is taxed like this:</p>
       <ul>
@@ -116,6 +158,44 @@ export default function Page() {
         <Link href="/take-home-pay-by-state/">take-home pay by state table</Link> for $50k–$150k salaries.
       </p>
 
+      <h2>Social Security and Medicare limits</h2>
+      <p>
+        Social Security stops once your wages for the year pass {usd0(F.socialSecurity.wageBase)}, so the most an employee pays in
+        2026 is {usd0(SS_MAX)}. Medicare has no cap, and an extra 0.9% applies to wages above{" "}
+        {usd0(F.medicare.additionalThreshold.single)} for a single filer. If you work two jobs, each employer withholds Social
+        Security separately; any excess over the yearly maximum comes back as a credit on your tax return.
+      </p>
+
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>
+          <strong>Dividing salary by 12 when you&apos;re paid every two weeks.</strong> Biweekly means 26 checks, so two months a
+          year have three paychecks. Budget on the per-check amount.
+        </li>
+        <li>
+          <strong>Confusing marginal and effective rates.</strong> Moving into a higher bracket only taxes the dollars above the
+          line at the higher rate. A raise never lowers your take-home pay from federal income tax alone.
+        </li>
+        <li>
+          <strong>Expecting bonus checks to match.</strong> Employers often withhold federal tax on bonuses at a flat 22% (37% on
+          supplemental wages above $1 million), which may be more or less than your actual tax.
+        </li>
+        <li>
+          <strong>Entering one spouse&apos;s salary as &ldquo;married&rdquo;.</strong> The married option uses joint brackets, so
+          enter the couple&apos;s combined wages to get a household estimate.
+        </li>
+      </ul>
+
+      <h2>When this estimate doesn&apos;t fit</h2>
+      <p>
+        Your employer&apos;s payroll system follows IRS Publication 15-T and the choices on your Form W-4, so dependents, extra
+        withholding, other income or a second job can make real checks differ from this estimate. The calculator doesn&apos;t
+        include local income taxes, which apply in places like New York City, many Pennsylvania and Ohio cities, and Maryland and
+        Indiana counties. It also skips itemized deductions, tax credits such as the Child Tax Credit, and self-employment tax —
+        if you&apos;re a contractor paid on a 1099, nothing is withheld and you pay both halves of Social Security and Medicare
+        yourself.
+      </p>
+
       <h2>Ways to keep more of your paycheck</h2>
       <ul>
         <li>Raise your traditional 401(k) contribution — at least enough to get any employer match.</li>
@@ -123,6 +203,10 @@ export default function Page() {
         <li>Check your W-4 so you aren&apos;t over-withholding and waiting for a big refund.</li>
         <li>
           Converting an hourly offer? Try the <Link href="/salary-to-hourly-calculator/">salary to hourly calculator</Link>.
+        </li>
+        <li>
+          Once you know your real take-home, decide where the extra goes: the{" "}
+          <Link href="/debt-payoff-calculator/">debt payoff calculator</Link> shows what an extra $100 a month does to your debts.
         </li>
       </ul>
     </ToolLayout>

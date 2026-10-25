@@ -6,7 +6,7 @@ import PageShell from "@/components/PageShell";
 export const metadata: Metadata = buildMetadata({
   title: "Disclaimer",
   description:
-    "CalcIvy provides estimates for informational purposes only. Our calculators are not financial, tax, or investment advice. Read our full disclaimer.",
+    "HomeMoney Calc provides estimates for informational purposes only. Our calculators are not financial, tax, or investment advice. Read our full disclaimer.",
   path: "/disclaimer/",
 });
 

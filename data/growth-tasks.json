@@ -32,7 +32,7 @@
     },
     {
       "week": 1,
-      "task": "Cloudflare Email Routing: hello@calcivy.com -> your CalcIvy Gmail (free)",
+      "task": "Cloudflare Email Routing: hello@homemoneycalc.com -> your HomeMoney Calc Gmail (free)",
       "type": "setup",
       "url": "https://developers.cloudflare.com/email-routing/",
       "done": false

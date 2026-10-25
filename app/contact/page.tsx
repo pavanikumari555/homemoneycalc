@@ -6,7 +6,7 @@ import PageShell from "@/components/PageShell";
 export const metadata: Metadata = buildMetadata({
   title: "Contact Us",
   description:
-    "Get in touch with CalcIvy. Questions, corrections, or calculator suggestions are always welcome — email us and we'll get back to you.",
+    "Get in touch with HomeMoney Calc. Questions, corrections, or calculator suggestions are always welcome — email us and we'll get back to you.",
   path: "/contact/",
 });
 
@@ -60,7 +60,7 @@ export default function ContactPage() {
 
       <h2>Response time</h2>
       <p>
-        We&apos;re a small team, so replies may take a little longer during busy periods. Corrections
+        We&apos;re a two-person family team, so replies may take a little longer during busy periods. Corrections
         to our calculators are always prioritized — accuracy matters to us.
       </p>
     </PageShell>
