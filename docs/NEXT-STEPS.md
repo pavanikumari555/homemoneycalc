@@ -37,28 +37,28 @@ Domain homemoneycalc.com ke andar:
 - **Verify (AI kare):** `curl -sI https://homemoneycalc.com/wp-login.php` → 403; `curl -sI https://homemoneycalc.com/` → 200; `curl -sI http://homemoneycalc.com/` → 301 to https.
 - Phir `data/security-checklist.json` me jo ho gaya `done: true` karo (branch + PR).
 
-### Step 9 — Email forwarding (5 min) ← **YAHAN SE SHURU**
+### Step 9 — Email forwarding ✅ DONE 25 Oct (hello@ → Gmail tested, SPF + DMARC p=quarantine)
 Cloudflare → homemoneycalc.com → **Email → Email Routing** → Get started → custom address `hello` → destination `homemoneycalc.site@gmail.com` → Gmail me verify link → "Add records and enable" (MX + SPF khud aate hain). Phir DNS me DMARC TXT: name `_dmarc`, value `v=DMARC1; p=quarantine; rua=mailto:homemoneycalc.site@gmail.com`. Test: kisi aur email se hello@homemoneycalc.com pe mail bhejo.
 
 ### Step 10 — DNSSEC (5 min)
 Cloudflare → DNS → Settings → **Enable DNSSEC** → DS record details dikhenge → Namecheap → Domain List → Manage → **Advanced DNS → DNSSEC** → add (Key Tag, Algorithm 13, Digest Type 2, Digest). Verify: `nslookup -type=DS homemoneycalc.com 1.1.1.1`.
 
-### Step 11 — Google Search Console (15 min) — **sabse zaroori SEO step**
+### Step 11 — Google Search Console ✅ parts 1–3 DONE 25 Oct (Domain property verified, sitemap.xml submitted — "Couldn't fetch" at first is normal, home + 4 pages Request indexing). Part 4 (service account for the agent) = **NEXT**
 1. search.google.com/search-console (owner Gmail) → **Domain** property `homemoneycalc.com` → TXT record Cloudflare DNS me daalo → Verify.
 2. Sitemaps → `https://homemoneycalc.com/sitemap.xml` submit.
 3. URL Inspection → home + paycheck page → "Request indexing".
 4. Agent ke liye: Google Cloud project `homemoneycalc-agent` → enable Search Console API + Analytics Data API → Service account → JSON key download (**chat me paste nahi**) → Search Console Settings → Users → service account email ko "Restricted" add. GitHub secret `GOOGLE_SA_JSON` = JSON ka poora text; variable `GSC_SITE` = `sc-domain:homemoneycalc.com`. Detail: `docs/SETUP-AGENT.md` Step 2.
 
-### Step 12 — Bing Webmaster (5 min)
+### Step 12 — Bing Webmaster ✅ DONE 25 Oct (imported from GSC, BING_WEBMASTER_KEY secret, IndexNow 21 URLs → HTTP 200)
 bing.com/webmasters → "Import from Google Search Console" → Settings → API access → key → GitHub secret `BING_WEBMASTER_KEY`. (IndexNow key file pehle se live: `/003c58862834fce1e9714cc87fd0d1e2.txt`.)
 
-### Step 13 — GitHub settings (AI `gh` se kar sakta hai, owner ki haan ke baad)
+### Step 13 — GitHub settings ✅ mostly DONE 25 Oct (SITE_LAUNCH_DATE var, Dependabot alerts, GEMINI_API_KEY + GROQ_API_KEY with auto-fallback). Branch protection is not available on the free plan for private repos — skip.
 - Repo variables: `SITE_LAUNCH_DATE` = `2026-10-25`, `GSC_SITE` (upar).
 - Free AI summary: aistudio.google.com se Gemini key → secret `GEMINI_API_KEY` (owner khud daale).
 - Settings → Code security: Dependabot alerts + secret scanning ON.
 - `main` branch protection: PR required. ⚠️ `seo-daily.yml` roz `data/reports/` seedha main pe commit karta hai — protection lagate waqt GitHub Actions ko bypass do, warna daily report fail hogi. Lagane ke baad ek baar "SEO daily report" workflow manually chala ke check karo.
 
-### Step 14 — Admin panel (locked) (15 min)
+### Step 14 — Admin panel ✅ DECIDED 25 Oct: owner uses it LOCALLY — double-click `Admin-Kholo.bat` (git pull + dev server + opens http://127.0.0.1:3123/admin/). Online locked project only later, when real traffic/earnings data exists. Old plan kept for reference:
 Cloudflare → Workers & Pages → Create → **Pages** ("Continue to Pages", Workers wala nahi) → same repo → project `homemoneycalc-admin` → build `npm run build`, output `out`, env `NODE_VERSION=22` **aur** `BUILD_ADMIN=1` → custom domain `admin.homemoneycalc.com` → Zero Trust → Access → Self-hosted app for `admin.homemoneycalc.com` + `homemoneycalc-admin.pages.dev` + `*.homemoneycalc-admin.pages.dev`, policy: Allow email `homemoneycalc.site@gmail.com`. Detail: `docs/SETUP-AGENT.md` Step 6. Admin data roz ke rebuild pe update hota hai (deploy hook isi project ka bhi bana ke release.yml me jod sakte ho — optional).
 
 ### Step 15 — Kamai shuru (owner)
