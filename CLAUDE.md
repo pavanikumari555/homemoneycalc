@@ -1,4 +1,4 @@
-# HomeMoney Calc — guide for Claude (local sessions and the GitHub agent)
+[# HomeMoney Calc — guide for Claude (local sessions and the GitHub agent)
 
 > **Start here:** read `docs/NEXT-STEPS.md` first — current status (site is LIVE), accounts, and the exact next step.
 
@@ -43,3 +43,4 @@ npm run lint
 npm run build        # static export to out/
 npm run agent:daily  # writes data/reports/<today>.json (needs a build first for the audit)
 ```
+](https://github.com/pavanikumari555/homemoneycalc/blob/main/CLAUDE.md)
