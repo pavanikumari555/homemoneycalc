@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-25T19:43:58.859Z",
+  "policy": {
+    "version": 1,
+    "automaticAdsenseApplication": false,
+    "artificialTraffic": false,
+    "autoOutreach": false,
+    "bulkPages": false,
+    "financialChangesRequireReview": true,
+    "execution": "Only reviewed existing-page SEO title/description strings; research approval creates a task, not a public page."
+  },
+  "proposals": []
+}

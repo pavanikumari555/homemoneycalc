@@ -1,0 +1,12 @@
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { observeSources } from "./research.mjs";
+import { proposalQueue } from "./proposals.mjs";
+import { readTools } from "./ideas.mjs";
+const read = (name, fallback) => { try { return JSON.parse(readFileSync(name, "utf8")); } catch { return fallback; } };
+const observations = await observeSources(read("data/research-sources.json", { sources: [] }), read("data/research-observations.json", { observations: [] }));
+writeFileSync("data/research-observations.json", `${JSON.stringify(observations, null, 2)}\n`);
+const latest = readdirSync("data/reports").filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort().at(-1);
+const report = latest ? read(`data/reports/${latest}`, {}) : {};
+const queue = proposalQueue({ ...report, research: observations }, readTools(), read("data/agent-proposals.json", { proposals: [] }), new Date().toISOString().slice(0, 10), read("data/agent-decisions.json", { decisions: [] }));
+writeFileSync("data/agent-proposals.json", `${JSON.stringify(queue, null, 2)}\n`);
+console.log(JSON.stringify({ observations: observations.observations.map(({ id, status, summary }) => ({ id, status, summary })), proposals: queue.proposals.length }, null, 2));

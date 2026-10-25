@@ -9,7 +9,7 @@
     "build": "next build",
     "postbuild": "node scripts/fix-rsc-prefetch.mjs && node scripts/prune-unreleased.mjs",
     "start": "node scripts/serve-out.mjs 3000",
-    "test": "node --test tests/calculators.test.cjs tests/automation.test.mjs tests/admin-agent.test.mjs",
+    "test": "node --test tests/calculators.test.cjs tests/automation.test.mjs tests/admin-agent.test.mjs tests/agent-approvals.test.mjs",
     "lint": "eslint .",
     "check-tools": "node scripts/check-tools.mjs",
     "agent:daily": "node scripts/agent/daily.mjs"

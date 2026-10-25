@@ -53,6 +53,8 @@ export function actionPlan(report, business, today) {
   }
   for (const item of (report?.opportunities ?? []).slice(0, 2)) add(`growth-${item.page}`, `Improve karo: ${item.query}`, `${item.impressions} impressions; average position ${Number(item.position).toFixed(1)}. Improvement ka chance hai, ranking guarantee nahi.`, "agent", 2,
     ["Current query ke liye page ka answer aur search intent check karo.", "Original example, missing explanation ya title improve karo. Ek change ka result agle comparable period mein dekho."]);
+  if (report?.approvals?.pending > 0) add("owner-approvals", "Approval inbox mein proposals padhein", `${report.approvals.pending} evidence-backed proposals await review. Approval applies only to the shown payload.`, "owner", 2,
+    ["Admin → Aapki approvals kholo aur linked evidence padho.", "Exact before/after aur checklist verify karke approve/reject karo.", "Workflow result aur deployment verify karo; queued ko live mat samjho."], "https://homemoneycalc.com/admin/");
   if (!actions.length) add("grow", "Ek useful page ya product improve karo", "Latest connected checks mein abhi urgent issue nahi mila. Har possible problem detect hone ka claim nahi hai.", "agent", 3,
     ["Top landing page aur visitor queries dekho.", "User ke kaam ka ek improvement choose karo, verify karo aur impact measure karo."]);
   return actions.sort((a, b) => a.priority - b.priority);

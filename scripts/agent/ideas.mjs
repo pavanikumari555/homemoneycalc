@@ -64,9 +64,9 @@ export function titleTests({ topPages = [], queryPage = [], tools, siteUrl, outD
       // Example ka number sirf tab, jab query tool ke apne naam jaisi ho (warna "Texas" query pe California ka number aa jaata)
       const exampleFits = tool?.example.output && (!top || tool.title.toLowerCase().includes(top.toLowerCase()));
       const ideas = [
-        `${kw} (${year}) — Free, No Sign-Up`,
+        `${kw} — Free, No Sign-Up`,
         exampleFits ? `${kw}: ${tool.example.input} → ${tool.example.output}` : `Free ${kw} — Step-by-Step Math`,
-        `${kw} — Exact Numbers in 10 Seconds`,
+        `${kw} — Calculation Breakdown`,
         `${kw} With Chart & Share Link`,
       ].filter((t) => t.length <= 60); // Google ~60 chars ke baad title kaat deta hai
       if (!ideas.length) ideas.push(clip(kw));
@@ -77,6 +77,8 @@ export function titleTests({ topPages = [], queryPage = [], tools, siteUrl, outD
         impressions: p.impressions,
         ctr: p.ctr,
         expectedCtr: expectedCtr(p.position),
+        benchmarkIsHeuristic: true,
+        reviewRequired: true,
         position: p.position,
         ideas: [...new Set(ideas)].slice(0, 3),
       };
@@ -176,7 +178,7 @@ export function keywordGap({ tools, roadmap, queryPage = [], competitors }) {
     byQuery.set(r.query, prev);
   }
   const unservedQueries = [...byQuery.values()].filter((q) => q.impressions >= 10).sort((a, b) => b.impressions - a.impressions).slice(0, 10);
-  return { missingTopics, unservedQueries };
+  return { missingTopics, unservedQueries, source: "Hand-maintained topics + this site's GSC queries", competitorTrafficVerified: false, keywordVolumesVerified: false };
 }
 
 /**
@@ -204,7 +206,9 @@ export function outreachDrafts({ tools, siteUrl, siteName, today }) {
       body: `Hi [Name],\n\nI noticed your [resource page / class page] on [topic]. We make free, no-sign-up money calculators that show the working step by step — students can see why the number comes out the way it does.\n\n${tool.title}: ${siteUrl}/${tool.slug}/\n\nIf useful, there's a free embed code at the bottom of the page so it can sit right on your class page.\n\nThank you for teaching this stuff,\n[Your name]`,
     },
   ];
-  return [templates[week % 3], templates[(week + 1) % 3]].map((t) => ({ ...t, rules: "Personalize karo, ek-ek bhejo, din me 5 se zyada nahi. Paisa/link exchange kabhi offer mat karna." }));
+  return [templates[week % 3], templates[(week + 1) % 3]]
+    .filter((t) => !t.body.includes("/take-home-pay-by-state/"))
+    .map((t) => ({ ...t, reviewRequired: true, rules: "Source, live link aur factual claims verify karo. Owner khud personalize karke bheje. No automatic sending, paid links ya link exchange." }));
 }
 
 /** Aaj ka tool (din ke hisaab se rotate) — Pinterest pin + YouTube Shorts script idea. */
@@ -222,7 +226,7 @@ export function socialIdeas({ tools, siteUrl, today }) {
       design: "Tall 1000x1500 pin: upar bada sawaal, beech me answer number, neeche site naam. Canva free template.",
     },
     shorts: {
-      hook: `${t.example.input}? Here's the real number.`,
+      hook: `${t.example.input}? See an example estimate.`,
       beats: [`Screen record: ${t.shortTitle} me values daalo`, `Answer dikhao: ${t.example.output}`, "Ek tip: kaunsa input badalne se sabse zyada farak padta hai"],
       cta: "Link in bio / description (seedha tool page).",
     },

@@ -11,6 +11,8 @@ The address bar changes to the protected host. This is an entry shortcut, not a 
 
 ## Use the five views
 
+Update 26 Oct: a sixth **Aapki approvals** view now contains the secure decision inbox and source/competitor observations. Read `docs/AUTOMATION-APPROVALS.md` for supported execution, setup and limits. An empty queue is not a full-site health certification.
+
 - **Aaj ka overview:** three next steps, visitors, latest recorded earning, application checkpoint and upcoming tools. Expand “Kaise karein?” for instructions.
 - **Visitors & growth:** sessions, Google impressions, US share, traffic trend, prioritized page opportunities. Missing data is “—”, not zero.
 - **Earning & AdSense:** actual monthly record, adjustable planning goal, readiness checklist and earning options.

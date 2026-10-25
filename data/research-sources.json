@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "intervalDays": 7,
+  "sources": [
+    { "id": "irs-individuals", "kind": "official", "label": "IRS individual tax updates", "url": "https://www.irs.gov/newsroom/working-families-tax-cuts-individuals-and-workers" },
+    { "id": "ssa-cola", "kind": "official", "label": "SSA COLA and wage-base source", "url": "https://www.ssa.gov/cola/" },
+    { "id": "google-search-policy", "kind": "policy", "label": "Google Search spam policy", "url": "https://developers.google.com/search/docs/essentials/spam-policies" },
+    { "id": "adsense-policy", "kind": "policy", "label": "AdSense program policy", "url": "https://support.google.com/adsense/answer/48182?hl=en" },
+    { "id": "adp-calculators", "kind": "competitor", "label": "ADP public calculator catalog", "url": "https://www.adp.com/resources/tools/calculators.aspx" },
+    { "id": "calculator-net-debt", "kind": "competitor", "label": "Calculator.net debt payoff", "url": "https://www.calculator.net/debt-payoff-calculator.html" },
+    { "id": "smartasset-paycheck", "kind": "competitor", "label": "SmartAsset paycheck calculator", "url": "https://smartasset.com/taxes/paycheck-calculator" }
+  ],
+  "rules": "Public HTML only, robots.txt checked, weekly bounded fetches, no Google result scraping, no ad scripts/clicks, no copied content publishing. Changes are observations, not verified law changes or keyword volumes."
+}

@@ -1,5 +1,7 @@
 # START HERE — HomeMoney Calc handoff (last updated 25 Oct 2026, ~1 PM IST)
 
+> **Automation work — 26 Oct 2026:** Read `docs/AUTOMATION-CHECKPOINT.md` first for the current resumable milestone. New **Aapki approvals** dashboard section supports exact reviewed metadata edits and accepted research tasks. Server setup instructions: `docs/AUTOMATION-APPROVALS.md`. Restricted Cloudflare admin secret still needs owner setup; do not claim end-to-end live decisions are configured until verified. GSC/GA4 connections and broader reviewed publishing remain pending.
+
 > **Current owner decisions — 26 Oct 2026:** Admin entry is https://homemoneycalc.com/admin/ (shortcut to existing password-protected dashboard). Dashboard is simplified into Overview, Visitors, Earning, Agent and Settings. $5,000 is an adjustable estimate, not an income ceiling or guarantee. Do not apply for AdSense yet; wait for genuine traffic and final readiness review. Compliant affiliates/templates may coexist with AdSense. One PayPal account is available; receiving eligibility is not yet verified. `data/business.json` stores the shared business/readiness assumptions. Daily agent now records code checks, live checks, explicit audit coverage and a prioritized action queue; autonomous source-code repair still needs local Codex or the separate configured coding workflow.
 
 > **AI/assistant ke liye:** pehle `CLAUDE.md` padho (rules), phir ye file. Owner beginner hai (India) — Hinglish me baat karo, "kyun" pehle, chhote steps, screenshot maang lo. Password/2FA/API key kabhi chat me mat mangwao.

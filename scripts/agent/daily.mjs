@@ -17,6 +17,9 @@ import { roadmapSummary } from "./roadmap.mjs";
 import { adsenseReadiness, actionPlan } from "./advisor.mjs";
 import { qualityChecks } from "./quality.mjs";
 import { liveChecks } from "./live.mjs";
+import { observeSources } from "./research.mjs";
+import { proposalQueue } from "./proposals.mjs";
+import { evaluateExperiments } from "./experiments.mjs";
 
 const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
@@ -135,6 +138,16 @@ async function main() {
     notes,
   };
   report.adsenseReadiness = adsenseReadiness(report, business, today);
+  report.actions = actionPlan(report, business, today);
+
+  // Research is bounded, cached weekly, robots-aware, and read-only.
+  report.research = await observeSources(readJson("data/research-sources.json", { sources: [] }), readJson("data/research-observations.json", { observations: [] }));
+  writeFileSync("data/research-observations.json", `${JSON.stringify(report.research, null, 2)}\n`);
+  const decisions = readJson("data/agent-decisions.json", { decisions: [] });
+  const queue = proposalQueue(report, readTools(), readJson("data/agent-proposals.json", { proposals: [] }), today, decisions);
+  writeFileSync("data/agent-proposals.json", `${JSON.stringify(queue, null, 2)}\n`);
+  report.approvals = { pending: queue.proposals.filter((p) => !decisions.decisions.some((d) => d.id === p.id)).length, automaticPublication: false };
+  report.experiments = evaluateExperiments(decisions, report, today);
   report.actions = actionPlan(report, business, today);
 
   const ai = await safely("AI summary", () => summarize(report), notes);

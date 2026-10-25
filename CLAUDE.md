@@ -32,7 +32,7 @@ The owner is a beginner from India. Talk to them in Hinglish: why first, then ho
 ## Quality bar for a tool page
 
 - Calculator works for edge cases (0, empty, huge numbers, "never pays off").
-- 600–1,500 words of useful explainer: formula in plain English, a worked example whose numbers you computed, practical tips.
+- Useful explanation sized to the user's question: formula in plain English, a verified worked example, limitations and practical tips. No mandatory word-count or page-count quota; don't pad content for ranking.
 - 4–6 FAQs answering real "People also ask" questions.
 - Title ≤ 60 chars with the primary keyword first; meta description ≤ 155 chars.
 - `example` in the registry computed by actually running the calculator logic.

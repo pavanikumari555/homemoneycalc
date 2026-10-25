@@ -1,0 +1,52 @@
+name: Owner approved agent decision
+run-name: Owner decision ${{ inputs.proposal_id }} (${{ inputs.decision }})
+on:
+  workflow_dispatch:
+    inputs:
+      proposal_id:
+        required: true
+        type: string
+      proposal_digest:
+        required: true
+        type: string
+      decision:
+        required: true
+        type: choice
+        options: [approve, reject]
+      reviewed:
+        required: true
+        type: choice
+        options: ["no", "yes"]
+permissions:
+  contents: write
+concurrency:
+  group: owner-agent-decisions
+  cancel-in-progress: false
+jobs:
+  decide:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate immutable reviewed proposal
+        run: node scripts/agent/decide.mjs
+      - run: npm test
+      - run: npm run check-tools
+      - run: npm run lint
+      - run: npm run build
+      - name: Save checked decision and exact supported edit
+        run: |
+          git config user.name "homemoneycalc-agent"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/agent-decisions.json app/*/page.tsx
+          git commit -m "chore(agent): record checked owner decision"
+          # Never rebase a reviewed edit over changed source; non-fast-forward fails safely.
+          git push origin HEAD:main
