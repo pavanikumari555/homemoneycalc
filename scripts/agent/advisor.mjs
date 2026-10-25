@@ -44,8 +44,11 @@ export function actionPlan(report, business, today) {
     if (check.status !== "pass") add(`quality-${check.id}`, `${check.label}: ${check.status === "fail" ? "fix chahiye" : "check adhoora"}`, check.summary, "agent", check.status === "fail" ? 0 : 1,
       ["GitHub Actions ka matching check log kholo.", "Cause reproduce karke fix karo; guessing se pass mat mark karo."]);
   }
-  for (const check of (report?.liveChecks ?? []).filter((c) => c.status !== "pass")) {
-    add(`live-${check.path}`, `Live page check: ${check.path}`, check.message, "agent", 0,
+  const blocked = (report?.liveChecks ?? []).filter((c) => c.blockedBy === "cloudflare");
+  if (blocked.length) add("monitoring-access", "Cloudflare monitoring access verify karo", `${blocked.length} automated requests Cloudflare ne block kiye. Ye confirmed website outage nahi; monitoring coverage incomplete hai.`, "owner", 2,
+    ["Website normal browser mein kholkar access verify karo.", "Cloudflare Security Events mein monitoring request/ray dekho; verified search crawlers ka access bhi check karo.", "Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo."], "https://dash.cloudflare.com/");
+  for (const check of (report?.liveChecks ?? []).filter((c) => c.status !== "pass" && c.blockedBy !== "cloudflare")) {
+    add(`live-${check.path}`, `Live page check: ${check.path}`, check.message, "agent", check.status === "fail" ? 0 : 1,
       ["Live response aur recent deployment compare karo.", "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."]);
   }
   for (const item of (report?.opportunities ?? []).slice(0, 2)) add(`growth-${item.page}`, `Improve karo: ${item.query}`, `${item.impressions} impressions; average position ${Number(item.position).toFixed(1)}. Improvement ka chance hai, ranking guarantee nahi.`, "agent", 2,

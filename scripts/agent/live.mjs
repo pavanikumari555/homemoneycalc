@@ -7,6 +7,12 @@ export async function liveChecks(siteUrl, fetcher = fetch) {
   return Promise.all(targets.map(async ([path, expected]) => {
     try {
       const response = await fetcher(`${siteUrl}${path}`, { method: "GET", redirect: "manual", signal: AbortSignal.timeout(12_000) });
+      // Datacenter/GitHub runners can hit Cloudflare bot/WAF rules even while browsers work.
+      // This is missing monitoring coverage, not proof that the page is broken or healthy.
+      if (response.headers.get("cf-mitigated") === "challenge" || (response.status === 403 && /cloudflare/i.test(response.headers.get("server") || ""))) {
+        await response.body?.cancel();
+        return { path, http: response.status, status: "unknown", blockedBy: "cloudflare", ray: response.headers.get("cf-ray"), message: "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed." };
+      }
       const problems = [];
       if (response.status !== expected) problems.push(`Expected HTTP ${expected}, got ${response.status}`);
       if (expected === 200 && !response.headers.get("content-security-policy")) problems.push("CSP header missing");

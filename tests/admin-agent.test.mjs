@@ -7,6 +7,7 @@ import { onRequest } from "../functions/admin/_middleware.js";
 import { adsenseReadiness, actionPlan } from "../scripts/agent/advisor.mjs";
 import { auditSite } from "../scripts/agent/audit.mjs";
 import { qualityChecks } from "../scripts/agent/quality.mjs";
+import { liveChecks } from "../scripts/agent/live.mjs";
 
 const business = { readiness: { sessions28d: 1000, googleClicks28d: 200, activeSearchDays: 14, searchLandingPages: 3 } };
 test("public admin entry redirects only to the protected dashboard; private host remains locked", async () => {
@@ -78,4 +79,12 @@ test("audit catches broken assets, wrong canonical, duplicate title and invalid 
 test("failed/unavailable executable checks never become green", () => {
   assert.ok(qualityChecks((_, args) => ({ status: 1, stdout: args.join(" ").includes("audit") ? '{"metadata":{"vulnerabilities":{"total":2}}}' : "" })).every((c) => c.status === "fail"));
   assert.ok(qualityChecks(() => ({ error: new Error("timeout"), status: null })).every((c) => c.status === "unknown"));
+});
+
+test("Cloudflare challenge is unknown monitoring coverage, not a page failure or pass", async () => {
+  const checks = await liveChecks("https://example.com", async () => new Response("blocked", { status: 403, headers: { server: "cloudflare", "cf-ray": "test-ray" } }));
+  assert.ok(checks.every((c) => c.status === "unknown" && c.blockedBy === "cloudflare"));
+  const actions = actionPlan({ date: "2026-10-26", sources: {}, health: { ran: true, errors: 0 }, liveChecks: checks }, business, "2026-10-26");
+  assert.equal(actions.filter((a) => a.id === "monitoring-access").length, 1);
+  assert.ok(!actions.some((a) => a.id.startsWith("live-")));
 });
