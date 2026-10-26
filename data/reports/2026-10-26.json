@@ -1,18 +1,18 @@
 {
   "date": "2026-10-26",
-  "generatedAt": "2026-10-26T03:07:35.883Z",
+  "generatedAt": "2026-10-26T03:40:12.317Z",
   "sources": {
-    "gsc": false,
+    "gsc": true,
     "ga4": false,
     "psi": false,
     "bing": true,
     "ai": true
   },
   "kpis": {
-    "clicks": null,
-    "impressions": null,
-    "ctr": null,
-    "position": null,
+    "clicks": 0,
+    "impressions": 0,
+    "ctr": 0,
+    "position": 0,
     "clicksChange": null,
     "impressionsChange": null,
     "sessions": null,
@@ -315,7 +315,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506406b9dd77284-LAX",
+      "ray": "a506702fbc56a0ed-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -323,7 +323,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506406b88865b4c-LAX",
+      "ray": "a506702fbd3f1ef1-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -331,7 +331,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506406badcd3f37-LAX",
+      "ray": "a506702fbe894bd5-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -345,7 +345,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506406b9980b103-LAX",
+      "ray": "a506702fbaf0ba3c-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -353,83 +353,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506406b9a925708-LAX",
+      "ray": "a506702fbc8bdefd-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-10-26T03:07:35.545Z",
+      "checkedAt": "2026-10-26T03:40:12.056Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a506406b7e672b6b-LAX"
+        "ray": "a506702fa99ab9c1-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-10-26T03:07:35.545Z",
+      "checkedAt": "2026-10-26T03:40:12.056Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a506406c0a50f7a3-LAX"
+        "ray": "a506703029ebc4cf-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-10-26T03:07:35.546Z",
+      "checkedAt": "2026-10-26T03:40:12.056Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a506406bcfaf4383-LAX"
+        "ray": "a506702fdfa850b7-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-10-26T03:07:35.547Z",
+      "checkedAt": "2026-10-26T03:40:12.057Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a506406bfd5d295e-LAX"
+        "ray": "a5067030294223ef-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-10-26T03:07:35.547Z",
+      "checkedAt": "2026-10-26T03:40:12.057Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a506406bf8082a93-LAX"
+        "ray": "a50670301b3176ce-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-10-26T03:07:35.548Z",
+      "checkedAt": "2026-10-26T03:40:12.058Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -437,14 +437,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a506406bfdd91ddd-LAX"
+        "ray": "a50670301ae1adb4-SEA"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-10-26T03:07:35.548Z",
+      "checkedAt": "2026-10-26T03:40:12.058Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -452,7 +452,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a506406c08bb265a-LAX"
+        "ray": "a506703028f1ec98-SEA"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -600,19 +600,6 @@
   },
   "actions": [
     {
-      "id": "gsc-data",
-      "title": "Google report connection poora karo",
-      "why": "Site verification aur agent ka data access alag hain. Agent ko abhi Google clicks nahi mil rahe.",
-      "who": "owner",
-      "priority": 1,
-      "steps": [
-        "Google Cloud mein Search Console API enable karo aur service account banao.",
-        "Search Console mein service-account email ko access do.",
-        "GitHub secret GOOGLE_SA_JSON aur variable GSC_SITE set karo. Private key chat mein mat bhejo."
-      ],
-      "url": "https://console.cloud.google.com/"
-    },
-    {
       "id": "ga4-data",
       "title": "Website traffic tracking connect karo",
       "why": "Visitors aur unke sources ke bina earning ya AdSense readiness ka sahi signal nahi milta.",
@@ -641,7 +628,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-10-26T03:07:35.885Z",
+    "generatedAt": "2026-10-26T03:40:12.319Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
@@ -742,22 +729,24 @@
   },
   "experiments": [],
   "ai": {
-    "headline": "HomeMoney Calc: Setup aur Roadmap Update",
-    "summary": "Namaste! Hamare paas traffic data ke liye abhi Google Search Console aur GA4 connect nahi hain, isliye humein pehle connection complete karna hoga. Cloudflare ne kuch automated requests block ki hain jise verify karna hai. Roadmap par senior deduction aur 2027 tax tools ready ho rahe hain.",
+    "headline": "Site live hai par monitoring blocked; GA4 aur Cloudflare check zaroori hai",
+    "summary": "Website ki basic health audit clean hai (22 pages checked, 0 errors), lekin automated monitoring ko Cloudflare ne 403 block kiya hai (ye confirmed site down nahi hai, bas bot security ne request roki hai). GSC connected hai par traffic abhi 0 clicks aur 0 impressions pe hai. GA4 abhi setup nahi hua hai, isliye traffic data track nahi ho raha. AdSense ke liye abhi apply bilkul mat kijiye jab tak steady traffic aur owner review pura na ho jaye.",
     "youDo": [
-      "Google Search Console API enable karke service account banao aur GSC_SITE set karo (yeh Search Console data track karne ke liye hai).",
-      "Google Analytics 4 (GA4) property aur web stream banakar Measurement ID implement karo taaki visitor data mile.",
-      "Cloudflare Dashboard kholkar security events check karo aur verify karo ki monitoring tools sahi se kaam kar rahe hain ya nahi."
+      "GA4 Setup (analytics.google.com): GA4 property create karke web stream banaiye aur Measurement ID add karwaiye, taaki US visitors track ho sakein (calculator inputs query analytics me mat bhejna).",
+      "Cloudflare Check (dash.cloudflare.com): Website normal browser me khol kar confirm karein ki khul rahi hai. Uske baad Cloudflare Security Events me check karein ki legitimate search crawlers toh block nahi ho rahe.",
+      "Roadmap Review: 2026-10-28 ko 'Senior $6,000 Deduction' aur 'Social Security COLA' calculators aane wale hain; ssa.gov aur IRS ke official numbers verify karke hi draft ready rakhein.",
+      "Week 1 Growth Tasks: Ahrefs Webmaster Tools connect karein free backlink tracking ke liye, aur core brand profiles (X, LinkedIn) setup karein."
     ],
     "agentNext": [
-      "Aapke dwara GSC aur GA4 connect hone ke baad organic traffic aur clicks metrics ko track karenge.",
-      "lib/tax2027.ts aur 2027 tax engine ke liye official IRS/SSA numbers integrate karne mein madad karenge.",
-      "Roadmap ke draft tools (jaise senior deduction aur social security COLA calculator) ko publish karne ke liye code check karenge."
+      "Next run me Cloudflare monitoring response aur status codes dubara inspect karenge.",
+      "GA4 connect hone par traffic metrics (sessions, user engagement) check karenge.",
+      "lib/tax2027.ts update ke liye official IRS/SSA tax year releases monitor karte rahenge."
     ],
     "risks": [
-      "Search Console aur GA4 data ke bina AdSense ki eligibility ya traffic growth measure karna impossible hai.",
-      "Cloudflare blocking ki wajah se automated monitoring requests fail ho rahi hain, jisse site health ka pata lagana mushkil ho raha hai."
+      "Bina GA4 traffic proof ke AdSense ya affiliate networks ke liye apply karne se seedha rejection mil sakta hai.",
+      "Agar Cloudflare bot protection ne Google ya Bing crawlers ko roke rakha, toh site search results me index hona band ho jayegi.",
+      "Tax calculators me kisi third-party ya bina official check ke assumptions dalne se US users ko galat estimate ja sakta hai."
     ],
-    "by": "gemini:gemini-flash-lite-latest"
+    "by": "gemini:gemini-flash-latest"
   }
 }
