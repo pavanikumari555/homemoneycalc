@@ -49,3 +49,6 @@ npm run lint
 npm run build        # static export to out/
 npm run agent:daily  # writes data/reports/<today>.json (needs a build first for the audit)
 ```
+
+### Owner clarification — free alternatives first (26 Oct 2026)
+Before proposing any new service or setting, check what is already configured and identify the concrete growth, usability or essential security need. Prefer existing functionality or no extra tool if it meets that need without a material downside. Research useful free/manual/open-source alternatives and their limits before paid alternatives. For a genuinely necessary paid option, explain why it matters, what fails or becomes harder without it, free alternatives and their tradeoffs, verified total/recurring costs, and expected benefit with uncertainty. Paid options may be presented for owner consideration; this is not authorization to buy or activate billing and the no-new-spend rule remains in force unless the owner explicitly approves an exception. Prioritize measurable traffic/earning opportunities; never promise fast rankings or traffic. Explain benefits/costs before guiding each step, and do not repeat completed setup. Search Console API setup remains paused pending owner resumption.
