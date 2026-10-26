@@ -21,6 +21,7 @@ import { securityChecks } from "./security.mjs";
 import { observeSources } from "./research.mjs";
 import { proposalQueue } from "./proposals.mjs";
 import { evaluateExperiments } from "./experiments.mjs";
+import { edgeAnalytics } from "./cloudflare.mjs";
 
 const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
@@ -43,7 +44,7 @@ async function main() {
   const notes = [];
   mkdirSync(REPORTS, { recursive: true });
 
-  const [gsc, ga4, psi, bing] = await Promise.all([
+  const [gsc, ga4, psi, bing, edge] = await Promise.all([
     safely("Search Console", () => searchConsole({ saJson: env.GOOGLE_SA_JSON, site: env.GSC_SITE || "sc-domain:homemoneycalc.com" }), notes),
     safely("GA4", () => analytics({ saJson: env.GOOGLE_SA_JSON, propertyId: env.GA4_PROPERTY_ID }), notes),
     safely(
@@ -52,6 +53,7 @@ async function main() {
       notes
     ),
     safely("Bing Webmaster", () => bingWebmaster({ apiKey: env.BING_WEBMASTER_KEY, site: env.BING_SITE || `${SITE_URL}/` }), notes),
+    edgeAnalytics({ token: env.CLOUDFLARE_ANALYTICS_TOKEN, zoneId: env.CLOUDFLARE_ZONE_ID, today }),
   ]);
   const health = auditSite("out", SITE_URL);
   const quality = qualityChecks();
@@ -105,7 +107,9 @@ async function main() {
   const report = {
     date: today,
     generatedAt: new Date().toISOString(),
-    sources: { gsc: Boolean(gsc.connected), ga4: Boolean(ga4.connected), psi: Boolean(psi.connected), bing: Boolean(bing.connected), ai: false },
+    sources: { gsc: Boolean(gsc.connected), ga4: Boolean(ga4.connected), psi: Boolean(psi.connected), bing: Boolean(bing.connected), cloudflare: Boolean(edge.connected), ai: false },
+    edge,
+    measurement: { ga4: "Optional consenting/unblocked visitor sample; not all traffic", search: "Search Console reported clicks/impressions; independent of analytics consent", edge: "Aggregate HTTP requests, not human visitors or ad impressions" },
     kpis,
     trend: gsc.daily ?? [],
     topQueries: (gsc.topQueries ?? []).slice(0, 15),

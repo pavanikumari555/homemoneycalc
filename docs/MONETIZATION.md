@@ -82,3 +82,7 @@ Affiliate paisa 30–90 din baad aata hai; templates/tips ka kuch din me.
 **Month 6–12:** Debt pay-per-call → embed widgets → credit-union licensing → Media.net sirf 50k+ pageviews pe.
 
 India tax/GST (affiliate + templates = export of services, ₹20 lakh se neeche GST aam taur pe nahi) — **CA se confirm**. Details: `docs/INDIA-OWNER-GUIDE.md`.
+
+## UX-first preparation update — 26 Oct 2026
+
+Current implementation and verified remaining launch steps are in docs/ADSENSE-LAUNCH.md. Earlier suggested revenue/traffic estimates in this document are illustrative, not promises or official eligibility thresholds. Optional GA4 acceptance is not an AdSense requirement and its sampled sessions are not a compulsory application gate. No first-visit analytics popup; no forced consent. AdSense application remains on hold; publisher identity, regional privacy messaging, actual units and final serving integration must be verified before ads activate. Google approval alone does not guarantee traffic, fill, RPM or payment.

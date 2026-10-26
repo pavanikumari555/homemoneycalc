@@ -1,0 +1,28 @@
+{
+  "updated": "2026-10-26",
+  "adsEnabled": false,
+  "publisherId": "",
+  "siteApproval": "not-applied",
+  "runtimeIntegration": "pending-account-specific-tag-and-cmp-review",
+  "placementPlan": {
+    "mode": "manual-in-content",
+    "initialMaximumPerPage": 1,
+    "position": "after-original-explanation-away-from-calculator-controls",
+    "anchorAds": false,
+    "vignetteAds": false,
+    "popups": false,
+    "forcedConsent": false,
+    "reserveSpaceWhenEnabled": true,
+    "showEmptySpaceBeforeActivation": false
+  },
+  "accountChecks": [
+    { "id": "publisher", "label": "Owner ka asli publisher ID aur site ownership verification", "done": false },
+    { "id": "approval", "label": "AdSense dashboard mein site approval verify", "done": false },
+    { "id": "cmp", "label": "Applicable regions ke liye Google-certified privacy messages aur withdrawal link verify", "done": false },
+    { "id": "ad-units", "label": "Manual ad-unit IDs aur Auto ads/overlay settings verify", "done": false },
+    { "id": "privacy", "label": "Final tag ka consent, financial URL protection, CSP aur privacy policy review", "done": false },
+    { "id": "mobile", "label": "Mobile placement, reserved size aur accidental-click risk ka final test", "done": false },
+    { "id": "ads-txt", "label": "Owner ke exact ads.txt record ko deploy aur verify", "done": false }
+  ],
+  "note": "Preparation checklist only. No publisher ID, ad unit, account approval, consent coverage or income is invented. Final account-specific ad-serving integration is still required before activation. GA4 consent is not ad consent. Application is still on hold pending genuine traffic and owner review."
+}

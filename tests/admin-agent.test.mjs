@@ -70,6 +70,12 @@ test("missing/stale traffic is never treated as approval; meeting checkpoints on
   assert.equal(ready.status, "review-ready");
   assert.equal(ready.officialMinimum, false);
   assert.equal(ready.automaticApplication, false);
+  report.sources.ga4 = false;
+  report.kpis.sessions = null;
+  const withoutOptionalGA = adsenseReadiness(report, business, "2026-10-26");
+  assert.equal(withoutOptionalGA.status, "review-ready");
+  assert.equal(withoutOptionalGA.optionalAnalytics.requiredForApplication, false);
+  assert.ok(!withoutOptionalGA.checks.some((c) => c.id === "sessions"));
   report.quality[0].status = "fail";
   assert.equal(adsenseReadiness(report, business, "2026-10-26").status, "needs-check");
   report.quality[0].status = "pass";

@@ -35,13 +35,13 @@ export default function AnalyticsConsent() {
     <div className="container-page pb-6 text-sm text-muted">
       <button type="button" className="underline underline-offset-4 hover:text-ivy-600" onClick={() => setOpen(true)}>Analytics choices</button>
     </div>
-    {(open || consent === null) && <section aria-label="Optional analytics" className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-2xl rounded-2xl border border-line bg-surface p-5 text-ink shadow-lift sm:inset-x-6">
+    {open && <section aria-label="Optional analytics" className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-2xl rounded-2xl border border-line bg-surface p-5 text-ink shadow-lift sm:inset-x-6">
       <h2 className="text-base font-semibold">Help us understand site visits?</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted">With your permission, Google Analytics measures visits and pages viewed. Calculator values and share-link parameters are excluded. You can use every calculator without analytics. <Link href="/privacy-policy/" className="underline">Privacy details</Link></p>
       <div className="mt-4 flex flex-wrap gap-3">
         <button type="button" className="rounded-xl border border-line px-4 py-2.5 text-sm font-semibold hover:bg-surface-2" onClick={() => choose("declined")}>Decline analytics</button>
         <button type="button" className="rounded-xl border border-line px-4 py-2.5 text-sm font-semibold hover:bg-surface-2" onClick={() => choose("accepted")}>Allow analytics</button>
-        {consent !== null && <button type="button" className="px-3 text-sm underline" onClick={() => setOpen(false)}>Close</button>}
+        <button type="button" className="px-3 py-2.5 text-sm underline" onClick={() => setOpen(false)}>Close</button>
       </div>
       {error && <p role="status" className="mt-3 text-sm">{error}</p>}
     </section>}

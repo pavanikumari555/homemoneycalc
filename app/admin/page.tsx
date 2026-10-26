@@ -24,6 +24,7 @@ export default function AdminPage() {
   const revenue = read("revenue.json", { goalMonthly: 5000, months: [] });
   return <AdminDashboard today={today} siteUrl={SITE.url} repo={SITE.repo} report={report}
     business={business} revenue={revenue} offers={read("offers.json", { offers: [] }).offers}
+    monetization={read("monetization.json", {})}
     approvalQueue={read("agent-proposals.json", { proposals: [] })} approvalHistory={read("agent-decisions.json", { decisions: [] })}
     research={read("research-observations.json", { observations: [] })}
     security={read("security-checklist.json", { items: [] }).items}

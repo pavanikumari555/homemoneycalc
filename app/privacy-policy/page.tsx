@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         <li>Calculations run entirely in your browser. We don&apos;t have accounts, forms or a database that store your numbers.</li>
         <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage.</li>
         <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked — see below.</li>
-        <li>Optional Google Analytics loads only after you choose Allow analytics. Calculator values and URL parameters are excluded.</li>
+        <li>There is no analytics popup on arrival. Optional Google Analytics loads only if you open Analytics choices below the footer and choose Allow analytics. Calculator values and URL parameters are excluded.</li>
         <li>Some pages include clearly labeled affiliate links. We never sell your personal information.</li>
       </ul>
 
@@ -69,7 +69,8 @@ export default function PrivacyPage() {
 
       <h2>Cookies</h2>
       <p>
-        Calculators work without analytics cookies. Choose Decline analytics to keep the Google tag off, or Allow
+        Calculators work without analytics cookies. Optional analytics is off by default; we do not require a choice
+        before you use the site. Choose Decline analytics to keep the Google tag off, or Allow
         analytics to enable optional visit measurement. The Analytics choices button below the footer lets you
         change your choice at any time. We remember this preference in local storage. On withdrawal, we disable
         analytics, remove its first-party cookies and reload the page to stop the loaded tag. Withdrawal does not

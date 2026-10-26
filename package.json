@@ -5,7 +5,7 @@
   "description": "HomeMoney Calc - Free online financial calculators for the US. Paycheck, mortgage payoff, debt payoff, auto loan, percentage, and compound interest calculators.",
   "scripts": {
     "dev": "next dev -H 127.0.0.1",
-    "prebuild": "node scripts/check-tools.mjs && node scripts/gen-redirects.mjs",
+    "prebuild": "node scripts/check-tools.mjs && node scripts/monetization-preflight.mjs && node scripts/gen-redirects.mjs",
     "build": "next build",
     "postbuild": "node scripts/fix-rsc-prefetch.mjs && node scripts/prune-unreleased.mjs",
     "start": "node scripts/serve-out.mjs 3000",

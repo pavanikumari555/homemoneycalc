@@ -3,13 +3,13 @@ const finite = (n) => typeof n === "number" && Number.isFinite(n);
 /** Planning signal only: this cannot approve an AdSense account or certify traffic. */
 export function adsenseReadiness(report, business, today) {
   const limit = business.readiness ?? { sessions28d: 1000, googleClicks28d: 200, activeSearchDays: 14, searchLandingPages: 3 };
-  const connected = Boolean(report?.sources?.gsc && report?.sources?.ga4);
+  // Consented GA4 sessions are a sample, not a mandatory AdSense eligibility gate.
+  const connected = Boolean(report?.sources?.gsc);
   const age = report?.date ? (Date.parse(today) - Date.parse(report.date)) / 86_400_000 : Infinity;
   const fresh = connected && age >= 0 && age <= 2;
   const activeDays = new Set((report?.trend ?? []).filter((d) => d.clicks > 0 && /^\d{4}-\d{2}-\d{2}$/.test(d.date)).map((d) => d.date)).size;
   const landingPages = new Set((report?.topPages ?? []).filter((p) => p.clicks > 0 && typeof p.page === "string").map((p) => p.page)).size;
   const checks = [
-    { id: "sessions", label: "Genuine visits (GA4 sessions)", value: fresh && finite(report?.kpis?.sessions) ? report.kpis.sessions : null, target: limit.sessions28d },
     { id: "clicks", label: "Google se clicks", value: fresh && finite(report?.kpis?.clicks) ? report.kpis.clicks : null, target: limit.googleClicks28d },
     { id: "days", label: "Alag din Google traffic aaya", value: fresh ? activeDays : null, target: limit.activeSearchDays },
     { id: "pages", label: "Pages par Google traffic aaya", value: fresh ? landingPages : null, target: limit.searchLandingPages },
@@ -20,7 +20,8 @@ export function adsenseReadiness(report, business, today) {
   const livePassed = report?.liveChecks?.length > 0 && report.liveChecks.every((c) => c.status === "pass");
   const technicalReady = healthKnown && report.health.errors === 0 && Boolean(checksPassed && livePassed);
   const status = !connected ? "needs-data" : !fresh ? "stale" : passed < checks.length ? "building-traffic" : !technicalReady ? "needs-check" : "review-ready";
-  return { status, checks, passed, technicalReady, officialMinimum: false, automaticApplication: false };
+  return { status, checks, passed, technicalReady, officialMinimum: false, automaticApplication: false,
+    optionalAnalytics: { source: "ga4-consented-sample", sessions: report?.sources?.ga4 && finite(report?.kpis?.sessions) ? report.kpis.sessions : null, requiredForApplication: false } };
 }
 
 /** Deterministic priorities keep missing data and completed owner tasks out of AI guesswork. */
@@ -29,7 +30,7 @@ export function actionPlan(report, business, today) {
   const add = (id, title, why, who, priority, steps, url = "") => actions.push({ id, title, why, who, priority, steps, url });
   if (!report?.sources?.gsc) add("gsc-data", "Google report connection poora karo", "Site verification aur agent ka data access alag hain. Agent ko abhi Google clicks nahi mil rahe.", "owner", 1,
     ["Google Cloud mein Search Console API enable karo aur service account banao.", "Search Console mein service-account email ko access do.", "GitHub secret GOOGLE_SA_JSON aur variable GSC_SITE set karo. Private key chat mein mat bhejo."], "https://console.cloud.google.com/");
-  if (!report?.sources?.ga4) add("ga4-data", "Website traffic tracking connect karo", "Visitors aur unke sources ke bina earning ya AdSense readiness ka sahi signal nahi milta.", "owner", 1,
+  if (!report?.sources?.ga4) add("ga4-data", "Optional GA4 reporting connection check karo", "GA4 sirf consent dene wale visitors ka sample hai. Ye AdSense application ki mandatory requirement nahi hai.", "owner", 3,
     ["GA4 property aur web stream banao.", "Measurement ID se tracking implement karvao; calculator inputs/URL query analytics mein na bhejein.", "Service account ko read access aur GitHub mein GA4_PROPERTY_ID do."], "https://analytics.google.com/");
   const age = report?.date ? (Date.parse(today) - Date.parse(report.date)) / 86_400_000 : Infinity;
   if (age > 2) add("stale-report", "Daily report dobara chalao", "Purane data ko aaj ka result nahi maan sakte.", "owner", 0,
