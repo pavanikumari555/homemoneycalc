@@ -1,12 +1,34 @@
 {
   "date": "2026-10-26",
-  "generatedAt": "2026-10-26T04:34:12.687Z",
+  "generatedAt": "2026-10-26T05:30:03.974Z",
   "sources": {
     "gsc": true,
     "ga4": true,
     "psi": false,
     "bing": true,
+    "cloudflare": true,
     "ai": true
+  },
+  "edge": {
+    "connected": true,
+    "status": "connected",
+    "source": "cloudflare-edge",
+    "note": "Cloudflare edge HTTP counters can include bots, assets, subdomains and blocked requests. They are not human visitors, GA4 sessions or AdSense impressions.",
+    "range": {
+      "start": "2026-09-28",
+      "endExclusive": "2026-10-26",
+      "timezone": "UTC"
+    },
+    "daysReturned": 1,
+    "totals": {
+      "requests": 4954,
+      "htmlPageRequests": 978
+    }
+  },
+  "measurement": {
+    "ga4": "Optional consenting/unblocked visitor sample; not all traffic",
+    "search": "Search Console reported clicks/impressions; independent of analytics consent",
+    "edge": "Aggregate HTTP requests, not human visitors or ad impressions"
   },
   "kpis": {
     "clicks": 0,
@@ -315,7 +337,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506bf4b7883eaf8-ORD",
+      "ray": "a507111d9eeb379a-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -323,7 +345,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506bf4b7e95c176-ORD",
+      "ray": "a507111dae7a96a2-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -331,7 +353,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506bf4b78969a31-ORD",
+      "ray": "a507111dafbbe3e3-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -345,7 +367,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506bf4b7ae06197-ORD",
+      "ray": "a507111daa4be633-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -353,83 +375,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a506bf4b8f87606c-ORD",
+      "ray": "a507111daaa074e8-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-10-26T04:34:12.335Z",
+      "checkedAt": "2026-10-26T05:30:03.726Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a506bf4b6ef88b11-ORD"
+        "ray": "a507111d9fc78c97-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-10-26T04:34:12.336Z",
+      "checkedAt": "2026-10-26T05:30:03.727Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a506bf4bce57b07e-ORD"
+        "ray": "a507111deddf8846-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-10-26T04:34:12.336Z",
+      "checkedAt": "2026-10-26T05:30:03.727Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a506bf4bac9e13cb-ORD"
+        "ray": "a507111dced8c9b8-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-10-26T04:34:12.337Z",
+      "checkedAt": "2026-10-26T05:30:03.728Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a506bf4bb817aff5-ORD"
+        "ray": "a507111dde836589-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-10-26T04:34:12.337Z",
+      "checkedAt": "2026-10-26T05:30:03.729Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a506bf4bcb825555-ORD"
+        "ray": "a507111dce6f62af-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-10-26T04:34:12.338Z",
+      "checkedAt": "2026-10-26T05:30:03.730Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -437,14 +459,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a506bf4bbf4270c4-ORD"
+        "ray": "a507111ddf2bf71f-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-10-26T04:34:12.338Z",
+      "checkedAt": "2026-10-26T05:30:03.730Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -452,7 +474,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a506bf4bbf1eeaf9-ORD"
+        "ray": "a507111dddf50a98-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -565,13 +587,6 @@
     "status": "building-traffic",
     "checks": [
       {
-        "id": "sessions",
-        "label": "Genuine visits (GA4 sessions)",
-        "value": 0,
-        "target": 1000,
-        "passed": false
-      },
-      {
         "id": "clicks",
         "label": "Google se clicks",
         "value": 0,
@@ -596,7 +611,12 @@
     "passed": 0,
     "technicalReady": false,
     "officialMinimum": false,
-    "automaticApplication": false
+    "automaticApplication": false,
+    "optionalAnalytics": {
+      "source": "ga4-consented-sample",
+      "sessions": 0,
+      "requiredForApplication": false
+    }
   },
   "actions": [
     {
@@ -615,7 +635,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-10-26T04:34:12.691Z",
+    "generatedAt": "2026-10-26T05:30:03.977Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
@@ -716,23 +736,32 @@
   },
   "experiments": [],
   "ai": {
-    "headline": "Cloudflare monitoring check karein aur Wave 1 calculators prepare karein",
-    "summary": "Site par abhi 0 clicks aur 0 sessions hain kyunki site nayi hai. Automated checks me Cloudflare ne 7 internal requests block kiye hain, par site down nahi hai. Technical health audit clean hai (22 pages, 0 errors). Abhi hume Cloudflare settings check karni hai, Week 1 ke bache setup tasks complete karne hain, aur 28 Oct ke planned calculators ke tax numbers officially verify karne hain. AdSense ke liye abhi apply nahi karna hai.",
+    "headline": "Traffic boost, tool launch, and AdSense prep",
+    "summary": "Warm steps to fix monitoring, add GA4, start backlink tracking, and ship the three new calculators before their deadlines so you can grow US visitors and move toward the $5k monthly goal.",
     "youDo": [
-      "Cloudflare Dashboard (dash.cloudflare.com) me login karein aur Security Events check karein ki automated monitoring requests block kyun hui. Apne browser me site open karke live access verify karein (30 mins).",
-      "Week 1 Growth Tasks: Google Analytics 4 (analytics.google.com) setup complete karein aur Ahrefs Webmaster Tools (ahrefs.com/webmaster-tools) verify karein taaki organic traffic aur backlinks track ho sakein (45 mins).",
-      "Senior Deduction Calculator ($6,000) aur 2027 COLA Calculator ke official tax numbers IRS/SSA sources se verify karein taaki 28 Oct ko live ja sakein (30 mins)."
+      "Verify Cloudflare monitoring: open hom​emoneycalc.com in a normal browser, check Cloudflare Security Events for blocked monitoring requests, then whitelist the monitoring IP range or disable bot‑challenge for those URLs (Dashboard → Security → Settings).",
+      "Install GA4: go to https://analytics.google.com, create a new GA4 property for HomeMoney Calc, copy the gtag script, paste it into the site’s <head> (or via existing tag manager), then confirm data appears in Real‑time view – takes <10 min.",
+      "Set up Ahrefs Webmaster Tools: visit https://ahrefs.com/webmaster-tools, add hom​emoneycalc.com, verify ownership with a DNS TXT record (add via Cloudflare DNS), then enable backlink monitoring – under 30 min.",
+      "Publish Senior $6,000 Deduction Calculator (target 2026‑10‑28): gather official IRS senior deduction amount, write brief intro, add the calculator UI, include FAQ schema, run a quick regression test, then push the page live from the CMS.",
+      "Publish Social Security COLA 2027 Calculator (target 2026‑10‑28): fetch the 2027 COLA % from ssa.gov, update the calculator logic, add a short explanation, test with sample inputs, and publish.",
+      "Publish No Tax on Overtime Calculator (target 2026‑10‑30): pull the 2026 overtime tax rules, implement the calculation, add a “Did you see TT on your W‑2?” note, test, and go live.",
+      "Refresh 2027 tax engine (high priority): create lib/tax2027.ts with official IRS/SSA numbers (brackets, standard deduction, 401(k) limit, SSA wage base) and reference it from the paycheck calculator – commit and deploy.",
+      "Create Pinterest pin for Mortgage Payoff (seasonal start in 6 days): use Canva free template (1000 × 1500), add headline, result number, and site branding, then schedule pin to the “Debt Free Journey” board.",
+      "Create brand profiles: set up X (formerly Twitter), LinkedIn page, GitHub org, YouTube channel, and Crunchbase entry – fill basic info and link to hom​emoneycalc.com – each under 15 min."
     ],
     "agentNext": [
-      "IRS/SSA official guidelines ke hisab se 2027 tax engine update (lib/tax2027.ts) ka code prepare rakhna.",
-      "Drafted roadmap calculators (Senior Deduction, Social Security COLA, No Tax on Overtime) ke validation logic aur schema checks review karna.",
-      "Cloudflare edge access resolve hote hi live status re-check karna."
+      "Provide a concise Cloudflare monitoring checklist for the owner to follow",
+      "Generate a ready‑to‑copy SEO‑friendly page outline for the Senior Deduction Calculator",
+      "Draft a short outreach email template for the credit‑card payoff tool (owner will personalize)",
+      "Supply Canva design specs for the mortgage‑payoff Pinterest pin"
     ],
     "risks": [
-      "Cloudflare bot protection agar search bots ya monitoring ko block karega toh indexing me rukawat aa sakti hai.",
-      "Zero organic traffic par AdSense apply karne se application reject ho sakti hai — pehle stable visitors earn karna zaroori hai.",
-      "Bina official IRS/SSA source verification ke tax calculations live karne se user trust aur accuracy policy par asar pad sakta hai."
+      "Cloudflare may keep blocking monitoring requests, hiding real uptime issues",
+      "GA4 data may stay low if consent banner blocks tracking, delaying AdSense readiness metrics",
+      "Keyword‑gap list is unverified; targeting those topics may not bring traffic without proper search volume validation",
+      "Seasonal content (e.g., mortgage pin) must launch before the start date or miss peak interest",
+      "Relying on official tax numbers without a final human review could cause errors and affect credibility"
     ],
-    "by": "gemini:gemini-flash-latest"
+    "by": "groq:openai/gpt-oss-120b"
   }
 }
