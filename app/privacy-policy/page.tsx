@@ -15,7 +15,7 @@ export const metadata: Metadata = buildMetadata({
 // analytics, affiliate partners or any third-party script is added.
 export default function PrivacyPage() {
   return (
-    <PageShell title="Privacy Policy" intro="Last updated: October 25, 2026">
+    <PageShell title="Privacy Policy" intro="Last updated: October 26, 2026">
       <p>
         This Privacy Policy explains how {SITE.name} (&quot;we&quot;, &quot;us&quot;) handles information when you
         visit {SITE.domain}. We&apos;ve written it in plain language so it&apos;s easy to understand.
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         <li>Calculations run entirely in your browser. We don&apos;t have accounts, forms or a database that store your numbers.</li>
         <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage.</li>
         <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked — see below.</li>
-        <li>We may use analytics to understand overall traffic, configured so your calculator numbers aren&apos;t sent.</li>
+        <li>Optional Google Analytics loads only after you choose Allow analytics. Calculator values and URL parameters are excluded.</li>
         <li>Some pages include clearly labeled affiliate links. We never sell your personal information.</li>
       </ul>
 
@@ -49,10 +49,13 @@ export default function PrivacyPage() {
       </p>
       <p>
         <strong>Usage data:</strong> Our hosting provider (Cloudflare) receives standard technical information such as
-        IP address, browser type and the pages requested, to deliver and protect the site. If we use an analytics tool
-        such as Google Analytics, it receives similar information (pages viewed, approximate region, device type,
-        referring site). We configure it so the numbers in calculator URLs are not sent, and we use the data only in
-        aggregate.
+        IP address, browser type and the pages requested, to deliver and protect the site. If you allow optional
+        Google Analytics, Google receives technical information such as your IP address and browser details to
+        process visits, approximate region and device reports. We send page paths and referring site origins;
+        query strings, fragments, calculator values and saved plans are excluded. Google processes this data on
+        its infrastructure; we use the resulting reports to understand aggregate site use. Our configured analytics
+        cookies expire after 90 days unless renewed by later use. Advertising personalization and Google signals
+        are disabled in our tag configuration. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google&apos;s privacy policy</a>.
       </p>
 
       <h2>Affiliate links</h2>
@@ -66,9 +69,12 @@ export default function PrivacyPage() {
 
       <h2>Cookies</h2>
       <p>
-        {SITE.name} itself doesn&apos;t need cookies to work. Analytics tools and affiliate partners may set cookies to
-        count visits or to credit a referral. You can block or delete cookies in your browser settings or use
-        private/incognito mode; the calculators will keep working.
+        Calculators work without analytics cookies. Choose Decline analytics to keep the Google tag off, or Allow
+        analytics to enable optional visit measurement. The Analytics choices button below the footer lets you
+        change your choice at any time. We remember this preference in local storage. On withdrawal, we disable
+        analytics, remove its first-party cookies and reload the page to stop the loaded tag. Withdrawal does not
+        erase data already sent. Your saved calculator plans are not removed. Affiliate destinations have their
+        own cookie policies. You can also block cookies or clear site data in your browser.
       </p>
 
       <h2>Children&apos;s privacy</h2>

@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { THEME_INIT_SCRIPT } from "@/components/ThemeToggle";
 import InstallPrompt from "@/components/InstallPrompt";
 import { SITE } from "@/lib/site";
+import AnalyticsConsent from "@/components/AnalyticsConsent";
 
 // Font build time pe download hoke site ke saath self-host hota hai
 // (Google ko runtime request nahi = fast + privacy friendly).
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main" className="flex-1">{children}</main>
         <Footer />
         <InstallPrompt />
+        <AnalyticsConsent />
         {/* Offline support sirf live (production) build me. Dev me chunk names same rehte
             hain, to cached purani JS se page toot jaata - isliye dev me SW hata dete hain. */}
         <Script id="sw-register" strategy="lazyOnload">

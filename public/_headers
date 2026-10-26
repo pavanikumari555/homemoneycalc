@@ -18,16 +18,16 @@
   Cross-Origin-Opener-Policy: same-origin
   # HTTPS force karo (1 saal), subdomains bhi
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  # Content Security Policy — sirf apni site se script/style/image/font. Koi third-party script nahi.
+  # CSP: local assets plus narrowly allowed Google Analytics origins (opt-in only).
   # GA4 ya koi widget lagana ho to uska domain yahan jodna padega (docs/SECURITY.md), warna browser block karega.
   # frame-ancestors 'self' = koi dusri site hamare pages ko iframe me nahi daal sakti (embed ko chhod ke, neeche).
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com/gtag/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.google-analytics.com https://*.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
 
 # Build files ke naam me hash hota hai -> saal bhar cache. Repeat visit fast + DDoS me CDN se hi serve.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Private pages: never index (admin panel is also protected by Cloudflare Access)
+# Private pages: never index (admin uses server-side username/password authentication)
 /admin/*
   X-Robots-Tag: noindex, nofollow
 /my-money/*
