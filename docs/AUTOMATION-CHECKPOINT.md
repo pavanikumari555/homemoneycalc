@@ -4,6 +4,8 @@ Owner authorized implementing the researched improvements and a protected admin 
 
 ## Active milestone
 
+Latest owner direction (26 Oct 2026): no NEW paid tools/services, subscriptions, paid API usage, advertising spend or upgrades anywhere in the project before revenue. No billing/card activation or potentially charging trials. Check existing settings first; explain the concrete benefit and cost before each owner step. Useful verified free options may be considered, but Search Console API setup is paused for now; do not keep prompting the owner to continue it. Its Google API is free, which must not be confused with paid Google Cloud services. Earning later is not automatic permission to spend. Existing accounts/services/domain renewals are not to be cancelled under this instruction.
+
 Implemented bounded official-source/competitor observations, honest growth suggestions, an immutable proposal inbox, protected server-side decisions, checked execution for existing-page SEO strings, and durable review history. Read-only diagnosis/research is automatic; supported publishing requires an exact reviewed proposal. Unsupported financial/code changes become approved research tasks, not claimed automatic fixes. No unattended source-code agent has been secretly activated.
 
 ## External dependencies
