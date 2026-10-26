@@ -8,6 +8,39 @@ import { adsenseReadiness, actionPlan } from "../scripts/agent/advisor.mjs";
 import { auditSite } from "../scripts/agent/audit.mjs";
 import { qualityChecks } from "../scripts/agent/quality.mjs";
 import { liveChecks } from "../scripts/agent/live.mjs";
+import { securityChecks } from "../scripts/agent/security.mjs";
+
+test("security monitor catches exposed admin and wrong edge settings without following redirects", async () => {
+  const failed = await securityChecks(async (_, options) => {
+    assert.equal(options.method, "HEAD");
+    assert.equal(options.redirect, "manual");
+    return new Response(null, { status: 200 });
+  });
+  assert.ok(failed.every((c) => c.status === "fail"));
+  const blocked = await securityChecks(async () => new Response(null, { status: 403, headers: { server: "cloudflare" } }));
+  assert.ok(blocked.filter((c) => !c.path.endsWith(".env") && !c.path.endsWith("wp-login.php")).every((c) => c.status === "unknown"));
+  const unavailable = await securityChecks(async () => { throw new Error("offline"); });
+  assert.ok(unavailable.every((c) => c.status === "unknown"));
+});
+
+test("security monitor accepts exact redirects, locked private endpoints and alternate noindex", async () => {
+  const checks = await securityChecks(async (url) => {
+    if (url.startsWith("http:")) return new Response(null, { status: 301, headers: { location: "https://homemoneycalc.com/" } });
+    if (url.includes("www.")) return new Response(null, { status: 301, headers: { location: "https://homemoneycalc.com/?edge-check=1" } });
+    if (url.includes("-admin.")) return new Response(null, { status: 401, headers: { "www-authenticate": 'Basic realm="Admin"', "cache-control": "no-store", "x-robots-tag": "noindex, nofollow" } });
+    if (url.includes(".pages.dev")) return new Response(null, { headers: { "x-robots-tag": "noindex" } });
+    return new Response(null, { status: 403 });
+  });
+  assert.ok(checks.every((c) => c.status === "pass"));
+});
+
+test("live monitoring flags public noindex and missing hardening headers", async () => {
+  const checks = await liveChecks("https://example.com", async () => new Response(null, { headers: { "content-security-policy": "default-src 'self'", "x-robots-tag": "noindex" } }));
+  const home = checks.find((c) => c.path === "/");
+  assert.equal(home.status, "fail");
+  assert.match(home.message, /HSTS/);
+  assert.match(home.message, /Public home unexpectedly noindex/);
+});
 
 const business = { readiness: { sessions28d: 1000, googleClicks28d: 200, activeSearchDays: 14, searchLandingPages: 3 } };
 test("public admin entry redirects only to the protected dashboard; private host remains locked", async () => {

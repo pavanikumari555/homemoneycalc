@@ -1,0 +1,160 @@
+{
+  "reviewedAt": "2026-10-26T02:21:45.120Z",
+  "scope": "Read-only public edge probes; not a penetration test or authenticated account audit",
+  "edge": [
+    {
+      "path": "http://homemoneycalc.com/",
+      "category": "security",
+      "checkedAt": "2026-10-26T02:21:44.101Z",
+      "http": 301,
+      "status": "pass",
+      "evidence": {
+        "location": "https://homemoneycalc.com/",
+        "robots": "",
+        "cache": "",
+        "ray": "a505fd44a99258eb-MRS"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://www.homemoneycalc.com/?edge-check=1",
+      "category": "security",
+      "checkedAt": "2026-10-26T02:21:44.231Z",
+      "http": 301,
+      "status": "pass",
+      "evidence": {
+        "location": "https://homemoneycalc.com/?edge-check=1",
+        "robots": "",
+        "cache": "",
+        "ray": "a505fd464f8f1a5e-MRS"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc.pages.dev/",
+      "category": "security",
+      "checkedAt": "2026-10-26T02:21:44.241Z",
+      "http": 200,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "noindex",
+        "cache": "public, max-age=0, must-revalidate",
+        "ray": "a505fd440deb3c37-DEL"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc-admin.pages.dev/admin/",
+      "category": "security",
+      "checkedAt": "2026-10-26T02:21:44.244Z",
+      "http": 401,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "noindex, nofollow",
+        "cache": "no-store",
+        "ray": "a505fd43de94f4fe-DEL"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
+      "category": "security",
+      "checkedAt": "2026-10-26T02:21:44.247Z",
+      "http": 401,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "noindex, nofollow",
+        "cache": "no-store",
+        "ray": "a505fd43fd08b2c8-DEL"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc.com/wp-login.php",
+      "category": "security",
+      "checkedAt": "2026-10-26T02:21:44.248Z",
+      "http": 403,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "",
+        "cache": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+        "ray": "a505fd45d866e224-MRS"
+      },
+      "message": "Scanner path blocked; specific rule configuration not verified."
+    },
+    {
+      "path": "https://homemoneycalc.com/.env",
+      "category": "security",
+      "checkedAt": "2026-10-26T02:21:44.251Z",
+      "http": 403,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "",
+        "cache": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+        "ray": "a505fd461e5cf9b5-MRS"
+      },
+      "message": "Scanner path blocked; specific rule configuration not verified."
+    }
+  ],
+  "live": [
+    {
+      "path": "/",
+      "http": 200,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    },
+    {
+      "path": "/paycheck-calculator/",
+      "http": 200,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    },
+    {
+      "path": "/sitemap.xml",
+      "http": 200,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    },
+    {
+      "path": "/robots.txt",
+      "http": 200,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    },
+    {
+      "path": "/admin/",
+      "http": 302,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    },
+    {
+      "path": "/embed/paycheck-calculator/",
+      "http": 200,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    }
+  ],
+  "productionDependencyAudit": {
+    "knownVulnerabilities": 0,
+    "checkedOn": "2026-10-26",
+    "command": "npm audit --omit=dev --json"
+  },
+  "dnssec": {
+    "status": "pending",
+    "resolver": "1.1.1.1",
+    "evidence": "DS query returned no DS answer on 26 Oct 2026"
+  },
+  "unverified": [
+    "Current Bot Fight Mode and rate-limit configuration",
+    "Minimum TLS configuration",
+    "Account 2FA and registrar lock/renewal",
+    "GitHub scanning and prior daily workflow result (CLI unauthenticated)",
+    "Authenticated approval submission and restricted admin token",
+    "Search Console Security issues, Manual actions and crawler access"
+  ]
+}

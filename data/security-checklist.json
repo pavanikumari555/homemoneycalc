@@ -4,7 +4,7 @@
   "items": [
     {
       "task": "Gmail, GitHub, Cloudflare, Namecheap — sab pe 2-step verification (authenticator app, SMS nahi)",
-      "why": "Hacker site tak sirf inhi accounts se pahunch sakta hai. 2FA = password chori ho tab bhi andar nahi aa sakta.",
+      "why": "Account takeover se deployment badal sakta hai. 2FA risk kam karta hai; stolen sessions/tokens ka risk phir bhi rehta hai.",
       "who": "you",
       "done": false
     },
@@ -45,8 +45,8 @@
       "done": false
     },
     {
-      "task": "Cloudflare: Bot Fight Mode ON (Google/Bing jaise achhe bots allowed rehte hain)",
-      "why": "Scraper aur bekaar bots khud ruk jaate hain, users ko kuch nahi dikhta.",
+      "task": "Cloudflare: Bot Fight Mode ON — prior setup; current settings/crawler access recheck pending",
+      "why": "Bots ka load kam kar sakta hai. Legitimate visitors/monitors bhi challenge ho sakte hain; Security Events se verify karein.",
       "who": "claude",
       "done": true
     },

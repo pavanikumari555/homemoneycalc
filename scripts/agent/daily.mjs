@@ -17,6 +17,7 @@ import { roadmapSummary } from "./roadmap.mjs";
 import { adsenseReadiness, actionPlan } from "./advisor.mjs";
 import { qualityChecks } from "./quality.mjs";
 import { liveChecks } from "./live.mjs";
+import { securityChecks } from "./security.mjs";
 import { observeSources } from "./research.mjs";
 import { proposalQueue } from "./proposals.mjs";
 import { evaluateExperiments } from "./experiments.mjs";
@@ -54,7 +55,7 @@ async function main() {
   ]);
   const health = auditSite("out", SITE_URL);
   const quality = qualityChecks();
-  const liveHealth = await liveChecks(SITE_URL);
+  const liveHealth = (await Promise.all([liveChecks(SITE_URL), securityChecks()])).flat();
   const business = readJson("data/business.json", { readiness: { sessions28d: 1000, googleClicks28d: 200, activeSearchDays: 14, searchLandingPages: 3 } });
   const revenue = readJson("data/revenue.json", { goalMonthly: 5000 });
 

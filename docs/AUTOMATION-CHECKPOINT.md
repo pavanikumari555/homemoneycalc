@@ -51,3 +51,14 @@ Live approval submission is NOT verified because the restricted admin-host secre
 - Live unauthenticated probes: website root 200; `/admin/` 302 to the protected admin host, no-store; `/admin/api/approvals` on the admin host 401 with authentication challenge and no-store.
 - Dispatched real daily workflow run `40228099546` to verify hosted reporting. Check its final result before assuming a fresh report exists.
 - Follow-up test maintenance uses a stable standalone page fixture so a legitimate approved title edit won't break a regression test that hardcodes the site's old title. All 27 tests, registry check, lint and public build passed again.
+
+## Security continuation — 26 Oct 2026
+
+- Added scripts/agent/security.mjs to daily monitoring: fixed HEAD probes for HTTPS/www redirects, alternate-host noindex, protected admin/dashboard API and scanner-path blocks. No affiliate clicks, load tests or credential use.
+- Public live checks now also flag missing HSTS/nosniff/framing protection and accidental homepage noindex.
+- Saved 13 passing live/edge probes in data/security-review.json. Dependency audit of all packages: zero known vulnerabilities on 26 Oct.
+- Replaced stale SECURITY.md claims (static-only server, Cloudflare Access/OTP, complete XSS/ranking protection) with actual architecture and explicit coverage limits.
+- 30 tests, registry, lint and production build passed. No functional browser/UI change in this patch.
+- DNSSEC: resolver 1.1.1.1 returned no DS answer. Leave pending until Cloudflare/Namecheap chain is configured and verified. Account 2FA, exact Bot Fight Mode/rate-limit/TLS settings and authenticated approval flow remain unverified.
+- Git fetch works using the existing Git credential helper; gh CLI is unauthenticated. Do not copy desktop credentials into hosting.
+- Previous browser tool stopped because the current Windows browser URL could not be verified. Account changes were not attempted.

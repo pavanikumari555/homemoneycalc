@@ -16,6 +16,12 @@ export async function liveChecks(siteUrl, fetcher = fetch) {
       const problems = [];
       if (response.status !== expected) problems.push(`Expected HTTP ${expected}, got ${response.status}`);
       if (expected === 200 && !response.headers.get("content-security-policy")) problems.push("CSP header missing");
+      if (path === "/") {
+        if (!/max-age=[1-9]\d*/i.test(response.headers.get("strict-transport-security") || "")) problems.push("HSTS missing or disabled");
+        if (response.headers.get("x-content-type-options") !== "nosniff") problems.push("MIME sniffing protection missing");
+        if (response.headers.get("x-frame-options") !== "SAMEORIGIN") problems.push("Main page framing protection missing");
+        if (/\bnoindex\b/i.test(response.headers.get("x-robots-tag") || "")) problems.push("Public home unexpectedly noindex");
+      }
       if (path === "/embed/paycheck-calculator/" && response.headers.get("x-frame-options")) problems.push("Embed framing blocked");
       if (path === "/admin/" && response.headers.get("location") !== "https://homemoneycalc-admin.pages.dev/admin/") problems.push("Secure admin entry destination mismatch");
       await response.body?.cancel();

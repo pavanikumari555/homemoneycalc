@@ -1,68 +1,56 @@
-# HomeMoney Calc — Security plan (hack, bots, DDoS, ranking giraana)
+# HomeMoney Calc — security and search protection
 
-**Seedhi baat pehle:** hamari site **static** hai. Server pe koi code nahi chalta, koi database, login ya form nahi hai jo data bheje. WordPress jaisi sites isi wajah se hack hoti hain (plugin, login page, database). Humare paas ye darwaze hain hi nahi.
+Last reviewed: 26 Oct 2026 (IST). Security reduces risk; no setting guarantees that a site cannot be hacked or lose rankings.
 
-Isliye hack ka asli raasta sirf **aapke accounts** hain: Gmail, GitHub, Cloudflare, Namecheap. Agar koi inme ghus gaya, to wo site badal sakta hai. Inki hifazat sabse zaroori hai.
+## Architecture and boundaries
 
-Admin panel ka **🔒 Security** card yahi checklist dikhata hai (`data/security-checklist.json`).
+Public calculators use a static Next.js export; calculations stay in the browser. Cloudflare Pages Functions do run server code for admin login, redirects and approval decisions. Account takeover, unsafe scripts, dependency issues and function bugs remain possible.
 
----
+Admin uses a separate deployment with username/password authentication, not a verified Cloudflare Access/OTP policy. Missing configuration fails closed. Private responses are no-store/noindex. The decision API also validates host, origin, JSON, proposal hash and expiry. Its restricted server token remains an owner setup dependency. A 401 probe does not verify authenticated decisions.
 
-## 1. Hack se bachaav
+## Verified live on 26 Oct
 
-| Khatra | Kya kiya / kya karna hai | User pe asar |
-|---|---|---|
-| Account chori (password leak) | Sab accounts pe **2FA** (authenticator app). Recovery codes ghar pe. **Aapka kaam.** | Koi nahi |
-| GitHub se galat change deploy hona | Repo private; owner-approved local work mein tests/build ke baad direct `main` push. Commit history aur Cloudflare rollback available. Unattended Claude workflows apne configured PR flow mein rehte hain | Local work mein manual merge step nahi |
-| Domain chori ya expire | Namecheap **Domain Lock + auto-renew**. Renewal date yaad rakho (1 saal) | Koi nahi |
-| Page me script ghusana (XSS) | ✅ CSP header: sirf apni site ki script chalti hai. ✅ URL se aaye inputs sirf allowed values, max 200 akshar. ✅ Schema me "<" escape. React har text escape karta hai | Koi nahi |
-| Dusri site hamara page iframe me daal ke dhokha de (clickjacking) | ✅ `X-Frame-Options` + `frame-ancestors 'self'`. Sirf `/embed/` frame ho sakta hai, usme koi login/payment nahi | Koi nahi |
-| Affiliate link badal ke kahin aur bhejna | ✅ `/go/` links sirf `data/offers.json` se. Galat/ajeeb URL pe build ruk jaata hai | Koi nahi |
-| Admin data leak | ✅ Public site me admin banta hi nahi. Alag project + Cloudflare Access (sirf aapka email, OTP) | Koi nahi |
-| Kharab npm package | ✅ Live site me jaane wale packages: 0 known vulnerabilities (25 Oct). Dependabot alerts ON karenge | Koi nahi |
-| GitHub Action se code chalana (prompt injection) | ✅ `@claude` workflow sirf owner ke issue/comment pe chalta hai. Workflow outputs env se pass hote hain | Koi nahi |
-| Fake email aapke domain se | SPF + DMARC DNS records | Koi nahi |
+- Root 200 with CSP, HSTS, nosniff and SAMEORIGIN.
+- HTTP redirects to HTTPS; www redirects to root, preserving query strings.
+- Scanner paths /wp-login.php and /.env return 403. The exact causing rule was not inspected.
+- Public /admin/ redirects to private admin. Unauthenticated dashboard/API return 401 with Basic challenge, no-store and noindex.
+- Alternate public pages.dev host returns noindex. Robots permits public crawling and advertises the sitemap; sitemap returns 200.
+- Production dependency audit: zero known vulnerabilities at review time. Unknown vulnerabilities and full code-audit coverage are not implied.
+- Resolver 1.1.1.1 returned no DS answer: DNSSEC registrar chain remains pending.
 
-## 2. Bots aur DDoS
+Evidence: data/security-review.json. scripts/agent/security.mjs adds daily bounded HEAD checks to existing report/action queues. Challenges and timeouts remain unknown. No affiliate clicks or load tests are generated.
 
-**DDoS se site band ho sakti hai?** Bahut mushkil hai.
-- Cloudflare Pages static files ko duniya bhar ke CDN se serve karta hai. DDoS protection **free plan me bhi unlimited aur hamesha ON** hai.
-- Static pages ke requests ka koi bill nahi aata. Isliye attack hamara paisa bhi nahi kha sakta.
-- ✅ Build files pe 1 saal ka cache laga hai, to zyada traffic CDN hi sambhal leta hai.
+## Protections and limitations
 
-**Cloudflare settings (account milne pe main lagaunga):**
-1. **Bot Fight Mode ON.** Bekaar bots ko chupchaap rokta hai. Googlebot/Bingbot jaise "verified" bots allowed rehte hain, isliye ranking pe asar nahi.
-2. **Rate limit (free plan me 1 rule) — sirf `/go/*` pe.** Ek IP 10 second me 10 se zyada affiliate clicks kare to 10 second block.
-   - Kyun sabse zaroori: bot ke fake clicks se affiliate network account ko risk ho sakta hai. Insaan itni jaldi click karta hi nahi, to UX pe asar nahi.
-3. **WAF custom rule:** `/wp-admin`, `/wp-login.php`, `/xmlrpc.php`, `/.env`, `/.git` pe Block. Ye hacker ke scanners hain; hamari site pe ye files hain hi nahi.
-4. **Always Use HTTPS, Minimum TLS 1.2, DNSSEC ON.**
-5. **"Under Attack Mode" OFF rakhna.** Ye har visitor ko 5 second ka challenge dikhata hai, jo UX kharab karta hai. Sirf emergency me (neeche dekho).
-6. **CAPTCHA kahin nahi.** Hamare paas form/login hai hi nahi, isliye zaroorat nahi.
+CSP restricts origins but currently permits inline scripts/styles for Next.js. It reduces some injection risks; it does not prevent all XSS. React escaping, safe JSON-LD and validated inputs remain necessary. Embeds intentionally allow framing. New ads/analytics require privacy, consent and CSP review.
 
-**AI bots:** Cloudflare me "Block AI bots" ka option hai. Abhi **band rakhenge**, kyunki ChatGPT/Perplexity search se bhi visitors aate hain. Baad me data dekh ke faisla karenge.
+Cloudflare can mitigate DDoS; availability is not guaranteed. Static hosting and server-function quotas differ. Bot protection can challenge legitimate visitors/monitors. Inspect security events and verified search crawler access before changing it. Free Bot Fight Mode cannot be skipped using a WAF Skip rule. Do not weaken protection globally to turn a monitor green.
 
-## 3. Koi ranking giraane ki koshish kare (negative SEO)
+## Account settings requiring inspection
 
-| Unka tareeka | Asar | Hamara jawab |
-|---|---|---|
-| Bots se fake traffic bhejna | **Google ranking pe asar nahi.** Google apni ranking ke liye hamara traffic data use nahi karta | Bot Fight Mode. GA4 lagaya to bot filter. Fake numbers pe faisle mat lena |
-| Affiliate links pe fake clicks | **Asli khatra** — network account band kar sakta hai | `/go/` rate limit + robots.txt + nofollow/sponsored (✅). Network ko khud report karo agar ajeeb clicks dikhen |
-| Hazaron spam backlinks | Google aise links zyaatar khud ignore karta hai | Search Console → Manual actions har hafte. Sirf manual action aaye tab disavow file |
-| Hamara content copy karna | Canonical tag hamari asli URL batata hai (✅) | Search Console me hum original. Zaroorat ho to Google ko DMCA request |
-| `?ajeeb=text` wali URLs link karna | Canonical saaf URL pe point karta hai (✅). Sirf allowed inputs dikhte hain | Kuch nahi karna |
-| `homemoneycalc.pages.dev` copy index karwana | ✅ pages.dev par `noindex` header laga diya | Kuch nahi karna |
-| Domain ke naam se fake email | Reputation kharab | SPF + DMARC |
+1. Verify authenticator/passkey 2FA on Gmail, GitHub, Cloudflare and Namecheap; keep recovery codes privately offline. 2FA reduces takeover risk, not all risk.
+2. Prior checkpoint records Namecheap domain lock/auto-renew enabled. Verify payment method and current settings inside the account.
+3. Enable Cloudflare DNSSEC and publish its exact DS at Namecheap, then verify the chain. Incorrect DS can break DNS.
+4. Prior checkpoint records Bot Fight Mode, WAF scanner rule, /go/ rate limit and minimum TLS 1.2 enabled. Public probes do not reverify all these settings. Do not test rate limits by clicking affiliate links.
+5. Verify available GitHub scanning/Dependabot settings. GitHub CLI authentication is unavailable in this session; alerts and previous hosted daily-run result remain unverified.
 
-## 4. User experience — kya **nahi** badla
-Visitor ko koi CAPTCHA, challenge page, pop-up ya extra wait nahi dikhta. Saare headers browser ke andar chupchaap kaam karte hain. Pages utne hi fast hain, aur repeat visit pe cache ki wajah se aur fast.
+## Ranking and negative SEO
 
-## 5. Emergency — kuch gadbad dikhe to
-1. **Site pe ajeeb content dikhe:** GitHub → last commits dekho → mujhe batao (purana version 1 click me wapas: Cloudflare Pages → Deployments → "Rollback").
-2. **Bahut bada attack (site slow):** Cloudflare → Security → **Under Attack Mode ON**, 1–2 ghante, phir OFF.
-3. **Account hack ka shak:** turant password badlo → "sign out all sessions" → 2FA dobara → GitHub/Cloudflare ke API tokens aur secrets badlo → mujhe batao.
-4. **Affiliate network ne invalid clicks ki warning di:** `/go/` rate limit check karo, Cloudflare Analytics → Security events me IPs dekho, network ko saaf jawab do.
+- Check Search Console Security issues, Manual actions, indexing and real search performance. These are not verified by the disconnected reporting API. A ranking drop alone does not prove an attack.
+- Fake traffic can distort analytics and create invalid-traffic/affiliate risk. Never buy traffic or generate ad clicks. Investigate anomalies using hosting/network evidence.
+- Most sites do not need disavow. Google's criteria require substantial artificial/spam links plus an actual or likely manual action. No automatic disavow/removal requests; owner review is required.
+- Canonicals and alternate noindex are useful search signals, not proof of ownership or guaranteed copying protection.
+- Robots controls cooperative crawling; it is not access control. Noindex is not a confidentiality boundary.
 
-## 6. Kabhi mat karna
-- Password, 2FA code, recovery code ya API key **chat me kisi ko bhi** (mujhe bhi) mat bhejna. Keys sirf GitHub secrets me.
-- "Site ki ranking badhane" wale bot/traffic services kabhi mat lena. Yahi invalid traffic hota hai.
-- Anjaan browser extension ya "SEO tool" ko Google/GitHub account ka access mat dena.
+## Incident steps
+
+1. Unexpected deployed content: inspect commits/deployments, preserve evidence, roll back the affected deployment, fix the cause.
+2. Suspected compromise: revoke sessions/tokens and rotate affected secrets through the provider. Never paste secrets into chat.
+3. Traffic attack: inspect events/availability; use scoped controls. Emergency challenges can affect visitors/crawlers.
+4. Invalid-click warning: preserve logs and follow the network's reporting process. Do not create test clicks.
+
+## Official references
+
+- Cloudflare false positives: https://developers.cloudflare.com/bots/troubleshooting/false-positives/
+- Google disavow criteria: https://support.google.com/webmasters/answer/2648487?hl=en
+- Google hacked-content policy: https://developers.google.com/search/docs/essentials/spam-policies
