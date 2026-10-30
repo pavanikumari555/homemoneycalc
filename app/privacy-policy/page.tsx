@@ -15,7 +15,7 @@ export const metadata: Metadata = buildMetadata({
 // analytics, affiliate partners or any third-party script is added.
 export default function PrivacyPage() {
   return (
-    <PageShell title="Privacy Policy" intro="Last updated: October 26, 2026">
+    <PageShell title="Privacy Policy" intro="Last updated: October 30, 2026">
       <p>
         This Privacy Policy explains how {SITE.name} (&quot;we&quot;, &quot;us&quot;) handles information when you
         visit {SITE.domain}. We&apos;ve written it in plain language so it&apos;s easy to understand.
@@ -58,6 +58,16 @@ export default function PrivacyPage() {
         are disabled in our tag configuration. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google&apos;s privacy policy</a>.
       </p>
 
+      <h2>Cloudflare Web Analytics</h2>
+      <p>
+        We also use Cloudflare Web Analytics for aggregate visits, page views and page performance.
+        This measurement runs separately from optional Google Analytics and does not use analytics cookies
+        or local storage to identify visitors. Cloudflare states that Web Analytics does not collect query
+        strings, so shared calculator parameters are excluded. Visits are estimates, not a count of unique
+        people; bot filtering and browser blocking can affect coverage. See{' '}
+        <a href="https://developers.cloudflare.com/web-analytics/about/" target="_blank" rel="noopener noreferrer">Cloudflare Web Analytics</a>.
+      </p>
+
       <h2>Affiliate links</h2>
       <p>
         Some calculators suggest a relevant next step, such as a budgeting app or a loan comparison service. If you
@@ -69,7 +79,7 @@ export default function PrivacyPage() {
 
       <h2>Cookies</h2>
       <p>
-        Calculators work without analytics cookies. Optional analytics is off by default; we do not require a choice
+        Calculators work without analytics cookies. Optional Google Analytics is off by default; we do not require a choice
         before you use the site. Choose Decline analytics to keep the Google tag off, or Allow
         analytics to enable optional visit measurement. The Analytics choices button below the footer lets you
         change your choice at any time. We remember this preference in local storage. On withdrawal, we disable
