@@ -11,27 +11,7 @@ import { CheckIn } from "@/components/calc/CheckIn";
 import { CalcShell, PanelTitle, useCelebrate } from "@/components/calc/CalcShell";
 import Icon from "@/components/Icon";
 
-// Debts are stored in one URL param: "name~balance~rate~min|name~..." so the
-// whole plan fits in a share link.
-interface Row {
-  name: string;
-  balance: string;
-  rate: string;
-  min: string;
-}
-
-const encode = (rows: Row[]) =>
-  rows.map((r) => [r.name.replace(/[~|]/g, " "), r.balance, r.rate, r.min].join("~")).join("|");
-
-function decode(s: string): Row[] {
-  const rows = s
-    .split("|")
-    .map((part) => part.split("~"))
-    .filter((p) => p.length === 4)
-    .slice(0, 15)
-    .map(([name, balance, rate, min]) => ({ name: name.slice(0, 30), balance, rate, min }));
-  return rows.length ? rows : decode(DEFAULTS.d);
-}
+import { encodeDebtRows as encode, decodeDebtRows, MAX_DEBT_STATE_LENGTH, type DebtRow as Row } from "@/lib/debt-state";
 
 const DEFAULTS = {
   d: "Credit card~6500~24~180|Car loan~14000~7.5~320|Personal loan~2500~11~90|Student loan~18000~5.5~210",
@@ -40,11 +20,12 @@ const DEFAULTS = {
 };
 
 const ALLOWED = { s: ["avalanche", "snowball"] };
+const RULES = { d: { maxLength: MAX_DEBT_STATE_LENGTH, valid: (value: string) => decodeDebtRows(value) !== null } };
 
 export default function DebtCalculator() {
-  const state = useToolState("debt-payoff-calculator", DEFAULTS, ALLOWED);
+  const state = useToolState("debt-payoff-calculator", DEFAULTS, ALLOWED, RULES);
   const v = state.values;
-  const rows = useMemo(() => decode(v.d), [v.d]);
+  const rows = useMemo(() => decodeDebtRows(v.d) ?? decodeDebtRows(DEFAULTS.d)!, [v.d]);
   const setRows = (next: Row[]) => state.set("d", encode(next));
   const update = (i: number, field: keyof Row, value: string) =>
     setRows(rows.map((r, idx) => (idx === i ? { ...r, [field]: value } : r)));
@@ -71,7 +52,7 @@ export default function DebtCalculator() {
 
   return (
     <CalcShell
-      summary={{ label: `Debt-free by (${strategy})`, value: ok ? monthsFromNow(chosen.months) : "Never at this budget" }}
+      summary={{ label: `Debt-free by (${strategy})`, value: ok ? monthsFromNow(chosen.months) : "Not repaid within 100 years" }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
@@ -138,8 +119,7 @@ export default function DebtCalculator() {
         <>
           {!ok ? (
             <Notice>
-              Your monthly budget doesn&apos;t cover the interest on these debts, so the balance would keep growing. Try a bigger extra
-              payment.
+              These debts are not repaid within the 100-year calculation limit at this budget. Check your numbers or try a bigger extra payment.
             </Notice>
           ) : (
             <ResultHero
@@ -256,7 +236,7 @@ function MethodCard({ title, result, active, best, onPick }: { title: string; re
             Interest <span className="font-semibold text-ink">{usd0(result.totalInterest)}</span>
           </>
         ) : (
-          "Never pays off"
+          "Not repaid within 100 years"
         )}
       </div>
     </button>

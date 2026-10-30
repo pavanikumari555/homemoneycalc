@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { TOOLS } from "@/lib/site";
+import { searchTools } from "@/lib/tool-search";
 import Icon from "./Icon";
 
 // Home page search: type "car", "salary", "debt"... and jump straight to a tool.
@@ -13,15 +14,7 @@ export default function ToolSearch() {
   const [q, setQ] = useState("");
   const router = useRouter();
 
-  const matches = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    if (!query) return [];
-    const words = query.split(/s+/);
-    return TOOLS.filter((t) => {
-      const hay = `${t.title} ${t.blurb} ${t.keywords}`.toLowerCase();
-      return words.every((w) => hay.includes(w));
-    }).slice(0, 6);
-  }, [q]);
+  const matches = useMemo(() => q.trim() ? searchTools(TOOLS, q, 6) : [], [q]);
 
   return (
     <div className="relative text-left">

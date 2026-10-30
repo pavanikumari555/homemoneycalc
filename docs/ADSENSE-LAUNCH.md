@@ -7,11 +7,11 @@ Application not submitted. Ads not enabled. Owner wants all feasible preparation
 ## User experience decision
 
 - No first-visit analytics popup, no consent wall, no forced accept button.
-- Google Analytics stays off until an explicit footer opt-in; old explicit opt-ins remain valid. Every calculator works without analytics.
-- Search Console measures Google search impressions/clicks separately. GA4 shows only a consenting/unblocked sample.
+- Updated 30 Oct: Google Analytics tag and footer choice interface are retired. Cloudflare Pages Web Analytics is the automatic basic traffic source. No advertising consent is inferred from this choice.
+- Search Console measures Google search impressions/clicks separately. Any saved GA4 data is historical, not current total traffic.
 - Existing Cloudflare edge statistics provide server traffic context with no new visitor script. Requests include bots/assets/blocked requests and are NOT people, sessions, ad impressions or revenue.
 - Optional API adapter is ready but needs a zone-scoped Zone Analytics Read token in GitHub secret CLOUDFLARE_ANALYTICS_TOKEN, and variable CLOUDFLARE_ZONE_ID. Do not paste tokens in chat. No live API connection is claimed until a report verifies it. Plan/API limits may restrict returned data; missing data remains unknown.
-- Cloudflare Web Analytics is a different, browser-beacon product. It is free and cookie-free according to Cloudflare, but may be blocked/sampled and is not 100% visitor coverage. No beacon was activated in this change; cookieless is not a blanket legal-consent exemption.
+- Cloudflare Web Analytics is a different, browser-beacon product. It is free and cookie-free according to Cloudflare, but may be blocked/sampled and is not 100% visitor coverage. Owner enabled the Pages beacon on 30 Oct; CSP verified and Google tag retired; cookieless is not a blanket legal-consent exemption.
 
 ## Prepared now
 
@@ -27,7 +27,7 @@ Application not submitted. Ads not enabled. Owner wants all feasible preparation
 2. Create/review applicable regional messages in Google AdSense Privacy & messaging. Google offers its own certified messaging solution. Review EEA/UK/Swiss requirements and applicable US-state opt-outs. Do not assume a custom GA4 choice panel is an ad CMP or can replace mandatory consent. Keep refusal/settings accessible without blocking calculator use. Region decisions must use the actual consent solution, not browser language or guessed location.
 3. Verify site approval and any Policy Center actions inside AdSense. Approval does not verify all future placements or guarantee ad fill/payment.
 4. Create actual manual ad-unit IDs. Start with at most one labelled in-content unit after original explanation, away from inputs, slider controls, navigation, Share/Save/Print and affiliate buttons. No anchor/vignette/popunder/fullscreen formats; verify Auto ads settings inside the account rather than assuming source code disables them.
-5. Install and review the final publisher-specific tag/CMP together. Ad requests can contain contextual URL data; financial calculator parameters must not be leaked. This protection needs specific verification against the final tag/network requests. The current GA4 URL sanitization does NOT sanitize AdSense traffic. Do not enable ad serving on financial-query pages until this is resolved and tested.
+5. Install and review the final publisher-specific tag/CMP together. Ad requests can contain contextual URL data; financial calculator parameters must not be leaked. This protection needs specific verification against the final tag/network requests. Cloudflare query exclusion does NOT sanitize future AdSense requests. Do not enable ad serving on financial-query pages until this is resolved and tested.
 6. Add only required ad/CMP origins to CSP, preserve security headers, update privacy/disclosure text to actual behavior, publish the exact account-provided ads.txt record and verify it live. No fabricated pub ID. Advertising script integration and ads.txt generation remain unfinished until those real inputs exist.
 7. Test mobile/desktop, reserve slot space to reduce layout shifts, keep calculators usable on denial/adblock/no-fill, collapse unusable empty slots safely and test withdrawal. No live-ad clicks or manufactured impressions; use official preview/testing paths.
 8. Review the exact deployed result, then explicitly activate the real setup. Follow actual impression/revenue reports, invalid-traffic warnings and performance afterward. Roll back a harmful placement; never promise immediate revenue.

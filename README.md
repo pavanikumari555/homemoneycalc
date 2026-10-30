@@ -6,7 +6,7 @@ Free financial calculators for the US. Static Next.js site — hosts free on Clo
 
 ## What's inside
 
-- **19 implemented calculators:** 10 public and 9 queued as of 25 Oct 2026. Publish dates in `lib/site.ts` control which tools appear.
+- **19 implemented calculators:** 15 public and 4 queued as of 30 Oct 2026. Publish dates in `lib/site.ts` control which tools appear.
 - **Support pages:** About, Contact, Privacy Policy, Terms, Disclaimer
 - **SEO built in:** per-page metadata, canonical URLs, Open Graph, JSON-LD structured data (WebApplication + FAQ + Breadcrumb), auto sitemap, robots.txt
 - **Earning setup:** affiliate/template offer components exist; AdSense integration and publisher/site approval still need setup.

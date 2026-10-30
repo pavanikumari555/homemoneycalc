@@ -136,7 +136,7 @@ export function amortize(o: AmortOptions): AmortResult {
     months++;
     const interest = balance * r;
     let pay = o.payment + (o.extraMonthly ?? 0) + (months % 12 === 0 ? o.extraYearly ?? 0 : 0);
-    if (pay <= interest && months === 1) {
+    if (pay <= interest && months === 1 && !(o.extraYearly && o.extraYearly > 0)) {
       // Payment doesn't even cover the interest -> balance grows forever
       return { months: Infinity, totalInterest: Infinity, balances, yearly };
     }
@@ -152,7 +152,7 @@ export function amortize(o: AmortOptions): AmortResult {
       yp = 0;
     }
   }
-  if (months >= MAX_MONTHS) return { months: Infinity, totalInterest: Infinity, balances, yearly };
+  if (balance > 0.005) return { months: Infinity, totalInterest: Infinity, balances, yearly };
   return { months, totalInterest, balances, yearly };
 }
 
@@ -180,7 +180,7 @@ export interface MortgageResult {
 export function calcMortgage(input: MortgageInput): MortgageResult {
   const principal = clamp(input.principal, 0, 100_000_000);
   const rate = clamp(input.annualRatePercent, 0, 30);
-  const years = clamp(input.yearsLeft, 1, 50);
+  const years = clamp(input.yearsLeft, 1 / 12, 50);
   const payment = amortizedPayment(principal, rate, years * 12);
 
   const base = amortize({ principal, annualRatePercent: rate, payment });
@@ -246,7 +246,6 @@ function simulateDebts(debts: Debt[], extra: number, strategy: DebtStrategy): De
 
   while (list.some((d) => d.balance > 0.005) && months < MAX_MONTHS) {
     months++;
-    const startTotal = list.reduce((s, d) => s + d.balance, 0);
 
     for (const d of list) {
       if (d.balance > 0.005) {
@@ -285,13 +284,10 @@ function simulateDebts(debts: Debt[], extra: number, strategy: DebtStrategy): De
 
     const endTotal = list.reduce((s, d) => s + d.balance, 0);
     timeline.push({ x: months, y: endTotal });
-    // Debt growing after a year with nothing paid off -> it will never end
-    if (months >= 12 && endTotal >= startTotal && payoffOrder.length === 0) {
-      return { months: Infinity, totalInterest: Infinity, payoffOrder: [], timeline };
-    }
+    // Temporary balance growth does not prove a plan can never repay.
   }
 
-  if (months >= MAX_MONTHS) return { months: Infinity, totalInterest: Infinity, payoffOrder: [], timeline };
+  if (list.some(d => d.balance > 0.005)) return { months: Infinity, totalInterest: Infinity, payoffOrder: [], timeline };
   return {
     months,
     totalInterest,
@@ -338,6 +334,7 @@ export interface CardResult {
   plan: AmortResult;
   minimumPlan: AmortResult; // typical issuer minimum: interest + 1% of balance, $25 floor
   interestSavedVsMinimum: number;
+  inputError?: string;
 }
 
 /** Typical card minimum payment: 1% of balance + that month's interest, at least $25. */
@@ -355,10 +352,18 @@ function simulateMinimumPayments(balance: number, aprPercent: number): AmortResu
     totalInterest += interest;
     balances.push({ x: months, y: Math.max(0, b) });
   }
-  return { months: months >= MAX_MONTHS ? Infinity : months, totalInterest, balances, yearly: [] };
+  return { months: b > 0.005 ? Infinity : months, totalInterest, balances, yearly: [] };
 }
 
 export function calcCreditCard(input: CardInput): CardResult {
+  const inputError = !Number.isFinite(input.balance) || input.balance < 0 || input.balance > 10_000_000 ? "Enter a card balance from $0 to $10,000,000." :
+    !Number.isFinite(input.aprPercent) || input.aprPercent < 0 || input.aprPercent > 80 ? "Enter an APR from 0% to 80%." :
+    input.mode === "goal" && (!Number.isInteger(input.goalMonths) || input.goalMonths < 1 || input.goalMonths > 600) ? "Enter a whole number of months from 1 to 600." :
+    input.mode === "payment" && (!Number.isFinite(input.monthlyPayment) || input.monthlyPayment < 0 || input.monthlyPayment > 10_000_000) ? "Enter a monthly payment from $0 to $10,000,000." : undefined;
+  if (inputError) {
+    const empty: AmortResult = { months: NaN, totalInterest: NaN, balances: [], yearly: [] };
+    return { payment: NaN, plan: empty, minimumPlan: empty, interestSavedVsMinimum: NaN, inputError };
+  }
   const balance = clamp(input.balance, 0, 10_000_000);
   const apr = clamp(input.aprPercent, 0, 80);
   const payment =
@@ -490,7 +495,8 @@ export function calcCompoundInterest(input: CompoundInput): CompoundResult {
   const principal = clamp(input.principal, 0, 1_000_000_000);
   let monthly = clamp(input.monthlyContribution, 0, 10_000_000);
   const rate = clamp(input.annualRatePercent, -50, 100) / 100;
-  const years = clamp(Math.round(input.years), 0, 100);
+  const years = clamp(input.years, 0, 100);
+  const months = Math.round(years * 12);
   const n = clamp(input.compoundsPerYear, 1, 365);
   const raise = clamp(input.annualIncreasePercent, 0, 50) / 100;
 
@@ -501,13 +507,13 @@ export function calcCompoundInterest(input: CompoundInput): CompoundResult {
   let contributed = principal;
   const yearly = [{ x: 0, balance, contributed }];
 
-  for (let month = 1; month <= years * 12; month++) {
+  for (let month = 1; month <= months; month++) {
     balance = balance * monthlyGrowth + monthly; // deposit at end of month
     contributed += monthly;
-    if (month % 12 === 0) {
+    if (month % 12 === 0 || month === months) {
       yearly.push({ x: month / 12, balance, contributed });
-      monthly *= 1 + raise;
     }
+    if (month % 12 === 0) monthly *= 1 + raise;
   }
 
   const effectiveAnnual = Math.pow(1 + rate / n, n) - 1;

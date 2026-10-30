@@ -30,8 +30,7 @@ export function actionPlan(report, business, today) {
   const add = (id, title, why, who, priority, steps, url = "") => actions.push({ id, title, why, who, priority, steps, url });
   if (!report?.sources?.gsc) add("gsc-data", "Google report connection poora karo", "Site verification aur agent ka data access alag hain. Agent ko abhi Google clicks nahi mil rahe.", "owner", 1,
     ["Google Cloud mein Search Console API enable karo aur service account banao.", "Search Console mein service-account email ko access do.", "GitHub secret GOOGLE_SA_JSON aur variable GSC_SITE set karo. Private key chat mein mat bhejo."], "https://console.cloud.google.com/");
-  if (!report?.sources?.ga4) add("ga4-data", "Optional GA4 reporting connection check karo", "GA4 sirf consent dene wale visitors ka sample hai. Ye AdSense application ki mandatory requirement nahi hai.", "owner", 3,
-    ["GA4 property aur web stream banao.", "Measurement ID se tracking implement karvao; calculator inputs/URL query analytics mein na bhejein.", "Service account ko read access aur GitHub mein GA4_PROPERTY_ID do."], "https://analytics.google.com/");
+  // Google collection is retired; do not ask the owner to reinstall its tag.
   const age = report?.date ? (Date.parse(today) - Date.parse(report.date)) / 86_400_000 : Infinity;
   if (age > 2) add("stale-report", "Daily report dobara chalao", "Purane data ko aaj ka result nahi maan sakte.", "owner", 0,
     ["GitHub Actions mein SEO daily report kholo.", "Latest failed run ka error dekho; phir Run workflow karo."], "https://github.com/pavanikumari555/homemoneycalc/actions");

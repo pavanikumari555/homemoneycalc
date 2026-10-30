@@ -21,22 +21,22 @@ export default function CreditCardCalculator() {
   const res = useMemo(
     () =>
       calcCreditCard({
-        balance: n(v.b),
-        aprPercent: n(v.apr),
+        balance: n(v.b, NaN),
+        aprPercent: n(v.apr, NaN),
         mode,
-        monthlyPayment: n(v.p),
-        goalMonths: n(v.g, 24),
+        monthlyPayment: n(v.p, NaN),
+        goalMonths: n(v.g, NaN),
       }),
     [v, mode]
   );
 
   const ok = Number.isFinite(res.plan.months);
-  const firstInterest = (n(v.b) * n(v.apr)) / 100 / 12;
+  const firstInterest = (n(v.b, NaN) * n(v.apr, NaN)) / 100 / 12;
   useCelebrate(ok && res.interestSavedVsMinimum > 500, state.touched);
 
   return (
     <CalcShell
-      summary={{ label: mode === "payment" ? "Paid off in" : "Pay each month", value: !ok ? "Never at this payment" : mode === "payment" ? duration(res.plan.months) : usd(res.payment) }}
+      summary={{ label: mode === "payment" ? "Paid off in" : "Pay each month", value: res.inputError ? "Check inputs" : !ok ? "Not repaid at this payment" : mode === "payment" ? duration(res.plan.months) : usd(res.payment) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
@@ -55,16 +55,15 @@ export default function CreditCardCalculator() {
           {mode === "payment" ? (
             <NumberField label="Monthly payment" prefix="$" value={v.p} onChange={(x) => state.set("p", x)} slider={{ min: 25, max: 2000, step: 25 }} />
           ) : (
-            <NumberField label="Debt-free in" suffix="months" value={v.g} onChange={(x) => state.set("g", x)} slider={{ min: 3, max: 60, step: 1 }} />
+            <NumberField label="Debt-free in" suffix="months" min={1} max={600} step={1} value={v.g} onChange={(x) => state.set("g", x)} slider={{ min: 3, max: 60, step: 1 }} />
           )}
         </>
       }
       results={
         <>
-          {!ok ? (
+          {res.inputError ? <Notice>{res.inputError}</Notice> : !ok ? (
             <Notice>
-              A payment of {usd(n(v.p))} doesn&apos;t cover this month&apos;s interest of about {usd(firstInterest)}, so the balance would grow
-              forever. Pay at least {usd(Math.ceil(firstInterest + 1))} a month to make progress.
+              This payment does not repay the balance within the 100-year calculation limit. First-month interest is about {usd(firstInterest)}. Check your numbers or increase the monthly payment.
             </Notice>
           ) : mode === "payment" ? (
             <ResultHero
@@ -92,7 +91,7 @@ export default function CreditCardCalculator() {
             </ResultHero>
           )}
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {!res.inputError && <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Stat label="Monthly payment" value={usd0(res.payment)} />
             <Stat label="Total interest" value={ok ? usd0(res.plan.totalInterest) : "—"} />
             <Stat
@@ -101,7 +100,7 @@ export default function CreditCardCalculator() {
               note={Number.isFinite(res.minimumPlan.totalInterest) ? `${usd0(res.minimumPlan.totalInterest)} interest` : undefined}
             />
             <Stat label="You save vs minimums" accent value={ok && res.interestSavedVsMinimum > 0 ? usd0(res.interestSavedVsMinimum) : "—"} />
-          </div>
+          </div>}
 
           {ok && (
             <div className="rounded-2xl border border-line p-4">

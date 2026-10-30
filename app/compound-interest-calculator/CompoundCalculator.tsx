@@ -43,7 +43,7 @@ export default function CompoundCalculator() {
 
   return (
     <CalcShell
-      summary={{ label: `In ${num(n(v.y, 10), 0)} years`, value: fmt(res.futureValue) }}
+      summary={{ label: `In ${num(n(v.y, 10), 2)} years`, value: fmt(res.futureValue) }}
       top={<WelcomeBack state={state} />}
       inputs={
         <>
@@ -64,7 +64,7 @@ export default function CompoundCalculator() {
       results={
         <>
           <ResultHero
-            eyebrow={`In ${num(n(v.y, 10), 0)} years you'll have`}
+            eyebrow={`In ${num(n(v.y, 10), 2)} years you'll have`}
             sub={
               <>
                 You put in <strong>{fmt(res.totalContributions)}</strong>. Compound interest adds{" "}
@@ -85,7 +85,7 @@ export default function CompoundCalculator() {
             <div className="mb-2 text-sm font-semibold text-ink">Growth over time</div>
             <LineChart
               ariaLabel="Savings balance versus total deposits over time"
-              formatX={(x) => `Yr ${Math.round(x)}`}
+              formatX={(x) => `Yr ${num(x, 2)}`}
               formatY={(y) => shortMoney(y, cur.symbol)}
               series={[
                 { name: "Total balance", color: "#2a6a44", area: true, points: res.yearly.map((p) => ({ x: p.x, y: p.balance })) },

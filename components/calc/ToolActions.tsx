@@ -156,6 +156,7 @@ export function ToolActions<T extends ToolValues>({ state, csv, shareText }: Too
 
 /** Shown when inputs were restored from last visit or opened from a share link. */
 export function WelcomeBack<T extends ToolValues>({ state }: { state: ToolState<T> }) {
+  if (state.restoreWarning) return <div role="alert" className="mb-4 rounded-xl border border-line bg-surface-2 p-4 text-sm text-ink">{state.restoreWarning} <button type="button" onClick={state.reset} className="font-semibold underline">Start fresh</button></div>;
   if (state.origin === "default" || state.touched) return null;
   return (
     <div className="no-print mb-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-ivy-200 bg-ivy-50 px-4 py-2.5 text-sm text-ivy-800 dark:border-ivy-800 dark:bg-ivy-900/30 dark:text-ivy-200">

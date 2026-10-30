@@ -12,7 +12,7 @@ import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 import Icon from "@/components/Icon";
 
 // Gift list ek hi URL param me: "name~amount|name~amount" (share link me poori list).
-// useToolState 200 chars se lamba value reject karta hai, isliye 10 rows, 12-char names.
+// This field has its own bounded length allowance, so all ten rows can restore.
 interface Row {
   name: string;
   amount: string;
@@ -40,9 +40,8 @@ const PAY = [
 ];
 const COLORS = ["#2a6a44", "#f7b733", "#8bc09e", "#e08a00", "#97a89e"];
 
-const clean = (s: string) => s.replace(/[~|]/g, " ").slice(0, MAX_NAME);
-const cleanAmount = (s: string) => s.replace(/[^\d.]/g, "").slice(0, 7);
-const encode = (rows: Row[]) => rows.map((r) => `${clean(r.name)}~${cleanAmount(r.amount)}`).join("|");
+import { cleanGiftName as clean, cleanGiftAmount as cleanAmount, encodeGiftRows as encode, validGiftState, MAX_GIFT_STATE_LENGTH } from "@/lib/gift-state";
+const RULES = { g: { maxLength: MAX_GIFT_STATE_LENGTH, valid: validGiftState } };
 
 function decode(s: string): Row[] {
   if (!s) return [];
@@ -62,7 +61,7 @@ function isoToday() {
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 export default function HolidayBudgetCalculator() {
-  const state = useToolState("holiday-budget-calculator", DEFAULTS, ALLOWED);
+  const state = useToolState("holiday-budget-calculator", DEFAULTS, ALLOWED, RULES);
   const v = state.values;
   // "today" sirf browser me pata hota hai (static page pehle build hota hai)
   const todayStr = useSyncExternalStore(noopSubscribe, isoToday, () => "");

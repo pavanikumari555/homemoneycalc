@@ -10,7 +10,8 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 // Sab browser me hi, koi server/account nahi.
 // ============================================================================
 
-export type ToolValues = Record<string, string>;
+import { sanitizeToolValues, type ToolValues, type AllowedValues, type ValueRules } from "./tool-state-values";
+export type { ToolValues, AllowedValues } from "./tool-state-values";
 
 export interface Scenario<T extends ToolValues> {
   id: string;
@@ -43,23 +44,6 @@ function writeJson(key: string, value: unknown) {
   } catch {
     // storage full or blocked - tool still works, just won't remember
   }
-}
-
-/** Allowed values for "choice" fields (state, filing status, loan term...). */
-export type AllowedValues<T extends ToolValues> = Partial<Record<keyof T, readonly string[]>>;
-
-/** Only keep keys we know about, as strings, and only allowed choices (never trust URL/storage). */
-function sanitize<T extends ToolValues>(defaults: T, incoming: unknown, allowed?: AllowedValues<T>): Partial<T> {
-  const out: Partial<T> = {};
-  if (!incoming || typeof incoming !== "object") return out;
-  for (const key of Object.keys(defaults)) {
-    const v = (incoming as Record<string, unknown>)[key];
-    if (typeof v !== "string" || v.length > 200) continue;
-    const choices = allowed?.[key as keyof T];
-    if (choices && !choices.includes(v)) continue; // e.g. ?st=ZZ or ?pp=0 -> keep the default
-    (out as ToolValues)[key] = v;
-  }
-  return out;
 }
 
 /** Read a stored list, dropping anything that isn't the expected shape (corrupt storage can't crash pages). */
@@ -115,7 +99,7 @@ export function planUrl(tool: string, values: ToolValues): string {
 }
 
 /** `defaults` and `allowed` must be module-level constants (stable references). */
-export function useToolState<T extends ToolValues>(tool: string, defaults: T, allowed?: AllowedValues<T>) {
+export function useToolState<T extends ToolValues>(tool: string, defaults: T, allowed?: AllowedValues<T>, rules?: ValueRules<T>) {
   const [values, setValues] = useState<T>(defaults);
   // "shared" = opened from someone's link, "restored" = our own last session
   const [origin, setOrigin] = useState<"default" | "shared" | "restored">("default");
@@ -123,6 +107,12 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
   // Becomes true after the first user edit (used to time celebrations etc.)
   const [touched, setTouched] = useState(false);
   const ready = useRef(false);
+  const [restoreWarning, setRestoreWarning] = useState("");
+  const checkValues = (incoming: unknown) => {
+    const checked = sanitizeToolValues(defaults, incoming, allowed, rules);
+    setRestoreWarning(checked.rejected.length ? "Some saved or shared inputs could not be restored. Defaults are shown for those fields; check your numbers before using the result." : "");
+    return checked;
+  };
 
   // Load once on mount: URL params win, then last session, else defaults.
   // Static page ka HTML defaults se banta hai; browser me aane ke baad hi URL/storage
@@ -130,16 +120,16 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
   /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const fromUrl = sanitize(defaults, Object.fromEntries(params.entries()), allowed);
-    if (Object.keys(fromUrl).length > 0) {
-      setValues({ ...defaults, ...fromUrl });
+    const fromUrl = checkValues(Object.fromEntries(params.entries()));
+    if (Object.keys(fromUrl.values).length > 0 || fromUrl.rejected.length > 0) {
+      setValues({ ...defaults, ...fromUrl.values });
       setOrigin("shared");
     } else {
       const last = readJson<unknown>(LAST_KEY(tool));
       if (last) {
-        const restored = sanitize(defaults, last, allowed);
-        if (Object.keys(restored).length > 0) {
-          setValues({ ...defaults, ...restored });
+        const restored = checkValues(last);
+        if (Object.keys(restored.values).length > 0 || restored.rejected.length > 0) {
+          setValues({ ...defaults, ...restored.values });
           setOrigin("restored");
         }
       }
@@ -180,6 +170,7 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
     setTouched(true);
     setValues(defaults);
     setOrigin("default");
+    setRestoreWarning("");
   }, [defaults]);
 
   const shareUrl = useCallback(() => {
@@ -219,9 +210,13 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
   const loadScenario = useCallback(
     (id: string) => {
       const s = saved.find((x) => x.id === id);
-      if (s) setMany({ ...defaults, ...sanitize(defaults, s.values, allowed) });
+      if (s) {
+        const checked = sanitizeToolValues(defaults, s.values, allowed, rules);
+        setMany({ ...defaults, ...checked.values });
+        setRestoreWarning(checked.rejected.length ? "This saved plan contains inputs that could not be restored. Check your numbers before using the result." : "");
+      }
     },
-    [saved, setMany, defaults, allowed]
+    [saved, setMany, defaults, allowed, rules]
   );
 
   return {
@@ -230,6 +225,7 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
     setMany,
     reset,
     origin,
+    restoreWarning,
     touched,
     shareUrl,
     saved,

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TOOLS } from "@/lib/site";
+import { searchTools } from "@/lib/tool-search";
 import Icon from "./Icon";
 
 // Command palette: press "/" (or Ctrl/⌘+K) anywhere, type, Enter. Power users
@@ -47,14 +48,7 @@ export default function QuickSearch() {
     if (open) window.setTimeout(() => input.current?.focus(), 10);
   }, [open]);
 
-  const results = useMemo(() => {
-    const words = q.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    if (!words.length) return TOOLS.slice(0, 8);
-    return TOOLS.filter((t) => {
-      const hay = `${t.title} ${t.blurb} ${t.keywords}`.toLowerCase();
-      return words.every((w) => hay.includes(w));
-    }).slice(0, 8);
-  }, [q]);
+  const results = useMemo(() => searchTools(TOOLS, q), [q]);
 
   function go(slug: string) {
     setOpen(false);

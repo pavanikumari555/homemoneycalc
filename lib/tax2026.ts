@@ -117,7 +117,7 @@ export const STATES: StateTax[] = [
     personalExemption: ZERO,
     personalCredit: { single: 153, married: 306 },
     payroll: [{ name: "CA SDI (incl. PFL)", rate: 0.013 }],
-    notes: "2025 indexed brackets/std deduction/exemption credit (FTB 2026 indexing not yet published; EDD's 2026 withholding schedules also use these thresholds). Top brackets include the 1% Mental Health Services Tax over $1M. Exemption credit phases out at high AGI. SDI 1.3% for 2026 with no wage cap.",
+    notes: "Uses 2025 indexed brackets, standard deduction and exemption credit. Updated 2026 FTB indexing has not been independently verified in this calculator; this state income-tax result is an estimate using older parameters. Top brackets include the 1% Mental Health Services Tax over $1M. Exemption credit phases out at high AGI. SDI 1.3% for 2026 with no wage cap.",
     source: "https://www.ftb.ca.gov/forms/2025/2025-540-tax-rate-schedules.pdf",
   },
   {

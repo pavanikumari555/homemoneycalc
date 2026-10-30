@@ -12,7 +12,7 @@ const PAGES_UPDATED = "2026-10-25"; // home + info pages; change when you edit t
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = ["", "calculators", "take-home-pay-by-state", "methodology", "editorial-policy", "about", "contact", "privacy-policy", "advertising-disclosure", "terms", "disclaimer"].map((p) => ({
     url: `${SITE.url}/${p ? p + "/" : ""}`,
-    lastModified: new Date(PAGES_UPDATED),
+    lastModified: new Date(p === "privacy-policy" ? "2026-10-30" : PAGES_UPDATED),
     changeFrequency: (p === "" ? "weekly" : "monthly") as "weekly" | "monthly",
     priority: p === "" ? 1 : 0.5,
   }));
