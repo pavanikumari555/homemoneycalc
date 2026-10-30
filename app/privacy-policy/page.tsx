@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         <li>Calculations run entirely in your browser. We don&apos;t have accounts, forms or a database that store your numbers.</li>
         <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage.</li>
         <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked — see below.</li>
-        <li>There is no analytics popup on arrival. Optional Google Analytics loads only if you open Analytics choices below the footer and choose Allow analytics. Calculator values and URL parameters are excluded.</li>
+        <li>Cloudflare Web Analytics automatically measures aggregate visits, referring sites and page performance without an Allow button or analytics cookies. We no longer load Google Analytics.</li>
         <li>Some pages include clearly labeled affiliate links. We never sell your personal information.</li>
       </ul>
 
@@ -49,19 +49,15 @@ export default function PrivacyPage() {
       </p>
       <p>
         <strong>Usage data:</strong> Our hosting provider (Cloudflare) receives standard technical information such as
-        IP address, browser type and the pages requested, to deliver and protect the site. If you allow optional
-        Google Analytics, Google receives technical information such as your IP address and browser details to
-        process visits, approximate region and device reports. We send page paths and referring site origins;
-        query strings, fragments, calculator values and saved plans are excluded. Google processes this data on
-        its infrastructure; we use the resulting reports to understand aggregate site use. Our configured analytics
-        cookies expire after 90 days unless renewed by later use. Advertising personalization and Google signals
-        are disabled in our tag configuration. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google&apos;s privacy policy</a>.
+        IP address, browser type and the pages requested, to deliver and protect the site. We use the separate
+        Cloudflare Web Analytics reports described below to understand aggregate traffic. We do not load a Google
+        Analytics tag or send new Google Analytics events. Previously collected Google data is not erased by this change.
       </p>
 
       <h2>Cloudflare Web Analytics</h2>
       <p>
-        We also use Cloudflare Web Analytics for aggregate visits, page views and page performance.
-        This measurement runs separately from optional Google Analytics and does not use analytics cookies
+        We use Cloudflare Web Analytics for aggregate visits, page views, referring sites, countries and page performance.
+        This automatic measurement does not require an Allow button and does not use analytics cookies
         or local storage to identify visitors. Cloudflare states that Web Analytics does not collect query
         strings, so shared calculator parameters are excluded. Visits are estimates, not a count of unique
         people; bot filtering and browser blocking can affect coverage. See{' '}
@@ -79,13 +75,10 @@ export default function PrivacyPage() {
 
       <h2>Cookies</h2>
       <p>
-        Calculators work without analytics cookies. Optional Google Analytics is off by default; we do not require a choice
-        before you use the site. Choose Decline analytics to keep the Google tag off, or Allow
-        analytics to enable optional visit measurement. The Analytics choices button below the footer lets you
-        change your choice at any time. We remember this preference in local storage. On withdrawal, we disable
-        analytics, remove its first-party cookies and reload the page to stop the loaded tag. Withdrawal does not
-        erase data already sent. Your saved calculator plans are not removed. Affiliate destinations have their
-        own cookie policies. You can also block cookies or clear site data in your browser.
+        Calculators and Cloudflare Web Analytics work without analytics cookies. We no longer offer or load
+        optional Google Analytics. A local cleanup script removes the old analytics preference and matching
+        first-party Google Analytics cookies; it does not remove your saved calculator plans. Affiliate
+        destinations have their own cookie policies. You can also block cookies or clear site data in your browser.
       </p>
 
       <h2>Children&apos;s privacy</h2>

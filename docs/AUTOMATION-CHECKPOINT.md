@@ -102,3 +102,7 @@ Cloudflare Analytics Read token scoped to this zone is configured: latest saved 
 
 Fixed private traffic dashboard empty states: connected Search Console with no daily/query rows no longer incorrectly asks to reconnect. Current adapter deliberately ends its report window three days ago; on Oct 26 this excludes the Oct 25 launch. Zero report totals do not describe today. No new service, tracking or ad integration added.
 Validation: 35 tests, registry check, lint and both admin/public builds passed. Public export checked without admin/index.html. Text-only dashboard correction; no calculator/security/analytics behavior changed.
+
+
+## 30 October 2026 — automatic Cloudflare traffic, no Allow flow
+Owner wants basic visits and traffic sources without visitor opt-in clicks, to assess growth before an AdSense review. Cloudflare Pages Web Analytics enabled by owner and CSP fix ec2ace4 verified live. Removed GA4 consent UI and retired Google tag; local analytics.js only disables old tag and cleans its preference/cookies, preserving calculator storage. Cloudflare remains automatic. Privacy text and CSP match. Admin overview/traffic now point to automatic Cloudflare visits/referrers/pages and label GA4 numbers historical. Existing read-only token is zone edge analytics only; no verified account RUM API connection, so do not present raw requests or missing RUM as human totals. No new token permissions, paid service or AdSense application. Future browser automation requires beacon exclusion; existing daily GET/HEAD checks run no JS.

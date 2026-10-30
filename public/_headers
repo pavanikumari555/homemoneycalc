@@ -18,10 +18,10 @@
   Cross-Origin-Opener-Policy: same-origin
   # HTTPS force karo (1 saal), subdomains bhi
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  # CSP: local assets, opt-in GA4 and owner-enabled Cloudflare Web Analytics.
-  # GA4 ya koi widget lagana ho to uska domain yahan jodna padega (docs/SECURITY.md), warna browser block karega.
+  # CSP: local assets and owner-enabled Cloudflare Web Analytics only.
+  # New third-party scripts require an explicit review; Google Analytics is retired.
   # frame-ancestors 'self' = koi dusri site hamare pages ko iframe me nahi daal sakti (embed ko chhod ke, neeche).
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com/gtag/ https://static.cloudflareinsights.com/beacon.min.js; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.google-analytics.com https://*.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://cloudflareinsights.com/cdn-cgi/rum; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com/beacon.min.js; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://cloudflareinsights.com/cdn-cgi/rum; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
 
 # Build files ke naam me hash hota hai -> saal bhar cache. Repeat visit fast + DDoS me CDN se hi serve.
 /_next/static/*

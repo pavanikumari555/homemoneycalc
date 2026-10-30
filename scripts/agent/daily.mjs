@@ -109,7 +109,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     sources: { gsc: Boolean(gsc.connected), ga4: Boolean(ga4.connected), psi: Boolean(psi.connected), bing: Boolean(bing.connected), cloudflare: Boolean(edge.connected), ai: false },
     edge,
-    measurement: { ga4: "Optional consenting/unblocked visitor sample; not all traffic", search: "Search Console reported clicks/impressions; independent of analytics consent", edge: "Aggregate HTTP requests, not human visitors or ad impressions" },
+    measurement: { ga4: "Historical consented sample; collection retired 2026-10-30. Current traffic: Cloudflare Web Analytics dashboard", search: "Search Console reported clicks/impressions; independent of analytics consent", edge: "Aggregate HTTP requests, not human visitors or ad impressions" },
     kpis,
     trend: gsc.daily ?? [],
     topQueries: (gsc.topQueries ?? []).slice(0, 15),
