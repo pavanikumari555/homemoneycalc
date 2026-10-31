@@ -14,10 +14,13 @@ export default function Page() {
   return (
     <PageShell title="Editorial policy" intro="How we build, check and update everything on HomeMoney Calc.">
       <h2>Who is responsible</h2>
-      <p>HomeMoney Calc is maintained by its family owner and developer under the HomeMoney Calc name.
-        The owner is responsible for editorial and publishing decisions; the developer maintains formulas,
-        regression tests and source records. We do not claim a certified financial adviser or independent
-        professional tax review. You can send corrections through our <Link href="/contact/">contact page</Link>.</p>
+      <p>
+        HomeMoney Calc is edited by founder <strong>Pavani Kumari</strong>, who directs editorial policy and review
+        standards, alongside an in-house developer who maintains the financial formulas, automated regression tests,
+        and primary source documentation. While we verify every formula against official government publications
+        (such as IRS Publication 15-T and CFPB guidelines), our tools are designed for educational estimates and do
+        not substitute for individualized CPA or fiduciary advice. You can send corrections through our <Link href="/contact/">contact page</Link>.
+      </p>
       <h2>Accuracy first</h2>
       <p>
         We test formulas against worked examples and link the official sources used. A passing software test does not prove

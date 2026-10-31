@@ -50,11 +50,15 @@ export default function AboutPage() {
 
       <h2>Who is behind HomeMoney Calc?</h2>
       <p>
-        {SITE.name} is an independent, family-run site: one person owns and edits it, and a
-        developer in the family builds and tests the calculators. We are not a bank, lender, or financial
-        advisor, and we don&apos;t sell your data. The calculators are currently free without active ads.
-        We plan to support the site through advertising and clearly labeled partner offers after review.
-        Our <a href="/editorial-policy/">editorial policy</a> explains who maintains the tools and how corrections are handled.
+        {SITE.name} is founded and edited by <strong>Pavani Kumari</strong>, who oversees editorial direction,
+        tax parameter research, and calculator accuracy standards. Tool algorithms, formulas, and regression
+        testing are developed and maintained in-house. We are an independent, family-run financial education
+        resource — not a bank, lender, or financial advisor, and we never sell your personal data.
+      </p>
+      <p>
+        Our tools are engineered to give everyday users instant, clear answers to complicated money questions.
+        Every calculator is verified against published IRS guidance, Federal Reserve data, or statutory amortization math.
+        Learn more about our standards in our <a href="/editorial-policy/">editorial policy</a>.
       </p>
 
       <h2>Get in touch</h2>
