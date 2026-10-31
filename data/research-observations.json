@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-31T03:17:30.413Z",
+  "generatedAt": "2026-10-31T06:43:56.371Z",
   "keywordVolumesVerified": false,
   "automatedSearchScraping": false,
   "observations": [
@@ -23,6 +23,18 @@
       "label": "SSA COLA and wage-base source",
       "url": "https://www.ssa.gov/cola/",
       "checkedAt": "2026-10-25T19:43:45.881Z",
+      "previousHash": null,
+      "hash": null,
+      "excerpt": null,
+      "status": "unknown",
+      "summary": "Robots permission unavailable or disallowed; no page fetched."
+    },
+    {
+      "id": "ca-tax-rates",
+      "kind": "official",
+      "label": "California official annual tax schedules",
+      "url": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp",
+      "checkedAt": "2026-10-31T06:43:56.371Z",
       "previousHash": null,
       "hash": null,
       "excerpt": null,

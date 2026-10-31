@@ -1,13 +1,13 @@
 {
   "date": "2026-10-31",
-  "generatedAt": "2026-10-31T03:17:30.411Z",
+  "generatedAt": "2026-10-31T06:43:56.318Z",
   "sources": {
     "gsc": true,
     "ga4": true,
     "psi": false,
     "bing": true,
     "cloudflare": true,
-    "ai": true
+    "ai": false
   },
   "edge": {
     "connected": true,
@@ -20,10 +20,109 @@
       "timezone": "UTC"
     },
     "daysReturned": 6,
+    "days": [
+      {
+        "date": "2026-10-25",
+        "requests": 4954,
+        "htmlPageRequests": 978
+      },
+      {
+        "date": "2026-10-26",
+        "requests": 3278,
+        "htmlPageRequests": 494
+      },
+      {
+        "date": "2026-10-27",
+        "requests": 2661,
+        "htmlPageRequests": 480
+      },
+      {
+        "date": "2026-10-28",
+        "requests": 4363,
+        "htmlPageRequests": 699
+      },
+      {
+        "date": "2026-10-29",
+        "requests": 2992,
+        "htmlPageRequests": 556
+      },
+      {
+        "date": "2026-10-30",
+        "requests": 3742,
+        "htmlPageRequests": 482
+      }
+    ],
     "totals": {
       "requests": 21990,
       "htmlPageRequests": 3689
     }
+  },
+  "traffic": {
+    "connected": false,
+    "source": "cloudflare-web-analytics",
+    "timezone": "Asia/Kolkata",
+    "checkedAt": "2026-10-31T06:43:34.440Z",
+    "note": "Visits are estimated visits, not unique people. Browser blocking and sampling affect coverage; known bots excluded.",
+    "status": "permission-or-query-error"
+  },
+  "taxReview": {
+    "taxYear": 2026,
+    "lastReviewed": "2026-10-31",
+    "nextReview": "2026-11-30",
+    "due": false,
+    "yearChanged": false,
+    "limitations": [
+      {
+        "id": "CA-indexing",
+        "state": "CA",
+        "status": "older-parameters",
+        "reviewed": "2026-10-31",
+        "source": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp",
+        "note": "2025 annual-return parameters remain explicitly labelled. Official 2026 estimated-tax instructions reference 2025 tables; do not substitute payroll withholding tables."
+      },
+      {
+        "id": "state-scope",
+        "state": "ALL",
+        "status": "limited-model",
+        "reviewed": "2026-10-31",
+        "source": "https://www.irs.gov/publications/p15t",
+        "note": "Salary-only annual liability estimate for single/joint, not a full tax return or W-4 payroll withholding engine. Remaining state exclusions, credits and local taxes are disclosed near results and in each state's notes."
+      }
+    ],
+    "rules": [
+      {
+        "id": "SC-SCIAD",
+        "state": "SC",
+        "status": "verified",
+        "reviewed": "2026-10-31",
+        "source": "https://dor.sc.gov/sites/dor/files/policies/IL26-20.pdf",
+        "note": "Single and joint SCIAD phase-out implemented and boundary tested."
+      },
+      {
+        "id": "UT-credit",
+        "state": "UT",
+        "status": "derived-from-official-rule",
+        "reviewed": "2026-10-31",
+        "source": "https://le.utah.gov/xcode/Title59/Chapter10/C59-10-S1018_2026050620260506.pdf",
+        "note": "1.3% credit reduction. Bases derived from statutory CPI formula: BLS CUUR0000SA0 12-month means to August 2025=319.205 and August 2020=257.7208333333; nearest dollar, joint twice rounded single."
+      },
+      {
+        "id": "CA-indexing",
+        "state": "CA",
+        "status": "older-parameters",
+        "reviewed": "2026-10-31",
+        "source": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp",
+        "note": "2025 annual-return parameters remain explicitly labelled. Official 2026 estimated-tax instructions reference 2025 tables; do not substitute payroll withholding tables."
+      },
+      {
+        "id": "state-scope",
+        "state": "ALL",
+        "status": "limited-model",
+        "reviewed": "2026-10-31",
+        "source": "https://www.irs.gov/publications/p15t",
+        "note": "Salary-only annual liability estimate for single/joint, not a full tax return or W-4 payroll withholding engine. Remaining state exclusions, credits and local taxes are disclosed near results and in each state's notes."
+      }
+    ]
   },
   "measurement": {
     "ga4": "Historical consented sample; collection retired 2026-10-30. Current traffic: Cloudflare Web Analytics dashboard",
@@ -528,6 +627,26 @@
     }
   },
   "speed": [],
+  "assetBudget": [
+    {
+      "page": "index.html",
+      "status": "pass",
+      "jsGzipBytes": 202353,
+      "cssGzipBytes": 9035
+    },
+    {
+      "page": "paycheck-calculator/index.html",
+      "status": "pass",
+      "jsGzipBytes": 215623,
+      "cssGzipBytes": 9035
+    },
+    {
+      "page": "debt-payoff-calculator/index.html",
+      "status": "pass",
+      "jsGzipBytes": 206858,
+      "cssGzipBytes": 9035
+    }
+  ],
   "health": {
     "ran": true,
     "pageCount": 27,
@@ -564,9 +683,19 @@
     },
     {
       "id": "dependencies",
-      "label": "Dependency security audit",
-      "status": "fail",
-      "summary": "16 known dependency vulnerabilities reported."
+      "label": "Development and production dependency review",
+      "status": "pass",
+      "rawFindings": 15,
+      "reviewedFindings": 15,
+      "reviewExpires": "2026-11-30",
+      "summary": "15 propagated moderate development findings reviewed: legacy minimatch 3.1.5 lacks the affected optimization code. Raw npm warning retained; review expires 30 Nov. Patched v10 branch upgraded to v11."
+    },
+    {
+      "id": "dependencies-production",
+      "label": "Production dependency security audit",
+      "status": "pass",
+      "rawFindings": 0,
+      "summary": "No known dependency findings reported."
     }
   ],
   "liveChecks": [
@@ -575,7 +704,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a52f81cf78c56528-DFW",
+      "ray": "a530b0343a82e1c6-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -583,7 +712,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a52f81cf7f2bf0b2-DFW",
+      "ray": "a530b0343ea4c285-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -591,7 +720,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a52f81cf8cb80af8-DFW",
+      "ray": "a530b0343e8cb163-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -605,7 +734,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a52f81cf7da8c641-DFW",
+      "ray": "a530b0343ea5a0ca-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -613,83 +742,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a52f81cf6bc83239-DFW",
+      "ray": "a530b0343ce00dd9-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-10-31T03:17:30.046Z",
+      "checkedAt": "2026-10-31T06:43:56.138Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a52f81cf5ac72cbe-DFW"
+        "ray": "a530b0342abbf2fd-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-10-31T03:17:30.046Z",
+      "checkedAt": "2026-10-31T06:43:56.139Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a52f81cfec481427-DFW"
+        "ray": "a530b0344f68a2d1-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-10-31T03:17:30.047Z",
+      "checkedAt": "2026-10-31T06:43:56.140Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a52f81d08cf66f64-DFW"
+        "ray": "a530b0347d20397a-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-10-31T03:17:30.047Z",
+      "checkedAt": "2026-10-31T06:43:56.140Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a52f81d07c7c45e0-DFW"
+        "ray": "a530b03469cb9de2-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-10-31T03:17:30.048Z",
+      "checkedAt": "2026-10-31T06:43:56.141Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a52f81d0680828b4-DFW"
+        "ray": "a530b0346e5df9a7-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-10-31T03:17:30.048Z",
+      "checkedAt": "2026-10-31T06:43:56.141Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -697,14 +826,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a52f81d07ba9a670-DFW"
+        "ray": "a530b0347ac7e5cb-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-10-31T03:17:30.049Z",
+      "checkedAt": "2026-10-31T06:43:56.142Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -712,7 +841,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a52f81d06fedc6dd-DFW"
+        "ray": "a530b0347c0acc13-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -855,16 +984,16 @@
   },
   "actions": [
     {
-      "id": "quality-dependencies",
-      "title": "Dependency security audit: fix chahiye",
-      "why": "16 known dependency vulnerabilities reported.",
-      "who": "agent",
-      "priority": 0,
+      "id": "web-traffic",
+      "title": "Daily visits ka ek baar connection poora karein",
+      "why": "Website ka analytics beacon aur private admin ka report access alag hain. Abhi admin total visits nahi padh sakta.",
+      "who": "owner",
+      "priority": 1,
       "steps": [
-        "GitHub Actions ka matching check log kholo.",
-        "Cause reproduce karke fix karo; guessing se pass mat mark karo."
+        "Private admin project mein existing account ka Account Analytics Read token secret set karein; naya paid service nahi.",
+        "CLOUDFLARE_ACCOUNT_ID aur sahi Pages property ka CLOUDFLARE_WEB_ANALYTICS_SITE_ID set karke connected result verify karein."
       ],
-      "url": ""
+      "url": "https://dash.cloudflare.com/?to=/:account/web-analytics"
     },
     {
       "id": "monitoring-access",
@@ -882,7 +1011,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-10-31T03:17:30.413Z",
+    "generatedAt": "2026-10-31T06:43:56.371Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
@@ -905,6 +1034,18 @@
         "label": "SSA COLA and wage-base source",
         "url": "https://www.ssa.gov/cola/",
         "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": null,
+        "excerpt": null,
+        "status": "unknown",
+        "summary": "Robots permission unavailable or disallowed; no page fetched."
+      },
+      {
+        "id": "ca-tax-rates",
+        "kind": "official",
+        "label": "California official annual tax schedules",
+        "url": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp",
+        "checkedAt": "2026-10-31T06:43:56.371Z",
         "previousHash": null,
         "hash": null,
         "excerpt": null,
@@ -983,23 +1124,17 @@
   },
   "experiments": [],
   "ai": {
-    "headline": "Search impressions badhkar 246 huye, par 2 critical technical checks par action zaroori hai",
-    "summary": "Google Search Console par impressions 246 tak pahuche hain (Mortgage Payoff calculator par 72 impressions mile), par abhi total clicks 0 hain aur CTR (click-through rate - dekhkar click karna) 0% hai. Monthly $5,000 ka target sirf planning estimate (socha hua lakshya) hai, koi pakka waada nahi. AdSense ke liye abhi apply mat karna kyunki traffic criteria (0/200 clicks) abhi meet nahi hua. Aaj 16 package vulnerabilities aur Cloudflare monitoring blocks ko address karna zaroori hai.",
+    "headline": "Last 28 days: 0 clicks, 246 impressions",
+    "summary": "Pichhle reported period mein Google se 0 clicks aur 246 impressions mile. Search data kuch din late hota hai; ye aaj ke total visits nahi hain. AdSense ke internal planning checkpoints Google ke minimum rules nahi hain.",
     "youDo": [
-      "Cloudflare Dashboard (dash.cloudflare.com) me Security Events check karo: 7 automated monitoring checks 403 block huye hain. Pehle browser me homemoneycalc.com khol kar confirm karo ki normal site chal rahi hai.",
-      "Roadmap tool finalize karo: 1 Nov ka target 'Holiday Budget Calculator' (drafted) hai. Content aur calculation verify karke release ke liye ready karo.",
-      "Growth task (15 min): Ahrefs Webmaster Tools (ahrefs.com/webmaster-tools) connect karo taaki US search backlinks track ho sakein."
+      "Daily visits ka ek baar connection poora karein: Private admin project mein existing account ka Account Analytics Read token secret set karein; naya paid service nahi. CLOUDFLARE_ACCOUNT_ID aur sahi Pages property ka CLOUDFLARE_WEB_ANALYTICS_SITE_ID set karke connected result verify karein.",
+      "Cloudflare monitoring access verify karo: Website normal browser mein kholkar access verify karo. Cloudflare Security Events mein monitoring request/ray dekho; verified search crawlers ka access bhi check karo. Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo.",
+      "Next tool: Holiday Budget Calculator (target 2026-11-01).",
+      "Content refresh: 2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath).",
+      "Season alert — Open enrollment & raises (1 din me shuru): 401(k)/HSA change ka paycheck pe asar — paycheck page pe example."
     ],
-    "agentNext": [
-      "Dependency security audit: GitHub Actions reproduce karke 16 vulnerable dependencies (coding software packages) ko update aur patch karega.",
-      "IRS official tax guidelines ke mutabiq 2027 tax engine (lib/tax2027.ts) ka draft banayega paycheck calculators ke liye.",
-      "Cloudflare edge monitoring script ke headers adjust karega taaki automated checks block na hon bina site protection hataye."
-    ],
-    "risks": [
-      "16 dependency vulnerabilities security hole create kar sakti hain agar bina testing delay hui.",
-      "Cloudflare bot protection agar search engine bots ko challenge karegi to Google indexing ruk sakti hai (verification zaroori hai).",
-      "AdSense me bina organic clicks (abhi 0 clicks) apply karne par site reject ho sakti hai, isliye traffic aane tak rukna zaroori hai."
-    ],
-    "by": "gemini:gemini-flash-latest"
+    "agentNext": [],
+    "risks": [],
+    "by": "rules"
   }
 }
