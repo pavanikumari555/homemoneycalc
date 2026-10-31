@@ -152,12 +152,50 @@ export default function Page() {
       </p>
 
       <h2>Why your state matters so much</h2>
-      <p>
-        Nine states don&apos;t tax wages at all, a growing group uses one flat rate, and the rest use brackets that top out above 10%
-        in states like California and New York. On the same salary the difference can be several thousand dollars a year — use the
-        &ldquo;Same salary, other states&rdquo; ranking to see exactly how much, or browse our{" "}
-        <Link href="/take-home-pay-by-state/">take-home pay by state table</Link> for $50k–$150k salaries.
-      </p>
+        <p>
+          Nine states don&apos;t tax wages at all, a growing group uses one flat rate, and the rest use brackets that range up to 13.3%
+          in states like California and New York. On the same salary the difference can be several thousand dollars a year.
+        </p>
+
+        <div className="my-4 not-prose">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-2">
+            Calculate by popular state (1-click):
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/paycheck-calculator/?st=TX" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🤠 Texas (0% tax)
+            </Link>
+            <Link href="/paycheck-calculator/?st=FL" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🌴 Florida (0% tax)
+            </Link>
+            <Link href="/paycheck-calculator/?st=WA" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🌲 Washington (0% tax)
+            </Link>
+            <Link href="/paycheck-calculator/?st=NV" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🏔️ Nevada (0% tax)
+            </Link>
+            <Link href="/paycheck-calculator/?st=CA" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              ☀️ California (1%–9.3%)
+            </Link>
+            <Link href="/paycheck-calculator/?st=NY" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🗽 New York (4%–6.85%)
+            </Link>
+            <Link href="/paycheck-calculator/?st=IL" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🏙️ Illinois (4.95% flat)
+            </Link>
+            <Link href="/paycheck-calculator/?st=PA" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🔔 Pennsylvania (3.07% flat)
+            </Link>
+          </div>
+        </div>
+
+        <p>
+          Compare all 50 states and Washington D.C. side-by-side in our dedicated{" "}
+          <Link href="/take-home-pay-by-state/" className="text-ivy-600 underline font-medium">
+            take-home pay by state table
+          </Link>{" "}
+          for $50k–$150k salaries.
+        </p>
 
       <h2>Social Security and Medicare limits</h2>
       <p>
