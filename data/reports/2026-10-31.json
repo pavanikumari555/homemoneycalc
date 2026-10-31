@@ -1,0 +1,1005 @@
+{
+  "date": "2026-10-31",
+  "generatedAt": "2026-10-31T03:17:30.411Z",
+  "sources": {
+    "gsc": true,
+    "ga4": true,
+    "psi": false,
+    "bing": true,
+    "cloudflare": true,
+    "ai": true
+  },
+  "edge": {
+    "connected": true,
+    "status": "connected",
+    "source": "cloudflare-edge",
+    "note": "Cloudflare edge HTTP counters can include bots, assets, subdomains and blocked requests. They are not human visitors, GA4 sessions or AdSense impressions.",
+    "range": {
+      "start": "2026-10-03",
+      "endExclusive": "2026-10-31",
+      "timezone": "UTC"
+    },
+    "daysReturned": 6,
+    "totals": {
+      "requests": 21990,
+      "htmlPageRequests": 3689
+    }
+  },
+  "measurement": {
+    "ga4": "Historical consented sample; collection retired 2026-10-30. Current traffic: Cloudflare Web Analytics dashboard",
+    "search": "Search Console reported clicks/impressions; independent of analytics consent",
+    "edge": "Aggregate HTTP requests, not human visitors or ad impressions"
+  },
+  "kpis": {
+    "clicks": 0,
+    "impressions": 246,
+    "ctr": 0,
+    "position": 34.1260162601626,
+    "clicksChange": null,
+    "impressionsChange": null,
+    "sessions": 1,
+    "sessionsChange": null,
+    "usShare": 0,
+    "pageviews": 11
+  },
+  "trend": [
+    {
+      "date": "2026-10-24",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-10-25",
+      "clicks": 0,
+      "impressions": 7
+    },
+    {
+      "date": "2026-10-26",
+      "clicks": 0,
+      "impressions": 45
+    },
+    {
+      "date": "2026-10-27",
+      "clicks": 0,
+      "impressions": 86
+    },
+    {
+      "date": "2026-10-28",
+      "clicks": 0,
+      "impressions": 108
+    }
+  ],
+  "topQueries": [
+    {
+      "query": "$86.40",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "query": "110*1.06",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "query": "50000*1.06",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "query": "accelerated mortgage payment calculator",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 83
+    },
+    {
+      "query": "accelerated mortgage payoff calculator",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 82
+    },
+    {
+      "query": "calculate extra mortgage payments payoff",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 42
+    },
+    {
+      "query": "calculate home loan payoff",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "query": "car calculator with trade",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 83
+    },
+    {
+      "query": "credit card payment calculator",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 94.5
+    },
+    {
+      "query": "debt snowball calculator",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 73
+    },
+    {
+      "query": "debt snowball calculator free",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 94
+    },
+    {
+      "query": "debt snowball payoff calculator",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 81
+    },
+    {
+      "query": "extra mortgage payment calculator",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 72
+    },
+    {
+      "query": "extra payment calculator",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 79
+    },
+    {
+      "query": "extra payment calculator for mortgage",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 91
+    }
+  ],
+  "topPages": [
+    {
+      "page": "/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 30.75
+    },
+    {
+      "page": "/about/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "page": "/advertising-disclosure/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 13
+    },
+    {
+      "page": "/age-calculator/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 38.25
+    },
+    {
+      "page": "/auto-loan-calculator/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 32.75
+    },
+    {
+      "page": "/calculators/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 6.1
+    },
+    {
+      "page": "/compound-interest-calculator/",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 13.705882352941176
+    },
+    {
+      "page": "/contact/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 111
+    },
+    {
+      "page": "/credit-card-payoff-calculator/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 57.42857142857143
+    },
+    {
+      "page": "/debt-payoff-calculator/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 60.75
+    },
+    {
+      "page": "/disclaimer/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "/editorial-policy/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "page": "/methodology/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "page": "/mortgage-payoff-calculator/",
+      "clicks": 0,
+      "impressions": 72,
+      "ctr": 0,
+      "position": 63.583333333333336
+    },
+    {
+      "page": "/paycheck-calculator/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 6.714285714285714
+    }
+  ],
+  "opportunities": [],
+  "lowCtr": [],
+  "bing": {
+    "totals": {
+      "clicks": 0,
+      "impressions": 0
+    },
+    "topQueries": []
+  },
+  "ideas": {
+    "titleTests": [],
+    "refresh": [
+      {
+        "slug": "lib/tax engine",
+        "reason": "2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath).",
+        "tools": [
+          "paycheck-calculator",
+          "salary-to-hourly-calculator"
+        ],
+        "priority": "high"
+      }
+    ],
+    "seasonal": [
+      {
+        "name": "Open enrollment & raises",
+        "starts": "2026-11-01",
+        "ends": "2026-12-15",
+        "status": "1 din me shuru",
+        "tools": [
+          "paycheck-calculator"
+        ],
+        "idea": "401(k)/HSA change ka paycheck pe asar — paycheck page pe example."
+      },
+      {
+        "name": "Black Friday & holiday spending",
+        "starts": "2026-11-20",
+        "ends": "2026-12-31",
+        "status": "20 din me shuru",
+        "tools": [
+          "credit-card-payoff-calculator",
+          "percentage-calculator",
+          "tip-calculator"
+        ],
+        "idea": "Discount % aur 'holiday credit card bill kab tak chukega' angle."
+      },
+      {
+        "name": "Year-end car deals",
+        "starts": "2026-12-01",
+        "ends": "2026-12-31",
+        "status": "31 din me shuru",
+        "tools": [
+          "auto-loan-calculator"
+        ],
+        "idea": "Dealer deal vs loan length — total interest comparison pin."
+      }
+    ],
+    "keywordGap": {
+      "missingTopics": [
+        {
+          "keyword": "mortgage calculator",
+          "slug": "mortgage-calculator",
+          "seenOn": [
+            "calculator.net",
+            "NerdWallet",
+            "Bankrate"
+          ]
+        },
+        {
+          "keyword": "amortization calculator",
+          "slug": "amortization-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Bankrate"
+          ]
+        },
+        {
+          "keyword": "loan calculator",
+          "slug": "loan-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Bankrate",
+            "NerdWallet"
+          ]
+        },
+        {
+          "keyword": "personal loan calculator",
+          "slug": "personal-loan-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate"
+          ]
+        },
+        {
+          "keyword": "refinance calculator",
+          "slug": "refinance-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "heloc calculator",
+          "slug": "heloc-calculator",
+          "seenOn": [
+            "Bankrate",
+            "NerdWallet"
+          ]
+        },
+        {
+          "keyword": "income tax calculator",
+          "slug": "income-tax-calculator",
+          "seenOn": [
+            "SmartAsset",
+            "NerdWallet",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "capital gains tax calculator",
+          "slug": "capital-gains-tax-calculator",
+          "seenOn": [
+            "SmartAsset",
+            "NerdWallet"
+          ]
+        },
+        {
+          "keyword": "sales tax calculator",
+          "slug": "sales-tax-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "retirement calculator",
+          "slug": "retirement-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "SmartAsset",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "401k calculator",
+          "slug": "401k-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "savings goal calculator",
+          "slug": "savings-goal-calculator",
+          "seenOn": [
+            "Bankrate",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "cd calculator",
+          "slug": "cd-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "Bankrate",
+            "calculator.net"
+          ]
+        },
+        {
+          "keyword": "simple interest calculator",
+          "slug": "simple-interest-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "discount calculator",
+          "slug": "discount-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "hours calculator",
+          "slug": "hours-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        },
+        {
+          "keyword": "net worth calculator",
+          "slug": "net-worth-calculator",
+          "seenOn": [
+            "NerdWallet",
+            "SmartAsset"
+          ]
+        },
+        {
+          "keyword": "gas cost calculator",
+          "slug": "gas-cost-calculator",
+          "seenOn": [
+            "calculator.net",
+            "Omni"
+          ]
+        }
+      ],
+      "unservedQueries": [],
+      "source": "Hand-maintained topics + this site's GSC queries",
+      "competitorTrafficVerified": false,
+      "keywordVolumesVerified": false
+    },
+    "outreach": [
+      {
+        "to": "Teacher / financial-literacy class page / school library guide",
+        "subject": "Free no tax on overtime for your class (no ads inside, no sign-up)",
+        "body": "Hi [Name],\n\nI noticed your [resource page / class page] on [topic]. We make free, no-sign-up money calculators that show the working step by step — students can see why the number comes out the way it does.\n\nNo Tax on Overtime Calculator: https://homemoneycalc.com/no-tax-on-overtime-calculator/\n\nIf useful, there's a free embed code at the bottom of the page so it can sit right on your class page.\n\nThank you for teaching this stuff,\n[Your name]",
+        "reviewRequired": true,
+        "rules": "Source, live link aur factual claims verify karo. Owner khud personalize karke bheje. No automatic sending, paid links ya link exchange."
+      }
+    ],
+    "social": {
+      "tool": "overtime-calculator",
+      "pinterest": {
+        "title": "$22/hr, 48 hours a week → $264 overtime, $1,144 a week",
+        "description": "Work out time-and-a-half or double-time pay per week and per year, plus a rough after-tax figure for your state. Free overtime pay calculator — no sign-up, works on your phone.",
+        "board": "Salary & Paycheck Tips",
+        "link": "https://homemoneycalc.com/overtime-calculator/",
+        "design": "Tall 1000x1500 pin: upar bada sawaal, beech me answer number, neeche site naam. Canva free template."
+      },
+      "shorts": {
+        "hook": "$22/hr, 48 hours a week? See an example estimate.",
+        "beats": [
+          "Screen record: Overtime Pay me values daalo",
+          "Answer dikhao: $264 overtime, $1,144 a week",
+          "Ek tip: kaunsa input badalne se sabse zyada farak padta hai"
+        ],
+        "cta": "Link in bio / description (seedha tool page)."
+      }
+    }
+  },
+  "speed": [],
+  "health": {
+    "ran": true,
+    "pageCount": 27,
+    "errors": 0,
+    "warnings": 0,
+    "issues": [],
+    "coverage": [
+      "Titles/descriptions",
+      "Canonical URLs",
+      "Sitemap and internal links",
+      "Local scripts/styles/images",
+      "JSON-LD validity",
+      "Images and heading structure"
+    ]
+  },
+  "quality": [
+    {
+      "id": "tests",
+      "label": "Calculator regression tests",
+      "status": "pass",
+      "summary": "Check passed."
+    },
+    {
+      "id": "registry",
+      "label": "Tool registry",
+      "status": "pass",
+      "summary": "Check passed."
+    },
+    {
+      "id": "lint",
+      "label": "Code quality",
+      "status": "pass",
+      "summary": "Check passed."
+    },
+    {
+      "id": "dependencies",
+      "label": "Dependency security audit",
+      "status": "fail",
+      "summary": "16 known dependency vulnerabilities reported."
+    }
+  ],
+  "liveChecks": [
+    {
+      "path": "/",
+      "http": 403,
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a52f81cf78c56528-DFW",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
+    },
+    {
+      "path": "/paycheck-calculator/",
+      "http": 403,
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a52f81cf7f2bf0b2-DFW",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
+    },
+    {
+      "path": "/sitemap.xml",
+      "http": 403,
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a52f81cf8cb80af8-DFW",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
+    },
+    {
+      "path": "/robots.txt",
+      "http": 200,
+      "status": "pass",
+      "message": "Expected response and headers present."
+    },
+    {
+      "path": "/admin/",
+      "http": 403,
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a52f81cf7da8c641-DFW",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
+    },
+    {
+      "path": "/embed/paycheck-calculator/",
+      "http": 403,
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "ray": "a52f81cf6bc83239-DFW",
+      "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
+    },
+    {
+      "path": "http://homemoneycalc.com/",
+      "category": "security",
+      "checkedAt": "2026-10-31T03:17:30.046Z",
+      "http": 301,
+      "status": "pass",
+      "evidence": {
+        "location": "https://homemoneycalc.com/",
+        "robots": "",
+        "cache": "",
+        "ray": "a52f81cf5ac72cbe-DFW"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://www.homemoneycalc.com/?edge-check=1",
+      "category": "security",
+      "checkedAt": "2026-10-31T03:17:30.046Z",
+      "http": 301,
+      "status": "pass",
+      "evidence": {
+        "location": "https://homemoneycalc.com/?edge-check=1",
+        "robots": "",
+        "cache": "",
+        "ray": "a52f81cfec481427-DFW"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc.pages.dev/",
+      "category": "security",
+      "checkedAt": "2026-10-31T03:17:30.047Z",
+      "http": 200,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "noindex",
+        "cache": "public, max-age=0, must-revalidate",
+        "ray": "a52f81d08cf66f64-DFW"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc-admin.pages.dev/admin/",
+      "category": "security",
+      "checkedAt": "2026-10-31T03:17:30.047Z",
+      "http": 401,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "noindex, nofollow",
+        "cache": "no-store",
+        "ray": "a52f81d07c7c45e0-DFW"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
+      "category": "security",
+      "checkedAt": "2026-10-31T03:17:30.048Z",
+      "http": 401,
+      "status": "pass",
+      "evidence": {
+        "location": "",
+        "robots": "noindex, nofollow",
+        "cache": "no-store",
+        "ray": "a52f81d0680828b4-DFW"
+      },
+      "message": "Expected edge response verified; account settings not inspected."
+    },
+    {
+      "path": "https://homemoneycalc.com/wp-login.php",
+      "category": "security",
+      "checkedAt": "2026-10-31T03:17:30.048Z",
+      "http": 403,
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "evidence": {
+        "location": "",
+        "robots": "",
+        "cache": "",
+        "ray": "a52f81d07ba9a670-DFW"
+      },
+      "message": "Edge challenge/block: target protection could not be verified."
+    },
+    {
+      "path": "https://homemoneycalc.com/.env",
+      "category": "security",
+      "checkedAt": "2026-10-31T03:17:30.049Z",
+      "http": 403,
+      "status": "unknown",
+      "blockedBy": "cloudflare",
+      "evidence": {
+        "location": "",
+        "robots": "",
+        "cache": "",
+        "ray": "a52f81d06fedc6dd-DFW"
+      },
+      "message": "Edge challenge/block: target protection could not be verified."
+    }
+  ],
+  "business": {
+    "goalMonthly": 5000,
+    "goalIsEstimate": true,
+    "waitForTrafficBeforeAdsense": true
+  },
+  "roadmap": {
+    "live": 15,
+    "planned": 33,
+    "overdue": [],
+    "dueSoon": [
+      {
+        "slug": "holiday-budget-calculator",
+        "title": "Holiday Budget Calculator",
+        "primaryKeyword": "christmas budget calculator",
+        "secondary": [
+          "gift budget per person"
+        ],
+        "volume": "1k-10k (Nov-Dec)",
+        "difficulty": "low",
+        "wave": 1,
+        "targetDate": "2026-11-01",
+        "status": "drafted",
+        "why": "Seasonal, cheap traffic"
+      },
+      {
+        "slug": "car-loan-interest-deduction-calculator",
+        "title": "Car Loan Interest Deduction Calculator",
+        "primaryKeyword": "car loan interest deduction calculator",
+        "secondary": [
+          "car loan interest deduction phase out",
+          "schedule 1-a car loan"
+        ],
+        "volume": "1k-10k",
+        "difficulty": "low",
+        "wave": 1,
+        "targetDate": "2026-11-10",
+        "status": "drafted",
+        "why": "New deduction; links to auto loan. Verify phase-out against IRS Schedule 1-A"
+      },
+      {
+        "slug": "hsa-calculator",
+        "title": "HSA Calculator",
+        "primaryKeyword": "hsa calculator",
+        "secondary": [
+          "hsa contribution limits 2027",
+          "hsa per paycheck"
+        ],
+        "volume": "1k-10k (Oct-Dec)",
+        "difficulty": "med",
+        "wave": 1,
+        "targetDate": "2026-11-17",
+        "status": "drafted",
+        "why": "Open enrollment; 2027 limits $4,500/$9,000"
+      }
+    ]
+  },
+  "growth": {
+    "week": 1,
+    "thisWeek": [
+      {
+        "week": 1,
+        "task": "Set up Ahrefs Webmaster Tools (free backlink tracking)",
+        "type": "setup",
+        "url": "https://ahrefs.com/webmaster-tools",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Create brand profiles: X, LinkedIn page, GitHub org, YouTube, Crunchbase",
+        "type": "brand",
+        "url": "",
+        "done": false
+      },
+      {
+        "week": 1,
+        "task": "Install GA4 (traffic numbers for affiliate applications and sponsors)",
+        "type": "setup",
+        "url": "https://analytics.google.com",
+        "done": false
+      }
+    ]
+  },
+  "milestones": {
+    "first100": {
+      "target": 100,
+      "metric": "revenueMonth",
+      "label": "First $100 month (affiliates + templates)"
+    },
+    "k1": {
+      "target": 1000,
+      "metric": "revenueMonth",
+      "label": "$1,000 month"
+    },
+    "goal": {
+      "target": 5000,
+      "metric": "revenueMonth",
+      "label": "Adjustable monthly goal (estimate, not a ceiling)"
+    }
+  },
+  "previousDate": "2026-10-30",
+  "notes": [],
+  "adsenseReadiness": {
+    "status": "building-traffic",
+    "checks": [
+      {
+        "id": "clicks",
+        "label": "Google se clicks",
+        "value": 0,
+        "target": 200,
+        "passed": false
+      },
+      {
+        "id": "days",
+        "label": "Alag din Google traffic aaya",
+        "value": 0,
+        "target": 14,
+        "passed": false
+      },
+      {
+        "id": "pages",
+        "label": "Pages par Google traffic aaya",
+        "value": 0,
+        "target": 3,
+        "passed": false
+      }
+    ],
+    "passed": 0,
+    "technicalReady": false,
+    "officialMinimum": false,
+    "automaticApplication": false,
+    "optionalAnalytics": {
+      "source": "ga4-consented-sample",
+      "sessions": 1,
+      "requiredForApplication": false
+    }
+  },
+  "actions": [
+    {
+      "id": "quality-dependencies",
+      "title": "Dependency security audit: fix chahiye",
+      "why": "16 known dependency vulnerabilities reported.",
+      "who": "agent",
+      "priority": 0,
+      "steps": [
+        "GitHub Actions ka matching check log kholo.",
+        "Cause reproduce karke fix karo; guessing se pass mat mark karo."
+      ],
+      "url": ""
+    },
+    {
+      "id": "monitoring-access",
+      "title": "Cloudflare monitoring access verify karo",
+      "why": "7 automated requests Cloudflare ne block kiye. Ye confirmed website outage nahi; monitoring coverage incomplete hai.",
+      "who": "owner",
+      "priority": 2,
+      "steps": [
+        "Website normal browser mein kholkar access verify karo.",
+        "Cloudflare Security Events mein monitoring request/ray dekho; verified search crawlers ka access bhi check karo.",
+        "Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo."
+      ],
+      "url": "https://dash.cloudflare.com/"
+    }
+  ],
+  "research": {
+    "version": 1,
+    "generatedAt": "2026-10-31T03:17:30.413Z",
+    "keywordVolumesVerified": false,
+    "automatedSearchScraping": false,
+    "observations": [
+      {
+        "id": "irs-individuals",
+        "kind": "official",
+        "label": "IRS individual tax updates",
+        "url": "https://www.irs.gov/newsroom/working-families-tax-cuts-individuals-and-workers",
+        "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": "1ce64ed850e275f5badf8c044f7543fc0afb02958d939157c530ee30d4367ded",
+        "status": "baseline",
+        "excerpt": "The Working Families Tax Cuts significantly affect federal taxes, credits and deductions. The following sections outline tax provisions for individuals and workers including available resources. On this page Tax inflation adjustments Deduction for seniors No tax on tips No tax on overtime No tax on car loan interest Tax inflation adjustments (Sections 70101, 70102, 70106, 70107, and 70401) Standard deduction increases Tax year 2026 $32,200 for married couples filing jointly $16,100 for single filers and married individuals filing separately $24,150 for heads of household Tax year 2025 $31,500 for married couples filing jointly $15,750 for single filers and married individuals filing separately $23,625 for heads of household Marginal rates for tax year 2026 37% for income over $640,600 (single) or $768,700 (married filing jointly) 35% for income over $256,225 (single) or $512,450 (married",
+        "summary": "Read-only observation; no verified rule/feature change inferred.",
+        "previousExcerpt": null
+      },
+      {
+        "id": "ssa-cola",
+        "kind": "official",
+        "label": "SSA COLA and wage-base source",
+        "url": "https://www.ssa.gov/cola/",
+        "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": null,
+        "excerpt": null,
+        "status": "unknown",
+        "summary": "Robots permission unavailable or disallowed; no page fetched."
+      },
+      {
+        "id": "google-search-policy",
+        "kind": "policy",
+        "label": "Google Search spam policy",
+        "url": "https://developers.google.com/search/docs/essentials/spam-policies",
+        "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": "27fc0c246e9f1a23b341a6a8c178291c272c2b7c067038af45ce5c709e885541",
+        "status": "baseline",
+        "excerpt": "Home Search Central Documentation Send feedback Spam policies for Google web search In the context of Google Search, spam refers to techniques used to deceive users or manipulate our Search systems into featuring content prominently, such as attempting to manipulate Search systems into ranking content highly or attempting to manipulate generative AI responses in Google Search. Our spam policies help protect users and improve the quality of Search results. To be eligible to appear in Google web search results, content (web pages, images, videos, news content or other material that Google finds from across the web) shouldn't violate Google Search's overall policies or the spam policies listed on this page. These policies apply to all web search results, including those from Google's own properties. We detect policy-violating practices both through automated systems and, as needed, human re",
+        "summary": "Read-only observation; no verified rule/feature change inferred.",
+        "previousExcerpt": null
+      },
+      {
+        "id": "adsense-policy",
+        "kind": "policy",
+        "label": "AdSense program policy",
+        "url": "https://support.google.com/adsense/answer/48182?hl=en",
+        "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": null,
+        "excerpt": null,
+        "status": "unknown",
+        "summary": "Source exceeds bounded response size."
+      },
+      {
+        "id": "adp-calculators",
+        "kind": "competitor",
+        "label": "ADP public calculator catalog",
+        "url": "https://www.adp.com/resources/tools/calculators.aspx",
+        "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": "98df00bcdd55f72959c334851c8d79aa4732387b9a4a188eddff1d09a7a86fe5",
+        "status": "baseline",
+        "excerpt": "Calculators and tools ADP offers a set of helpful calculators and tools to engage your workforce and help them with important financial decisions. Payroll calculators Payroll calculator tools to help with personal salary, retirement, and investment calculations. Salary Paycheck Calculator How much are your wages after taxes? This powerful tool does all the gross-to-net calculations to estimate take-home (net) pay in any part of the United States. Hourly Paycheck Calculator Enter up to six different hourly rates to estimate after-tax wages for hourly employees. Gross Pay Calculator Plug in the amount of money you'd like to take home each pay period and this calculator will tell you what your before-tax earnings need to be. Paycard savings calculator Calculator to determine cost savings realized from a paycard program. Employer Paycard Savings Calculator Estimate how much you can potential",
+        "summary": "Read-only observation; no verified rule/feature change inferred.",
+        "previousExcerpt": null
+      },
+      {
+        "id": "calculator-net-debt",
+        "kind": "competitor",
+        "label": "Calculator.net debt payoff",
+        "url": "https://www.calculator.net/debt-payoff-calculator.html",
+        "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": "3a5fec161ca16e7a02dff520c51c75c05f1005db8cf2021ef6306f8171aeb0fc",
+        "status": "baseline",
+        "excerpt": "sign in home / financial / debt payoff calculator Debt Payoff Calculator The calculator below estimates the amount of time required to pay back one or more debts. Additionally, it gives users the most cost-efficient payoff sequence, with the option of adding extra payments. This calculator utilizes the debt avalanche method, considered the most cost-efficient payoff strategy from a financial perspective. Debt name Remaining balance Monthly or min. payment Interest rate 1. 2. 3. 4. 5. 6. Show more input fields 7. 8. 9. 10. 11. 12. 13. 14. 15. 16. 17. 18. 19. 20. Extra payments: per month per year of one-time payment made during the th month Fixed total amount towards monthly payment? Yes No If \"Yes\" is chosen, after a debt has been paid off, the money that was being paid to that specific debt will be distributed towards paying off remaining debts; the total amount initially allotted to mo",
+        "summary": "Read-only observation; no verified rule/feature change inferred.",
+        "previousExcerpt": null
+      },
+      {
+        "id": "smartasset-paycheck",
+        "kind": "competitor",
+        "label": "SmartAsset paycheck calculator",
+        "url": "https://smartasset.com/taxes/paycheck-calculator",
+        "checkedAt": "2026-10-25T19:43:45.881Z",
+        "previousHash": null,
+        "hash": "b5ef021e530cbfe074d74bbafd9ce546488f22ceaf678e6b340dcbfe6fbb6ee3",
+        "status": "baseline",
+        "excerpt": "Menu burger Close thin Facebook Twitter Google plus Linked in Reddit Email arrow-right-sm arrow-right Loading Search Tap on the profile icon to edit your financial details. Got It Paycheck Calculator: Federal, State & Local Taxes Your Details Done Use SmartAsset&#x27;s paycheck calculator to calculate your take home pay per paycheck for both salary and hourly jobs after taking into account federal, state and local taxes. Overview of Federal Taxes When your employer calculates your take-home pay, they will withhold money for federal and state income taxes and two federal programs: Social Security and Medicare. The amount withheld from each of your paychecks to cover the federal expenses will depend on several factors, including your income, number of dependents and filing status. Work Info Add your details Marital Status Marital Status Enter your marital status Single Married Do this late",
+        "summary": "Read-only observation; no verified rule/feature change inferred.",
+        "previousExcerpt": null
+      }
+    ]
+  },
+  "approvals": {
+    "pending": 0,
+    "automaticPublication": false
+  },
+  "experiments": [],
+  "ai": {
+    "headline": "Search impressions badhkar 246 huye, par 2 critical technical checks par action zaroori hai",
+    "summary": "Google Search Console par impressions 246 tak pahuche hain (Mortgage Payoff calculator par 72 impressions mile), par abhi total clicks 0 hain aur CTR (click-through rate - dekhkar click karna) 0% hai. Monthly $5,000 ka target sirf planning estimate (socha hua lakshya) hai, koi pakka waada nahi. AdSense ke liye abhi apply mat karna kyunki traffic criteria (0/200 clicks) abhi meet nahi hua. Aaj 16 package vulnerabilities aur Cloudflare monitoring blocks ko address karna zaroori hai.",
+    "youDo": [
+      "Cloudflare Dashboard (dash.cloudflare.com) me Security Events check karo: 7 automated monitoring checks 403 block huye hain. Pehle browser me homemoneycalc.com khol kar confirm karo ki normal site chal rahi hai.",
+      "Roadmap tool finalize karo: 1 Nov ka target 'Holiday Budget Calculator' (drafted) hai. Content aur calculation verify karke release ke liye ready karo.",
+      "Growth task (15 min): Ahrefs Webmaster Tools (ahrefs.com/webmaster-tools) connect karo taaki US search backlinks track ho sakein."
+    ],
+    "agentNext": [
+      "Dependency security audit: GitHub Actions reproduce karke 16 vulnerable dependencies (coding software packages) ko update aur patch karega.",
+      "IRS official tax guidelines ke mutabiq 2027 tax engine (lib/tax2027.ts) ka draft banayega paycheck calculators ke liye.",
+      "Cloudflare edge monitoring script ke headers adjust karega taaki automated checks block na hon bina site protection hataye."
+    ],
+    "risks": [
+      "16 dependency vulnerabilities security hole create kar sakti hain agar bina testing delay hui.",
+      "Cloudflare bot protection agar search engine bots ko challenge karegi to Google indexing ruk sakti hai (verification zaroori hai).",
+      "AdSense me bina organic clicks (abhi 0 clicks) apply karne par site reject ho sakti hai, isliye traffic aane tak rukna zaroori hai."
+    ],
+    "by": "gemini:gemini-flash-latest"
+  }
+}
