@@ -73,6 +73,34 @@ export default function PrivacyPage() {
         <Link href="/advertising-disclosure/">advertising disclosure</Link>.
       </p>
 
+            <h2>Google AdSense &amp; Advertising Cookies</h2>
+      <p>
+        We may use Google AdSense and other third-party advertising partners to serve ads when you visit our website.
+        Third-party vendors, including Google, use cookies (such as the DoubleClick DART cookie) to serve ads based on
+        your prior visits to this website or other websites on the internet.
+      </p>
+      <p>
+        You may opt out of personalized advertising by visiting{&apos; &apos;}
+        <a
+          href="https://adssettings.google.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-ivy-600 underline"
+        >
+          Google Ads Settings
+        </a>
+        . Alternatively, you can opt out of third-party vendors&apos; use of cookies for personalized advertising by visiting{&apos; &apos;}
+        <a
+          href="https://www.aboutads.info/choices/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-ivy-600 underline"
+        >
+          aboutads.info
+        </a>
+        .
+      </p>
+
       <h2>Cookies</h2>
       <p>
         Calculators and Cloudflare Web Analytics work without analytics cookies. We no longer offer or load

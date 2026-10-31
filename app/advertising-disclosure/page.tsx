@@ -26,6 +26,12 @@ export default function Page() {
         We may also show clearly marked sponsorships. Sponsored placements are always labeled &ldquo;Sponsored&rdquo;.
       </p>
 
+            <p>
+        In addition to affiliate links, we may display third-party advertisements via Google AdSense. These ads are
+        clearly distinguished from our calculator tools and editorial content, and ad placements never alter our
+        mathematical formulas or recommendations.
+      </p>
+
       <h2>What never changes</h2>
       <ul>
         <li>Calculator formulas, results and explanations are never influenced by partners or sponsors.</li>

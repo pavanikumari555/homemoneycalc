@@ -309,7 +309,7 @@ export const ALL_TOOLS: Tool[] = [
     related: ["credit-card-payoff-calculator", "compound-interest-calculator", "tip-calculator"],
     example: { input: "6 gifts ($800) + $675 extras, from Nov 1", output: "$1,475 total, $492 per paycheck" },
     keywords: "christmas budget gift budget per person holiday savings plan hanukkah presents spending",
-    added: "2027-01-03",
+    added: "2026-11-01",
   },
   // ============================================================================
   // WAVE 2 — Strategic new calculators (1 tool per 10-14 days, quality focus)

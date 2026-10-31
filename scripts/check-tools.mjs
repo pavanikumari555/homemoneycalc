@@ -54,6 +54,18 @@ for (const t of tools) {
   }
 }
 
+
+// AdSense Safety Guard: Koi bhi live tool "Coming Soon" ya placeholder nahi hona chahiye
+for (const t of tools) {
+  const dir = "app/" + t.slug;
+  if (!existsSync(dir)) continue;
+  const isReleasedNow = addedOf[t.slug] <= (process.env.BUILD_DATE || new Date().toISOString().slice(0, 10));
+  const code = readdirSync(dir).map((f) => readFileSync(dir + "/" + f, "utf8")).join("\n");
+  if (isReleasedNow && /coming soon/i.test(code)) {
+    errors.push("Tool " + t.slug + " (added: " + addedOf[t.slug] + ") live hone ke liye scheduled hai par usme Coming Soon placeholder hai - pehle pura component banayein!");
+  }
+}
+
 if (errors.length) {
   console.error(`\n✗ Tool registry check failed (${errors.length}):\n  - ${errors.join("\n  - ")}\n`);
   process.exit(1);
