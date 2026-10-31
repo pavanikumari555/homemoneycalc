@@ -52,13 +52,14 @@ export function ToolActions<T extends ToolValues>({ state, csv, shareText }: Too
   }
 
   function confirmSave() {
-    state.saveScenario(name, shareText);
+    if (!state.saveScenario(name, shareText)) return;
     setName("");
     setNaming(false);
   }
 
   return (
     <div className="no-print">
+      {state.storageWarning && <p role="alert" className="mb-3 rounded-xl border border-sun-300 bg-sun-100/60 p-3 text-sm text-ink">{state.storageWarning}</p>}
       <div className="flex flex-wrap gap-2">
         <button type="button" onClick={share} className="btn-ghost">
           <Icon name={copied ? "check" : "share"} className="h-4 w-4" />

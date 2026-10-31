@@ -35,6 +35,9 @@ jobs:
           GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
           CLOUDFLARE_ANALYTICS_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
           CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ secrets.CLOUDFLARE_WEB_ANALYTICS_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_WEB_ANALYTICS_SITE_ID: ${{ vars.CLOUDFLARE_WEB_ANALYTICS_SITE_ID }}
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
           BING_WEBMASTER_KEY: ${{ secrets.BING_WEBMASTER_KEY }}
           BING_SITE: ${{ vars.BING_SITE }}
@@ -47,6 +50,8 @@ jobs:
           SITE_LAUNCH_DATE: ${{ vars.SITE_LAUNCH_DATE }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # Manual verification runs do not send owner messages.
+          ALLOW_OWNER_NOTIFICATIONS: ${{ github.event_name == 'schedule' }}
       - name: Save report (triggers a deploy so /admin/ updates)
         run: |
           git config user.name "homemoneycalc-agent"

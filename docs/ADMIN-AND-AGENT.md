@@ -1,5 +1,7 @@
 # Owner dashboard and agent — 26 Oct 2026
 
+> Superseded interface: read [OWNER-DASHBOARD.md](OWNER-DASHBOARD.md) for the current four-view panel, daily RUM reporting and verified setup. Notes below describe the previous interface.
+
 ## Open the dashboard
 
 1. Open **https://homemoneycalc.com/admin/** (with or without the last slash).

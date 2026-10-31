@@ -24,6 +24,6 @@ export async function edgeAnalytics({ token, zoneId, today = new Date().toISOStr
     if (rows.some((r) => !/^\d{4}-\d{2}-\d{2}$/.test(r.dimensions?.date) || !Number.isFinite(r.sum?.requests) || r.sum.requests < 0 || !Number.isFinite(r.sum?.pageViews) || r.sum.pageViews < 0)) return { connected: false, status: "invalid-response", note };
     return { connected: true, status: "connected", source: "cloudflare-edge", note,
       range: { start: start.toISOString().slice(0, 10), endExclusive: today, timezone: "UTC" },
-      daysReturned: rows.length, totals: rows.reduce((s, r) => ({ requests: s.requests + r.sum.requests, htmlPageRequests: s.htmlPageRequests + r.sum.pageViews }), { requests: 0, htmlPageRequests: 0 }) };
+      daysReturned: rows.length, days: rows.map(r => ({ date: r.dimensions.date, requests: r.sum.requests, htmlPageRequests: r.sum.pageViews })), totals: rows.reduce((s, r) => ({ requests: s.requests + r.sum.requests, htmlPageRequests: s.htmlPageRequests + r.sum.pageViews }), { requests: 0, htmlPageRequests: 0 }) };
   } catch { return { connected: false, status: "network-or-timeout", note }; }
 }

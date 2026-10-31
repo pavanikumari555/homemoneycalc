@@ -27,7 +27,7 @@ export default function PrivacyPage() {
         <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage.</li>
         <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked — see below.</li>
         <li>Cloudflare Web Analytics automatically measures aggregate visits, referring sites and page performance without an Allow button or analytics cookies. We no longer load Google Analytics.</li>
-        <li>Some pages include clearly labeled affiliate links. We never sell your personal information.</li>
+        <li>If partner links are activated, they will be clearly labeled. We never sell your personal information.</li>
       </ul>
 
       <h2>Information we collect</h2>
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
 
       <h2>Affiliate links</h2>
       <p>
-        Some calculators suggest a relevant next step, such as a budgeting app or a loan comparison service. If you
+        Partner offers are not currently activated. If a calculator later suggests a partner service and you
         click one of these links and sign up or buy, we may earn a commission at no extra cost to you. These links are
         labeled, and they never change how a calculator works or what it shows. When you leave our site, the other
         company&apos;s privacy policy applies. Read more in our{" "}

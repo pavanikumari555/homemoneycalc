@@ -1,0 +1,11 @@
+{
+  "taxYear": 2026,
+  "lastReviewed": "2026-10-31",
+  "reviewIntervalDays": 30,
+  "rules": [
+    { "id": "SC-SCIAD", "state": "SC", "status": "verified", "reviewed": "2026-10-31", "source": "https://dor.sc.gov/sites/dor/files/policies/IL26-20.pdf", "note": "Single and joint SCIAD phase-out implemented and boundary tested." },
+    { "id": "UT-credit", "state": "UT", "status": "derived-from-official-rule", "reviewed": "2026-10-31", "source": "https://le.utah.gov/xcode/Title59/Chapter10/C59-10-S1018_2026050620260506.pdf", "note": "1.3% credit reduction. Bases derived from statutory CPI formula: BLS CUUR0000SA0 12-month means to August 2025=319.205 and August 2020=257.7208333333; nearest dollar, joint twice rounded single." },
+    { "id": "CA-indexing", "state": "CA", "status": "older-parameters", "reviewed": "2026-10-31", "source": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp", "note": "2025 annual-return parameters remain explicitly labelled. Official 2026 estimated-tax instructions reference 2025 tables; do not substitute payroll withholding tables." },
+    { "id": "state-scope", "state": "ALL", "status": "limited-model", "reviewed": "2026-10-31", "source": "https://www.irs.gov/publications/p15t", "note": "Salary-only annual liability estimate for single/joint, not a full tax return or W-4 payroll withholding engine. Remaining state exclusions, credits and local taxes are disclosed near results and in each state's notes." }
+  ]
+}

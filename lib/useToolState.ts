@@ -37,12 +37,13 @@ function readJson<T>(key: string): T | null {
   }
 }
 
-function writeJson(key: string, value: unknown) {
+function writeJson(key: string, value: unknown): boolean {
   try {
     localStorage.setItem(key, JSON.stringify(value));
     window.dispatchEvent(new Event(STORAGE_EVENT));
+    return true;
   } catch {
-    // storage full or blocked - tool still works, just won't remember
+    return false;
   }
 }
 
@@ -108,6 +109,7 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
   const [touched, setTouched] = useState(false);
   const ready = useRef(false);
   const [restoreWarning, setRestoreWarning] = useState("");
+  const [storageWarning, setStorageWarning] = useState("");
   const checkValues = (incoming: unknown) => {
     const checked = sanitizeToolValues(defaults, incoming, allowed, rules);
     setRestoreWarning(checked.rejected.length ? "Some saved or shared inputs could not be restored. Defaults are shown for those fields; check your numbers before using the result." : "");
@@ -151,7 +153,8 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
       }
       const qs = params.toString();
       window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
-      writeJson(LAST_KEY(tool), values);
+      const stored = writeJson(LAST_KEY(tool), values);
+      setStorageWarning(stored ? "" : "Your browser could not save these inputs. Keep a share link or download/print your result before closing this page.");
     }, 400);
     return () => window.clearTimeout(id);
   }, [values, touched, tool, defaults]);
@@ -192,8 +195,13 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
       };
       const current = readList(SAVED_KEY(tool), isScenario) as Scenario<T>[]; // other tabs may have saved too
       const next = [entry, ...current].slice(0, MAX_SAVED);
+      if (!writeJson(SAVED_KEY(tool), next)) {
+        setStorageWarning("Plan was not saved: browser storage is full or blocked. Keep a share link or print your result instead.");
+        return false;
+      }
       setSaved(next);
-      writeJson(SAVED_KEY(tool), next);
+      setStorageWarning("");
+      return true;
     },
     [saved.length, values, tool]
   );
@@ -201,8 +209,12 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
   const removeScenario = useCallback(
     (id: string) => {
       const next = saved.filter((s) => s.id !== id);
+      if (!writeJson(SAVED_KEY(tool), next)) {
+        setStorageWarning("This plan could not be removed from browser storage. Try again after allowing storage.");
+        return;
+      }
       setSaved(next);
-      writeJson(SAVED_KEY(tool), next);
+      setStorageWarning("");
     },
     [saved, tool]
   );
@@ -226,6 +238,7 @@ export function useToolState<T extends ToolValues>(tool: string, defaults: T, al
     reset,
     origin,
     restoreWarning,
+    storageWarning,
     touched,
     shareUrl,
     saved,

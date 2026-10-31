@@ -45,6 +45,12 @@ export function actionPlan(report, business, today) {
       ["GitHub Actions ka matching check log kholo.", "Cause reproduce karke fix karo; guessing se pass mat mark karo."]);
   }
   const blocked = (report?.liveChecks ?? []).filter((c) => c.blockedBy === "cloudflare");
+  for (const page of (report?.assetBudget ?? []).filter(p => p.status !== "pass")) add(`weight-${page.page}`, "Page ki loading weight check karein", `${page.page}: compressed asset budget ${page.status}. Ye real-user speed score nahi hai.`, "agent", 1,
+    ["Build ke JS/CSS size aur missing assets inspect karo.", "Large imports ko reduce karke build aur mobile browser checks phir verify karo."]);
+  if (report?.taxReview?.due) add("tax-review-due", "Tax rules ki scheduled review", `${report.taxReview.taxYear} tax data ki review due hai; dates badalne se figures verify nahi hote.`, "agent", 0,
+    ["data/tax-review.json ke official sources aur latest annual rules verify karo.", "Math/source change ko boundary tests ke saath publish karo; unverified values estimate label ke saath hi rakho."]);
+  if (report?.traffic && !report.traffic.connected) add("web-traffic", "Daily visits ka ek baar connection poora karein", "Website ka analytics beacon aur private admin ka report access alag hain. Abhi admin total visits nahi padh sakta.", "owner", 1,
+    ["Private admin project mein existing account ka Account Analytics Read token secret set karein; naya paid service nahi.", "CLOUDFLARE_ACCOUNT_ID aur sahi Pages property ka CLOUDFLARE_WEB_ANALYTICS_SITE_ID set karke connected result verify karein."], "https://dash.cloudflare.com/?to=/:account/web-analytics");
   if (blocked.length) add("monitoring-access", "Cloudflare monitoring access verify karo", `${blocked.length} automated requests Cloudflare ne block kiye. Ye confirmed website outage nahi; monitoring coverage incomplete hai.`, "owner", 2,
     ["Website normal browser mein kholkar access verify karo.", "Cloudflare Security Events mein monitoring request/ray dekho; verified search crawlers ka access bhi check karo.", "Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo."], "https://dash.cloudflare.com/");
   for (const check of (report?.liveChecks ?? []).filter((c) => c.status !== "pass" && c.blockedBy !== "cloudflare")) {

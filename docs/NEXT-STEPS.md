@@ -1,5 +1,7 @@
 # START HERE — HomeMoney Calc handoff (last updated 25 Oct 2026, ~1 PM IST)
 
+> Current work — 31 October 2026: read [OWNER-DASHBOARD.md](OWNER-DASHBOARD.md) first. Four simple owner views, SC/Utah phase-out fixes, local font/build reliability, browser regression workflow, tax-review reminders and private RUM/report adapters supersede older interface/setup notes below. Account-dependent connections are not claimed verified until their live response succeeds. AdSense remains off, and no new paid service is authorized.
+
 > **Latest owner budget decision — 26 Oct 2026:** Project-wide freeze on NEW paid services, subscriptions, paid API use, ads spend and upgrades until revenue starts. Avoid billing/card activation and trials that can charge. Prefer useful verified free options; explain benefit/cost and check existing setup first. Any later spending still needs specific owner approval. Do not cancel existing services/renewals. Search Console API setup is paused for now despite that API itself being free. Earlier setup priorities below do not override this decision.
 
 > **Automation work — 26 Oct 2026:** Read `docs/AUTOMATION-CHECKPOINT.md` first for the current resumable milestone. New **Aapki approvals** dashboard section supports exact reviewed metadata edits and accepted research tasks. Server setup instructions: `docs/AUTOMATION-APPROVALS.md`. Restricted Cloudflare admin secret still needs owner setup; do not claim end-to-end live decisions are configured until verified. GSC/GA4 connections and broader reviewed publishing remain pending.

@@ -506,7 +506,7 @@ export const STATES: StateTax[] = [
     stdDeduction: { single: 15_000, married: 30_000 },
     personalExemption: ZERO, personalCredit: ZERO,
     payroll: [],
-    notes: "Act 110 of 2026 (H.4216), effective 1/1/2026: two brackets (1.99%/5.21%), starts from federal AGI, and the federal std deduction is replaced by the SC Income Adjusted Deduction ($15,000/$30,000) which phases out between AGI $40k-$95k single / $80k-$190k joint (phase-out NOT modeled; tax understated in that range and above). SC withholding tables may lag the law.",
+    notes: "Act 110 of 2026: two brackets (1.99%/5.21%). The Income Adjusted Deduction ($15,000/$30,000) phases out between AGI $40k-$95k single / $80k-$190k joint and is included. State credits, dependents and other income adjustments are not modeled. Payroll withholding may differ from annual liability.",
     source: "https://dor.sc.gov/sites/dor/files/policies/IL26-20.pdf",
   },
   {
@@ -539,8 +539,8 @@ export const STATES: StateTax[] = [
     stdDeduction: ZERO, personalExemption: ZERO,
     personalCredit: { single: 966, married: 1_932 },
     payroll: [],
-    notes: "Rate 4.5% -> 4.45% retroactive to 1/1/2026 (SB 60). Credit is the taxpayer tax credit (6% of the federal std deduction); it phases out at 1.3% of income above a base amount (~$18k single/~$36k joint) - phase-out not modeled, so tax is understated for most earners.",
-    source: "https://tax.utah.gov/income/individual",
+    notes: "2026 rate 4.45%. The 6% standard-deduction credit is reduced by 1.3% of income over $18,696 single / $37,392 joint. These annual-return phase-out bases are derived from the statutory CPI formula and official BLS CPI-U data; they are not the smaller payroll withholding allowances. Dependents and other credits are not modeled. Reviewed October 31, 2026.",
+    source: "https://le.utah.gov/xcode/Title59/Chapter10/C59-10-S1018_2026050620260506.pdf",
   },
   {
     code: "VT", name: "Vermont", type: "progressive", taxYear: 2026,

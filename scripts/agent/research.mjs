@@ -2,7 +2,7 @@
 import { createHash } from "node:crypto";
 const hash = (s) => createHash("sha256").update(s).digest("hex");
 const AGENT = "HomeMoneyCalcMonitor";
-const HOSTS = new Set(["www.irs.gov", "www.ssa.gov", "developers.google.com", "support.google.com", "www.adp.com", "www.calculator.net", "smartasset.com"]);
+const HOSTS = new Set(["www.irs.gov", "www.ssa.gov", "www.ftb.ca.gov", "developers.google.com", "support.google.com", "www.adp.com", "www.calculator.net", "smartasset.com"]);
 
 export function robotsAllowed(text, target) {
   const groups = [];

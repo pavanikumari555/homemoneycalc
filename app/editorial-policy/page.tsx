@@ -13,24 +13,30 @@ export const metadata: Metadata = buildMetadata({
 export default function Page() {
   return (
     <PageShell title="Editorial policy" intro="How we build, check and update everything on HomeMoney Calc.">
+      <h2>Who is responsible</h2>
+      <p>HomeMoney Calc is maintained by its family owner and developer under the HomeMoney Calc name.
+        The owner is responsible for editorial and publishing decisions; the developer maintains formulas,
+        regression tests and source records. We do not claim a certified financial adviser or independent
+        professional tax review. You can send corrections through our <Link href="/contact/">contact page</Link>.</p>
       <h2>Accuracy first</h2>
       <p>
-        Every calculator is tested against worked examples before it is published, and every tax figure is checked against the
-        official source linked on the page. When a figure changes — for example, new tax brackets each year — we update the
-        calculator and the &ldquo;Updated&rdquo; date on the page. We only change that date when the content actually changes.
+        We test formulas against worked examples and link the official sources used. A passing software test does not prove
+        every tax rule is current or included. Older parameters, derived figures and omitted rules are labelled where relevant.
+        Tax-source reviews have recorded dates and recurring reminders. We only change the page&apos;s &ldquo;Updated&rdquo; date
+        when its content or calculation changes; source-change alerts alone do not automatically rewrite tax law.
       </p>
 
       <h2>How we use AI</h2>
       <p>
         We use software tools, including AI assistants, to help with research, to spot pages that need updating and to draft
-        explanations. A person reviews every change before it goes live: formulas are tested, numbers are checked against sources,
-        and the writing is edited for clarity. We don&apos;t publish pages just to target search terms — each page has to do
+        explanations. Changes go through the project&apos;s review and verification workflow; automatic reports are observations,
+        not professional financial advice or proof of a legal change. We don&apos;t publish pages just to target search terms — each page has to do
         something useful.
       </p>
 
       <h2>Independence</h2>
       <p>
-        HomeMoney Calc is free because of clearly labeled affiliate links and sponsorships. Partners have no say in our calculators,
+        Our calculators are currently free without active ads. Future advertising, affiliate links and sponsorships will be clearly disclosed. Partners have no say in our calculators,
         results or explanations, and they never change how a calculator works or what it shows. See our{" "}
         <Link href="/advertising-disclosure/">advertising disclosure</Link>.
       </p>

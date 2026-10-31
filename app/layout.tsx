@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,12 +9,13 @@ import InstallPrompt from "@/components/InstallPrompt";
 import { SITE } from "@/lib/site";
 import AnalyticsConsent from "@/components/AnalyticsConsent";
 
-// Font build time pe download hoke site ke saath self-host hota hai
-// (Google ko runtime request nahi = fast + privacy friendly).
-const sans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+// Bundled font: builds and page loads do not require a Google Fonts connection.
+const sans = localFont({
+  src: "../public/fonts/plus-jakarta-sans-latin.woff2",
+  weight: "200 800",
   display: "swap",
   variable: "--font-sans",
+  fallback: ["Arial", "sans-serif"],
 });
 
 // Default metadata for the whole site. Individual pages override title/description.

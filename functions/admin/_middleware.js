@@ -8,6 +8,11 @@
 // ============================================================================
 
 const REALM = "HomeMoney Calc Admin";
+const PRIVATE_HEADERS = {
+  "cache-control": "no-store", "x-robots-tag": "noindex, nofollow",
+  "strict-transport-security": "max-age=31536000; includeSubDomains",
+  "x-content-type-options": "nosniff", "x-frame-options": "DENY", "referrer-policy": "no-referrer",
+};
 
 // Timing-safe compare: dono strings ka hash milao, taaki andaaze se password na pakda jaa sake
 async function same(a, b) {
@@ -33,7 +38,7 @@ function parseBasic(header) {
 }
 
 const deny = (status, text, extra = {}) =>
-  new Response(text, { status, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex, nofollow", ...extra } });
+  new Response(text, { status, headers: { "content-type": "text/plain; charset=utf-8", ...PRIVATE_HEADERS, ...extra } });
 
 export async function onRequest({ request, env, next }) {
   const hostname = new URL(request.url).hostname;
@@ -55,7 +60,6 @@ export async function onRequest({ request, env, next }) {
 
   const res = await next();
   const out = new Response(res.body, res);
-  out.headers.set("cache-control", "no-store");
-  out.headers.set("x-robots-tag", "noindex, nofollow");
+  for (const [key, value] of Object.entries(PRIVATE_HEADERS)) out.headers.set(key, value);
   return out;
 }

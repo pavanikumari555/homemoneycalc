@@ -50,13 +50,17 @@ function providerChain() {
   const available = [
     env.GEMINI_API_KEY && "gemini",
     env.GROQ_API_KEY && "groq",
-    (env.ANTHROPIC_API_KEY || env.ANTHROPIC_AUTH_TOKEN) && "anthropic",
+    // No automatic paid fallback. Owner must explicitly configure this separate gate.
+    env.ALLOW_PAID_AI === "true" && (env.ANTHROPIC_API_KEY || env.ANTHROPIC_AUTH_TOKEN) && "anthropic",
   ].filter(Boolean);
   const first = env.AI_PROVIDER && available.includes(env.AI_PROVIDER) ? [env.AI_PROVIDER] : [];
   return [...new Set([...first, ...available])];
 }
 
 export async function summarize(report) {
+  // Owner status/tasks use deterministic evidence. Free-form prose cannot invent
+  // Google eligibility requirements, change permissions or introduce new tools.
+  if (env.ENABLE_GENERATED_SUMMARY !== "true") return { ...fallback(report), by: "rules" };
   const prompt = `Today's data (JSON):\n${JSON.stringify(report)}`;
   // Ek provider busy/down ho to agla — free tiers kabhi-kabhi "high demand" dete hain
   for (const provider of providerChain()) {
@@ -181,7 +185,7 @@ function fallback(r) {
   return {
     headline: r.sources.gsc ? `Last 28 days: ${r.kpis.clicks} clicks, ${r.kpis.impressions} impressions` : "Google report connection poora karna hai",
     summary: r.sources.gsc
-      ? `Google se ${r.kpis.clicks} clicks aaye (avg position ${r.kpis.position?.toFixed?.(1)}). ${r.opportunities?.length ?? 0} keywords position 8-30 me hain jinko thoda improve karke page 1 pe la sakte hain.`
+      ? `Pichhle reported period mein Google se ${r.kpis.clicks} clicks aur ${r.kpis.impressions} impressions mile. Search data kuch din late hota hai; ye aaj ke total visits nahi hain. AdSense ke internal planning checkpoints Google ke minimum rules nahi hain.`
       : r.health?.ran === true ? `Abhi traffic data connect nahi hai. Technical audit mein ${r.health.pageCount} pages check hue: ${r.health.errors} errors, ${r.health.warnings} warnings. Live aur code checks ki coverage alag dekhein.` : "Traffic data missing hai aur technical audit complete nahi hua. Missing checks ko zero errors na samjhein.",
     youDo: youDo.slice(0, 5),
     agentNext: (r.actions ?? []).filter((a) => a.who === "agent").slice(0, 4).map((a) => `${a.title}: ${a.steps.join(" ")}`),

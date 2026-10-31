@@ -56,6 +56,8 @@ test("public admin entry redirects only to the protected dashboard; private host
   const env = { ADMIN_USER: "owner", ADMIN_PASS: "fake-test-pass-12345" };
   const denied = await onRequest({ request: new Request("https://homemoneycalc-admin.pages.dev/admin/"), env, next });
   assert.equal(denied.status, 401);
+  assert.match(denied.headers.get("strict-transport-security"), /max-age=31536000/);
+  assert.equal(denied.headers.get("x-content-type-options"), "nosniff");
   assert.equal(opened, false);
   const authorized = await onRequest({ request: new Request("https://homemoneycalc-admin.pages.dev/admin/", { headers: { authorization: `Basic ${Buffer.from(`${env.ADMIN_USER}:${env.ADMIN_PASS}`).toString("base64")}` } }), env, next });
   assert.equal(await authorized.text(), "private report");

@@ -1,0 +1,31 @@
+name: Browser regression checks
+on:
+  push:
+    branches: [main]
+    paths: ['app/**', 'components/**', 'lib/**', 'tests/browser/**', 'playwright.config.mjs', 'package*.json', '.github/workflows/browser.yml']
+  pull_request:
+    paths: ['app/**', 'components/**', 'lib/**', 'tests/browser/**', 'playwright.config.mjs', 'package*.json', '.github/workflows/browser.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        admin: ['0', '1']
+    env:
+      BUILD_ADMIN: ${{ matrix.admin }}
+      BROWSER_ADMIN: ${{ matrix.admin }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run test:browser

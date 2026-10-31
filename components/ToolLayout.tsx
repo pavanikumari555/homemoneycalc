@@ -82,6 +82,7 @@ export default function ToolLayout({ slug, h1, intro, answer, calculator, childr
                 </p>
               )}
               <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted">
+                <Link href="/editorial-policy/" className="underline underline-offset-2">Maintained by HomeMoney Calc</Link>
                 <FavoriteButton slug={slug} />
                 {TAX_TOOLS.has(slug) && <TaxDatesButton events={TAX_DATES_2027} />}
                 <span>

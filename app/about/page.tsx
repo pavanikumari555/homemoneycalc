@@ -52,8 +52,9 @@ export default function AboutPage() {
       <p>
         {SITE.name} is an independent, family-run site: one person owns and edits it, and a
         developer in the family builds and tests the calculators. We are not a bank, lender, or financial
-        advisor, and we don&apos;t sell your data. The site is supported by clearly labeled affiliate
-        links and sponsorships, which let us keep every tool free to use.
+        advisor, and we don&apos;t sell your data. The calculators are currently free without active ads.
+        We plan to support the site through advertising and clearly labeled partner offers after review.
+        Our <a href="/editorial-policy/">editorial policy</a> explains who maintains the tools and how corrections are handled.
       </p>
 
       <h2>Get in touch</h2>

@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { ALL_TOOLS, SITE } from "@/lib/site";
 import { actionPlan, adsenseReadiness } from "@/scripts/agent/advisor.mjs";
-import AdminDashboard from "./AdminDashboard";
+import AdminDashboard from "./OwnerDashboard";
 
 export const metadata: Metadata = { title: "Owner dashboard | HomeMoney Calc", robots: { index: false, follow: false } };
 const DATA = join(process.cwd(), "data");

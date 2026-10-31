@@ -96,7 +96,23 @@ const STD_DEDUCTION_PHASE_OUT: Record<string, { single: { start: number; rate: n
   // WI DOR 2026 Form 1-ES / WT-4A tables: $13,960 - 12% over $20,120 (0 at $136,453);
   // joint $25,840 - 19.778% over $29,040 (0 at $159,690)
   WI: { single: { start: 20_120, rate: 0.12 }, married: { start: 29_040, rate: 0.19778 } },
+  // SCDOR IL26-20: SCIAD decreases proportionally to zero, not the federal deduction.
+  SC: { single: { start: 40_000, rate: 15_000 / 55_000 }, married: { start: 80_000, rate: 30_000 / 110_000 } },
 };
+
+// Utah Code 59-10-1018(4)-(5): CPI-U averages for the 12 months ending August,
+// 2025 / 2020; official BLS CUUR0000SA0. Joint base is twice the rounded single base.
+// Derivation is retained rather than substituting the different payroll withholding allowance.
+export const UTAH_CREDIT_BASE_2026 = Math.round(15_095 * (319.205 / (3_092.65 / 12)));
+
+export function statePersonalCredit(state: StateTax, status: FilingStatus, stateWages: number): number {
+  const initial = state.personalCredit[status];
+  if (state.code === "UT") {
+    const base = UTAH_CREDIT_BASE_2026 * (status === "married" ? 2 : 1);
+    return Math.max(0, initial - Math.max(0, stateWages - base) * 0.013);
+  }
+  return initial;
+}
 
 /** Which county brackets apply (or none). */
 function resolveLocal(
@@ -167,7 +183,7 @@ export function calcPaycheck(input: PaycheckInput): PaycheckResult {
       ? Math.max(0, state.stdDeduction[status] - Math.max(0, stateWages - stdPhase[status].start) * stdPhase[status].rate)
       : state.stdDeduction[status];
     const stateTaxable = Math.max(0, stateWages - stdDeduction - exemption);
-    stateTax = Math.max(0, bracketTax(stateTaxable, state[status]) - state.personalCredit[status]);
+    stateTax = Math.max(0, bracketTax(stateTaxable, state[status]) - statePersonalCredit(state, status, stateWages));
     // County tax (MD, IN) uses the same taxable income as the state tax
     if (loc.brackets) localTax = bracketTax(stateTaxable, loc.brackets);
   }

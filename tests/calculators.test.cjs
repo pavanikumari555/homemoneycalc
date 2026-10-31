@@ -27,6 +27,31 @@ const bonus = {
 };
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.005, `${actual} != ${expected}`);
 
+test("South Carolina SCIAD follows official 2026 single and joint phase-out boundaries", () => {
+  const base={...paycheck,stateCode:"SC"};
+  for(const [income,tax] of [[40000,497.5],[67500,2160],[95000,3983.5],[100000,4244]]) near(calcPaycheck({...base,grossAnnual:income}).stateTax,tax);
+  for(const [income,tax] of [[80000,1639],[135000,5286],[190000,8933]]) near(calcPaycheck({...base,status:"married",grossAnnual:income}).stateTax,tax);
+  // Contributions reduce the AGI used for phase-out as well as the taxable base.
+  near(calcPaycheck({...base,grossAnnual:100000,retirementPercent:10}).stateTax,3651.95454545);
+});
+
+test("Utah statutory CPI credit phases out instead of always subtracting the full credit", () => {
+  const {UTAH_CREDIT_BASE_2026}=require("../lib/paycheck.ts");
+  assert.equal(UTAH_CREDIT_BASE_2026,18696);
+  near(calcPaycheck({...paycheck,stateCode:"UT",grossAnnual:30000}).stateTax,515.952);
+  near(calcPaycheck({...paycheck,stateCode:"UT",grossAnnual:100000}).stateTax,4450);
+  near(calcPaycheck({...paycheck,stateCode:"UT",status:"married",grossAnnual:200000}).stateTax,8900);
+});
+
+test("all state engines remain finite across zero, ordinary and high wages",()=>{
+  const {STATES}=require("../lib/tax2026.ts");
+  for(const s of STATES) for(const grossAnnual of [0,15000,40000,100000,1000000]) for(const status of ["single","married"]){
+    const r=calcPaycheck({...paycheck,stateCode:s.code,grossAnnual,status});
+    assert.ok(Number.isFinite(r.net)&&r.net>=0&&r.net<=grossAnnual,`${s.code}/${grossAnnual}/${status}`);
+    assert.ok(Number.isFinite(r.stateTax)&&r.stateTax>=0);
+  }
+});
+
 test("NJ excludes traditional 401(k) deferrals from state wages; PA does not", () => {
   const before = calcPaycheck(paycheck);
   const after = calcPaycheck({ ...paycheck, retirementPercent: 10 });

@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "next dev -H 127.0.0.1",
     "prebuild": "node scripts/check-tools.mjs && node scripts/monetization-preflight.mjs && node scripts/gen-redirects.mjs",
-    "build": "next build",
-    "postbuild": "node scripts/fix-rsc-prefetch.mjs && node scripts/prune-unreleased.mjs",
+    "build": "next build --webpack",
+    "postbuild": "node scripts/fix-rsc-prefetch.mjs && node scripts/prune-unreleased.mjs && node scripts/check-performance-budget.mjs",
     "start": "node scripts/serve-out.mjs 3000",
-    "test": "node --test tests/calculators.test.cjs tests/automation.test.mjs tests/admin-agent.test.mjs tests/agent-approvals.test.mjs tests/analytics.test.mjs tests/tool-state.test.cjs",
+    "test": "node --test tests/calculators.test.cjs tests/automation.test.mjs tests/admin-agent.test.mjs tests/agent-approvals.test.mjs tests/analytics.test.mjs tests/tool-state.test.cjs tests/owner-reporting.test.mjs",
     "lint": "eslint .",
+    "test:browser": "playwright test",
     "check-tools": "node scripts/check-tools.mjs",
     "agent:daily": "node scripts/agent/daily.mjs"
   },
@@ -20,10 +21,14 @@
     "react-dom": "^19.3.1"
   },
   "overrides": {
-    "postcss-selector-parser": "^7.1.6"
+    "postcss-selector-parser": "^7.1.6",
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
+    }
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^1.3.0",
+    "@playwright/test": "^1.64.1",
     "@types/node": "20.14.9",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

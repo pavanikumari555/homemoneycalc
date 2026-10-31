@@ -9,14 +9,14 @@ const rows=Array.from({length:15},(_,i)=>({name:"Saved debt "+i,balance:String(1
 
 // Execute the real hook against deterministic storage/history and a hook scheduler.
 // This checks hydration/save/reopen integration without sending live analytics.
-function fixture(search="",initial=[]) {
+function fixture(search="",initial=[],blocked=false) {
   const storage=new Map(initial),slots=[],timers=new Map(); let cursor=0,pending=[],timerId=0;
   function useState(value){const i=cursor++;if(!slots[i])slots[i]={value};return [slots[i].value,value=>{slots[i].value=typeof value==="function"?value(slots[i].value):value;}];}
   function useRef(current){const i=cursor++;if(!slots[i])slots[i]={current};return slots[i];}
   function useEffect(fn,deps){const i=cursor++,old=slots[i];if(!old||deps.some((v,j)=>v!==old.deps[j])){old?.cleanup?.();slots[i]={deps};pending.push(()=>{slots[i].cleanup=fn();});}}
   const location={search,pathname:"/debt-payoff-calculator/",origin:"https://homemoneycalc.com"};
   const window={location,history:{replaceState:(_,__,url)=>{location.search=new URL(url,location.origin).search;}},dispatchEvent:()=>{},setTimeout:fn=>{timers.set(++timerId,fn);return timerId;},clearTimeout:id=>timers.delete(id)};
-  const localStorage={getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v)};
+  const localStorage={getItem:k=>storage.get(k)??null,setItem:(k,v)=>{if(blocked)throw new Error("Quota exceeded");storage.set(k,v);}};
   const hookModule={exports:{}};
   const compiled=ts.transpileModule(fs.readFileSync(path.join(__dirname,"../lib/useToolState.ts"),"utf8"),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
   const load=id=>id==="react"?{useState,useRef,useEffect,useCallback:fn=>fn,useSyncExternalStore:(_,snapshot)=>snapshot()}:require(path.resolve(__dirname,"../lib",id));
@@ -45,4 +45,11 @@ test("corrupt shared debt never silently falls back to another stored plan",()=>
 test("ordinary campaign query parameters do not block restoring the last session",()=>{
   const d=encodeDebtRows(rows),f=fixture("?utm_source=example",[["hmc:last:debt-payoff-calculator",JSON.stringify({d,x:"50",s:"avalanche"})]]);
   assert.equal(f.get().values.d,d);assert.equal(f.get().restoreWarning,"");
+});
+
+test("blocked storage never pretends a plan was saved or deleted",()=>{
+  const f=fixture("",[],true);let state=f.get();
+  assert.equal(state.saveScenario("Cannot persist"),false);state=f.get();
+  assert.equal(state.saved.length,0);assert.match(state.storageWarning,/not saved/);
+  state.set("x","808");f.get();f.flush();assert.match(f.get().storageWarning,/could not save/);
 });

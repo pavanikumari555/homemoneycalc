@@ -177,6 +177,7 @@ export default function PaycheckCalculator() {
       }
       results={
         <>
+          <Notice tone="info"><strong>2026 salary-only estimate.</strong> This estimates annual taxes spread across your paychecks, not your employer&apos;s exact W-4 withholding. Dependents, credits and some local/state rules are excluded. {Number((process.env.BUILD_DATE || "2026").slice(0,4)) > 2026 && <strong>These are 2026 rates; current-year rates need a separate review.</strong>}</Notice>
           <ResultHero
             eyebrow={view === "period" ? `Take-home per paycheck (${periods}×/yr)` : "Take-home per year"}
             sub={
@@ -244,7 +245,7 @@ export default function PaycheckCalculator() {
           {res.localNote && <Notice tone="info">{res.localNote}</Notice>}
           {res.state.taxYear !== 2026 && (
             <p className="rounded-xl bg-sun-100/60 px-4 py-2 text-xs text-[#6b4300] dark:bg-sun-600/10 dark:text-sun-300">
-              {res.state.name} hasn&apos;t published its 2026 tax tables yet, so its {res.state.taxYear} figures are used.
+              {res.state.name}: this estimate uses {res.state.taxYear} state income-tax parameters. Updated 2026 indexing has not been independently verified here. Confirm this result with the official state source.
             </p>
           )}
           {res.state.notes && (
@@ -264,6 +265,7 @@ export default function PaycheckCalculator() {
           <div className="rounded-2xl border border-line p-4">
             <div className="mb-1 text-sm font-semibold text-ink">Same salary, other states</div>
             <p className="mb-3 text-xs text-muted">
+              Approximate comparison: state-specific exclusions, credits and local taxes can change the order. {" "}
               {res.state.name} ranks <strong className="text-ink">#{myRank} of {ranking.length}</strong> for take-home pay on this salary.
               {best && best.code !== res.state.code && <> In {best.name} you&apos;d keep {usd0(best.net - res.net)} more a year.</>}
             </p>

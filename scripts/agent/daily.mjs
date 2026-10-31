@@ -22,6 +22,10 @@ import { observeSources } from "./research.mjs";
 import { proposalQueue } from "./proposals.mjs";
 import { evaluateExperiments } from "./experiments.mjs";
 import { edgeAnalytics } from "./cloudflare.mjs";
+import { webAnalytics } from "./web-analytics.mjs";
+import { taxReview } from "./tax-review.mjs";
+import { ANALYTICS_ACCOUNT, ANALYTICS_SITE } from "../../lib/analytics-config.mjs";
+import { performanceBudget } from "../check-performance-budget.mjs";
 
 const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
@@ -44,7 +48,7 @@ async function main() {
   const notes = [];
   mkdirSync(REPORTS, { recursive: true });
 
-  const [gsc, ga4, psi, bing, edge] = await Promise.all([
+  const [gsc, ga4, psi, bing, edge, traffic] = await Promise.all([
     safely("Search Console", () => searchConsole({ saJson: env.GOOGLE_SA_JSON, site: env.GSC_SITE || "sc-domain:homemoneycalc.com" }), notes),
     safely("GA4", () => analytics({ saJson: env.GOOGLE_SA_JSON, propertyId: env.GA4_PROPERTY_ID }), notes),
     safely(
@@ -54,6 +58,7 @@ async function main() {
     ),
     safely("Bing Webmaster", () => bingWebmaster({ apiKey: env.BING_WEBMASTER_KEY, site: env.BING_SITE || `${SITE_URL}/` }), notes),
     edgeAnalytics({ token: env.CLOUDFLARE_ANALYTICS_TOKEN, zoneId: env.CLOUDFLARE_ZONE_ID, today }),
+    webAnalytics({ token: env.CLOUDFLARE_WEB_ANALYTICS_TOKEN || env.CLOUDFLARE_ANALYTICS_TOKEN, accountId: env.CLOUDFLARE_ACCOUNT_ID || ANALYTICS_ACCOUNT, siteId: env.CLOUDFLARE_WEB_ANALYTICS_SITE_ID || ANALYTICS_SITE }),
   ]);
   const health = auditSite("out", SITE_URL);
   const quality = qualityChecks();
@@ -109,6 +114,8 @@ async function main() {
     generatedAt: new Date().toISOString(),
     sources: { gsc: Boolean(gsc.connected), ga4: Boolean(ga4.connected), psi: Boolean(psi.connected), bing: Boolean(bing.connected), cloudflare: Boolean(edge.connected), ai: false },
     edge,
+    traffic,
+    taxReview: taxReview(readJson("data/tax-review.json", {}), today),
     measurement: { ga4: "Historical consented sample; collection retired 2026-10-30. Current traffic: Cloudflare Web Analytics dashboard", search: "Search Console reported clicks/impressions; independent of analytics consent", edge: "Aggregate HTTP requests, not human visitors or ad impressions" },
     kpis,
     trend: gsc.daily ?? [],
@@ -126,6 +133,7 @@ async function main() {
       }
     })(),
     speed: psi.results ?? [],
+    assetBudget: performanceBudget("out"),
     health: health.ran ? { ran: true, pageCount: health.pageCount, errors: health.errors, warnings: health.warnings, issues: health.issues, coverage: health.coverage } : { ran: false, pageCount: 0, errors: null, warnings: null, issues: [], note: health.reason },
     quality,
     liveChecks: liveHealth,
@@ -165,7 +173,7 @@ async function main() {
   if (notes.length) console.log(`  Notes:\n  - ${notes.join("\n  - ")}`);
 
   // Optional: short Telegram ping (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID)
-  if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID && report.ai) {
+  if (env.ALLOW_OWNER_NOTIFICATIONS === "true" && env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID && report.ai) {
     const text = `📊 HomeMoney Calc ${today}\n${report.ai.headline}\n\n${report.ai.youDo.map((t, i) => `${i + 1}. ${t}`).join("\n")}`;
     await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
