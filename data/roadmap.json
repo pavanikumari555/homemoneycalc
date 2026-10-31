@@ -261,23 +261,9 @@
       "volume": "1k-10k",
       "difficulty": "low",
       "wave": 2,
-      "targetDate": "2026-12-02",
+      "targetDate": "2027-01-17",
       "status": "planned",
-      "why": "Accounts launched Jul 4, 2026 ($1,000 seed, up to $5k/yr); few dedicated tools; local news coverage"
-    },
-    {
-      "slug": "tax-refund-calculator",
-      "title": "Tax Refund Estimator 2026",
-      "primaryKeyword": "tax refund calculator 2026 with dependents",
-      "secondary": [
-        "tax refund estimator 2027"
-      ],
-      "volume": "long tail of a 100k+ head term",
-      "difficulty": "high (target long tail)",
-      "wave": 2,
-      "targetDate": "2026-12-04",
-      "status": "planned",
-      "why": "Hub for the new deductions; avoid the head term"
+      "why": "Accounts launched Jul 4, 2026 ($1,000 seed, up to $5k/yr); few dedicated tools; staggered release for natural growth pattern"
     },
     {
       "slug": "raise-calculator",
@@ -290,9 +276,23 @@
       "volume": "10k-100k",
       "difficulty": "med",
       "wave": 2,
-      "targetDate": "2026-12-08",
+      "targetDate": "2027-01-31",
       "status": "planned",
-      "why": "Review season"
+      "why": "Review season; 14 days after previous release"
+    },
+    {
+      "slug": "fsa-calculator",
+      "title": "FSA Calculator (Per Paycheck)",
+      "primaryKeyword": "fsa calculator per paycheck",
+      "secondary": [
+        "dependent care fsa calculator"
+      ],
+      "volume": "1k-10k",
+      "difficulty": "low-med",
+      "wave": 2,
+      "targetDate": "2027-02-14",
+      "status": "planned",
+      "why": "Open enrollment; 14 days spacing"
     },
     {
       "slug": "rap-student-loan-calculator",
@@ -305,23 +305,23 @@
       "volume": "1k-10k",
       "difficulty": "low-med",
       "wave": 2,
-      "targetDate": "2026-12-10",
+      "targetDate": "2027-02-28",
       "status": "planned",
-      "why": "RAP launched Jul 1, 2026; SAVE borrowers moving; rules still changing - date-stamp it"
+      "why": "RAP launched Jul 1, 2026; SAVE borrowers moving; 14 days spacing"
     },
     {
-      "slug": "fsa-calculator",
-      "title": "FSA Calculator (Per Paycheck)",
-      "primaryKeyword": "fsa calculator per paycheck",
+      "slug": "tax-refund-calculator",
+      "title": "Tax Refund Estimator 2026",
+      "primaryKeyword": "tax refund calculator 2026 with dependents",
       "secondary": [
-        "dependent care fsa calculator"
+        "tax refund estimator 2027"
       ],
-      "volume": "1k-10k",
-      "difficulty": "low-med",
+      "volume": "long tail of a 100k+ head term",
+      "difficulty": "high (target long tail)",
       "wave": 2,
-      "targetDate": "2026-12-12",
+      "targetDate": "2027-03-14",
       "status": "planned",
-      "why": "Open enrollment"
+      "why": "Tax season hub for new deductions; 14 days spacing"
     },
     {
       "slug": "w4-calculator",
@@ -333,9 +333,9 @@
       "volume": "10k-100k (Jan)",
       "difficulty": "med-high",
       "wave": 2,
-      "targetDate": "2026-12-18",
+      "targetDate": "2027-03-28",
       "status": "planned",
-      "why": "January peak"
+      "why": "Tax filing season; 14 days spacing for organic rollout"
     },
     {
       "slug": "self-employment-tax-calculator",

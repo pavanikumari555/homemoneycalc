@@ -111,7 +111,7 @@ export default function OvertimeCalculator() {
 
           <p className="text-sm text-ink/80">
             The {usd0(res.annualPremium)} premium is the part that may be deductible under the federal no-tax-on-overtime rule (tax years
-            2025–2028). See what it saves with the <Link href="/no-tax-on-overtime-calculator/" className="link">no tax on overtime calculator</Link>.
+            2025–2028).
           </p>
           <p className="text-xs text-muted">
             After-tax figures use 2026 federal brackets, the standard deduction, Social Security, Medicare and {stateName} tax, with no

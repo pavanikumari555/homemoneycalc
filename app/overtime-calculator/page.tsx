@@ -156,8 +156,7 @@ export default function Page() {
         </li>
         <li>
           <strong>Track the premium.</strong> For tax years 2025–2028, the “half” part of FLSA overtime ({usd0(EX.annualPremium)} a year in
-          the example above) may be deductible. Estimate it with the{" "}
-          <Link href="/no-tax-on-overtime-calculator/">no tax on overtime calculator</Link>, or see your full take-home with the{" "}
+          the example above) may be deductible. See your full take-home with the{" "}
           <Link href="/paycheck-calculator/">paycheck calculator</Link>.
         </li>
       </ul>

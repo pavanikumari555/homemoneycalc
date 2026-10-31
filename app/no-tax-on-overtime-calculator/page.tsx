@@ -175,9 +175,7 @@ export default function Page() {
         </li>
       </ul>
       <p>
-        Want to see your gross overtime pay first? Use our <Link href="/overtime-calculator/">overtime pay calculator</Link>. Work in a
-        tipped job too? The <Link href="/no-tax-on-tips-calculator/">no tax on tips calculator</Link> covers the separate tips deduction,
-        which you can claim on top of this one.
+        Want to see your gross overtime pay first? Use our <Link href="/overtime-calculator/">overtime pay calculator</Link>.
       </p>
     </ToolLayout>
   );
