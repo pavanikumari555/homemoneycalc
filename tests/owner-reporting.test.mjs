@@ -7,6 +7,7 @@ import { summarize } from "../scripts/agent/summarize.mjs";
 import { onRequest as trafficRequest } from "../functions/admin/api/traffic.js";
 import { onRequest as reportRequest } from "../functions/admin/api/report.js";
 import { auditDisposition } from "../scripts/agent/dependency-audit.mjs";
+import { actionPlan } from "../scripts/agent/advisor.mjs";
 
 test("India traffic buckets use local midnight, including UTC date changes",()=>{
   const d=indiaDays(new Date("2026-10-31T20:00:00Z"));
@@ -36,6 +37,16 @@ test("live owner endpoints are read-only, no-store and fail safely without secre
   const r=await trafficRequest({request,env:{}});assert.equal(r.headers.get("cache-control"),"no-store");assert.equal((await r.json()).connected,false);
   const missing=await reportRequest({request:new Request("https://homemoneycalc-admin.pages.dev/admin/api/report"),env:{}});assert.equal(missing.status,503);
   const post=await reportRequest({request:new Request(request.url,{method:"POST"}),env:{}});assert.equal(post.status,405);
+});
+
+test("RUM distinguishes permission from query errors without exposing upstream text or requesting needless access",async()=>{
+  const options={token:"fake-secret",accountId:"a".repeat(32),siteId:"b".repeat(32)};
+  for (const [message,status,who] of [["not authorized to access account fake-secret","permission-needed","owner"],["unknown field bot fake-secret","query-unsupported","agent"],["unexpected fake-secret","permission-or-query-error","agent"]]) {
+    const traffic=await webAnalytics(options,async()=>new Response(JSON.stringify({errors:[{message}]})));
+    assert.equal(traffic.status,status);assert.doesNotMatch(JSON.stringify(traffic),/fake-secret/);
+    const task=actionPlan({date:"2026-10-31",sources:{gsc:true},health:{ran:true},traffic},{},"2026-10-31").find(t=>t.id==="web-traffic");
+    assert.equal(task.who,who);
+  }
 });
 test("latest report is selected by date and invalid report metadata never becomes live",async()=>{
   const report={date:"2026-10-31",generatedAt:"2026-10-31T03:00:00Z",health:{ran:true,errors:0}};

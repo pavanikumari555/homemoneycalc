@@ -26,7 +26,13 @@ export async function webAnalytics({ token, accountId, siteId, now = new Date() 
     const response = await fetcher("https://api.cloudflare.com/client/v4/graphql", { method: "POST", redirect: "error", signal: AbortSignal.timeout(15_000), headers: { authorization: `Bearer ${token}`, "content-type": "application/json" }, body: JSON.stringify({ query }) });
     if (!response.ok) return { ...base, status: [401, 403].includes(response.status) ? "permission-needed" : "temporarily-unavailable" };
     const json = await response.json();
-    if (json.errors?.length) return { ...base, status: "permission-or-query-error" };
+    if (json.errors?.length) {
+      // Classify upstream errors without returning their text, identifiers or secrets.
+      const messages = json.errors.map(e => typeof e.message === "string" ? e.message : "").join(" ");
+      const permission = /not authori[sz]ed|permission|access denied|unauthenticated|authentication|forbidden|does not have access/i.test(messages);
+      const query = /unknown (?:field|argument)|cannot query field|error parsing|syntax error|not defined by type/i.test(messages);
+      return { ...base, status: permission ? "permission-needed" : query ? "query-unsupported" : "permission-or-query-error" };
+    }
     const account = json.data?.viewer?.accounts?.[0];
     if (!account) return { ...base, status: "account-unavailable" };
     const numbers = (row) => row && Number.isFinite(row.count) && row.count >= 0 && Number.isFinite(row.sum?.visits) && row.sum.visits >= 0;
