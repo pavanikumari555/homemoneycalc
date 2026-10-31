@@ -35,7 +35,7 @@ export default function OwnerDashboard(p:Props) {
       await Promise.allSettled([
         read("/admin/api/report").then(d=>{if(active&&d.status==="connected"){setReport(d.report);setConnection("connected");}}).catch(()=>{if(active)setConnection("saved");}),
         read("/admin/api/traffic").then(d=>{if(active){setTrafficConnection(d.status);if(d.connected)setTraffic(d);}}).catch(()=>{if(active)setTrafficConnection("unavailable");})
-      ]);if(active)setBusy(false);
+      ]);if(active){setClock(Date.now());setBusy(false);}
     };
     void refresh();const timer=setInterval(()=>{if(document.visibilityState==="visible")void refresh();},300000);
     return()=>{active=false;clearInterval(timer);};

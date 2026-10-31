@@ -39,8 +39,13 @@ test("owner panel shows daily visits and simple navigation without historical GA
   const today=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
   const report={date:today,generatedAt:new Date().toISOString(),sources:{gsc:true},health:{ran:true,errors:0},quality:[{status:"pass"}],liveChecks:[{status:"pass"}],kpis:{clicks:2,impressions:200},trend:[]};
   await page.route("**/admin/api/report",r=>r.fulfill({json:{status:"connected",report}}));
-  await page.route("**/admin/api/traffic",r=>r.fulfill({json:{connected:true,status:"connected",checkedAt:new Date().toISOString(),days:[{date:today,visits:7,pageviews:15,partial:true}],pages:[],sources:[]}}));
+  await page.route("**/admin/api/traffic",async r=>{
+    // A real server timestamps its reading after the browser starts refreshing.
+    await new Promise(resolve=>setTimeout(resolve,100));
+    await r.fulfill({json:{connected:true,status:"connected",checkedAt:new Date().toISOString(),days:[{date:today,visits:7,pageviews:15,partial:true}],pages:[],sources:[]}});
+  });
   await page.goto("/admin/");await expect(page.getByRole("navigation",{name:"Admin menu"}).getByRole("button")).toHaveCount(4);
+  await expect(page.getByText("Raat 12 baje se · latest reading",{exact:true})).toBeVisible();
   await page.getByRole("button",{name:"Visits",exact:true}).click();
   await expect(page.getByRole("heading",{name:"Roz kitne visits aur page views aaye?"})).toBeVisible();
   await expect(page.getByRole("row").filter({hasText:"aaj, ab tak"})).toContainText("15");
