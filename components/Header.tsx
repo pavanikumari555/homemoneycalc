@@ -30,6 +30,7 @@ export default function Header() {
 
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node;
+      
       // Don't close if clicking the button or inside the menu
       if (
         menuRef.current && 
@@ -47,14 +48,14 @@ export default function Header() {
       }
     };
 
-    // Use capture phase to catch events before they bubble
-    document.addEventListener("mousedown", handleClickOutside, true);
-    document.addEventListener("touchstart", handleClickOutside, true);
+    // Use bubble phase (default) to let other components handle events first
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside, true);
-      document.removeEventListener("touchstart", handleClickOutside, true);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
