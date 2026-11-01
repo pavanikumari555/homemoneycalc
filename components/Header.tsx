@@ -16,6 +16,7 @@ const MENU_PER_CATEGORY = 5;
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   // 1. Close menu automatically on route change
@@ -28,7 +29,14 @@ export default function Header() {
     if (!isOpen) return;
 
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      // Don't close if clicking the button or inside the menu
+      if (
+        menuRef.current && 
+        !menuRef.current.contains(target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     };
@@ -39,13 +47,14 @@ export default function Header() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
+    // Use capture phase to catch events before they bubble
+    document.addEventListener("mousedown", handleClickOutside, true);
+    document.addEventListener("touchstart", handleClickOutside, true);
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside, true);
+      document.removeEventListener("touchstart", handleClickOutside, true);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
@@ -59,8 +68,9 @@ export default function Header() {
 
         <nav aria-label="Primary" className="flex items-center gap-1 text-sm font-medium sm:gap-2">
           {/* Calculators Dropdown Container */}
-          <div ref={menuRef} className="relative">
+          <div className="relative">
             <button
+              ref={buttonRef}
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
               aria-expanded={isOpen}
@@ -91,8 +101,9 @@ export default function Header() {
             {/* Dropdown Menu Box */}
             {isOpen && (
               <div
+                ref={menuRef}
                 role="menu"
-                className="absolute right-0 mt-2 w-[min(92vw,640px)] rounded-2xl border border-line bg-surface p-4 shadow-2xl transition-all sm:p-6 z-50 animate-in fade-in zoom-in-95 duration-150"
+                className="absolute right-0 mt-2 w-[min(92vw,640px)] rounded-2xl border border-line bg-surface p-4 shadow-2xl sm:p-6 z-50"
               >
                 <div className="grid gap-4 sm:grid-cols-2">
                   {categories.map((cat) => (
