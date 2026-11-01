@@ -62,12 +62,12 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/95 backdrop-blur-sm">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+      <div className="container-page flex h-14 items-center justify-between gap-2 sm:h-16 sm:gap-4">
         <Link href="/" className="shrink-0" aria-label="HomeMoney Calc home">
           <Logo />
         </Link>
 
-        <nav aria-label="Primary" className="flex items-center gap-1 text-sm font-medium sm:gap-2">
+        <nav aria-label="Primary" className="flex items-center gap-0.5 text-sm font-medium sm:gap-2">
           {/* Calculators Dropdown Container */}
           <div className="relative">
             <button
@@ -76,7 +76,7 @@ export default function Header() {
               onClick={() => setIsOpen((prev) => !prev)}
               aria-expanded={isOpen}
               aria-haspopup="true"
-              className="flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 text-muted transition hover:bg-surface hover:text-ink focus:outline-none focus:ring-2 focus:ring-line"
+              className="flex cursor-pointer items-center gap-1.5 rounded-xl px-2 py-2 text-muted transition hover:bg-surface hover:text-ink focus:outline-none focus:ring-2 focus:ring-line sm:px-3"
             >
               <Icon name="menu" className="h-4 w-4 sm:hidden" />
               <span className="hidden sm:inline">Calculators</span>
@@ -104,7 +104,7 @@ export default function Header() {
               <div
                 ref={menuRef}
                 role="menu"
-                className="absolute right-0 mt-2 w-[min(92vw,640px)] rounded-2xl border border-line bg-surface p-4 shadow-2xl sm:p-6 z-50"
+                className="absolute left-0 right-0 mt-2 max-h-[80vh] overflow-y-auto rounded-2xl border border-line bg-surface p-4 shadow-2xl sm:left-auto sm:w-[640px] sm:p-6"
               >
                 <div className="grid gap-4 sm:grid-cols-2">
                   {categories.map((cat) => (
@@ -120,12 +120,12 @@ export default function Header() {
                               <Link
                                 href={`/${t.slug}/`}
                                 onClick={() => setIsOpen(false)}
-                                className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-ink transition hover:bg-surface-2"
+                                className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-ink transition hover:bg-surface-2"
                               >
-                                <span className="grid h-7 w-7 place-items-center rounded-lg bg-ivy-50 text-ivy-700 dark:bg-ivy-900/50 dark:text-ivy-300">
+                                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-ivy-50 text-ivy-700 dark:bg-ivy-900/50 dark:text-ivy-300">
                                   <Icon name={t.icon} className="h-4 w-4" />
                                 </span>
-                                {t.shortTitle}
+                                <span className="min-w-0">{t.shortTitle}</span>
                               </Link>
                             </li>
                           ))}
@@ -137,7 +137,7 @@ export default function Header() {
                 <Link
                   href="/calculators/"
                   onClick={() => setIsOpen(false)}
-                  className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2 text-sm font-semibold text-ivy-700 hover:bg-ivy-50 dark:text-ivy-300 dark:hover:bg-ivy-900/30"
+                  className="mt-4 flex items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2.5 text-sm font-semibold text-ivy-700 hover:bg-ivy-50 dark:text-ivy-300 dark:hover:bg-ivy-900/30"
                 >
                   See all calculators <Icon name="arrow" className="h-4 w-4" />
                 </Link>
