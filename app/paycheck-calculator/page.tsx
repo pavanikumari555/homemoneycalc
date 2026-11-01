@@ -189,6 +189,49 @@ export default function Page() {
           </div>
         </div>
 
+        <div className="my-4 not-prose">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-2">
+            Calculate by benchmark salary:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/take-home-pay-by-state/?sal=50000" className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              💼 $50,000 / yr (Median Single)
+            </Link>
+            <Link href="/take-home-pay-by-state/?sal=75000" className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              💵 $75,000 / yr (US Average)
+            </Link>
+            <Link href="/take-home-pay-by-state/?sal=100000" className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🎯 $100,000 / yr (Six-Figure Benchmark)
+            </Link>
+            <Link href="/take-home-pay-by-state/?sal=150000" className="inline-flex items-center gap-1 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 hover:text-ivy transition">
+              🚀 $150,000 / yr (Upper Bracket)
+            </Link>
+          </div>
+        </div>
+
+        <div className="my-6 rounded-xl border border-ivy-500/30 bg-surface p-4 shadow-sm not-prose">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">💡</span>
+            <div>
+              <h3 className="font-semibold text-ink text-sm">Next Step: Put Your Take-Home Pay to Work</h3>
+              <p className="mt-1 text-xs text-muted leading-relaxed">
+                Once you know your net paycheck, see how allocating an extra $150–$300/month saves thousands in interest and clears loans years ahead of schedule:
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link href="/debt-payoff-calculator/" className="inline-flex items-center gap-1 rounded-md bg-ivy-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-ivy-700 transition">
+                  💳 Debt Payoff (Snowball vs. Avalanche) →
+                </Link>
+                <Link href="/mortgage-payoff-calculator/" className="inline-flex items-center gap-1 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 transition">
+                  🏠 Mortgage Extra Principal Savings →
+                </Link>
+                <Link href="/holiday-budget-calculator/" className="inline-flex items-center gap-1 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 transition">
+                  🎁 Holiday Shopping Budget Planner →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <p>
           Compare all 50 states and Washington D.C. side-by-side in our dedicated{" "}
           <Link href="/take-home-pay-by-state/" className="text-ivy-600 underline font-medium">
