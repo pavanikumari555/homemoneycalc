@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Calculations run entirely in your browser. We don&apos;t have accounts, forms or a database that store your numbers.</li>
         <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage.</li>
-        <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked — see below.</li>
+        <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked â€” see below.</li>
         <li>Cloudflare Web Analytics automatically measures aggregate visits, referring sites and page performance without an Allow button or analytics cookies. We no longer load Google Analytics.</li>
         <li>If partner links are activated, they will be clearly labeled. We never sell your personal information.</li>
       </ul>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
         your prior visits to this website or other websites on the internet.
       </p>
       <p>
-        You may opt out of personalized advertising by visiting{&apos; &apos;}
+        You may opt out of personalized advertising by visiting{" "}
         <a
           href="https://adssettings.google.com/"
           target="_blank"
@@ -89,7 +89,7 @@ export default function PrivacyPage() {
         >
           Google Ads Settings
         </a>
-        . Alternatively, you can opt out of third-party vendors&apos; use of cookies for personalized advertising by visiting{&apos; &apos;}
+        . Alternatively, you can opt out of third-party vendors&apos; use of cookies for personalized advertising by visiting{" "}
         <a
           href="https://www.aboutads.info/choices/"
           target="_blank"
