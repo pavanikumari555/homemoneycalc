@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import PageShell from "@/components/PageShell";
+import AuthorSchema from "@/components/AuthorSchema";
 
 export const metadata: Metadata = buildMetadata({
   title: "About Us",
@@ -12,10 +13,12 @@ export const metadata: Metadata = buildMetadata({
 
 export default function AboutPage() {
   return (
-    <PageShell
-      title="About HomeMoney Calc"
-      intro="Free, fast, and honest financial calculators — built to help you make clearer money decisions."
-    >
+    <>
+      <AuthorSchema />
+      <PageShell
+        title="About HomeMoney Calc"
+        intro="Free, fast, and honest financial calculators — built to help you make clearer money decisions."
+      >
       <h2>Our mission</h2>
       <p>
         {SITE.name} exists to make everyday financial math simple. Questions like &quot;what will
@@ -68,6 +71,7 @@ export default function AboutPage() {
         <a href={`mailto:${SITE.email}`} className="text-ivy-600 underline">{SITE.email}</a>{" "}
         or through our <a href="/contact/" className="text-ivy-600 underline">contact page</a>.
       </p>
-    </PageShell>
+      </PageShell>
+    </>
   );
 }
