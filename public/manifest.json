@@ -1,0 +1,29 @@
+{
+  "name": "HomeMoney Calc - Financial & Loan Payoff Calculators",
+  "short_name": "HomeMoney Calc",
+  "description": "Fast, private, and offline-ready financial and payoff calculators.",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Paycheck Calculator",
+      "url": "/paycheck-calculator/",
+      "description": "Calculate take-home pay after taxes"
+    },
+    {
+      "name": "Mortgage Payoff",
+      "url": "/mortgage-payoff-calculator/",
+      "description": "Estimate mortgage payoff with extra payments"
+    }
+  ]
+}

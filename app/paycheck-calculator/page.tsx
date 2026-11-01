@@ -224,9 +224,6 @@ export default function Page() {
                 <Link href="/mortgage-payoff-calculator/" className="inline-flex items-center gap-1 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 transition">
                   🏠 Mortgage Extra Principal Savings →
                 </Link>
-                <Link href="/holiday-budget-calculator/" className="inline-flex items-center gap-1 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-ink hover:border-ivy-500 transition">
-                  🎁 Holiday Shopping Budget Planner →
-                </Link>
               </div>
             </div>
           </div>

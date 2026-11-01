@@ -64,16 +64,7 @@ export default function PrivacyPage() {
         <a href="https://developers.cloudflare.com/web-analytics/about/" target="_blank" rel="noopener noreferrer">Cloudflare Web Analytics</a>.
       </p>
 
-      <h2>Affiliate links</h2>
-      <p>
-        Partner offers are not currently activated. If a calculator later suggests a partner service and you
-        click one of these links and sign up or buy, we may earn a commission at no extra cost to you. These links are
-        labeled, and they never change how a calculator works or what it shows. When you leave our site, the other
-        company&apos;s privacy policy applies. Read more in our{" "}
-        <Link href="/advertising-disclosure/">advertising disclosure</Link>.
-      </p>
-
-            <h2>Google AdSense &amp; Advertising Cookies</h2>
+      <h2>Google AdSense &amp; Advertising Cookies</h2>
       <p>
         We may use Google AdSense and other third-party advertising partners to serve ads when you visit our website.
         Third-party vendors, including Google, use cookies (such as the DoubleClick DART cookie) to serve ads based on
@@ -99,6 +90,15 @@ export default function PrivacyPage() {
           aboutads.info
         </a>
         .
+      </p>
+
+      <h2>Affiliate links</h2>
+      <p>
+        Partner offers are not currently activated. If a calculator later suggests a partner service and you
+        click one of these links and sign up or buy, we may earn a commission at no extra cost to you. These links are
+        labeled, and they never change how a calculator works or what it shows. When you leave our site, the other
+        company&apos;s privacy policy applies. Read more in our{" "}
+        <Link href="/advertising-disclosure/">advertising disclosure</Link>.
       </p>
 
       <h2>Cookies</h2>
