@@ -53,10 +53,17 @@ export default function Header() {
     document.addEventListener("touchstart", handleClickOutside);
     document.addEventListener("keydown", handleKeyDown);
 
+    // Prevent body scroll when menu is open on mobile
+    const originalOverflow = document.body.style.overflow;
+    if (window.innerWidth < 640) {
+      document.body.style.overflow = 'hidden';
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = originalOverflow;
     };
   }, [isOpen]);
 
@@ -99,49 +106,59 @@ export default function Header() {
               </svg>
             </button>
 
-            {/* Dropdown Menu Box */}
+            {/* Dropdown Menu Box - Desktop dropdown, Mobile full-screen */}
             {isOpen && (
-              <div
-                ref={menuRef}
-                role="menu"
-                className="absolute left-0 right-0 mt-2 max-h-[80vh] overflow-y-auto rounded-2xl border border-line bg-surface p-4 shadow-2xl sm:left-auto sm:w-[640px] sm:p-6"
-              >
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {categories.map((cat) => (
-                    <div key={cat}>
-                      <div className="mb-1.5 px-2 text-xs font-semibold uppercase tracking-wider text-muted">
-                        {CATEGORY_LABELS[cat]}
-                      </div>
-                      <ul>
-                        {toolsIn(cat)
-                          .slice(0, MENU_PER_CATEGORY)
-                          .map((t) => (
-                            <li key={t.slug}>
-                              <Link
-                                href={`/${t.slug}/`}
-                                onClick={() => setIsOpen(false)}
-                                className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-ink transition hover:bg-surface-2"
-                              >
-                                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-ivy-50 text-ivy-700 dark:bg-ivy-900/50 dark:text-ivy-300">
-                                  <Icon name={t.icon} className="h-4 w-4" />
-                                </span>
-                                <span className="min-w-0">{t.shortTitle}</span>
-                              </Link>
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-
-                <Link
-                  href="/calculators/"
+              <>
+                {/* Mobile: Full-screen backdrop overlay */}
+                <div 
+                  className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm sm:hidden"
                   onClick={() => setIsOpen(false)}
-                  className="mt-4 flex items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2.5 text-sm font-semibold text-ivy-700 hover:bg-ivy-50 dark:text-ivy-300 dark:hover:bg-ivy-900/30"
+                  aria-hidden="true"
+                />
+                
+                {/* Menu content */}
+                <div
+                  ref={menuRef}
+                  role="menu"
+                  className="fixed inset-x-0 bottom-0 top-14 z-50 overflow-y-auto rounded-t-3xl border-t border-line bg-surface p-4 shadow-2xl sm:absolute sm:inset-auto sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-[640px] sm:rounded-2xl sm:border sm:p-6"
                 >
-                  See all calculators <Icon name="arrow" className="h-4 w-4" />
-                </Link>
-              </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {categories.map((cat) => (
+                      <div key={cat}>
+                        <div className="mb-1.5 px-2 text-xs font-semibold uppercase tracking-wider text-muted">
+                          {CATEGORY_LABELS[cat]}
+                        </div>
+                        <ul>
+                          {toolsIn(cat)
+                            .slice(0, MENU_PER_CATEGORY)
+                            .map((t) => (
+                              <li key={t.slug}>
+                                <Link
+                                  href={`/${t.slug}/`}
+                                  onClick={() => setIsOpen(false)}
+                                  className="flex items-center gap-2.5 rounded-lg px-2 py-2 text-sm text-ink transition hover:bg-surface-2 active:bg-surface-2"
+                                >
+                                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-ivy-50 text-ivy-700 dark:bg-ivy-900/50 dark:text-ivy-300">
+                                    <Icon name={t.icon} className="h-4 w-4" />
+                                  </span>
+                                  <span className="min-w-0">{t.shortTitle}</span>
+                                </Link>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    href="/calculators/"
+                    onClick={() => setIsOpen(false)}
+                    className="mt-4 flex items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-3 text-sm font-semibold text-ivy-700 hover:bg-ivy-50 active:bg-ivy-100 dark:text-ivy-300 dark:hover:bg-ivy-900/30"
+                  >
+                    See all calculators <Icon name="arrow" className="h-4 w-4" />
+                  </Link>
+                </div>
+              </>
             )}
           </div>
 
