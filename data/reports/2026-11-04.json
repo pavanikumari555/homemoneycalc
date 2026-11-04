@@ -1,6 +1,6 @@
 {
   "date": "2026-11-04",
-  "generatedAt": "2026-11-04T09:22:09.448Z",
+  "generatedAt": "2026-11-04T09:36:52.549Z",
   "sources": {
     "gsc": true,
     "ga4": true,
@@ -81,7 +81,7 @@
     "connected": true,
     "source": "cloudflare-web-analytics",
     "timezone": "Asia/Kolkata",
-    "checkedAt": "2026-11-04T09:21:55.006Z",
+    "checkedAt": "2026-11-04T09:36:34.368Z",
     "note": "Visits are estimated visits, not unique people. Browser blocking and sampling affect coverage; known bots excluded.",
     "status": "connected",
     "days": [
@@ -549,7 +549,7 @@
     "titleTests": [
       {
         "page": "/percentage-calculator/",
-        "currentTitle": "Percentage Calculator: %, Change, Increase & Off",
+        "currentTitle": "Percentage Calculator: Find Percent, Change & Discount",
         "topQuery": "110*1.06",
         "impressions": 170,
         "ctr": 0,
@@ -558,9 +558,9 @@
         "reviewRequired": true,
         "position": 9.041176470588235,
         "ideas": [
-          "110*1.06 — Free, No Sign-Up",
-          "Free 110*1.06 — Step-by-Step Math",
-          "110*1.06 — Calculation Breakdown"
+          "Percentage Calculator — Free, No Sign-Up",
+          "Percentage Calculator: What is 20% of 150? → 30",
+          "Percentage Calculator"
         ]
       }
     ],
@@ -875,7 +875,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5528d77bdcf5e53-IAD",
+      "ray": "a552a3074bb91315-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -883,7 +883,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5528d77b9913895-IAD",
+      "ray": "a552a3075baf2070-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -891,7 +891,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5528d77b8121e0d-IAD",
+      "ray": "a552a30748d1a171-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -905,7 +905,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5528d77c8106fdf-IAD",
+      "ray": "a552a3074e2fc96a-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -913,83 +913,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5528d77ba7082f6-IAD",
+      "ray": "a552a3075c2c282c-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-11-04T09:22:09.184Z",
+      "checkedAt": "2026-11-04T09:36:52.311Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a5528d77ae918299-IAD"
+        "ray": "a552a3073d90c8e0-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-11-04T09:22:09.184Z",
+      "checkedAt": "2026-11-04T09:36:52.311Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a5528d77fe73b712-IAD"
+        "ray": "a552a307ab8ed6dd-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-11-04T09:22:09.185Z",
+      "checkedAt": "2026-11-04T09:36:52.312Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a5528d77de52d697-IAD"
+        "ray": "a552a3077c1cabc2-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-11-04T09:22:09.185Z",
+      "checkedAt": "2026-11-04T09:36:52.313Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5528d78289eb4a5-IAD"
+        "ray": "a552a3079af8898c-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-11-04T09:22:09.186Z",
+      "checkedAt": "2026-11-04T09:36:52.313Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5528d782cad82f0-IAD"
+        "ray": "a552a3079cee0aa1-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-11-04T09:22:09.186Z",
+      "checkedAt": "2026-11-04T09:36:52.314Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -997,14 +997,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5528d781a80c24d-IAD"
+        "ray": "a552a3079d626529-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-11-04T09:22:09.186Z",
+      "checkedAt": "2026-11-04T09:36:52.314Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1012,7 +1012,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5528d781b14efe7-IAD"
+        "ray": "a552a3078a147ca7-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -1185,24 +1185,11 @@
         "Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo."
       ],
       "url": "https://dash.cloudflare.com/"
-    },
-    {
-      "id": "owner-approvals",
-      "title": "Approval inbox mein proposals padhein",
-      "why": "1 evidence-backed proposals await review. Approval applies only to the shown payload.",
-      "who": "owner",
-      "priority": 2,
-      "steps": [
-        "Admin → Aapki approvals kholo aur linked evidence padho.",
-        "Exact before/after aur checklist verify karke approve/reject karo.",
-        "Workflow result aur deployment verify karo; queued ko live mat samjho."
-      ],
-      "url": "https://homemoneycalc.com/admin/"
     }
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-11-04T09:22:09.496Z",
+    "generatedAt": "2026-11-04T09:36:52.603Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
@@ -1310,7 +1297,7 @@
     ]
   },
   "approvals": {
-    "pending": 1,
+    "pending": 0,
     "automaticPublication": false
   },
   "experiments": [],
@@ -1319,10 +1306,10 @@
     "summary": "Pichhle reported period mein Google se 2 clicks aur 615 impressions mile. Search data kuch din late hota hai; ye aaj ke total visits nahi hain. AdSense ke internal planning checkpoints Google ke minimum rules nahi hain.",
     "youDo": [
       "Cloudflare monitoring access verify karo: Website normal browser mein kholkar access verify karo. Cloudflare Security Events mein monitoring request/ray dekho; verified search crawlers ka access bhi check karo. Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo.",
-      "Approval inbox mein proposals padhein: Admin → Aapki approvals kholo aur linked evidence padho. Exact before/after aur checklist verify karke approve/reject karo. Workflow result aur deployment verify karo; queued ko live mat samjho.",
       "Next tool: No Tax on Overtime Calculator (target 2026-11-08).",
       "Content refresh: 2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath).",
-      "Season alert — Open enrollment & raises (chal raha hai): 401(k)/HSA change ka paycheck pe asar — paycheck page pe example."
+      "Season alert — Open enrollment & raises (chal raha hai): 401(k)/HSA change ka paycheck pe asar — paycheck page pe example.",
+      "/percentage-calculator/ ka CTR kam hai — admin me 'Title tests' se ek naya title chuno."
     ],
     "agentNext": [],
     "risks": [],
