@@ -1,6 +1,6 @@
 {
   "date": "2026-11-04",
-  "generatedAt": "2026-11-04T03:21:25.495Z",
+  "generatedAt": "2026-11-04T09:22:09.448Z",
   "sources": {
     "gsc": true,
     "ga4": true,
@@ -81,7 +81,7 @@
     "connected": true,
     "source": "cloudflare-web-analytics",
     "timezone": "Asia/Kolkata",
-    "checkedAt": "2026-11-04T03:21:14.341Z",
+    "checkedAt": "2026-11-04T09:21:55.006Z",
     "note": "Visits are estimated visits, not unique people. Browser blocking and sampling affect coverage; known bots excluded.",
     "status": "connected",
     "days": [
@@ -130,15 +130,15 @@
       {
         "date": "2026-11-04",
         "partial": true,
-        "pageviews": 0,
-        "visits": 0
+        "pageviews": 2,
+        "visits": 2
       }
     ],
     "today": {
       "date": "2026-11-04",
       "partial": true,
-      "pageviews": 0,
-      "visits": 0
+      "pageviews": 2,
+      "visits": 2
     },
     "yesterday": {
       "date": "2026-11-03",
@@ -149,7 +149,7 @@
     "pages": [
       {
         "path": "/",
-        "pageviews": 44
+        "pageviews": 46
       },
       {
         "path": "/paycheck-calculator/",
@@ -187,7 +187,7 @@
     "sources": [
       {
         "host": "",
-        "visits": 47
+        "visits": 49
       },
       {
         "host": "dataindex.pro",
@@ -209,19 +209,11 @@
   },
   "taxReview": {
     "taxYear": 2026,
-    "lastReviewed": "2026-10-31",
-    "nextReview": "2026-11-30",
+    "lastReviewed": "2026-11-04",
+    "nextReview": "2026-12-04",
     "due": false,
     "yearChanged": false,
     "limitations": [
-      {
-        "id": "CA-indexing",
-        "state": "CA",
-        "status": "older-parameters",
-        "reviewed": "2026-10-31",
-        "source": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp",
-        "note": "2025 annual-return parameters remain explicitly labelled. Official 2026 estimated-tax instructions reference 2025 tables; do not substitute payroll withholding tables."
-      },
       {
         "id": "state-scope",
         "state": "ALL",
@@ -251,10 +243,10 @@
       {
         "id": "CA-indexing",
         "state": "CA",
-        "status": "older-parameters",
-        "reviewed": "2026-10-31",
-        "source": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp",
-        "note": "2025 annual-return parameters remain explicitly labelled. Official 2026 estimated-tax instructions reference 2025 tables; do not substitute payroll withholding tables."
+        "status": "derived-from-official-rule",
+        "reviewed": "2026-11-04",
+        "source": "https://www.ftb.ca.gov/about-ftb/newsroom/tax-news/2026/10.html",
+        "note": "Published 2026 brackets, standard deduction and personal credit. RTC 17054.1 indexes the 2025 FTB phase-out thresholds of $252,203 single and $504,411 joint by 3.4%, rounded to the nearest dollar. Confirm with the final 2026 Form 540 worksheet."
       },
       {
         "id": "state-scope",
@@ -810,19 +802,19 @@
     {
       "page": "index.html",
       "status": "pass",
-      "jsGzipBytes": 201854,
+      "jsGzipBytes": 201868,
       "cssGzipBytes": 9549
     },
     {
       "page": "paycheck-calculator/index.html",
       "status": "pass",
-      "jsGzipBytes": 218721,
+      "jsGzipBytes": 218751,
       "cssGzipBytes": 9549
     },
     {
       "page": "debt-payoff-calculator/index.html",
       "status": "pass",
-      "jsGzipBytes": 209956,
+      "jsGzipBytes": 209970,
       "cssGzipBytes": 9549
     }
   ],
@@ -857,8 +849,8 @@
     {
       "id": "lint",
       "label": "Code quality",
-      "status": "fail",
-      "summary": "Check failed; workflow log mein exact error dekho."
+      "status": "pass",
+      "summary": "Check passed."
     },
     {
       "id": "dependencies",
@@ -883,7 +875,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5507d0ccc488119-DFW",
+      "ray": "a5528d77bdcf5e53-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -891,7 +883,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5507d0cb87f2b15-DFW",
+      "ray": "a5528d77b9913895-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -899,7 +891,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5507d0cced7533a-DFW",
+      "ray": "a5528d77b8121e0d-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -913,7 +905,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5507d0cdb7eeab9-DFW",
+      "ray": "a5528d77c8106fdf-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -921,83 +913,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5507d0cd8a6416c-DFW",
+      "ray": "a5528d77ba7082f6-IAD",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-11-04T03:21:25.133Z",
+      "checkedAt": "2026-11-04T09:22:09.184Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a5507d0caf462e19-DFW"
+        "ray": "a5528d77ae918299-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-11-04T03:21:25.134Z",
+      "checkedAt": "2026-11-04T09:22:09.184Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a5507d0d39cd8b23-DFW"
+        "ray": "a5528d77fe73b712-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-11-04T03:21:25.134Z",
+      "checkedAt": "2026-11-04T09:22:09.185Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a5507d0d3b9afbb1-DFW"
+        "ray": "a5528d77de52d697-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-11-04T03:21:25.134Z",
+      "checkedAt": "2026-11-04T09:22:09.185Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5507d0d98814b91-DFW"
+        "ray": "a5528d78289eb4a5-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-11-04T03:21:25.135Z",
+      "checkedAt": "2026-11-04T09:22:09.186Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5507d0d9a79f2f6-DFW"
+        "ray": "a5528d782cad82f0-IAD"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-11-04T03:21:25.135Z",
+      "checkedAt": "2026-11-04T09:22:09.186Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1005,14 +997,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5507d0d8dd3ddb3-DFW"
+        "ray": "a5528d781a80c24d-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-11-04T03:21:25.135Z",
+      "checkedAt": "2026-11-04T09:22:09.186Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1020,7 +1012,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5507d0d98e7d8af-DFW"
+        "ray": "a5528d781b14efe7-IAD"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -1182,18 +1174,6 @@
   },
   "actions": [
     {
-      "id": "quality-lint",
-      "title": "Code quality: fix chahiye",
-      "why": "Check failed; workflow log mein exact error dekho.",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "GitHub Actions ka matching check log kholo.",
-        "Cause reproduce karke fix karo; guessing se pass mat mark karo."
-      ],
-      "url": ""
-    },
-    {
       "id": "monitoring-access",
       "title": "Cloudflare monitoring access verify karo",
       "why": "7 automated requests Cloudflare ne block kiye. Ye confirmed website outage nahi; monitoring coverage incomplete hai.",
@@ -1222,7 +1202,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-11-04T03:21:25.530Z",
+    "generatedAt": "2026-11-04T09:22:09.496Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
@@ -1344,9 +1324,7 @@
       "Content refresh: 2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath).",
       "Season alert — Open enrollment & raises (chal raha hai): 401(k)/HSA change ka paycheck pe asar — paycheck page pe example."
     ],
-    "agentNext": [
-      "Code quality: fix chahiye: GitHub Actions ka matching check log kholo. Cause reproduce karke fix karo; guessing se pass mat mark karo."
-    ],
+    "agentNext": [],
     "risks": [],
     "by": "rules"
   }
