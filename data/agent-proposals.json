@@ -10,42 +10,5 @@
     "financialChangesRequireReview": true,
     "execution": "Only reviewed existing-page SEO title/description strings; research approval creates a task, not a public page."
   },
-  "proposals": [
-    {
-      "id": "proposal-92223f68c610c0287397",
-      "digest": "92223f68c610c02873977171afeb8f9c6541e85ba950600dc3014c9b7946b945",
-      "payload": {
-        "kind": "metadata",
-        "topic": "title-percentage-calculator",
-        "created": "2026-11-02",
-        "expires": "2026-11-16",
-        "title": "Percentage Calculator: title review",
-        "reason": "Search report: 134 impressions, CTR 0%. This is a test hypothesis, not proof of a title problem.",
-        "evidence": [
-          {
-            "url": "https://homemoneycalc.com/percentage-calculator/",
-            "observation": "Observed query: 110*1.06; reported average position 9.067164179104477."
-          }
-        ],
-        "change": {
-          "slug": "percentage-calculator",
-          "field": "title",
-          "before": "Percentage Calculator: %, Change, Increase & Off",
-          "after": "110*1.06 — Free, No Sign-Up"
-        },
-        "baseline": {
-          "impressions": 134,
-          "ctr": 0,
-          "position": 9.067164179104477,
-          "reportDate": "2026-11-02"
-        },
-        "reviewChecklist": [
-          "Naya title calculator ke actual supported features se match karta hai.",
-          "Koi unverified financial/year/accuracy claim nahi hai.",
-          "Sirf exact shown title change approve ho raha hai; ranking guaranteed nahi."
-        ],
-        "outcome": "After approval: tests, registry check, lint and public build; publish only if all pass."
-      }
-    }
-  ]
+  "proposals": []
 }

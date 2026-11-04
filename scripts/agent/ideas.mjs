@@ -12,7 +12,6 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 
 const DAY = 86_400_000;
 const clip = (s, max = 60) => (s.length <= max ? s : `${s.slice(0, max - 1).replace(/[\s,:;—-]+\S*$/, "")}…`);
-const cap = (s) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
 /** TOOLS registry ko lib/site.ts se padho (TS import nahi kar sakte, isliye regex — check-tools.mjs jaisa). */
 export function readTools(file = "lib/site.ts") {
@@ -60,16 +59,13 @@ export function titleTests({ topPages = [], queryPage = [], tools, siteUrl, outD
         .filter((r) => (r.page.replace(siteUrl, "") || "/") === p.page)
         .sort((a, b) => b.impressions - a.impressions)[0]?.query;
       const tool = tools.find((t) => p.page === `/${t.slug}/`);
-      const kw = cap(top ?? tool?.title ?? "Free Calculator");
-      // Example ka number sirf tab, jab query tool ke apne naam jaisi ho (warna "Texas" query pe California ka number aa jaata)
-      const exampleFits = tool?.example.output && (!top || tool.title.toLowerCase().includes(top.toLowerCase()));
+      const name = tool?.title;
+      if (!name) return null;
       const ideas = [
-        `${kw} — Free, No Sign-Up`,
-        exampleFits ? `${kw}: ${tool.example.input} → ${tool.example.output}` : `Free ${kw} — Step-by-Step Math`,
-        `${kw} — Calculation Breakdown`,
-        `${kw} With Chart & Share Link`,
-      ].filter((t) => t.length <= 60); // Google ~60 chars ke baad title kaat deta hai
-      if (!ideas.length) ideas.push(clip(kw));
+        `${name} — Free, No Sign-Up`,
+        tool.example.output ? `${name}: ${tool.example.input} → ${tool.example.output}` : name,
+        name,
+      ].filter((title) => title.length <= 75);
       return {
         page: p.page,
         currentTitle: currentTitle(outDir, p.page),
@@ -82,7 +78,7 @@ export function titleTests({ topPages = [], queryPage = [], tools, siteUrl, outD
         position: p.position,
         ideas: [...new Set(ideas)].slice(0, 3),
       };
-    });
+    }).filter(Boolean);
 }
 
 // Tools jinki math IRS/SSA ki saalana limits pe chalti hai

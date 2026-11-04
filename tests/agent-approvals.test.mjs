@@ -113,6 +113,21 @@ test("suggestions avoid unsupported year/accuracy claims and unpublished outreac
   assert.ok(titles[0].ideas.every((t) => !/2027|exact numbers/i.test(t)));
   for (let day = 1; day < 30; day++) assert.ok(outreachDrafts({ tools, siteUrl: "https://homemoneycalc.com", siteName: "HomeMoney Calc", today: `2026-10-${String(day).padStart(2, "0")}` }).every((d) => !d.body.includes("/take-home-pay-by-state/")));
 });
+test("SEO title ideas keep the calculator name even when the observed query is arithmetic", () => {
+  const tools = readTools();
+  const page = "/percentage-calculator/";
+  const report = { date: today, sources: { gsc: true }, ideas: { titleTests: titleTests({
+    topPages: [{ page, impressions: 134, position: 9, ctr: 0 }],
+    queryPage: [{ page, query: "110*1.06", impressions: 1 }],
+    tools, siteUrl: "https://homemoneycalc.com",
+  }) } };
+  assert.equal(report.ideas.titleTests[0].topQuery, "110*1.06");
+  assert.ok(report.ideas.titleTests[0].ideas.every((title) => title.startsWith("Percentage Calculator")));
+  const stale = sealProposal({ kind: "metadata", expires: today, topic: "title-percentage-calculator", change: { slug: "percentage-calculator", field: "title", after: "110*1.06 — Free, No Sign-Up" } });
+  const queue = proposalQueue(report, tools, { proposals: [stale] }, today);
+  assert.equal(queue.proposals.length, 0);
+});
+
 test("experiment evaluation waits for a comparable window and never treats missing data as a win", () => {
   const history = { decisions: [{ id: "test", title: "Title test", kind: "metadata", result: "applied-after-checks", decidedAt: "2026-10-26T12:00:00Z", payload: { change: { slug: "paycheck-calculator" }, baseline: { impressions: 500, ctr: 0.01 } } }] };
   assert.equal(evaluateExperiments(history, {}, "2026-10-27")[0].status, "waiting-for-comparable-window");

@@ -9,7 +9,7 @@ import { percentOf, percentChange, whatPercent, usd } from "@/lib/calc";
 const SLUG = "percentage-calculator";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Percentage Calculator: %, Change, Increase & Off",
+  title: "Percentage Calculator: Find Percent, Change & Discount",
   description:
     "Work out X% of Y, percent change, percent increase or decrease and discounts instantly, with the formula shown for each.",
   path: `/${SLUG}/`,
@@ -99,6 +99,11 @@ export default function Page() {
         To find the percentage change between two values, take the difference, divide by the
         original value, and multiply by 100. This is the go-to calculation for price changes,
         growth rates, and comparing before-and-after figures.
+      </p>
+      <p>
+        If you already know the rate, enter the original value and the rate in the percentage increase tool.
+        For example, to increase 110 by 6%, multiply by 1.06: 110 × 1.06 = 116.6.
+        To decrease 110 by 6%, multiply by 0.94: 110 × 0.94 = 103.4.
       </p>
 
       <h2>The formulas at a glance</h2>

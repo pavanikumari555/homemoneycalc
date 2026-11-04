@@ -59,7 +59,14 @@ export function applyMetadata(source, proposal, today) {
 
 export function proposalQueue(report, tools, previous = { proposals: [] }, today, history = { decisions: [] }) {
   const expires = new Date(Date.parse(`${today}T12:00:00Z`) + 14 * 86400000).toISOString().slice(0, 10);
-  const proposals = (previous.proposals || []).filter((p) => p.payload.expires >= today);
+  const toolName = (change) => tools.find((tool) => tool.slug === change?.slug)?.title;
+  const describesTool = (change) => {
+    const name = toolName(change);
+    return Boolean(name && change.after?.toLowerCase().startsWith(name.toLowerCase()));
+  };
+  const proposals = (previous.proposals || []).filter(({ payload }) =>
+    payload.expires >= today && (payload.kind !== "metadata" || payload.change?.field !== "title" || describesTool(payload.change))
+  );
   const add = (payload) => { const p = sealProposal(payload); if (!proposals.some((x) => x.digest === p.digest || x.payload.topic === payload.topic)) proposals.push(p); };
   for (const observation of report.research?.observations || []) {
     if (observation.status !== "changed") continue;
@@ -79,10 +86,10 @@ export function proposalQueue(report, tools, previous = { proposals: [] }, today
     let before;
     try { before = tool && metadataField(readFileSync(`app/${tool.slug}/page.tsx`, "utf8"), "title").text; } catch { continue; }
     const after = row.ideas?.find((s) => s !== before && !/\b20\d{2}\b|exact|guarantee/i.test(s));
-    if (!tool || !before || !after || !row.topQuery) continue;
+    if (!tool || !before || !after || !row.topQuery?.toLowerCase().includes(tool.title.toLowerCase()) || !describesTool({ slug: tool.slug, after })) continue;
     const payload = { kind: "metadata", topic: `title-${tool.slug}`, created: today, expires,
       title: `${tool.title}: title review`, reason: `Search report: ${row.impressions} impressions, CTR ${Math.round(row.ctr * 10000) / 100}%. This is a test hypothesis, not proof of a title problem.`,
-      evidence: [{ url: `https://homemoneycalc.com/${tool.slug}/`, observation: `Observed query: ${row.topQuery}; reported average position ${row.position}.` }],
+      evidence: [{ url: `https://homemoneycalc.com/${tool.slug}/`, observation: `Observed query: ${row.topQuery}; page average position ${row.position}.` }],
       change: { slug: tool.slug, field: "title", before, after },
       baseline: { impressions: row.impressions, ctr: row.ctr, position: row.position, reportDate: report.date || today },
       reviewChecklist: ["Naya title calculator ke actual supported features se match karta hai.", "Koi unverified financial/year/accuracy claim nahi hai.", "Sirf exact shown title change approve ho raha hai; ranking guaranteed nahi."],
