@@ -43,6 +43,22 @@ test("Utah statutory CPI credit phases out instead of always subtracting the ful
   near(calcPaycheck({...paycheck,stateCode:"UT",status:"married",grossAnnual:200000}).stateTax,8900);
 });
 
+test("California uses 2026 brackets and phases out the personal credit on federal AGI", () => {
+  const { statePersonalCredit } = require("../lib/paycheck.ts");
+  const { STATES } = require("../lib/tax2026.ts");
+  const state = STATES.find(({ code }) => code === "CA");
+  const base = { ...paycheck, stateCode: "CA" };
+  near(calcPaycheck({ ...base, grossAnnual: 17_356 }).stateTax, 0);
+  near(calcPaycheck({ ...base, grossAnnual: 33_057 }).stateTax, 270.58);
+  near(calcPaycheck({ ...base, status: "married", grossAnnual: 66_114 }).stateTax, 541.16);
+  assert.equal(statePersonalCredit(state, "single", 260_778), 158);
+  assert.equal(statePersonalCredit(state, "single", 260_779), 152);
+  assert.equal(statePersonalCredit(state, "married", 521_562), 304);
+  assert.equal(statePersonalCredit(state, "married", 1_000_000), 0);
+  const hsa = { ...base, grossAnnual: 261_778, otherPretaxAnnual: 1_000, hsaAnnual: 1_000 };
+  near(calcPaycheck(hsa).stateTax, calcPaycheck({ ...base, grossAnnual: 261_778 }).stateTax - 6);
+});
+
 test("all state engines remain finite across zero, ordinary and high wages",()=>{
   const {STATES}=require("../lib/tax2026.ts");
   for(const s of STATES) for(const grossAnnual of [0,15000,40000,100000,1000000]) for(const status of ["single","married"]){

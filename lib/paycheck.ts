@@ -105,8 +105,15 @@ const STD_DEDUCTION_PHASE_OUT: Record<string, { single: { start: number; rate: n
 // Derivation is retained rather than substituting the different payroll withholding allowance.
 export const UTAH_CREDIT_BASE_2026 = Math.round(15_095 * (319.205 / (3_092.65 / 12)));
 
-export function statePersonalCredit(state: StateTax, status: FilingStatus, stateWages: number): number {
+export function statePersonalCredit(state: StateTax, status: FilingStatus, stateWages: number, federalAgi = stateWages): number {
   const initial = state.personalCredit[status];
+  if (state.code === "CA") {
+    // RTC 17054.1: index 2025 FTB AGI thresholds by the published 3.4% CCPI change.
+    const threshold = status === "married" ? 521_561 : 260_778;
+    const reductionPerStep = status === "married" ? 12 : 6;
+    const steps = Math.ceil(Math.max(0, federalAgi - threshold) / 2_500);
+    return Math.max(0, initial - steps * reductionPerStep);
+  }
   if (state.code === "UT") {
     const base = UTAH_CREDIT_BASE_2026 * (status === "married" ? 2 : 1);
     return Math.max(0, initial - Math.max(0, stateWages - base) * 0.013);
@@ -183,7 +190,7 @@ export function calcPaycheck(input: PaycheckInput): PaycheckResult {
       ? Math.max(0, state.stdDeduction[status] - Math.max(0, stateWages - stdPhase[status].start) * stdPhase[status].rate)
       : state.stdDeduction[status];
     const stateTaxable = Math.max(0, stateWages - stdDeduction - exemption);
-    stateTax = Math.max(0, bracketTax(stateTaxable, state[status]) - statePersonalCredit(state, status, stateWages));
+    stateTax = Math.max(0, bracketTax(stateTaxable, state[status]) - statePersonalCredit(state, status, stateWages, gross - retirement - otherPretax));
     // County tax (MD, IN) uses the same taxable income as the state tax
     if (loc.brackets) localTax = bracketTax(stateTaxable, loc.brackets);
   }

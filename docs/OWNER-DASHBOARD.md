@@ -36,7 +36,7 @@ For live *saved report* refresh, the existing restricted GITHUB_AGENT_TOKEN can 
 
 ## Limits kept visible
 
-California currently uses explicitly labelled older annual-return parameters; other documented exclusions/credits/local taxes keep the paycheck calculator an estimate, not a full return or W-4 system. These limitations are not certified away by passing tests.
+California uses published 2026 annual-return brackets, deduction and credit amounts. The exemption credit phase-out thresholds are derived from the statutory indexing rule pending confirmation in the final 2026 Form 540 worksheet. The paycheck calculator estimates annual liability from wages. See the state notes for excluded credits and local taxes.
 
 Unknown WAF monitoring responses remain unknown. Do not disable protection globally to make a report green. Account security/2FA and authenticated approval execution need owner/account verification. AdSense's final publisher ID, privacy messages, financial-URL protection and mobile ad placement must be checked with the actual future tag before activation.
 

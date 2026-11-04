@@ -4,8 +4,7 @@
 name: SEO weekly agent
 
 on:
-  schedule:
-    - cron: "30 3 * * 1" # Monday 9:00 AM India time
+  # Manual while the Claude GitHub App is unavailable for this repository.
   workflow_dispatch:
 
 permissions:
