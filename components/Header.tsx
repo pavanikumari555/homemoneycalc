@@ -17,10 +17,12 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const [previousPathname, setPreviousPathname] = useState(pathname);
 
-  useEffect(() => {
+  if (pathname !== previousPathname) {
+    setPreviousPathname(pathname);
     setIsOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     if (!isOpen) return;

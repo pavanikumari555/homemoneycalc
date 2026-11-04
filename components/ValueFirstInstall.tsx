@@ -31,7 +31,6 @@ export default function ValueFirstInstall() {
 
     const ua = window.navigator.userAgent.toLowerCase();
     const isApple = /iphone|ipad|ipod/.test(ua);
-    setIsIOS(isApple);
 
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
@@ -40,10 +39,13 @@ export default function ValueFirstInstall() {
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstall);
 
-    const handleCalculationDone = () => setShowPrompt(true);
+    const handleCalculationDone = () => {
+      setIsIOS(isApple);
+      setShowPrompt(true);
+    };
     window.addEventListener("hmc_calculation_complete", handleCalculationDone);
 
-    const timer = setTimeout(() => setShowPrompt(true), 60000);
+    const timer = setTimeout(handleCalculationDone, 60000);
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
