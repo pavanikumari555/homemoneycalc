@@ -44,7 +44,6 @@ export function actionPlan(report, business, today) {
     if (check.status !== "pass") add(`quality-${check.id}`, `${check.label}: ${check.status === "fail" ? "fix chahiye" : "check adhoora"}`, check.summary, "agent", check.status === "fail" ? 0 : 1,
       ["GitHub Actions ka matching check log kholo.", "Cause reproduce karke fix karo; guessing se pass mat mark karo."]);
   }
-  const blocked = (report?.liveChecks ?? []).filter((c) => c.blockedBy === "cloudflare");
   for (const page of (report?.assetBudget ?? []).filter(p => p.status !== "pass")) add(`weight-${page.page}`, "Page ki loading weight check karein", `${page.page}: compressed asset budget ${page.status}. Ye real-user speed score nahi hai.`, "agent", 1,
     ["Build ke JS/CSS size aur missing assets inspect karo.", "Large imports ko reduce karke build aur mobile browser checks phir verify karo."]);
   if (report?.taxReview?.due) add("tax-review-due", "Tax rules ki scheduled review", `${report.taxReview.taxYear} tax data ki review due hai; dates badalne se figures verify nahi hote.`, "agent", 0,
@@ -54,8 +53,6 @@ export function actionPlan(report, business, today) {
     add("web-traffic", needsAccess ? "Daily visits ka ek baar connection poora karein" : "Daily visits connection ka error verify karein", "Website ka analytics beacon aur private report access alag hain. Abhi daily report total visits nahi padh sakta.", needsAccess ? "owner" : "agent", 1,
       needsAccess ? ["Existing account ka sirf Account Analytics Read access verify karein; naya paid service nahi.", "Read-only token private admin aur GitHub ke CLOUDFLARE_WEB_ANALYTICS_TOKEN secret mein rakhein. Account aur Pages property code mein selected hain; connected result verify karein."] : ["Permission failure aur unsupported API query mein farq verify karein.", "Query/configuration fix ya temporary outage diagnose karein; verified access failure ke bina extra token permissions na maangein."], "https://dash.cloudflare.com/?to=/:account/web-analytics");
   }
-  if (blocked.length) add("monitoring-access", "Cloudflare monitoring access verify karo", `${blocked.length} automated requests Cloudflare ne block kiye. Ye confirmed website outage nahi; monitoring coverage incomplete hai.`, "owner", 2,
-    ["Website normal browser mein kholkar access verify karo.", "Cloudflare Security Events mein monitoring request/ray dekho; verified search crawlers ka access bhi check karo.", "Bot protection hataaye bina scoped monitoring solution choose karo; blocked checks ko healthy mat mark karo."], "https://dash.cloudflare.com/");
   for (const check of (report?.liveChecks ?? []).filter((c) => c.status !== "pass" && c.blockedBy !== "cloudflare")) {
     add(`live-${check.path}`, `Live page check: ${check.path}`, check.message, "agent", check.status === "fail" ? 0 : 1,
       ["Live response aur recent deployment compare karo.", "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."]);

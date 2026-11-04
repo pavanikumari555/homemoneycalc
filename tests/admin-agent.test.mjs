@@ -126,6 +126,6 @@ test("Cloudflare challenge is unknown monitoring coverage, not a page failure or
   const checks = await liveChecks("https://example.com", async () => new Response("blocked", { status: 403, headers: { server: "cloudflare", "cf-ray": "test-ray" } }));
   assert.ok(checks.every((c) => c.status === "unknown" && c.blockedBy === "cloudflare"));
   const actions = actionPlan({ date: "2026-10-26", sources: {}, health: { ran: true, errors: 0 }, liveChecks: checks }, business, "2026-10-26");
-  assert.equal(actions.filter((a) => a.id === "monitoring-access").length, 1);
+  assert.equal(actions.some((a) => a.id === "monitoring-access"), false);
   assert.ok(!actions.some((a) => a.id.startsWith("live-")));
 });
