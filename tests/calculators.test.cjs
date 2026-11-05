@@ -110,6 +110,26 @@ test("zero-interest mortgage pays off in the requested term and extra payments s
   near(r.interestSaved, 0);
 });
 
+test("monthly mortgage schedule accounts for upfront, recurring and capped final extra payments", () => {
+  const input = { principal: 300_000, annualRatePercent: 6.5, yearsLeft: 30, extraMonthly: 200, extraYearly: 2400, oneTime: 10_000 };
+  const r = calcMortgage(input);
+  const rows = r.monthly.withExtra;
+  assert.deepEqual(rows[0], { month: 0, payment: 10_000, principal: 10_000, extraPrincipal: 10_000, interest: 0, balance: 290_000 });
+  near(rows[1].interest, 290_000 * .065 / 12);
+  near(rows[1].extraPrincipal, 200);
+  near(rows[12].extraPrincipal, 2600);
+  assert.equal(rows.length, r.withExtra.months + 1);
+  near(rows.reduce((total, row) => total + row.interest, 0), r.withExtra.totalInterest);
+  near(rows.reduce((total, row) => total + row.principal, 0), input.principal);
+  near(rows.at(-1).balance, 0);
+  assert.ok(rows.at(-1).extraPrincipal <= input.extraMonthly);
+  assert.ok(r.monthly.base.every((row) => row.extraPrincipal === 0));
+
+  const paid = calcMortgage({ ...input, oneTime: 350_000 });
+  assert.equal(paid.withExtra.months, 0);
+  assert.deepEqual(paid.monthly.withExtra, [{ month: 0, payment: 300_000, principal: 300_000, extraPrincipal: 300_000, interest: 0, balance: 0 }]);
+});
+
 test("compound interest agrees with the closed form for monthly end-of-period deposits", () => {
   const r = calcCompoundInterest({ principal: 10_000, monthlyContribution: 300, annualRatePercent: 6, years: 10, compoundsPerYear: 12, annualIncreasePercent: 0 });
   const growth = (1 + .06 / 12) ** 120;

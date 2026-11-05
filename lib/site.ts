@@ -97,7 +97,7 @@ export const ALL_TOOLS: Tool[] = [
     category: "borrow",
     blurb: "Estimate your mortgage payoff date and how much interest extra payments could save.",
     icon: "home",
-    updated: "2026-10-30",
+    updated: "2026-11-05",
     related: ["auto-loan-calculator", "debt-payoff-calculator", "compound-interest-calculator"],
     example: { input: "$300k at 6.5% + $200/month extra", output: "7 years sooner, $103k saved" },
     keywords: "home house loan extra payment refinance early",

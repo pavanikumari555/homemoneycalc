@@ -113,13 +113,23 @@ export interface AmortResult {
   yearly: AmortYear[];
 }
 
+interface MortgagePayment {
+  month: number;
+  payment: number;
+  principal: number;
+  extraPrincipal: number;
+  interest: number;
+  balance: number;
+}
+
 interface AmortOptions {
   principal: number;
   annualRatePercent: number;
   payment: number; // regular monthly payment
   extraMonthly?: number;
   extraYearly?: number; // lump sum every 12th month
-  oneTime?: number; // lump sum in month 1
+  oneTime?: number; // lump sum before the first monthly payment
+  onPayment?: (payment: MortgagePayment) => void;
 }
 
 export function amortize(o: AmortOptions): AmortResult {
@@ -142,6 +152,14 @@ export function amortize(o: AmortOptions): AmortResult {
     }
     pay = Math.min(pay, balance + interest);
     balance = balance + interest - pay;
+    o.onPayment?.({
+      month: months,
+      payment: pay,
+      principal: pay - interest,
+      extraPrincipal: Math.max(0, pay - o.payment),
+      interest,
+      balance: Math.max(0, balance),
+    });
     totalInterest += interest;
     yi += interest;
     yp += pay - interest;
@@ -173,6 +191,7 @@ export interface MortgageResult {
   monthlyPayment: number; // base P&I payment (no extra)
   base: AmortResult;
   withExtra: AmortResult;
+  monthly: { base: MortgagePayment[]; withExtra: MortgagePayment[] };
   monthsSaved: number;
   interestSaved: number;
 }
@@ -183,20 +202,30 @@ export function calcMortgage(input: MortgageInput): MortgageResult {
   const years = clamp(input.yearsLeft, 1 / 12, 50);
   const payment = amortizedPayment(principal, rate, years * 12);
 
-  const base = amortize({ principal, annualRatePercent: rate, payment });
+  const lumpSum = clamp(input.oneTime, 0, principal);
+  const monthly: MortgageResult["monthly"] = { base: [], withExtra: [] };
+  if (lumpSum > 0) {
+    monthly.withExtra.push({
+      month: 0, payment: lumpSum, principal: lumpSum, extraPrincipal: lumpSum,
+      interest: 0, balance: principal - lumpSum,
+    });
+  }
+  const base = amortize({ principal, annualRatePercent: rate, payment, onPayment: (row) => monthly.base.push(row) });
   const withExtra = amortize({
     principal,
     annualRatePercent: rate,
     payment,
     extraMonthly: clamp(input.extraMonthly, 0, 1_000_000),
     extraYearly: clamp(input.extraYearly, 0, 10_000_000),
-    oneTime: clamp(input.oneTime, 0, principal),
+    oneTime: lumpSum,
+    onPayment: (row) => monthly.withExtra.push(row),
   });
 
   return {
     monthlyPayment: payment,
     base,
     withExtra,
+    monthly,
     monthsSaved: base.months - withExtra.months,
     interestSaved: base.totalInterest - withExtra.totalInterest,
   };

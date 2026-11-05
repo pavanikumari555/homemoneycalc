@@ -51,7 +51,7 @@ const faqs: FaqItem[] = [
   {
     question: "What return rate should I use?",
     answer:
-      "Use a rate that matches where the money actually sits. Savings accounts and CDs pay a stated rate that can change; stock investments have no fixed rate and can lose value in any year. Run a conservative rate as well as your hoped-for rate so you see a realistic range.",
+      "Use a rate that matches where the money actually sits. Savings accounts and CDs pay a stated rate that can change; stock investments have no fixed rate and can lose value in any year. Use the rate comparison above to see how a lower or higher assumed return affects your final balance. Each estimate assumes a constant rate.",
   },
   {
     question: "Is this the same as an APY calculation?",

@@ -25,18 +25,26 @@ export default function CompoundCalculator() {
   const cur = CURRENCIES.find((c) => c.code === v.cur) ?? CURRENCIES[0];
   const fmt = (x: number) => money(x, cur.code, 0);
 
-  const res = useMemo(
-    () =>
-      calcCompoundInterest({
-        principal: n(v.p),
-        monthlyContribution: n(v.m),
-        annualRatePercent: n(v.r),
-        years: n(v.y, 10),
-        compoundsPerYear: n(v.c, 12),
-        annualIncreasePercent: n(v.g),
-      }),
-    [v]
-  );
+  const { res, comparisons } = useMemo(() => {
+    const rate = Math.min(100, Math.max(-50, n(v.r)));
+    const input = {
+      principal: n(v.p),
+      monthlyContribution: n(v.m),
+      annualRatePercent: rate,
+      years: n(v.y, 10),
+      compoundsPerYear: n(v.c, 12),
+      annualIncreasePercent: n(v.g),
+    };
+    const res = calcCompoundInterest(input);
+    const rates = [...new Set([Math.max(-50, rate - 2), rate, Math.min(100, rate + 2)])];
+    const comparisons = rates.map((annualRatePercent) => ({
+      rate: annualRatePercent,
+      balance: annualRatePercent === rate
+        ? res.futureValue
+        : calcCompoundInterest({ ...input, annualRatePercent }).futureValue,
+    }));
+    return { res, comparisons };
+  }, [v]);
 
   const growthShare = res.futureValue > 0 ? res.totalInterest / res.futureValue : 0;
   useCelebrate(res.futureValue >= 1_000_000, state.touched);
@@ -80,6 +88,22 @@ export default function CompoundCalculator() {
             <Stat label="Interest earned" accent value={fmt(res.totalInterest)} />
             <Stat label="Money doubles every" value={Number.isFinite(res.doublingYears) ? `${num(res.doublingYears, 1)} yrs` : "—"} />
           </div>
+
+          <section className="rounded-2xl border border-line p-4">
+            <h2 className="text-sm font-semibold text-ink">Compare yearly returns</h2>
+            <p className="mt-1 text-xs text-muted">
+              Estimated final balances at your rate and up to 2 percentage points lower or higher.
+              Each estimate uses the same deposits, duration and compounding frequency.
+            </p>
+            <dl className="mt-3 grid gap-3 sm:grid-cols-3">
+              {comparisons.map(({ rate, balance }) => (
+                <div key={rate} className="rounded-xl bg-surface-2 p-3">
+                  <dt className="text-xs text-muted">{num(rate, 4)}% yearly return</dt>
+                  <dd className="mt-1 break-words font-semibold tabular-nums text-ink">{fmt(balance)}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
 
           <div className="rounded-2xl border border-line p-4">
             <div className="mb-2 text-sm font-semibold text-ink">Growth over time</div>

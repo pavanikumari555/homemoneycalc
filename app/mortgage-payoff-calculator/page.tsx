@@ -11,7 +11,7 @@ const SLUG = "mortgage-payoff-calculator";
 export const metadata: Metadata = buildMetadata({
   title: "Mortgage Payoff Calculator: Extra Payments & Savings",
   description:
-    "See how extra monthly, yearly or lump-sum payments cut years and interest off your mortgage, with your payoff date and full schedule.",
+    "See how extra payments change your mortgage payoff date and interest. Compare regular and extra payments with monthly and yearly schedules.",
   path: `/${SLUG}/`,
   keywords: ["mortgage payoff calculator", "extra payment calculator", "pay off mortgage early", "mortgage payoff date", "lump sum mortgage payment"],
 });
@@ -59,11 +59,11 @@ export default function Page() {
       slug={SLUG}
       h1="Mortgage Payoff Calculator"
       answer={ANSWER}
-      intro="Find your mortgage-free date and see how much time and interest extra payments save."
+      intro="Find your estimated mortgage-free date, then compare monthly and yearly schedules with and without extra payments."
       calculator={<MortgageCalculator />}
       faqs={faqs}
       sources={[
-        { label: "CFPB — What is amortization?", url: "https://www.consumerfinance.gov/ask-cfpb/what-is-amortization-and-how-could-it-affect-my-auto-loan-en-771/" },
+        { label: "CFPB — How does paying down a mortgage work?", url: "https://www.consumerfinance.gov/ask-cfpb/how-does-paying-down-a-mortgage-work-en-1943/" },
         { label: "CFPB — What is a prepayment penalty?", url: "https://www.consumerfinance.gov/ask-cfpb/what-is-a-prepayment-penalty-en-1957/" },
         { label: "CFPB — Regulation Z §1026.43(g), limits on prepayment penalties", url: "https://www.consumerfinance.gov/rules-policy/regulations/1026/43/" },
         { label: "CFPB — When can I remove private mortgage insurance (PMI)?", url: "https://www.consumerfinance.gov/ask-cfpb/when-can-i-remove-private-mortgage-insurance-pmi-from-my-loan-en-202/" },

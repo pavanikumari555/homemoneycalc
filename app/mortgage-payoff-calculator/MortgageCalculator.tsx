@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { calcMortgage, usd, usd0, duration, monthsFromNow } from "@/lib/calc";
 import { useToolState, n } from "@/lib/useToolState";
-import { NumberField } from "@/components/calc/Fields";
+import { NumberField, SelectField } from "@/components/calc/Fields";
 import { ResultHero, Stat, Notice, CountUp } from "@/components/calc/Results";
 import LineChart, { shortMoney } from "@/components/calc/LineChart";
 import { ToolActions, WelcomeBack } from "@/components/calc/ToolActions";
@@ -15,7 +15,8 @@ const DEFAULTS = { b: "300000", r: "6.5", y: "30", x: "200", a: "0", o: "0" };
 export default function MortgageCalculator() {
   const state = useToolState("mortgage-payoff-calculator", DEFAULTS);
   const v = state.values;
-  const [showTable, setShowTable] = useState(false);
+  const [schedulePeriod, setSchedulePeriod] = useState("yearly");
+  const [schedulePlan, setSchedulePlan] = useState("with-extra");
 
   const res = useMemo(
     () =>
@@ -33,6 +34,17 @@ export default function MortgageCalculator() {
   const hasExtra = n(v.x) + n(v.a) + n(v.o) > 0;
   const ok = Number.isFinite(res.withExtra.months);
   useCelebrate(ok && res.monthsSaved >= 12, state.touched);
+
+  const withExtra = schedulePlan === "with-extra";
+  const monthly = schedulePeriod === "monthly";
+  const monthlyRows = withExtra ? res.monthly.withExtra : res.monthly.base;
+  const yearlyRows = withExtra ? res.withExtra.yearly : res.base.yearly;
+  const scheduleHeaders = monthly
+    ? ["Month", "Payment", "Total principal", "Extra principal", "Interest", "Balance"]
+    : ["Year", "Interest paid", "Principal paid", "Balance"];
+  const scheduleRows = monthly
+    ? monthlyRows.map((row) => [row.month, row.payment, row.principal, row.extraPrincipal, row.interest, row.balance])
+    : yearlyRows.map((row) => [row.year, row.interest, row.principal, row.balance]);
 
   return (
     <CalcShell
@@ -107,46 +119,59 @@ export default function MortgageCalculator() {
           <ToolActions
             state={state}
             shareText={ok ? `I could be mortgage-free by ${monthsFromNow(res.withExtra.months)} 🏠` : undefined}
-            csv={() => ({
-              filename: "mortgage-payoff-schedule.csv",
+            csv={ok ? () => ({
+              filename: monthly ? `mortgage-payoff-${schedulePlan}-monthly.csv` : withExtra
+                ? "mortgage-payoff-schedule.csv"
+                : "mortgage-payoff-regular-yearly.csv",
               rows: [
-                ["Year", "Interest paid", "Principal paid", "Balance"],
-                ...res.withExtra.yearly.map((r) => [r.year, r.interest.toFixed(2), r.principal.toFixed(2), r.balance.toFixed(2)]),
+                scheduleHeaders,
+                ...scheduleRows.map(([period, ...amounts]) => [period, ...amounts.map((amount) => amount.toFixed(2))]),
               ],
-            })}
+            }) : undefined}
           />
           {ok && <CheckIn tool="mortgage-payoff-calculator" label="mortgage balance" plan={res.withExtra.balances} url="/mortgage-payoff-calculator/" />}
 
-          {ok && res.withExtra.yearly.length > 0 && (
-            <div>
-              <button type="button" onClick={() => setShowTable((s) => !s)} className="text-sm font-semibold text-ivy-600 hover:underline dark:text-ivy-400">
-                {showTable ? "Hide" : "Show"} year-by-year schedule
-              </button>
-              {showTable && (
-                <div className="mt-3 max-h-80 overflow-auto rounded-2xl border border-line">
-                  <table className="w-full text-sm tabular-nums">
-                    <thead className="sticky top-0 bg-surface-2 text-left text-xs uppercase tracking-wide text-muted">
+          {ok && (res.monthly.withExtra.length > 0 || res.monthly.base.length > 0) && (
+            <details className="rounded-2xl border border-line p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-ink">Amortization schedule</summary>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <SelectField label="Payment plan" value={schedulePlan} onChange={setSchedulePlan} options={[
+                  { value: "with-extra", label: "With extra payments" },
+                  { value: "regular", label: "Regular payments" },
+                ]} />
+                <SelectField label="Schedule frequency" value={schedulePeriod} onChange={setSchedulePeriod} options={[
+                  { value: "yearly", label: "Year by year" },
+                  { value: "monthly", label: "Month by month" },
+                ]} />
+              </div>
+              <p className="mt-3 text-xs text-muted">
+                CSV uses the selected plan and frequency. Payments cover principal and interest only. Total principal includes any extra principal.
+                {withExtra && monthlyRows[0]?.month === 0 && " The upfront lump sum is listed as month 0 in the monthly schedule."}
+              </p>
+              {scheduleRows.length > 0 ? (
+                <div className="mt-3 max-h-80 overflow-auto rounded-xl border border-line" tabIndex={0} role="region" aria-label="Mortgage amortization schedule">
+                  <table className="w-full whitespace-nowrap text-sm tabular-nums">
+                    <thead className="sticky top-0 bg-surface-2 text-xs uppercase tracking-wide text-muted">
                       <tr>
-                        <th className="px-3 py-2">Year</th>
-                        <th className="px-3 py-2 text-right">Interest</th>
-                        <th className="px-3 py-2 text-right">Principal</th>
-                        <th className="px-3 py-2 text-right">Balance</th>
+                        {scheduleHeaders.map((header, index) => (
+                          <th key={header} scope="col" className={`px-3 py-2 ${index === 0 ? "text-left" : "text-right"}`}>{header}</th>
+                        ))}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-line">
-                      {res.withExtra.yearly.map((r) => (
-                        <tr key={r.year}>
-                          <td className="px-3 py-1.5">{r.year}</td>
-                          <td className="px-3 py-1.5 text-right">{usd0(r.interest)}</td>
-                          <td className="px-3 py-1.5 text-right">{usd0(r.principal)}</td>
-                          <td className="px-3 py-1.5 text-right font-medium">{usd0(r.balance)}</td>
+                      {scheduleRows.map(([period, ...amounts]) => (
+                        <tr key={period}>
+                          <th scope="row" className="px-3 py-1.5 text-left font-normal">{period}</th>
+                          {amounts.map((amount, index) => (
+                            <td key={scheduleHeaders[index + 1]} className="px-3 py-1.5 text-right">{usd(amount)}</td>
+                          ))}
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              )}
-            </div>
+              ) : <p className="mt-3 text-sm text-muted">This plan has no remaining scheduled payments.</p>}
+            </details>
           )}
         </>
       }
