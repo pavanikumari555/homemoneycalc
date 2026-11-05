@@ -10,23 +10,24 @@ import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 import Link from "next/link";
 
 const DEFAULTS = { mode: "salary", amt: "65000", h: "40", w: "52", ot: "0" };
-const ALLOWED = { mode: ["salary", "hourly"] };
+const ALLOWED = { mode: ["salary", "monthly", "hourly"] };
 
 export default function SalaryCalculator() {
   const state = useToolState("salary-to-hourly-calculator", DEFAULTS, ALLOWED);
   const v = state.values;
   const mode = v.mode === "hourly" ? "hourly" : "salary";
+  const monthly = v.mode === "monthly";
 
   const res = useMemo(
     () =>
       calcSalary({
         mode,
-        amount: n(v.amt),
+        amount: n(v.amt) * (monthly ? 12 : 1),
         hoursPerWeek: n(v.h, 40),
         weeksPerYear: n(v.w, 52),
         overtimeHoursPerWeek: n(v.ot),
       }),
-    [v, mode]
+    [v, mode, monthly]
   );
   // 0 / empty hours ya weeks -> rate bematlab hoga, isliye number ki jagah message
   const invalid = res.hoursInvalid || res.weeksInvalid;
@@ -40,19 +41,22 @@ export default function SalaryCalculator() {
         <>
           <Segmented
             label="I know my…"
-            value={mode}
-            onChange={(x) => state.setMany({ mode: x, amt: x === "hourly" ? "25" : "65000" })}
+            value={v.mode}
+            onChange={(x) => state.setMany({ mode: x, amt: x === "hourly" ? "25" : x === "monthly" ? "5000" : "65000" })}
             options={[
               { value: "salary", label: "Yearly salary" },
+              { value: "monthly", label: "Monthly salary" },
               { value: "hourly", label: "Hourly wage" },
             ]}
           />
           <NumberField
-            label={mode === "salary" ? "Annual salary" : "Hourly wage"}
+            label={monthly ? "Monthly salary" : mode === "salary" ? "Annual salary" : "Hourly wage"}
             prefix="$"
             value={v.amt}
             onChange={(x) => state.set("amt", x)}
-            slider={mode === "salary" ? { min: 20000, max: 250000, step: 1000 } : { min: 7, max: 150, step: 0.5 }}
+            slider={monthly ? { min: 1000, max: 25000, step: 100 } : mode === "salary"
+              ? { min: 20000, max: 250000, step: 1000 }
+              : { min: 7, max: 150, step: 0.5 }}
           />
           <PanelTitle>Your schedule</PanelTitle>
           <div className="grid grid-cols-2 gap-4">
@@ -90,7 +94,7 @@ export default function SalaryCalculator() {
                 <>Waiting for a valid schedule.</>
               ) : mode === "salary" ? (
                 <>
-                  {usd0(n(v.amt))} a year at {v.h || 0} hours a week works out to <strong>{usd(res.hourly)} an hour</strong> before tax.
+                  {usd0(n(v.amt))} {monthly ? "a month" : "a year"} at {v.h || 0} hours a week works out to <strong>{usd(res.hourly)} an hour</strong> before tax.
                 </>
               ) : (
                 <>

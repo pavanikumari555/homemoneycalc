@@ -11,7 +11,7 @@ const SLUG = "salary-to-hourly-calculator";
 export const metadata: Metadata = buildMetadata({
   title: "Salary to Hourly Calculator (+ Hourly to Salary)",
   description:
-    "Convert annual salary to hourly pay or hourly to salary, with weekly, biweekly and monthly amounts. Handles part-time hours and overtime.",
+    "Convert monthly or annual salary to an hourly rate, or turn hourly pay into a yearly salary. Adjust paid weeks and hours for your work schedule.",
   path: `/${SLUG}/`,
   keywords: ["salary to hourly", "hourly to salary", "salary converter", "how much is my salary per hour", "annual salary calculator"],
 });
@@ -52,6 +52,8 @@ const faqs: FaqItem[] = [
 const ANSWER = `$50,000 a year is ${usd(calcSalary({ mode: "salary", amount: 50_000, hoursPerWeek: 40, weeksPerYear: 52, overtimeHoursPerWeek: 0 }).hourly)} an hour for a full-time job (40 hours × 52 weeks = 2,080 hours). Divide the salary by your yearly hours.`;
 
 // Worked examples — all from the same calcSalary() the tool runs
+const MONTHLY_SALARY = 5_000;
+const MONTHLY_EXAMPLE = calcSalary({ mode: "salary", amount: MONTHLY_SALARY * 12, hoursPerWeek: 40, weeksPerYear: 52, overtimeHoursPerWeek: 0 });
 const S40 = calcSalary({ mode: "salary", amount: 65_000, hoursPerWeek: 40, weeksPerYear: 52, overtimeHoursPerWeek: 0 });
 const S45 = calcSalary({ mode: "salary", amount: 65_000, hoursPerWeek: 45, weeksPerYear: 52, overtimeHoursPerWeek: 0 });
 const H_OT = calcSalary({ mode: "hourly", amount: 25, hoursPerWeek: 40, weeksPerYear: 52, overtimeHoursPerWeek: 5 });
@@ -63,7 +65,7 @@ export default function Page() {
       slug={SLUG}
       h1="Salary to Hourly Calculator"
       answer={ANSWER}
-      intro="Turn a yearly salary into an hourly wage — or the other way round — with weekly, biweekly and monthly pay included."
+      intro="Convert a monthly or yearly salary to hourly pay, or see what your hourly wage adds up to in a year."
       calculator={<SalaryCalculator />}
       faqs={faqs}
       sources={[
@@ -76,6 +78,13 @@ export default function Page() {
         { label: "U.S. Bureau of Labor Statistics — Average hours and earnings", url: "https://www.bls.gov/ces/" },
       ]}
     >
+      <h2>How to convert monthly salary to hourly pay</h2>
+      <p>
+        Select Monthly salary and enter your gross pay before taxes. Multiply it by 12 and divide by your paid hours
+        for the year. At 40 hours a week for 52 paid weeks, {usd(MONTHLY_SALARY)} per month is{" "}
+        {usd(MONTHLY_EXAMPLE.annual)} a year, or <strong>{usd(MONTHLY_EXAMPLE.hourly)} an hour</strong>.
+      </p>
+
       <h2>How the conversion works</h2>
       <p>
         Everything comes down to how many hours you&apos;re paid for in a year: <code>hours per week × paid weeks per year</code>.

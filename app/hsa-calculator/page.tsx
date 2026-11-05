@@ -53,7 +53,7 @@ const faqs: FaqItem[] = [
   {
     question: "How much tax does an HSA save?",
     answer:
-      "Your contribution is free of federal income tax, so you save your top bracket rate on each dollar (for example 22%). If it goes through an employer cafeteria plan, it also skips Social Security and Medicare tax (7.65%). Most states give a deduction too; California and New Jersey do not.",
+      "Eligible contributions can reduce federal taxable income. The savings depend on which tax brackets the contribution offsets. Eligible payroll contributions through a cafeteria plan can also reduce Social Security and Medicare taxes, depending on your wages. State treatment varies.",
   },
   {
     question: "What happens if I contribute too much to my HSA?",

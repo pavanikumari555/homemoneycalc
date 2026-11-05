@@ -18,7 +18,17 @@ export const metadata: Metadata = buildMetadata({
 
 // Worked examples — calcMortgage se compute ($300k, 6.5%, 30 yr)
 const LOAN = { principal: 300_000, annualRatePercent: 6.5, yearsLeft: 30, extraMonthly: 0, extraYearly: 0, oneTime: 0 };
-const EX = calcMortgage({ ...LOAN, extraMonthly: 200 });
+const EXTRA_MONTHLY = 200;
+const EX = calcMortgage({ ...LOAN, extraMonthly: EXTRA_MONTHLY });
+const exampleInputs = new URLSearchParams({
+  b: String(LOAN.principal),
+  r: String(LOAN.annualRatePercent),
+  y: String(LOAN.yearsLeft),
+  x: String(EXTRA_MONTHLY),
+  a: "0",
+  o: "0",
+});
+const exampleUrl = `/${SLUG}/?${exampleInputs}#mortgage-calculator`;
 const YEARLY = calcMortgage({ ...LOAN, extraYearly: 2400 });
 const LUMP = calcMortgage({ ...LOAN, oneTime: 10_000 });
 const THIRTEENTH = calcMortgage({ ...LOAN, extraYearly: EX.monthlyPayment });
@@ -60,7 +70,7 @@ export default function Page() {
       h1="Mortgage Payoff Calculator"
       answer={ANSWER}
       intro="Find your estimated mortgage-free date, then compare monthly and yearly schedules with and without extra payments."
-      calculator={<MortgageCalculator />}
+      calculator={<div id="mortgage-calculator" className="scroll-mt-24"><MortgageCalculator /></div>}
       faqs={faqs}
       sources={[
         { label: "CFPB — How does paying down a mortgage work?", url: "https://www.consumerfinance.gov/ask-cfpb/how-does-paying-down-a-mortgage-work-en-1943/" },
@@ -88,7 +98,7 @@ export default function Page() {
         balance reaches zero. Your required payment never changes — extra payments simply make the last payment arrive sooner.
       </p>
 
-      <h2>A worked example</h2>
+      <h2>What if you pay $200 extra on your mortgage each month?</h2>
       <p>
         A $300,000 balance at 6.5% over 30 years has a payment of about <strong>{usd0(EX.monthlyPayment)}</strong> and costs about{" "}
         <strong>{usd0(EX.base.totalInterest)}</strong> in interest. In the very first month, interest is 300,000 × 0.065 ÷ 12 ={" "}
@@ -99,6 +109,11 @@ export default function Page() {
         Keep paying <strong>$200 extra</strong> every month and the loan is gone in {duration(EX.withExtra.months)} instead of 30
         years — <strong>{duration(EX.monthsSaved)} sooner</strong> — saving roughly <strong>{usd0(EX.interestSaved)}</strong> in
         interest.
+      </p>
+
+      <p>
+        <a href={exampleUrl}>Open the $200 extra per month example</a> with the inputs filled in. Open the amortization
+        schedule and select Month by month to see how much of each payment goes to principal and interest.
       </p>
 
       <h2>Comparing ways to pay extra</h2>
