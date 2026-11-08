@@ -1,31 +1,31 @@
-# HomeMoney Calc — Owner ka weekly SEO routine (human kaam)
+# HomeMoney Calc — Owner ka weekly SEO routine (8 November 2026)
 
-**Kyun ye zaroori hai:** calculator site Google pe tab upar aati hai jab (1) pages sach me kaam ke hon aur (2) dusri asli sites unhe link karein. Pehla kaam code + agent karta hai. Doosra kaam **sirf insaan** kar sakta hai — aur wahi sabse zyada farak daalta hai. Agent kabhi post/email khud nahi bhejta; wo sirf drafts aur ideas deta hai (admin panel me).
+**Kyun ye zaroori hai:** useful, accurate pages aur genuine reader interest discovery mein help kar sakte hain; ranking ki guarantee nahi. Latest researched plan: [SAFE-LINK-EARNING.md](SAFE-LINK-EARNING.md). Roz do backlinks ka target nahi: maximum do suitable prospects review karein; unsuitable ho to outreach zero. Agent post/email khud nahi bhejta.
 
-Roz ~30–45 minute. Admin panel (`admin.<domain>/admin/`) me yahi list "Your weekly SEO routine" card me bhi hai.
+Existing reports, embeds aur [tracker](../data/link-outreach-tracker.csv) use karein. Naya paid service, card/trial ya bulk outreach tool nahi. Admin: https://homemoneycalc.com/admin/.
 
 ## Hafte ka plan
 
 | Din | Kaam | Kahan | Kyun |
 |---|---|---|---|
-| **Mon** | Admin panel padho. Agent ke PRs review karo — har tax/finance number official source (IRS, SSA, state site) se milao, tab hi merge | GitHub → Pull requests | Galat number = trust gaya. Google finance pages ko "YMYL" maanta hai — accuracy sabse zaroori |
-| **Tue** | Reddit/Quora pe **2 genuine jawab**. Poora jawab text me likho; link sirf tab jab calculator sach me madad kare; "I built this free tool" bata do; subreddit ke rules padho | r/personalfinance, r/povertyfinance, r/Tipping, Quora money topics | Asli logon ki madad = brand + kuch visits. Link-drop spam = ban |
-| **Wed** | Journalist platforms pe 2–3 sawaal ka jawab — jaldi (1 ghante me), ek unique number + 2 line method + exact page link | Qwoted, Featured.com, SourceBottle | News sites ke links sabse taakatwar hote hain, aur ye "earned" hain (allowed) |
-| **Thu** | Admin ke **Outreach drafts** se 3–5 personalized emails — bloggers (state data study), teachers (embed widget) | Apna site wala Gmail | Ek achha blogger link = 100 directory links |
-| **Fri** | Pinterest pe 2 pins, YouTube pe 1 Short — admin ka "Pinterest & Shorts idea" card | Canva (free) + Pinterest + YouTube | US me Pinterest money-tips ka bada search engine hai |
-| **Monthly** | 1–2 genuine tool directories / resource pages; Search Console → Pages report; `data/revenue.json` me kamai update | — | Health check + kamai ka hisaab |
+| **Mon** | Dated search/traffic report aur actual US queries padhein; tax facts official source se verify karein | Admin / Search Console | Unknown ya stale data ko success na maanein |
+| **Tue** | Ek query ka useful answer/example improve karein | Existing relevant calculator page | Duplicate pages aur keyword stuffing se bachein |
+| **Wed** | Maximum do relevant educational prospects aur unki suggestion policy review karein | Research guide + tracker | Contact count backlink count nahi hai |
+| **Thu** | Suitable individual draft owner review kare; exact recipient/channel verify hone par owner bheje | Existing published contact channel | No auto-send, paid placement, link exchange or repeated follow-ups |
+| **Fri** | Teaching feedback, referrals aur corrections dekhein | Search Console / existing traffic report | Useful readers ko measure karein, link quotas ko nahi |
+| **Monthly** | Comparable 28-day periods compare karein; revenue ho to actual record update karein | Admin / Search Console | Small sample se ranking ya income promise na karein |
 
 ## Seasonal (admin "Season alerts" card batata hai)
-- **Oct 15 – Jan 31:** IRS naye saal ke tax brackets / SSA wage base — agent "refresh" alert dega. Claude se `lib/taxYYYY.ts` ka PR banwao, sirf official numbers.
+- **Oct–Jan:** IRS/SSA ke actual new-year sources verify karein. Owner-requested local work: checks → commit → direct main push. Sirf date badal ke tax parameters roll forward na karein.
 - **Nov–Dec:** Black Friday / holiday credit card / year-end car deals — credit card, percentage, auto loan pages ke pins.
 - **Jan–Apr:** tax season — paycheck page.
 - **Jul–Sep:** back to school — teachers ko embed widget.
 
 ## Title tests (admin "Title tests" card)
-Jis page ko impressions bahut milte hain par click kam, uske 3 naye title ideas aate hain. Ek chuno → Claude se PR → **4 hafte** wait → CTR compare. Ek waqt me sirf ek page badlo, warna pata nahi chalega kis cheez ne farak dala.
+Title ideas review prompts hain, proven wins nahi. Intent match pehle verify karein; comparable 28-day page/query/country/device periods dekhein. Early small samples par har kuch din title na badlein. No external keyword-volume or competitor-traffic estimate was verified.
 
 ## Embed widget
-Har tool page ke neeche "Embed this calculator" code hai. Teachers/bloggers ko offer karo. Widget ke andar sirf brand naam wala "Powered by HomeMoney Calc" link hai (nofollow) — ye Google ke widget-link rules ke hisaab se safe hai. **Kabhi** widget me keyword wala link mat daalna ("best mortgage calculator") — wo link scheme maana jaata hai.
+Har tool ke neeche optional embed hai. Worked classroom scenarios: `/methodology/#classroom-examples`. Reuse ke liye backlink required nahi. Publisher wording aur link attributes khud choose kare; hidden/keyword-rich widget links na banayein. Compliance risk reduce hota hai, zero-risk guarantee nahi. [Google link-spam policy](https://developers.google.com/search/docs/essentials/spam-policies#link-spam).
 
 ## Kabhi nahi ❌ (Google penalty / ban)
 - Links kharidna ya bechna, "sponsored post with dofollow link"

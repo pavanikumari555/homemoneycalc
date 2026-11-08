@@ -8,7 +8,7 @@ import { createSign } from "node:crypto";
 const SCOPES = "https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/analytics.readonly";
 
 /** Exchange a service-account JSON key for a short-lived OAuth access token (JWT bearer flow). */
-async function accessToken(saJson) {
+async function accessToken(saJson, fetcher = fetch) {
   const sa = JSON.parse(saJson);
   const now = Math.floor(Date.now() / 1000);
   const b64 = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
@@ -20,7 +20,7 @@ async function accessToken(saJson) {
     exp: now + 3600,
   })}`;
   const signature = createSign("RSA-SHA256").update(unsigned).sign(sa.private_key, "base64url");
-  const res = await fetch("https://oauth2.googleapis.com/token", {
+  const res = await fetcher("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer", assertion: `${unsigned}.${signature}` }),
@@ -32,9 +32,9 @@ async function accessToken(saJson) {
 const iso = (d) => d.toISOString().slice(0, 10);
 const daysAgo = (n) => new Date(Date.now() - n * 86_400_000);
 
-async function gscQuery(token, site, body) {
+async function gscQuery(token, site, body, fetcher = fetch) {
   const url = `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`;
-  const res = await fetch(url, {
+  const res = await fetcher(url, {
     method: "POST",
     headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
     body: JSON.stringify(body),
@@ -48,21 +48,23 @@ async function gscQuery(token, site, body) {
  * top queries/pages, and query+page rows used to find ranking opportunities.
  * GSC data runs ~2-3 days behind, so windows end 3 days ago.
  */
-export async function searchConsole({ saJson, site }) {
+export async function searchConsole({ saJson, site }, fetcher = fetch) {
   if (!saJson || !site) return { connected: false };
-  const token = await accessToken(saJson);
+  const token = await accessToken(saJson, fetcher);
   const end = daysAgo(3);
   const start = daysAgo(30);
   const prevEnd = daysAgo(31);
   const prevStart = daysAgo(58);
   const range = { startDate: iso(start), endDate: iso(end) };
 
-  const [totals] = await gscQuery(token, site, { ...range });
-  const [prev] = await gscQuery(token, site, { startDate: iso(prevStart), endDate: iso(prevEnd) });
-  const daily = await gscQuery(token, site, { ...range, dimensions: ["date"] });
-  const queries = await gscQuery(token, site, { ...range, dimensions: ["query"], rowLimit: 25 });
-  const pages = await gscQuery(token, site, { ...range, dimensions: ["page"], rowLimit: 25 });
-  const queryPage = await gscQuery(token, site, { ...range, dimensions: ["query", "page"], rowLimit: 500 });
+  const [totals] = await gscQuery(token, site, { ...range }, fetcher);
+  const [prev] = await gscQuery(token, site, { startDate: iso(prevStart), endDate: iso(prevEnd) }, fetcher);
+  const daily = await gscQuery(token, site, { ...range, dimensions: ["date"] }, fetcher);
+  // Google sorts equal-click rows arbitrarily. Fetch a bounded 1,000-row sample
+  // and rank ties by impressions before the report's 15-row display cut.
+  const queries = await gscQuery(token, site, { ...range, dimensions: ["query"], rowLimit: 1000 }, fetcher);
+  const pages = await gscQuery(token, site, { ...range, dimensions: ["page"], rowLimit: 1000 }, fetcher);
+  const queryPage = await gscQuery(token, site, { ...range, dimensions: ["query", "page"], rowLimit: 1000 }, fetcher);
 
   const pick = (r) => ({ clicks: r?.clicks ?? 0, impressions: r?.impressions ?? 0, ctr: r?.ctr ?? 0, position: r?.position ?? 0 });
   return {
@@ -71,8 +73,8 @@ export async function searchConsole({ saJson, site }) {
     totals: pick(totals),
     previous: pick(prev),
     daily: daily.map((r) => ({ date: r.keys[0], clicks: r.clicks, impressions: r.impressions })),
-    topQueries: queries.map((r) => ({ query: r.keys[0], ...pick(r) })),
-    topPages: pages.map((r) => ({ page: r.keys[0], ...pick(r) })),
+    topQueries: queries.map((r) => ({ query: r.keys[0], ...pick(r) })).sort((a,b) => b.clicks-a.clicks || b.impressions-a.impressions || a.query.localeCompare(b.query)),
+    topPages: pages.map((r) => ({ page: r.keys[0], ...pick(r) })).sort((a,b) => b.clicks-a.clicks || b.impressions-a.impressions || a.page.localeCompare(b.page)),
     queryPage: queryPage.map((r) => ({ query: r.keys[0], page: r.keys[1], ...pick(r) })),
   };
 }

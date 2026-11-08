@@ -4,14 +4,14 @@ import { buildMetadata } from "@/lib/seo";
 import { FaqItem } from "@/components/StructuredData";
 import ToolLayout from "@/components/ToolLayout";
 import PercentageCalculator from "./PercentageCalculator";
-import { percentOf, percentChange, whatPercent, usd } from "@/lib/calc";
+import { percentOf, percentChange, whatPercent, usd, num } from "@/lib/calc";
 
 const SLUG = "percentage-calculator";
 
 export const metadata: Metadata = buildMetadata({
   title: "Percentage Calculator: Find Percent, Change & Discount",
   description:
-    "Work out X% of Y, percent change, percent increase or decrease and discounts instantly, with the formula shown for each.",
+    "Free percentage calculator for percent of a number, percentage change, increases and discounts. Includes step-by-step formulas and sales-tax examples.",
   path: `/${SLUG}/`,
   keywords: [
     "percentage calculator",
@@ -148,6 +148,21 @@ export default function Page() {
         That last pair shows why the starting value matters so much: the same $25 gap is a different percentage depending on which
         number you divide by.
       </p>
+
+      <h2>What does multiplying by 1.06 mean?</h2>
+      <p>
+        A multiplier of 1.06 keeps the original 100% and adds 6%: <code>1 + 6 ÷ 100 = 1.06</code>.
+        Multiplying by 1.28 adds 28%; multiplying by 0.80 leaves 80%, which is a 20% decrease.
+        Use “Increase by a percent” above to separate the added amount from the final total.
+      </p>
+      <div className="overflow-x-auto">
+        <table>
+          <caption className="text-left">Percentage multipliers: increase versus final total</caption>
+          <thead><tr><th>Calculation</th><th>Increase</th><th>Final total</th></tr></thead>
+          <tbody>{[{base:110,percent:6},{base:50000,percent:6},{base:50,percent:28}].map(({base,percent})=><tr key={`${base}-${percent}`}><td>{num(base)} × {num(1+percent/100)}</td><td>{num(percentOf(percent,base))} ({percent}%)</td><td>{num(base+percentOf(percent,base))}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p><a href="/percentage-calculator/?a4=110&amp;b4=6">Try 110 increased by 6% in the calculator</a>. The increase is 6.6; the final value is 116.6.</p>
 
       <h2>Common mistakes</h2>
       <ul>

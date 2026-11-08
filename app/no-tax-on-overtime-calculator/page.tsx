@@ -10,9 +10,9 @@ import OvertimeDeductionCalculator from "./OvertimeDeductionCalculator";
 const SLUG = "no-tax-on-overtime-calculator";
 
 export const metadata: Metadata = buildMetadata({
-  title: "No Tax on Overtime Calculator (2025–2028 Deduction)",
+  title: "No Tax on Overtime Calculator (2025 & 2026)",
   description:
-    "Estimate your qualified overtime deduction and federal tax saved: the $12,500 / $25,000 cap, the $150k / $300k phase-out and W-2 code TT, explained.",
+    "Calculate your 2025 or 2026 overtime deduction and federal tax savings. Compare filing statuses, income phase-outs and W-2 code TT rules.",
   path: `/${SLUG}/`,
   keywords: ["no tax on overtime calculator", "overtime deduction 2026", "qualified overtime deduction", "w-2 code tt", "box 12 tt overtime"],
 });
@@ -22,7 +22,7 @@ const EX = calcOvertimeDeduction({ mode: "hours", hourlyRate: 25, overtimeHoursP
 const EX_DOUBLE = calcOvertimeDeduction({ mode: "total", totalOvertimePay: 20_000, multiplier: 2, magi: 70_000, status: "single" });
 const EX_PHASE = calcOvertimeDeduction({ mode: "premium", premium: 20_000, magi: 320_500, status: "mfj" });
 
-const ANSWER = `A single worker earning $25 an hour with 5 overtime hours a week for 50 weeks gets ${usd0(EX.totalOvertimePay)} of overtime pay, but only the “half” premium — ${usd0(EX.qualifiedOvertime)} — is deductible. At a $70,000 income that saves about ${usd(EX.taxSaved)} in federal income tax (tax years 2025–2028).`;
+const ANSWER = `For 2026, a single worker earning $25 an hour with 5 FLSA overtime hours a week for 50 weeks gets ${usd0(EX.totalOvertimePay)} of overtime pay, but only the “half” premium — ${usd0(EX.qualifiedOvertime)} — qualifies before the deduction limits. At a $70,000 income that saves about ${usd(EX.taxSaved)} in federal income tax under the standard-deduction assumptions below.`;
 
 const faqs: FaqItem[] = [
   {
@@ -33,7 +33,7 @@ const faqs: FaqItem[] = [
   {
     question: "What does code TT in box 12 of my W-2 mean?",
     answer:
-      "Starting with 2026 Forms W-2, employers report qualified overtime compensation in box 12 with code TT. That figure is the premium portion only, so you can enter it directly in the calculator. Employers report the full amount even if it is above the $12,500 cap. For 2025, many W-2s did not show it, so the IRS lets you work it out from pay stubs.",
+      "Starting with 2026 Forms W-2, employers report qualified overtime compensation in box 12 with code TT. That is the premium portion before your deduction limits. If it is missing or understated, request a corrected W-2c; pay stubs alone do not replace employer reporting for a 2026 claim. The IRS allowed reasonable pay-record methods for 2025 under Notice 2025-69.",
   },
   {
     question: "Do I have to itemize to get the overtime deduction?",
@@ -51,9 +51,9 @@ const faqs: FaqItem[] = [
       "No. If you are married you must file a joint return to take the deduction, and the person who earned the overtime needs a valid Social Security number.",
   },
   {
-    question: "Will my paycheck withholding change?",
+    question: "Is the deduction the same as a refund of overtime withholding?",
     answer:
-      "Not automatically. The saving normally shows up when you file your return. Your employer can only reduce income tax withholding for it if you give them an updated Form W-4 that accounts for the expected deduction.",
+      "No. A deduction reduces taxable income; it is not a dollar-for-dollar refund of the tax withheld from overtime checks. A $3,125 deduction at a 22% marginal rate may save $687.50 under the calculator assumptions. Your actual refund also depends on total withholding, credits and the rest of your return. Withholding changes only if you update Form W-4 to account for the deduction.",
   },
 ];
 
@@ -63,16 +63,18 @@ export default function Page() {
       slug={SLUG}
       h1="No Tax on Overtime Calculator"
       answer={ANSWER}
-      intro="See how much of your overtime you can deduct under the new federal rule for tax years 2025–2028 — and roughly what it saves you."
+      intro="Estimate your qualified overtime deduction and tax savings for 2025 or 2026. Choose your tax year and filing status; only the FLSA-required premium qualifies."
       calculator={<OvertimeDeductionCalculator />}
       faqs={faqs}
       sources={[
         { label: "IRS — Working Families Tax Cuts: provisions for individuals and workers", url: "https://www.irs.gov/newsroom/working-families-tax-cuts-individuals-and-workers" },
-        { label: "IRS — Questions and answers about the deduction for qualified overtime compensation", url: "https://www.irs.gov/newsroom/questions-and-answers-about-the-new-deduction-for-qualified-overtime-compensation" },
+        { label: "IRS — Updated overtime FAQs, August 2026 (FS-2026-13)", url: "https://www.irs.gov/pub/taxpros/fs-2026-13.pdf" },
         { label: "IRS — Guidance for individuals who received tips or overtime during tax year 2025 (Notice 2025-69)", url: "https://www.irs.gov/newsroom/treasury-irs-provide-guidance-for-individuals-who-received-tips-or-overtime-during-tax-year-2025" },
         { label: "IRS — Schedule 1-A (Form 1040), Additional Deductions", url: "https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf" },
         { label: "IRS — General Instructions for Forms W-2 and W-3 (2026), box 12 code TT", url: "https://www.irs.gov/instructions/iw2w3" },
         { label: "IRS — Tax inflation adjustments for tax year 2026", url: "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill" },
+        { label: "IRS — Rev. Proc. 2024-40, 2025 tax brackets", url: "https://www.irs.gov/pub/irs-drop/rp-24-40.pdf" },
+        { label: "IRS — Rev. Proc. 2025-32, 2026 tables and amended 2025 standard deductions", url: "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" },
         { label: "U.S. Department of Labor — Overtime pay under the FLSA", url: "https://www.dol.gov/agencies/whd/overtime" },
       ]}
     >
@@ -108,24 +110,23 @@ export default function Page() {
           dropped, so $1,999 over counts as one step. The deduction can&apos;t go below zero.
         </li>
         <li>
-          <strong>Estimate the tax saved.</strong> We subtract the 2026 standard deduction from your MAGI to estimate taxable income, then
-          run the 2026 federal brackets twice — with and without the deduction. The difference is your saving. If the deduction straddles
+          <strong>Estimate the tax saved.</strong> We subtract the selected year&apos;s basic standard deduction from your MAGI to estimate taxable income, then
+          run that year&apos;s ordinary-income federal brackets twice — with and without the deduction. Single, head-of-household and joint filers use their own brackets. The difference is your saving. If the deduction straddles
           two brackets, this is more accurate than simply multiplying by your top rate.
         </li>
       </ol>
       <p>
-        For most people, MAGI is simply the adjusted gross income on Form 1040, line 11. It only differs if you excluded foreign or Puerto
-        Rico income. Remember that your overtime pay is already part of that income.
+        MAGI starts with adjusted gross income and adds back the excluded income listed in Schedule 1-A, Part I, such as certain foreign, Puerto Rico and American Samoa income. Your overtime pay is already part of that income. This estimate assumes ordinary income and the basic standard deduction; itemizing, age/blindness additions, dependents, credits and other deductions can change the actual saving. Future 2027–2028 tax brackets are not substituted with 2026 figures here.
       </p>
 
       <h2>Worked example</h2>
       <p>
-        Maria is single, earns $25 an hour and works 45 hours a week for 50 weeks of the year. Her overtime pay is $25 × 1.5 × 5 hours × 50
+        In 2026, Maria is single, earns $25 an hour and works 45 hours a week for 50 weeks of the year. Her overtime pay is $25 × 1.5 × 5 hours × 50
         weeks = <strong>{usd(EX.totalOvertimePay)}</strong>. The deductible premium is $25 × 0.5 × 5 × 50 ={" "}
         <strong>{usd(EX.qualifiedOvertime)}</strong>, well under the $12,500 cap. Her MAGI of $70,000 is below $150,000, so nothing is
         phased out. After the $16,100 standard deduction her taxable income is about $53,900, in the 22% bracket, so the deduction saves
         about <strong>{usd(EX.taxSaved)}</strong> in federal income tax. She still owes Social Security and Medicare on all{" "}
-        {usd0(EX.totalOvertimePay)} of overtime — about {usd(EX.ficaOnOvertime)} at 7.65%.
+        {usd0(EX.totalOvertimePay)} of overtime, subject to the applicable wage caps and payroll rules. The calculator does not estimate that payroll-tax amount because MAGI alone does not identify Social Security wages or Additional Medicare Tax.
       </p>
       <p>
         <strong>Double time:</strong> if a worker is paid {usd0(20_000)} of overtime at twice the regular rate, the qualified amount is{" "}
@@ -151,16 +152,14 @@ export default function Page() {
         </li>
         <li>
           <strong>Filing rules:</strong> you need a valid Social Security number, and married couples must file jointly. Married filing
-          separately gets no deduction. Head of household uses the same $12,500 cap and $150,000 threshold as single filers. (This
-          calculator estimates the tax saved for head of household with single brackets, so treat that number as rough.)
+          separately gets no deduction. Head of household uses the same $12,500 cap and $150,000 threshold as single filers, but its own standard deduction and tax brackets are used for the savings estimate.
         </li>
       </ul>
 
       <h2>Practical tips</h2>
       <ul>
         <li>
-          <strong>Keep your final pay stub.</strong> If your W-2 doesn&apos;t show code TT, year-to-date overtime on your last pay stub is
-          the easiest way to work out the premium.
+          <strong>Match your records to the tax year.</strong> For 2025, retain pay stubs and the calculation allowed by Notice 2025-69. For 2026, compare records with W-2 box 12 code TT and ask your employer for Form W-2c if the reported amount is missing or wrong. Do not replace required 2026 employer reporting with a pay-stub estimate.
         </li>
         <li>
           <strong>Expect the saving at tax time.</strong> Withholding doesn&apos;t change unless you file a new Form W-4. Adjusting it can

@@ -4,7 +4,7 @@ import Icon, { type AnyIcon } from "@/components/Icon";
 import ApprovalInbox from "./ApprovalInbox";
 import ResearchMonitor from "./ResearchMonitor";
 import { actionPlan } from "@/scripts/agent/advisor.mjs";
-import { ownerStatus } from "@/scripts/agent/owner-status.mjs";
+import { ownerStatus, trafficForTasks } from "@/scripts/agent/owner-status.mjs";
 import { ANALYTICS_DASHBOARD } from "@/lib/analytics-config.mjs";
 type Json = any;
 type Props = { today: string; siteUrl: string; repo: string; report: Json; business: Json; revenue: Json; offers: Json[]; security: Json[]; tasks: Json[]; readiness: Json; approvalQueue: Json; approvalHistory: Json; research: Json; monetization: Json; tools: {slug:string;title:string;date:string}[] };
@@ -41,10 +41,7 @@ export default function OwnerDashboard(p:Props) {
     return()=>{active=false;clearInterval(timer);};
   },[refreshKey]);
   const status=ownerStatus(report,today);
-  const currentTraffic = trafficConnection === "connected" ? traffic
-    : ["setup-needed", "permission-needed"].includes(trafficConnection)
-      ? { status: trafficConnection, connected: false }
-      : report?.traffic;
+  const currentTraffic = trafficForTasks(report?.traffic, traffic, trafficConnection);
   const tasks=actionPlan(report || currentTraffic ? {...report,traffic:currentTraffic} : report,p.business,today);
   const growthTasks=tasks.filter((t:Json)=>t.id==="grow");
   const ownerTasks=tasks.filter((t:Json)=>t.who==="owner"), agentTasks=tasks.filter((t:Json)=>t.who==="agent" && t.id!=="grow");

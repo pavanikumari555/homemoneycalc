@@ -1,5 +1,45 @@
 import { test, expect } from "@playwright/test";
 const admin=process.env.BROWSER_ADMIN==="1";
+
+test("new overtime tool switches tax years/status and restores the selected year",async({page})=>{
+  test.skip(admin);
+  await page.goto("/no-tax-on-overtime-calculator/?m=premium&p=5000&i=66500&f=single&y=2026");
+  const savings=page.getByRole("row").filter({hasText:"Federal income tax saved"});
+  await expect(savings).toContainText("$600.00");
+  await page.getByLabel("Tax year",{exact:true}).selectOption("2025");
+  await expect(savings).toContainText("$827.50");
+  await expect(page).toHaveURL(/y=2025/);
+  await page.reload();await expect(page.getByLabel("Tax year",{exact:true})).toHaveValue("2025");
+  await page.getByLabel("Tax year",{exact:true}).selectOption("2026");
+  await page.getByLabel("Modified adjusted gross income (MAGI)",{exact:true}).fill("70000");
+  await page.getByLabel("Filing status",{exact:true}).selectOption("hoh");
+  await expect(savings).toContainText("$600.00");
+  await expect(page.getByText(/Pay stubs alone do not replace that reporting/)).toBeVisible();
+  await page.getByLabel("Filing status",{exact:true}).selectOption("mfs");
+  await expect(savings).toContainText("$0.00");
+});
+
+test("percentage multiplier example opens the exact interactive scenario",async({page})=>{
+  test.skip(admin);await page.goto("/percentage-calculator/");
+  await page.getByRole("link",{name:"Try 110 increased by 6% in the calculator"}).click();
+  await expect(page.getByLabel("Starting number",{exact:true})).toHaveValue("110");
+  await expect(page.getByLabel("Increase percent",{exact:true})).toHaveValue("6");
+  await expect(page.getByText("116.6",{exact:true}).first()).toBeVisible();
+});
+
+test("owner panel keeps saved visits but surfaces a current query failure",async({page})=>{
+  test.skip(!admin);
+  const today=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+  const report={date:today,generatedAt:new Date().toISOString(),sources:{gsc:true},health:{ran:true,errors:0},quality:[{status:"pass"}],liveChecks:[{status:"pass"}],traffic:{connected:true,status:"connected",checkedAt:new Date().toISOString(),days:[{date:today,visits:7,pageviews:9}],pages:[],sources:[]}};
+  await page.route("**/admin/api/report",r=>r.fulfill({json:{status:"connected",report}}));
+  await page.route("**/admin/api/traffic",r=>r.fulfill({status:503,json:{connected:false,status:"query-unsupported"}}));
+  await page.goto("/admin/");
+  await expect(page.getByText(/Ye saved reading hai/)).toBeVisible();
+  await page.getByRole("button",{name:"Zaroori kaam",exact:true}).click();
+  await page.getByText(/Developer ke liye pending fixes/).click();
+  await expect(page.getByText("Daily visits connection ka error verify karein",{exact:true})).toBeVisible();
+  await expect(page.getByText("Daily visits ka ek baar connection poora karein",{exact:true})).toHaveCount(0);
+});
 test.beforeEach(async({page})=>{
   // Tests run on localhost, never on production and never generate visitor/ad events.
   await page.route(/cloudflareinsights|googlesyndication|google-analytics|googletagmanager/,r=>r.abort());

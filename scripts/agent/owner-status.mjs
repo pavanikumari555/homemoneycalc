@@ -1,4 +1,11 @@
 // A green structural audit cannot turn failed, stale or missing checks green.
+export function trafficForTasks(saved, live, connection) {
+  if (connection === "checking") return saved;
+  if (connection === "connected" && live?.connected) return live;
+  // Keep the dated snapshot for display, but never hide a current API failure.
+  return { connected: false, status: connection === "connected" ? "unavailable" : connection };
+}
+
 export function ownerStatus(report, today) {
   const age = report?.date ? (Date.parse(today) - Date.parse(report.date)) / 86400000 : Infinity;
   const stale = !Number.isFinite(age) || age < 0 || age > 2;

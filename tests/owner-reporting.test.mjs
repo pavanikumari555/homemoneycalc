@@ -1,13 +1,43 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { webAnalytics, indiaDays } from "../scripts/agent/web-analytics.mjs";
-import { ownerStatus } from "../scripts/agent/owner-status.mjs";
+import { ownerStatus, trafficForTasks } from "../scripts/agent/owner-status.mjs";
+import { searchConsole } from "../scripts/agent/google.mjs";
+import { generateKeyPairSync } from "node:crypto";
 import { taxReview } from "../scripts/agent/tax-review.mjs";
 import { summarize } from "../scripts/agent/summarize.mjs";
 import { onRequest as trafficRequest } from "../functions/admin/api/traffic.js";
 import { onRequest as reportRequest } from "../functions/admin/api/report.js";
 import { auditDisposition } from "../scripts/agent/dependency-audit.mjs";
 import { actionPlan } from "../scripts/agent/advisor.mjs";
+
+test("current traffic query failures create repair tasks without hiding the saved reading",()=>{
+  const saved={connected:true,status:"connected",checkedAt:"2026-11-08T03:00:00Z",days:[]};
+  assert.equal(trafficForTasks(saved,null,"checking"),saved);
+  const current=trafficForTasks(saved,null,"query-unsupported");
+  const task=actionPlan({date:"2026-11-08",sources:{gsc:true},health:{ran:true},traffic:current},{},"2026-11-08").find(t=>t.id==="web-traffic");
+  assert.equal(task.who,"agent");assert.equal(saved.connected,true);
+  const live={...saved,checkedAt:"2026-11-08T04:00:00Z"};
+  assert.equal(trafficForTasks(saved,live,"connected"),live);
+});
+
+test("Search Console retains high-impression zero-click pages before display truncation",async()=>{
+  const {privateKey}=generateKeyPairSync("rsa",{modulusLength:2048,privateKeyEncoding:{type:"pkcs8",format:"pem"},publicKeyEncoding:{type:"spki",format:"pem"}});
+  const requests=[];
+  const fetcher=async(url,options)=>{
+    if(url.includes("oauth2"))return Response.json({access_token:"test-only-token"});
+    const body=JSON.parse(options.body);requests.push(body);
+    if(!body.dimensions)return Response.json({rows:[{clicks:2,impressions:400,ctr:.005,position:12}]});
+    if(body.dimensions[0]==="date")return Response.json({rows:[]});
+    const rows=Array.from({length:30},(_,i)=>({keys:[`https://example.test/a${i}`],clicks:0,impressions:1,ctr:0,position:20}));
+    rows.push({keys:["https://example.test/percentage-calculator/"],clicks:0,impressions:299,ctr:0,position:9});
+    return Response.json({rows:body.dimensions.length===1?rows:[]});
+  };
+  const r=await searchConsole({saJson:JSON.stringify({client_email:"test@example.invalid",private_key:privateKey}),site:"sc-domain:example.test"},fetcher);
+  assert.equal(r.topPages.slice(0,15)[0].impressions,299);
+  assert.equal(r.topQueries[0].impressions,299);assert.equal(r.totals.impressions,400);
+  assert.ok(requests.filter(r=>r.dimensions?.includes("page")).every(r=>r.rowLimit===1000));
+});
 
 test("India traffic buckets use local midnight, including UTC date changes",()=>{
   const d=indiaDays(new Date("2026-10-31T20:00:00Z"));

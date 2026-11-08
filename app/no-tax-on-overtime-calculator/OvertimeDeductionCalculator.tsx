@@ -12,8 +12,8 @@ import { CalcShell, PanelTitle } from "@/components/calc/CalcShell";
 
 // m = mode, r = hourly rate, h = OT hours/week, w = weeks, x = multiplier,
 // t = total OT pay, p = premium (code TT), i = MAGI, f = filing status
-const DEFAULTS = { m: "hours", r: "25", h: "5", w: "50", x: "1.5", t: "15000", p: "5000", i: "70000", f: "single" };
-const ALLOWED = { m: ["hours", "total", "premium"], x: ["1.5", "2"], f: ["single", "mfj", "mfs"] };
+const DEFAULTS = { m: "hours", r: "25", h: "5", w: "50", x: "1.5", t: "15000", p: "5000", i: "70000", f: "single", y: "2026" };
+const ALLOWED = { m: ["hours", "total", "premium"], x: ["1.5", "2"], f: ["single", "hoh", "mfj", "mfs"], y: ["2025", "2026"] };
 
 export default function OvertimeDeductionCalculator() {
   const state = useToolState("no-tax-on-overtime-calculator", DEFAULTS, ALLOWED);
@@ -21,6 +21,7 @@ export default function OvertimeDeductionCalculator() {
   const mode = (ALLOWED.m.includes(v.m) ? v.m : "hours") as OvertimeMode;
   const status = (ALLOWED.f.includes(v.f) ? v.f : "single") as DeductionStatus;
   const multiplier = v.x === "2" ? 2 : 1.5;
+  const taxYear = v.y === "2025" ? 2025 : 2026;
 
   const res = useMemo(
     () =>
@@ -34,8 +35,9 @@ export default function OvertimeDeductionCalculator() {
         premium: n(v.p),
         magi: n(v.i),
         status,
+        taxYear,
       }),
-    [v, mode, status, multiplier]
+    [v, mode, status, multiplier, taxYear]
   );
 
   return (
@@ -45,6 +47,7 @@ export default function OvertimeDeductionCalculator() {
       inputs={
         <>
           <PanelTitle>Your overtime</PanelTitle>
+          <SelectField label="Tax year" value={v.y} onChange={(x) => state.set("y", x)} options={[{value:"2026",label:"2026"},{value:"2025",label:"2025"}]} />
           <SelectField
             label="What do you know?"
             value={mode}
@@ -52,21 +55,23 @@ export default function OvertimeDeductionCalculator() {
             options={[
               { value: "hours", label: "My hourly rate and overtime hours" },
               { value: "total", label: "My total overtime pay (pay stubs)" },
-              { value: "premium", label: "The premium amount (W-2 box 12, code TT)" },
+              { value: "premium", label: taxYear === 2026 ? "The premium amount (W-2 box 12, code TT)" : "My qualified premium amount (2025 records)" },
             ]}
           />
           {mode === "hours" && (
             <>
-              <NumberField label="Regular hourly rate" prefix="$" suffix="/hr" value={v.r} onChange={(x) => state.set("r", x)} />
+              <NumberField label="Regular hourly rate" prefix="$" suffix="/hr" min={0} value={v.r} onChange={(x) => state.set("r", x)} />
               <NumberField
                 label="Overtime hours per week"
                 suffix="hrs"
+                min={0}
+                max={128}
                 value={v.h}
                 onChange={(x) => state.set("h", x)}
                 slider={{ min: 0, max: 30, step: 1 }}
                 hint="Only hours over 40 in a workweek count under federal law (FLSA)."
               />
-              <NumberField label="Weeks a year with overtime" suffix="wks" value={v.w} onChange={(x) => state.set("w", x)} />
+              <NumberField label="Weeks a year with overtime" suffix="wks" min={0} max={52} value={v.w} onChange={(x) => state.set("w", x)} />
             </>
           )}
           {mode === "total" && (
@@ -95,17 +100,18 @@ export default function OvertimeDeductionCalculator() {
               prefix="$"
               value={v.p}
               onChange={(x) => state.set("p", x)}
-              hint="From 2026, employers report this on Form W-2, box 12, code TT."
+              hint={taxYear === 2026 ? "Use the employer-reported amount. Missing or understated code TT needs a corrected Form W-2c." : "Use qualified premium from your 2025 records under IRS Notice 2025-69. Code TT was not required for 2025."}
             />
           )}
 
           <PanelTitle>Your return</PanelTitle>
-          <Segmented
+          <SelectField
             label="Filing status"
             value={status}
             onChange={(x) => state.set("f", x)}
             options={[
-              { value: "single", label: "Single / HoH" },
+              { value: "single", label: "Single" },
+              { value: "hoh", label: "Head of household" },
               { value: "mfj", label: "Married, jointly" },
               { value: "mfs", label: "Married, separately" },
             ]}
@@ -127,7 +133,7 @@ export default function OvertimeDeductionCalculator() {
             sub={
               res.eligible ? (
                 <>
-                  A <strong>{usd0(res.deduction)}</strong> deduction at your {Math.round(res.marginalRate * 100)}% bracket. Social Security and
+                  A <strong>{usd0(res.deduction)}</strong> deduction using {taxYear} brackets (top rate {Math.round(res.marginalRate * 100)}%). Social Security and
                   Medicare are still taken out of your overtime.
                 </>
               ) : (
@@ -155,9 +161,10 @@ export default function OvertimeDeductionCalculator() {
               { label: "Income phase-out", value: res.reduction > 0 ? `−${usd(res.reduction)}` : usd(0) },
               { label: "Overtime deduction", value: usd(res.deduction), strong: true },
               { label: "Federal income tax saved", value: usd(res.taxSaved), strong: true },
-              ...(mode !== "premium" ? [{ label: "Social Security + Medicare still due (about)", value: usd(res.ficaOnOvertime) }] : []),
             ]}
           />
+
+          <Notice tone="info">This assumes FLSA-required overtime and a valid Social Security number. {taxYear === 2026 ? "Hours and pay-stub modes are planning estimates. For a 2026 claim, use employer-reported qualified overtime; request Form W-2c if code TT is missing or wrong. Pay stubs alone do not replace that reporting." : "For 2025, IRS Notice 2025-69 permits reasonable methods using pay records when qualified overtime was not separately reported."}</Notice>
 
           {status === "mfs" && <Notice>Married filing separately can&apos;t claim the overtime deduction. Switch to “Married, jointly” to compare.</Notice>}
           {res.eligible && res.reduction > 0 && (
@@ -169,7 +176,7 @@ export default function OvertimeDeductionCalculator() {
             <Notice tone="info">Only {usd0(res.cap)} of qualified overtime can be deducted per return each year.</Notice>
           )}
           <p className="text-xs text-muted">
-            Estimate for tax years 2025–2028 using 2026 federal brackets and the standard deduction. State income tax may still apply. Want
+            Tax savings use {taxYear} ordinary-income brackets and the basic standard deduction. Itemizing, age/blindness additions, dependents, credits and other deductions are not modeled. The deduction law covers 2025–2028; 2027–2028 tax savings are not estimated here. Payroll taxes still apply, but the amount depends on wages, wage caps and other income. State income tax may still apply. Want
             your gross overtime pay first? Try the <Link href="/overtime-calculator/" className="link">overtime calculator</Link>.
           </p>
 

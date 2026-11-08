@@ -2,6 +2,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import PageShell from "@/components/PageShell";
 import { buildMetadata } from "@/lib/seo";
+import { calcMortgage, usd, duration } from "@/lib/calc";
+import { calcOvertimeDeduction } from "@/lib/tools/no-tax-on-overtime-calculator";
+
+const CLASS_MORTGAGE = calcMortgage({principal:300000,annualRatePercent:6.5,yearsLeft:30,extraMonthly:200,extraYearly:0,oneTime:0});
+const CLASS_OVERTIME = calcOvertimeDeduction({mode:"hours",hourlyRate:25,overtimeHoursPerWeek:5,weeks:50,multiplier:1.5,magi:70000,status:"single",taxYear:2026});
 
 export const metadata: Metadata = buildMetadata({
   title: "How We Calculate — Methodology & Data Sources",
@@ -69,6 +74,15 @@ export default function Page() {
         <code>(1 + rate ÷ n)^(n ÷ 12)</code>, so daily, monthly, quarterly and yearly compounding all give precise results. Deposits
         are added at the end of each month.
       </p>
+
+      <h2 id="classroom-examples">Free worked examples for educators</h2>
+      <p>Use these scenarios in a lesson or workshop, then change one input to discuss what changes. No student account or payment is required. Calculator inputs and saved plans stay in the browser. These are educational estimates, not individualized financial advice.</p>
+      <ul>
+        <li><strong>Extra mortgage principal:</strong> a $300,000 balance at 6.5% with 30 years left and $200 extra each month saves {usd(CLASS_MORTGAGE.interestSaved)} in modeled interest and {duration(CLASS_MORTGAGE.monthsSaved)}. <Link href="/mortgage-payoff-calculator/?b=300000&amp;r=6.5&amp;y=30&amp;x=200&amp;a=0&amp;o=0#mortgage-calculator">Open the mortgage scenario</Link>, compare monthly schedules and download its CSV. Ask learners why a later extra payment saves less interest.</li>
+        <li><strong>Overtime deduction versus refund:</strong> in 2026, $25 an hour and five FLSA overtime hours a week for 50 weeks produces {usd(CLASS_OVERTIME.qualifiedOvertime)} of qualified premium. A single filer with $70,000 MAGI saves {usd(CLASS_OVERTIME.taxSaved)} under the basic-standard-deduction assumptions. <Link href="/no-tax-on-overtime-calculator/?m=hours&amp;r=25&amp;h=5&amp;w=50&amp;x=1.5&amp;i=70000&amp;f=single&amp;y=2026">Open the overtime scenario</Link> and compare head-of-household status. The deduction is not a refund of all overtime withholding; employer reporting requirements still apply.</li>
+        <li><strong>Percentage increase:</strong> <a href="/percentage-calculator/?a4=110&amp;b4=6">increase 110 by 6%</a>. The added amount is 6.6 and the final total is 116.6. Ask learners to explain why multiplying by 1.06 differs from multiplying by 0.06.</li>
+      </ul>
+      <p>Every published calculator also offers an optional embed under “Embed this calculator on your site.” You may share a scenario, use an embed, or cite the method without giving a backlink. Publishers choose their own wording and link attributes. We do not offer payment, reciprocal links or endorsements for inclusion. <Link href="/contact/">Send corrections or teaching feedback</Link>.</p>
 
       <h2>How often we update</h2>
       <p>

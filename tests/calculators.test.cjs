@@ -17,6 +17,26 @@ const { calcPaycheck } = require("../lib/paycheck.ts");
 const { calcBonusTax } = require("../lib/tools/bonus-tax-calculator.ts");
 const { calcMortgage, calcCompoundInterest, calcDebtPayoff, calcAge, parseDate } = require("../lib/calc.ts");
 
+test("overtime deduction uses the selected IRS year/status and only the FLSA premium",()=>{
+  const {calcOvertimeDeduction:calc,federalSavings}=require("../lib/tools/no-tax-on-overtime-calculator.ts");
+  const defaults={mode:"hours",hourlyRate:25,overtimeHoursPerWeek:5,weeks:50,multiplier:1.5,magi:70000,status:"single",taxYear:2026};
+  const result=calc(defaults);
+  near(result.totalOvertimePay,9375);near(result.qualifiedOvertime,3125);near(result.taxSaved,687.5);
+  near(calc({...defaults,multiplier:2}).qualifiedOvertime,3125);
+  near(calc({...defaults,mode:"total",totalOvertimePay:20000,multiplier:2}).qualifiedOvertime,5000);
+  const premium={mode:"premium",premium:5000,magi:66500,status:"single"};
+  near(calc({...premium,taxYear:2025}).taxSaved,827.5);
+  near(calc({...premium,taxYear:2026}).taxSaved,600);
+  near(calc({...premium,magi:70000,status:"hoh",taxYear:2026}).taxSaved,600);
+  near(calc({...premium,magi:151000}).deduction,4900);
+  near(calc({...premium,magi:150999}).deduction,5000);
+  near(calc({...premium,premium:20000,magi:320500,status:"mfj"}).deduction,18000);
+  near(calc({...premium,premium:20000,magi:275000}).deduction,0);
+  near(calc({...premium,status:"mfs"}).taxSaved,0);
+  near(federalSavings(100000,5000,"mfs").taxSaved,0);
+  near(calc({...premium,premium:0}).taxSaved,0);
+});
+
 const paycheck = {
   grossAnnual: 100_000, payPeriodsPerYear: 26, status: "single",
   stateCode: "NJ", retirementPercent: 0, otherPretaxAnnual: 0,
