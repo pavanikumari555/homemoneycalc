@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { webAnalytics, indiaDays } from "../scripts/agent/web-analytics.mjs";
 import { ownerStatus, trafficForTasks } from "../scripts/agent/owner-status.mjs";
 import { searchConsole } from "../scripts/agent/google.mjs";
+import { buildLinkReview, parseTracker } from "../scripts/agent/link-review.mjs";
 import { generateKeyPairSync } from "node:crypto";
 import { taxReview } from "../scripts/agent/tax-review.mjs";
 import { summarize } from "../scripts/agent/summarize.mjs";
@@ -10,6 +11,27 @@ import { onRequest as trafficRequest } from "../functions/admin/api/traffic.js";
 import { onRequest as reportRequest } from "../functions/admin/api/report.js";
 import { auditDisposition } from "../scripts/agent/dependency-audit.mjs";
 import { actionPlan } from "../scripts/agent/advisor.mjs";
+
+const trackerHeader="organization,research_url,resource_to_offer,status,submission_cost_verified,contact_channel_verified,contacted_on,response,published_reference_url,checked_on";
+const trackerRow=(name,domain,status="research-only",contact="",response="",checked="2026-11-08")=>`${name},https://${domain}/resources,https://homemoneycalc.com/methodology/#classroom-examples,${status},no,no,${contact},${response},,${checked}`;
+test("link research is capped at two, excludes contacted/opted-out domains and never submits",()=>{
+  const csv=[trackerHeader,trackerRow("A","a.example"),trackerRow("A repeat","a.example"),trackerRow("B","b.example"),trackerRow("C","c.example"),trackerRow("A old contact","a.example","contacted","2026-11-01"),trackerRow("B","other.example","opt-out","","Do not contact")].join("\n");
+  const plan=buildLinkReview(csv,"2026-11-08");
+  assert.equal(plan.automatedSubmission,false);assert.equal(plan.status,"available");
+  assert.deepEqual(plan.items.map(i=>i.organization),["C"]);
+  const capped=buildLinkReview([trackerHeader,trackerRow("A","a.example"),trackerRow("B","b.example"),trackerRow("C","c.example")].join("\n"),"2026-11-08");
+  assert.equal(capped.items.length,2);assert.ok(capped.items.every(i=>i.stage==="research-needed"&&i.blockers.length));
+});
+test("link tracker preserves quoted commas and fails closed on malformed/missing data",()=>{
+  const quoted=trackerRow('"School, Inc."',"school.example");
+  assert.equal(parseTracker(`${trackerHeader}\n${quoted}`)[0].organization,"School, Inc.");
+  assert.equal(buildLinkReview('"broken',"2026-11-08").status,"unavailable");
+  assert.equal(buildLinkReview("organization\nA","2026-11-08").status,"unavailable");
+  const unsafe=trackerRow("A","a.example").replace("https://a.example/resources","javascript:alert(1)");
+  assert.equal(buildLinkReview(`${trackerHeader}\n${unsafe}`,"2026-11-08").items.length,0);
+  const stale=buildLinkReview(`${trackerHeader}\n${trackerRow("A","a.example","research-only","","","2026-01-01")}`,"2026-11-08");
+  assert.match(stale.items[0].blockers[0],/purani/);
+});
 
 test("current traffic query failures create repair tasks without hiding the saved reading",()=>{
   const saved={connected:true,status:"connected",checkedAt:"2026-11-08T03:00:00Z",days:[]};

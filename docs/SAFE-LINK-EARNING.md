@@ -17,6 +17,8 @@ Tax facts are checked against IRS sources, not forum answers. Search-result obse
 
 ## The daily workflow: at most two relevant prospects reviewed
 
+**Applied in the existing system:** the protected admin's Zaroori kaam view now has “Safe growth: resource review.” Existing daily reporting stores the bounded queue, gaps and inquiry drafts from the central CSV. This does not automatically research new websites or create/send backlinks. See [OWNER-DASHBOARD.md](OWNER-DASHBOARD.md) for status and duplicate-suppression behavior.
+
 This is a review cap, not a promise of two backlinks per day. A day with no suitable contact should produce zero outreach. Existing calculator examples, embeds, daily report and the CSV tracker are sufficient; no paid outreach tool, credit card, new subscription or automated posting is needed.
 
 1. Read one current US educational page and identify an actual gap our scenario fills. Record its URL, intended learners and the precise benefit. Reject unrelated directories, article farms, paid dofollow offers and exchange requests.

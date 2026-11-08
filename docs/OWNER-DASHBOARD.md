@@ -9,6 +9,14 @@ Open https://homemoneycalc.com/admin/ and use the existing login. The private da
 
 The open panel requests fresh saved reports and browser RUM every five minutes. Requests stop when the tab is hidden. Responses remain private/no-store; server-side API cache lasts five minutes. A source failure retains the last dated snapshot with its reading time; it never silently becomes a current zero.
 
+## Resource review queue — applied 8 November 2026
+
+Zaroori kaam → **Safe growth: resource review** contains at most two uncontacted research candidates, saved policy date, eligibility/cost/channel gaps and read-only inquiry drafts. Existing daily reporting (08:00 IST) stores `linkReview`; the packaged private dashboard also has a fallback plan. Its date is an India calendar date. These are saved candidates, not two newly researched leads or backlinks every day.
+
+The committed `data/link-outreach-tracker.csv` is the central ledger. Contact date, response, published reference, closed/opt-out status or a contacted duplicate domain suppresses another queue entry. Update the actual ledger after owner contact/reply; opening/reviewing a card does not mark it sent. There is no outgoing message API, form submission, automatic contact, browser-only hidden ledger or new paid service. The drafts ask about suitability/requirements; they do not claim acceptance. Unknown cost is never treated as free. Research older than 30 days is flagged for another policy check.
+
+Follow [SAFE-LINK-EARNING.md](SAFE-LINK-EARNING.md). Exact recipient/channel and the personalized draft still need owner review before any external step. Public exports must omit these cards, drafts and private report props.
+
 ## Existing Cloudflare property
 
 Account e82f13520873b04774f6dadeb2dba33a. Pages RUM site fe3a560743a241edbf9730e48c157038 includes homemoneycalc.pages.dev, homemoneycalc.com and www.homemoneycalc.com. The API filters the canonical homemoneycalc.com host and known bots out. The older standalone property 2db96e896c9a46fa8b33f551fcea86cd is not the automatic Pages property; it can show zero while the Pages property has traffic. No property was deleted.

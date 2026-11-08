@@ -1,6 +1,23 @@
 import { test, expect } from "@playwright/test";
 const admin=process.env.BROWSER_ADMIN==="1";
 
+test("private growth review shows at most two research cards and read-only drafts",async({page})=>{
+  test.skip(!admin);
+  await page.route("**/admin/api/report",r=>r.fulfill({status:503,json:{status:"setup-needed"}}));
+  await page.route("**/admin/api/traffic",r=>r.fulfill({status:503,json:{status:"setup-needed",connected:false}}));
+  await page.goto("/admin/");await page.getByRole("button",{name:"Zaroori kaam",exact:true}).click();
+  await page.getByText("Safe growth: resource review (2/2)",{exact:true}).click();
+  await expect(page.getByRole("heading",{name:"Jumpstart Clearinghouse",exact:true})).toBeVisible();
+  await expect(page.getByRole("heading",{name:"University of Minnesota Extension",exact:true})).toBeVisible();
+  await expect(page.getByRole("heading",{name:"FDIC Money Smart",exact:true})).toHaveCount(0);
+  await page.getByText("Inquiry draft review karein",{exact:true}).first().click();
+  const draft=page.getByRole("textbox",{name:"Jumpstart Clearinghouse inquiry draft"});
+  await expect(draft).toHaveAttribute("readonly","");
+  await expect(draft).toHaveValue(/Do you accept suggestions/);
+  await expect(page.getByRole("button",{name:/^Send/})).toHaveCount(0);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+});
+
 test("new overtime tool switches tax years/status and restores the selected year",async({page})=>{
   test.skip(admin);
   await page.goto("/no-tax-on-overtime-calculator/?m=premium&p=5000&i=66500&f=single&y=2026");

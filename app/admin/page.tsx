@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { ALL_TOOLS, SITE } from "@/lib/site";
 import { actionPlan, adsenseReadiness } from "@/scripts/agent/advisor.mjs";
 import AdminDashboard from "./OwnerDashboard";
+import { readLinkReview } from "@/scripts/agent/link-review.mjs";
 
 export const metadata: Metadata = { title: "Owner dashboard | HomeMoney Calc", robots: { index: false, follow: false } };
 const DATA = join(process.cwd(), "data");
@@ -22,7 +23,7 @@ export default function AdminPage() {
   const report = reports.length ? read(`reports/${reports.at(-1)}`, null) : null;
   const business = read("business.json", {});
   const revenue = read("revenue.json", { goalMonthly: 5000, months: [] });
-  return <AdminDashboard today={today} siteUrl={SITE.url} repo={SITE.repo} report={report}
+  return <AdminDashboard today={today} siteUrl={SITE.url} repo={SITE.repo} report={report} linkReview={readLinkReview(join(DATA,"link-outreach-tracker.csv"),today)}
     business={business} revenue={revenue} offers={read("offers.json", { offers: [] }).offers}
     monetization={read("monetization.json", {})}
     approvalQueue={read("agent-proposals.json", { proposals: [] })} approvalHistory={read("agent-decisions.json", { decisions: [] })}

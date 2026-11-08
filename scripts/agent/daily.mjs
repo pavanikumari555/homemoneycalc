@@ -26,6 +26,7 @@ import { webAnalytics } from "./web-analytics.mjs";
 import { taxReview } from "./tax-review.mjs";
 import { ANALYTICS_ACCOUNT, ANALYTICS_SITE } from "../../lib/analytics-config.mjs";
 import { performanceBudget } from "../check-performance-budget.mjs";
+import { readLinkReview } from "./link-review.mjs";
 
 const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
@@ -112,6 +113,7 @@ async function main() {
   const report = {
     date: today,
     generatedAt: new Date().toISOString(),
+    linkReview: readLinkReview("data/link-outreach-tracker.csv", new Intl.DateTimeFormat("en-CA", {timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())),
     sources: { gsc: Boolean(gsc.connected), ga4: Boolean(ga4.connected), psi: Boolean(psi.connected), bing: Boolean(bing.connected), cloudflare: Boolean(edge.connected), ai: false },
     edge,
     traffic,
