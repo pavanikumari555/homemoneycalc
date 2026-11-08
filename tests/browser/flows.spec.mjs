@@ -1,6 +1,53 @@
 import { test, expect } from "@playwright/test";
 const admin=process.env.BROWSER_ADMIN==="1";
 
+test("first visit never shows a timed or calculation-triggered install overlay",async({page})=>{
+  test.skip(admin);
+  await page.clock.install();
+  await page.goto("/mortgage-payoff-calculator/");
+  await expect(page.getByLabel("Remaining balance",{exact:true})).toBeVisible();
+  await page.evaluate(()=>window.dispatchEvent(new Event("hmc_calculation_complete")));
+  await page.clock.fastForward(61000);
+  await expect(page.getByRole("region",{name:"App installation prompt"})).toHaveCount(0);
+  await expect(page.locator("[data-install-prompt]")).toHaveCount(0);
+});
+
+test("returning installable visitors retain one working install prompt",async({page})=>{
+  test.skip(admin);
+  await page.addInitScript(()=>{
+    localStorage.setItem("hmc:visits","2");
+    window.addEventListener("DOMContentLoaded",()=>{
+      const install=new Event("beforeinstallprompt",{cancelable:true});
+      install.prompt=async()=>{window.__installPromptCalled=true;};
+      window.dispatchEvent(install);
+    });
+  });
+  await page.goto("/mortgage-payoff-calculator/");
+  await expect(page.locator("[data-install-prompt]")).toHaveCount(1);
+  await page.getByRole("button",{name:"Install",exact:true}).click();
+  expect(await page.evaluate(()=>window.__installPromptCalled)).toBe(true);
+  await expect(page.locator("[data-install-prompt]")).toHaveCount(0);
+});
+
+test("mobile result shortcut respects reduced motion and transfers keyboard focus",async({page},testInfo)=>{
+  test.skip(admin || testInfo.project.name!=="mobile");
+  await page.emulateMedia({reducedMotion:"reduce"});
+  await page.goto("/mortgage-payoff-calculator/");
+  await page.getByLabel("Remaining balance",{exact:true}).scrollIntoViewIfNeeded();
+  const shortcut=page.getByRole("button",{name:/Details ↓/});
+  await expect(shortcut).toBeVisible();
+  await page.evaluate(()=>{
+    const scroll=Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView=function(options){
+      window.__resultScrollBehavior=options?.behavior;
+      return scroll.call(this,options);
+    };
+  });
+  await shortcut.focus();await page.keyboard.press("Enter");
+  await expect(page.getByRole("region",{name:"Calculation results",exact:true})).toBeFocused();
+  expect(await page.evaluate(()=>window.__resultScrollBehavior)).toBe("instant");
+});
+
 test("private growth review shows at most two research cards and read-only drafts",async({page})=>{
   test.skip(!admin);
   await page.route("**/admin/api/report",r=>r.fulfill({status:503,json:{status:"setup-needed"}}));

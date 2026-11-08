@@ -5,7 +5,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import InstallPrompt from "@/components/InstallPrompt";
-import ValueFirstInstall from "@/components/ValueFirstInstall";
 import { SITE } from "@/lib/site";
 import AnalyticsConsent from "@/components/AnalyticsConsent";
 
@@ -66,7 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main" className="flex-1">{children}</main>
         <Footer />
         <InstallPrompt />
-        <ValueFirstInstall />
         <AnalyticsConsent />
         {/* Offline support sirf live (production) build me. Dev me chunk names same rehte
             hain, to cached purani JS se page toot jaata - isliye dev me SW hata dete hain. */}

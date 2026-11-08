@@ -46,7 +46,7 @@ export function CalcShell({
         <div ref={inputsRef} className="min-w-0 rounded-2xl bg-surface-2/60 p-4 sm:p-5 lg:col-span-5">
           <div className="space-y-5">{inputs}</div>
         </div>
-        <div ref={resultsRef} className="min-w-0 scroll-mt-20 space-y-5 p-1 sm:p-2 lg:col-span-7">
+        <div ref={resultsRef} role="region" aria-label="Calculation results" tabIndex={-1} className="min-w-0 scroll-mt-20 space-y-5 p-1 sm:p-2 lg:col-span-7">
           {results}
         </div>
       </div>
@@ -54,7 +54,15 @@ export function CalcShell({
       {summary && (
         <button
           type="button"
-          onClick={() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          onClick={() => {
+            const results = resultsRef.current;
+            if (!results) return;
+            results.focus({ preventScroll: true });
+            results.scrollIntoView({
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+              block: "start",
+            });
+          }}
           aria-hidden={!peek}
           tabIndex={peek ? 0 : -1}
           className={`no-print fixed inset-x-3 bottom-3 z-30 flex items-center justify-between gap-3 rounded-2xl bg-ivy-700 px-4 py-3 text-left text-white shadow-lift transition duration-300 lg:hidden ${
