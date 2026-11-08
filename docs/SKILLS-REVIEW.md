@@ -1,6 +1,6 @@
 # Skills review — 8 November 2026
 
-> Owner's later direction on 8 November: REA is now installed for bounded public competitor research. The weekly task researches updates and prepares tested local patches; unattended publishing remains gated after automatic approval review rejected the proposed production-push permission. [AUTOMATIC-RESEARCH.md](AUTOMATIC-RESEARCH.md) records the setup, dependency fixes, schedule and boundaries. The initial no-REA-install decision below is historical and superseded for this use case. No upstream package or instruction is blindly auto-executed.
+> Owner's later direction on 8 November: REA is now installed for bounded public competitor research. After the broad publishing proposal was rejected, the owner explicitly approved limited automatic publication of small verified UI/SEO fixes; the weekly task was successfully updated. [AUTOMATIC-RESEARCH.md](AUTOMATIC-RESEARCH.md) records the exact allowed scope, setup, dependency fixes, schedule and boundaries. The initial no-REA-install decision below is historical and superseded for this use case. No upstream package or instruction is blindly auto-executed.
 
 ## Decision and provenance
 
