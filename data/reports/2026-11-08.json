@@ -1,6 +1,43 @@
 {
   "date": "2026-11-08",
-  "generatedAt": "2026-11-08T15:32:54.012Z",
+  "generatedAt": "2026-11-08T15:57:11.071Z",
+  "linkReview": {
+    "date": "2026-11-08",
+    "reviewCap": 2,
+    "automatedSubmission": false,
+    "source": "committed-tracker",
+    "items": [
+      {
+        "organization": "Jumpstart Clearinghouse",
+        "researchUrl": "https://jumpstartclearinghouse.org/resource/for-providers/",
+        "resourceUrl": "https://homemoneycalc.com/methodology/#classroom-examples",
+        "checkedOn": "2026-11-08",
+        "stage": "research-needed",
+        "blockers": [
+          "Publisher eligibility aur specific lesson ka fit abhi confirm nahi hai.",
+          "Submission free hai ya nahi, verify karein. Koi payment/trial activate na karein."
+        ],
+        "nextStep": "Verify current production listing criteria and fees before owner review",
+        "draft": "Hello Jumpstart Clearinghouse team,\n\nI help maintain HomeMoney Calc. We have free browser-based teaching scenarios with formulas, worked examples and limitations:\nhttps://homemoneycalc.com/methodology/#classroom-examples\n\nDo you accept suggestions for independent financial-education resources? If so, could you point me to your current eligibility/reference requirements, relevant review channel and any submission fee? I would like to check suitability before proposing a resource.\n\nThank you,\n[Your name]\nHomeMoney Calc"
+      },
+      {
+        "organization": "University of Minnesota Extension",
+        "researchUrl": "https://extension.umn.edu/courses-and-events/for-professionals/teaching-personal-finance",
+        "resourceUrl": "https://homemoneycalc.com/methodology/#classroom-examples",
+        "checkedOn": "2026-11-08",
+        "stage": "research-needed",
+        "blockers": [
+          "Publisher eligibility aur specific lesson ka fit abhi confirm nahi hai.",
+          "Submission free hai ya nahi, verify karein. Koi payment/trial activate na karein.",
+          "Relevant published contact/suggestion channel abhi verify nahi hua."
+        ],
+        "nextStep": "Find a specific relevant lesson and verify its suggestion policy",
+        "draft": "Hello University of Minnesota Extension team,\n\nI help maintain HomeMoney Calc. We have free browser-based teaching scenarios with formulas, worked examples and limitations:\nhttps://homemoneycalc.com/methodology/#classroom-examples\n\nDo you accept suggestions for independent financial-education resources? If so, could you point me to your current eligibility/reference requirements, relevant review channel and any submission fee? I would like to check suitability before proposing a resource.\n\nThank you,\n[Your name]\nHomeMoney Calc"
+      }
+    ],
+    "status": "available",
+    "trackedRecords": 3
+  },
   "sources": {
     "gsc": true,
     "ga4": true,
@@ -101,7 +138,7 @@
     "connected": true,
     "source": "cloudflare-web-analytics",
     "timezone": "Asia/Kolkata",
-    "checkedAt": "2026-11-08T15:32:39.169Z",
+    "checkedAt": "2026-11-08T15:56:56.317Z",
     "note": "Visits are estimated visits, not unique people. Browser blocking and sampling affect coverage; known bots excluded.",
     "status": "connected",
     "days": [
@@ -944,7 +981,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a575a20cc9944d9f-LAX",
+      "ray": "a575c59e8d01b9a9-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -952,7 +989,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a575a20cb9a0402a-LAX",
+      "ray": "a575c59e7f1ac3ca-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -960,7 +997,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a575a20cb987194a-LAX",
+      "ray": "a575c59e8f1a5467-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -974,7 +1011,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a575a20cc8cf481d-LAX",
+      "ray": "a575c59e89462b03-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -982,83 +1019,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a575a20ccfd0a708-LAX",
+      "ray": "a575c59e8e7f9166-SEA",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-11-08T15:32:53.800Z",
+      "checkedAt": "2026-11-08T15:57:10.712Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a575a20cad357a17-LAX"
+        "ray": "a575c59e6f33ec0f-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-11-08T15:32:53.801Z",
+      "checkedAt": "2026-11-08T15:57:10.713Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a575a20d4cce2f64-LAX"
+        "ray": "a575c59ee8242dad-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-11-08T15:32:53.801Z",
+      "checkedAt": "2026-11-08T15:57:10.713Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a575a20cfad0871f-LAX"
+        "ray": "a575c59eb83fec98-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-11-08T15:32:53.802Z",
+      "checkedAt": "2026-11-08T15:57:10.714Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a575a20d1a5be172-LAX"
+        "ray": "a575c59eedacec68-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-11-08T15:32:53.802Z",
+      "checkedAt": "2026-11-08T15:57:10.715Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a575a20d1a15f7cd-LAX"
+        "ray": "a575c59efbe7cb66-SEA"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-11-08T15:32:53.803Z",
+      "checkedAt": "2026-11-08T15:57:10.715Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1066,14 +1103,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a575a20d2fe5c74e-LAX"
+        "ray": "a575c59eeae16fb5-SEA"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-11-08T15:32:53.803Z",
+      "checkedAt": "2026-11-08T15:57:10.715Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1081,7 +1118,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a575a20d2f6255c7-LAX"
+        "ray": "a575c59ede507567-SEA"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -1255,7 +1292,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-11-08T15:32:54.066Z",
+    "generatedAt": "2026-11-08T15:57:11.138Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
