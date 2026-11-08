@@ -1,6 +1,6 @@
 {
   "date": "2026-11-08",
-  "generatedAt": "2026-11-08T03:22:19.854Z",
+  "generatedAt": "2026-11-08T15:32:54.012Z",
   "sources": {
     "gsc": true,
     "ga4": true,
@@ -101,7 +101,7 @@
     "connected": true,
     "source": "cloudflare-web-analytics",
     "timezone": "Asia/Kolkata",
-    "checkedAt": "2026-11-08T03:22:08.533Z",
+    "checkedAt": "2026-11-08T15:32:39.169Z",
     "note": "Visits are estimated visits, not unique people. Browser blocking and sampling affect coverage; known bots excluded.",
     "status": "connected",
     "days": [
@@ -352,109 +352,109 @@
   ],
   "topQueries": [
     {
-      "query": "$86.40",
+      "query": "mortgage payoff calculator",
       "clicks": 0,
-      "impressions": 6,
+      "impressions": 35,
       "ctr": 0,
-      "position": 4.333333333333334
+      "position": 71.68571428571428
     },
     {
-      "query": "110*1.06",
+      "query": "mortgage extra payment calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 18,
       "ctr": 0,
-      "position": 5
+      "position": 88.44444444444444
     },
     {
-      "query": "30 year mortgage extra payment calculator",
+      "query": "trade in car payment calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 15,
       "ctr": 0,
-      "position": 67
+      "position": 73.66666666666667
     },
     {
-      "query": "300000*0.065",
+      "query": "credit card payment calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 13,
       "ctr": 0,
-      "position": 3
+      "position": 94.23076923076923
     },
     {
-      "query": "32 an hour overtime",
+      "query": "extra payment calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 12,
       "ctr": 0,
-      "position": 38
+      "position": 75.75
     },
     {
-      "query": "50*1.28",
+      "query": "mortgage calculator with extra payment",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 12,
       "ctr": 0,
-      "position": 8
+      "position": 80.25
     },
     {
-      "query": "50000*1.06",
+      "query": "payoff mortgage calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 12,
       "ctr": 0,
-      "position": 5
+      "position": 80.33333333333333
     },
     {
-      "query": "accelerated mortgage payment calculator",
+      "query": "snowball credit card payoff calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 12,
       "ctr": 0,
-      "position": 83
+      "position": 60
     },
     {
-      "query": "accelerated mortgage payoff calculator",
+      "query": "debt snowball payoff calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 11,
       "ctr": 0,
-      "position": 82
+      "position": 85.72727272727273
     },
     {
-      "query": "additional payment mortgage calculator",
+      "query": "extra mortgage payment calculator",
       "clicks": 0,
-      "impressions": 2,
+      "impressions": 11,
       "ctr": 0,
-      "position": 53.5
+      "position": 85.36363636363636
     },
     {
-      "query": "advanced mortgage calculator with extra payments",
+      "query": "how much extra to pay off mortgage in 15 years",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 10,
       "ctr": 0,
-      "position": 58
+      "position": 91
     },
     {
-      "query": "auto loan calculator trade in",
+      "query": "mortgage calculator extra payment",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 10,
       "ctr": 0,
-      "position": 47
+      "position": 83.7
     },
     {
-      "query": "auto loan calculator with trade in and taxes",
+      "query": "salary calculator to hourly",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 10,
       "ctr": 0,
-      "position": 45
+      "position": 53.7
     },
     {
-      "query": "calculate a mortgage payoff",
+      "query": "monthly salary to hourly calculator",
       "clicks": 0,
-      "impressions": 2,
+      "impressions": 9,
       "ctr": 0,
-      "position": 36
+      "position": 64.11111111111111
     },
     {
-      "query": "calculate extra mortgage payments payoff",
+      "query": "mortgage pay off calculator",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 9,
       "ctr": 0,
-      "position": 42
+      "position": 80.11111111111111
     }
   ],
   "topPages": [
@@ -466,39 +466,25 @@
       "position": 16.25
     },
     {
-      "page": "/about/",
+      "page": "/mortgage-payoff-calculator/",
       "clicks": 0,
-      "impressions": 3,
+      "impressions": 308,
       "ctr": 0,
-      "position": 3
+      "position": 66.83441558441558
     },
     {
-      "page": "/advertising-disclosure/",
+      "page": "/percentage-calculator/",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 299,
       "ctr": 0,
-      "position": 13
+      "position": 9.090301003344482
     },
     {
-      "page": "/age-calculator/",
+      "page": "/tip-calculator/",
       "clicks": 0,
-      "impressions": 16,
+      "impressions": 115,
       "ctr": 0,
-      "position": 34.625
-    },
-    {
-      "page": "/auto-loan-calculator/",
-      "clicks": 0,
-      "impressions": 44,
-      "ctr": 0,
-      "position": 38.93181818181818
-    },
-    {
-      "page": "/calculators/",
-      "clicks": 0,
-      "impressions": 21,
-      "ctr": 0,
-      "position": 9
+      "position": 7.904347826086957
     },
     {
       "page": "/compound-interest-calculator/",
@@ -508,18 +494,18 @@
       "position": 11.256756756756756
     },
     {
-      "page": "/contact/",
+      "page": "/holiday-budget-calculator/",
       "clicks": 0,
-      "impressions": 5,
+      "impressions": 67,
       "ctr": 0,
-      "position": 83.6
+      "position": 7.731343283582089
     },
     {
-      "page": "/credit-card-payoff-calculator/",
+      "page": "/auto-loan-calculator/",
       "clicks": 0,
-      "impressions": 30,
+      "impressions": 44,
       "ctr": 0,
-      "position": 49.43333333333333
+      "position": 38.93181818181818
     },
     {
       "page": "/debt-payoff-calculator/",
@@ -529,39 +515,53 @@
       "position": 63.47222222222222
     },
     {
-      "page": "/disclaimer/",
+      "page": "/salary-to-hourly-calculator/",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 33,
       "ctr": 0,
-      "position": 6
+      "position": 54.63636363636363
     },
     {
-      "page": "/editorial-policy/",
+      "page": "/credit-card-payoff-calculator/",
       "clicks": 0,
-      "impressions": 1,
+      "impressions": 30,
       "ctr": 0,
-      "position": 12
+      "position": 49.43333333333333
     },
     {
-      "page": "/holiday-budget-calculator/",
+      "page": "/calculators/",
       "clicks": 0,
-      "impressions": 67,
+      "impressions": 21,
       "ctr": 0,
-      "position": 7.731343283582089
+      "position": 9
     },
     {
-      "page": "/methodology/",
+      "page": "/age-calculator/",
       "clicks": 0,
-      "impressions": 3,
+      "impressions": 16,
       "ctr": 0,
-      "position": 6.666666666666667
+      "position": 34.625
     },
     {
-      "page": "/mortgage-payoff-calculator/",
+      "page": "/paycheck-calculator/",
       "clicks": 0,
-      "impressions": 308,
+      "impressions": 15,
       "ctr": 0,
-      "position": 66.83441558441558
+      "position": 6.333333333333333
+    },
+    {
+      "page": "/contact/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 83.6
+    },
+    {
+      "page": "/overtime-calculator/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 16
     }
   ],
   "opportunities": [],
@@ -873,20 +873,20 @@
     {
       "page": "index.html",
       "status": "pass",
-      "jsGzipBytes": 201970,
-      "cssGzipBytes": 9555
+      "jsGzipBytes": 202162,
+      "cssGzipBytes": 9667
     },
     {
       "page": "paycheck-calculator/index.html",
       "status": "pass",
-      "jsGzipBytes": 218853,
-      "cssGzipBytes": 9555
+      "jsGzipBytes": 219176,
+      "cssGzipBytes": 9667
     },
     {
       "page": "debt-payoff-calculator/index.html",
       "status": "pass",
-      "jsGzipBytes": 210072,
-      "cssGzipBytes": 9555
+      "jsGzipBytes": 210380,
+      "cssGzipBytes": 9667
     }
   ],
   "health": {
@@ -944,7 +944,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a57173e0a86fa1f5-MSP",
+      "ray": "a575a20cc9944d9f-LAX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -952,7 +952,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a57173e0aeaf9007-MSP",
+      "ray": "a575a20cb9a0402a-LAX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -960,7 +960,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a57173e0aa3668e8-MSP",
+      "ray": "a575a20cb987194a-LAX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -974,7 +974,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a57173e0b82c4cbc-MSP",
+      "ray": "a575a20cc8cf481d-LAX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -982,83 +982,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a57173e0ac50812b-MSP",
+      "ray": "a575a20ccfd0a708-LAX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-11-08T03:22:19.533Z",
+      "checkedAt": "2026-11-08T15:32:53.800Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a57173e098c49200-MSP"
+        "ray": "a575a20cad357a17-LAX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-11-08T03:22:19.533Z",
+      "checkedAt": "2026-11-08T15:32:53.801Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a57173e0f8148596-MSP"
+        "ray": "a575a20d4cce2f64-LAX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-11-08T03:22:19.534Z",
+      "checkedAt": "2026-11-08T15:32:53.801Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a57173e0fa28f310-MSP"
+        "ray": "a575a20cfad0871f-LAX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-11-08T03:22:19.534Z",
+      "checkedAt": "2026-11-08T15:32:53.802Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a57173e12dc2acea-MSP"
+        "ray": "a575a20d1a5be172-LAX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-11-08T03:22:19.534Z",
+      "checkedAt": "2026-11-08T15:32:53.802Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a57173e12e2fa1d1-MSP"
+        "ray": "a575a20d1a15f7cd-LAX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-11-08T03:22:19.535Z",
+      "checkedAt": "2026-11-08T15:32:53.803Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1066,14 +1066,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a57173e12aef4cbe-MSP"
+        "ray": "a575a20d2fe5c74e-LAX"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-11-08T03:22:19.535Z",
+      "checkedAt": "2026-11-08T15:32:53.803Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1081,7 +1081,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a57173e1189c29c6-MSP"
+        "ray": "a575a20d2f6255c7-LAX"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -1255,7 +1255,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-11-08T03:22:19.896Z",
+    "generatedAt": "2026-11-08T15:32:54.066Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
