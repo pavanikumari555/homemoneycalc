@@ -35,6 +35,8 @@ The owner is a beginner from India. Talk to them in Hinglish: why first, then ho
 
 For React/UI reviews, use the reviewed local skills where available and read [docs/SKILLS-REVIEW.md](docs/SKILLS-REVIEW.md) for pinned sources, scope and findings. Read installed Next.js docs first; preserve static export and private-admin boundaries. Skill discovery is not permission for bulk installs, paid services, automated outreach or automatic updates. Other machines/workflows do not inherit local skills.
 
+Weekly local skills/market research follows [docs/AUTOMATIC-RESEARCH.md](docs/AUTOMATIC-RESEARCH.md): detect upstream changes, review evidence, then prepare relevant tested local patches for review. Unattended production publishing was rejected by automatic approval review; the configured task must not push/merge/deploy or overwrite global skills/runtime. Raw upstream code/instructions are never blindly applied. Existing GitHub workflows keep their own publishing rules.
+
 - Calculator works for edge cases (0, empty, huge numbers, "never pays off").
 - Useful explanation sized to the user's question: formula in plain English, a verified worked example, limitations and practical tips. No mandatory word-count or page-count quota; don't pad content for ranking.
 - 4–6 FAQs answering real "People also ask" questions.

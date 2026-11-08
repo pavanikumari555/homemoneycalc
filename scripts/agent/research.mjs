@@ -26,7 +26,7 @@ export function robotsAllowed(text, target) {
   return !rules.length || rules[0].allow;
 }
 
-async function boundedGet(url, fetcher, redirects = 0) {
+export async function boundedGet(url, fetcher, redirects = 0) {
   const u = new URL(url);
   if (u.protocol !== "https:" || !HOSTS.has(u.hostname) || u.username || u.password || redirects > 2) throw new Error("Unapproved source or redirect.");
   const response = await fetcher(url, { redirect: "manual", headers: { "user-agent": `${AGENT}/1.0 (+https://homemoneycalc.com/contact/)`, accept: "text/html,text/plain" }, signal: AbortSignal.timeout(10000) });

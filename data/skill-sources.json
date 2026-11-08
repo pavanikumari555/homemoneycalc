@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "sources": [
+    { "id": "vercel-finder", "repo": "vercel-labs/skills", "reviewedRef": "d3701c11b1101251af14c9d148f026e1a47ebe17", "paths": ["skills/find-skills/"], "purpose": "Review discovery instructions; never bulk-install search results." },
+    { "id": "vercel-ui-react", "repo": "vercel-labs/agent-skills", "reviewedRef": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62", "paths": ["skills/react-best-practices/", "skills/web-design-guidelines/"], "purpose": "Review applicable React performance and UI guidance against installed Next.js docs." },
+    { "id": "rea", "repo": "morluto/rea", "reviewedRef": "559083be29bd8502a7feefcbe981380b2bbf4cd9", "paths": [".agents/skills/reverse-engineer-anything/", "package.json", "SECURITY.md", "docs/getting-started/", "scripts/rea.mjs"], "purpose": "Review public competitor analysis guidance and CLI updates; runtime changes require package/dependency review." },
+    { "id": "vercel-interface-rules", "repo": "vercel-labs/web-interface-guidelines", "reviewedRef": "434b7f91364665f2f733b310ec54809bf8f37937", "paths": ["command.md"], "purpose": "Review the live guideline source referenced by the UI skill, not just its installer instructions." }
+  ]
+}

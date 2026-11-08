@@ -1,5 +1,7 @@
 # Skills review — 8 November 2026
 
+> Owner's later direction on 8 November: REA is now installed for bounded public competitor research. The weekly task researches updates and prepares tested local patches; unattended publishing remains gated after automatic approval review rejected the proposed production-push permission. [AUTOMATIC-RESEARCH.md](AUTOMATIC-RESEARCH.md) records the setup, dependency fixes, schedule and boundaries. The initial no-REA-install decision below is historical and superseded for this use case. No upstream package or instruction is blindly auto-executed.
+
 ## Decision and provenance
 
 Installed locally in `C:/Users/Admin/.codex/skills/` as instruction files, outside the public website:

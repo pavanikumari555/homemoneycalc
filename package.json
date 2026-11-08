@@ -9,11 +9,13 @@
     "build": "next build --webpack",
     "postbuild": "node scripts/fix-rsc-prefetch.mjs && node scripts/prune-unreleased.mjs && node scripts/check-performance-budget.mjs",
     "start": "node scripts/serve-out.mjs 3000",
-    "test": "node --test tests/calculators.test.cjs tests/automation.test.mjs tests/admin-agent.test.mjs tests/agent-approvals.test.mjs tests/analytics.test.mjs tests/tool-state.test.cjs tests/owner-reporting.test.mjs tests/service-worker.test.mjs tests/git-credential.test.cjs",
+    "test": "node --test tests/calculators.test.cjs tests/automation.test.mjs tests/admin-agent.test.mjs tests/agent-approvals.test.mjs tests/analytics.test.mjs tests/tool-state.test.cjs tests/owner-reporting.test.mjs tests/service-worker.test.mjs tests/git-credential.test.cjs tests/skill-watch.test.mjs",
     "lint": "eslint .",
     "test:browser": "playwright test",
     "check-tools": "node scripts/check-tools.mjs",
-    "agent:daily": "node scripts/agent/daily.mjs"
+    "agent:daily": "node scripts/agent/daily.mjs",
+    "research:skills": "node scripts/agent/skill-watch.mjs",
+    "test:skills": "node --test tests/skill-watch.test.mjs"
   },
   "dependencies": {
     "next": "^16.4.3",

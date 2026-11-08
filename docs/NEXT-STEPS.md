@@ -1,5 +1,7 @@
 # START HERE — HomeMoney Calc handoff (last updated 25 Oct 2026, ~1 PM IST)
 
+> **8 November research continuation:** REA static CLI/skill and weekly local skill/competitor research are configured. See [AUTOMATIC-RESEARCH.md](AUTOMATIC-RESEARCH.md) for exact versions, dependency fixes, source-change detection and first real rehearsal. The saved recurring task prepares tested local patches only; automatic approval review rejected unattended production publishing. Do not claim future patches are automatically deployed.
+
 > **8 November 2026 account update:** Local Git/GitHub operations must authenticate exclusively as `mukeshs555`, whose identity and collaborator push permission were verified live. Repository ownership remains `pavanikumari555/homemoneycalc`. Repo-scoped fail-closed Git credential selection and CLI guidance: [GITHUB-ACCOUNT.md](GITHUB-ACCOUNT.md). Older account/setup notes below are historical.
 
 > Current work — 31 October 2026: read [OWNER-DASHBOARD.md](OWNER-DASHBOARD.md) first. Four simple owner views, SC/Utah phase-out fixes, local font/build reliability, browser regression workflow, tax-review reminders and private RUM/report adapters supersede older interface/setup notes below. Account-dependent connections are not claimed verified until their live response succeeds. AdSense remains off, and no new paid service is authorized.

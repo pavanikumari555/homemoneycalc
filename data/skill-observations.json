@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-08T17:18:16.923Z",
+  "automaticInstallation": false,
+  "automaticExecution": false,
+  "observations": [
+    {
+      "id": "vercel-finder",
+      "repo": "vercel-labs/skills",
+      "reviewedRef": "d3701c11b1101251af14c9d148f026e1a47ebe17",
+      "checkedAt": "2026-11-08T17:18:16.923Z",
+      "candidateRef": "d3701c11b1101251af14c9d148f026e1a47ebe17",
+      "status": "unchanged",
+      "changedFiles": [],
+      "compareUrl": "https://github.com/vercel-labs/skills/compare/d3701c11b1101251af14c9d148f026e1a47ebe17...d3701c11b1101251af14c9d148f026e1a47ebe17"
+    },
+    {
+      "id": "vercel-ui-react",
+      "repo": "vercel-labs/agent-skills",
+      "reviewedRef": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+      "checkedAt": "2026-11-08T17:18:16.923Z",
+      "candidateRef": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+      "status": "unchanged",
+      "changedFiles": [],
+      "compareUrl": "https://github.com/vercel-labs/agent-skills/compare/1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62...1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62"
+    },
+    {
+      "id": "rea",
+      "repo": "morluto/rea",
+      "reviewedRef": "559083be29bd8502a7feefcbe981380b2bbf4cd9",
+      "checkedAt": "2026-11-08T17:18:16.923Z",
+      "candidateRef": "559083be29bd8502a7feefcbe981380b2bbf4cd9",
+      "status": "unchanged",
+      "changedFiles": [],
+      "compareUrl": "https://github.com/morluto/rea/compare/559083be29bd8502a7feefcbe981380b2bbf4cd9...559083be29bd8502a7feefcbe981380b2bbf4cd9"
+    },
+    {
+      "id": "vercel-interface-rules",
+      "repo": "vercel-labs/web-interface-guidelines",
+      "reviewedRef": "434b7f91364665f2f733b310ec54809bf8f37937",
+      "checkedAt": "2026-11-08T17:18:16.923Z",
+      "candidateRef": "434b7f91364665f2f733b310ec54809bf8f37937",
+      "status": "unchanged",
+      "changedFiles": [],
+      "compareUrl": "https://github.com/vercel-labs/web-interface-guidelines/compare/434b7f91364665f2f733b310ec54809bf8f37937...434b7f91364665f2f733b310ec54809bf8f37937"
+    }
+  ]
+}
