@@ -285,3 +285,17 @@ test("remaining calculator engines retain their normal examples and eligibility 
   const holiday=calcHolidayBudget({gifts:[{name:"A",amount:100}],travel:200,food:100,decorations:50,other:0,budget:500,alreadySaved:100,today:new Date(2026,9,30),target:new Date(2026,11,25),paychecksPerYear:26});
   near(holiday.total,450); near(holiday.stillToSave,350);
 });
+test("near-zero loan rates retain the zero-interest limit without Infinity", () => {
+  const { amortizedPayment, calcAutoLoan } = require("../lib/calc.ts");
+  for (const rate of [0, 1e-14, 1e-10, 0.000001]) {
+    near(amortizedPayment(300000, rate, 360), 300000 / 360);
+    const r = calcMortgage({principal:300000, annualRatePercent:rate, yearsLeft:30, extraMonthly:0, extraYearly:0, oneTime:0});
+    assert.equal(r.base.months, 360);
+    assert.ok(Number.isFinite(r.base.totalInterest));
+    const auto = calcAutoLoan({vehiclePrice:30000,downPayment:0,tradeInValue:0,amountOwedOnTrade:0,salesTaxPercent:0,fees:0,annualRatePercent:rate,termMonths:60,taxCreditOnTradeIn:false});
+    near(auto.monthlyPayment, 500);
+    const card = calcCreditCard({balance:6000,aprPercent:rate,mode:"goal",monthlyPayment:0,goalMonths:60});
+    near(card.payment, 100);
+    assert.equal(card.plan.months, 60);
+  }
+});

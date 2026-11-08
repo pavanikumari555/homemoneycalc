@@ -9,7 +9,7 @@ export default function Logo({ className = "" }: { className?: string }) {
           <path d="M14 11.5c-.4-.6-1.1-1-2-1-1.1 0-2 .6-2 1.5s.9 1.3 2 1.5 2 .6 2 1.5-.9 1.5-2 1.5c-.9 0-1.6-.4-2-1M12 9.5v1m0 6v1" strokeWidth="1.6" />
         </svg>
       </span>
-      <span className="text-lg font-extrabold tracking-tight text-ink">
+      <span className="hidden text-base min-[380px]:inline sm:text-lg font-extrabold tracking-tight text-ink">
         HomeMoney<span className="text-ivy-600 dark:text-ivy-400"> Calc</span>
       </span>
     </span>

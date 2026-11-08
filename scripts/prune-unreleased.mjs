@@ -25,6 +25,8 @@ console.log(`✓ Release queue: ${queued.length} tool(s) waiting${queued.length 
 // Service worker cache ka naam har build pe naya — purane deploy ke HTML/chunks offline me mix na hon
 const sw = `${OUT}/sw.js`;
 if (existsSync(sw)) {
-  const id = `hmc-${today}-${Date.now().toString(36)}`;
-  writeFileSync(sw, readFileSync(sw, "utf8").replace(/const CACHE = "[^"]*";/, `const CACHE = "${id}";`));
+  const id = `homemoneycalc-${today}-${Date.now().toString(36)}`;
+  const source = readFileSync(sw, "utf8");
+  if (!/const CACHE_NAME = "[^"]*";/.test(source)) throw new Error("Service worker cache version declaration missing");
+  writeFileSync(sw, source.replace(/const CACHE_NAME = "[^"]*";/, `const CACHE_NAME = "${id}";`));
 }

@@ -90,7 +90,8 @@ export function amortizedPayment(principal: number, annualRatePercent: number, m
   const r = annualRatePercent / 100 / 12;
   if (months <= 0) return 0;
   if (r === 0) return principal / months;
-  return (principal * r) / (1 - Math.pow(1 + r, -months));
+  // log1p/expm1 avoid cancellation when the entered rate is close to zero.
+  return (principal * r) / -Math.expm1(-months * Math.log1p(r));
 }
 
 const MAX_MONTHS = 1200; // 100 years safety cap (prevents infinite loops)

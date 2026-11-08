@@ -1,5 +1,6 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TOOLS } from "@/lib/site";
@@ -23,7 +24,7 @@ export default function QuickSearch() {
       if ((e.key === "/" && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k")) {
         e.preventDefault();
         openPalette();
-      } else if (e.key === "Escape") {
+      } else if (e.key === "Escape" && input.current) {
         closePalette();
       }
     }
@@ -33,6 +34,8 @@ export default function QuickSearch() {
 
   // Fresh search box every time the palette opens
   function openPalette() {
+    // Repeated Ctrl+K must keep the original return-focus target.
+    if (input.current) { input.current.focus(); return; }
     returnFocus.current = document.activeElement as HTMLElement | null;
     setQ("");
     setActive(0);
@@ -45,10 +48,20 @@ export default function QuickSearch() {
   }
 
   useEffect(() => {
-    if (open) window.setTimeout(() => input.current?.focus(), 10);
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const timer = window.setTimeout(() => input.current?.focus(), 10);
+    return () => { document.body.style.overflow = previous; window.clearTimeout(timer); };
   }, [open]);
 
   const results = useMemo(() => searchTools(TOOLS, q), [q]);
+
+  useEffect(() => {
+    if (open && results[active]) {
+      document.getElementById(`quick-search-${results[active].slug}`)?.scrollIntoView({ block: "nearest" });
+    }
+  }, [open, active, results]);
 
   function go(slug: string) {
     setOpen(false);
@@ -60,24 +73,31 @@ export default function QuickSearch() {
       <button
         type="button"
         onClick={openPalette}
-        className="hidden items-center gap-2 rounded-xl border border-line bg-surface px-3 py-1.5 text-sm text-muted transition hover:border-ivy-400 hover:text-ink lg:flex"
+        className="flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-xl border border-line bg-surface text-sm text-muted transition hover:border-ivy-400 hover:text-ink lg:w-auto lg:px-3"
         aria-label="Search calculators"
       >
         <Icon name="search" className="h-4 w-4" />
-        Search
-        <kbd className="rounded border border-line bg-surface-2 px-1.5 font-mono text-[11px]">/</kbd>
+        <span className="hidden lg:inline">Search</span>
+        <kbd className="hidden rounded border border-line bg-surface-2 px-1.5 font-mono text-[11px] lg:inline">/</kbd>
       </button>
 
-      {open && (
+      {open && createPortal(
         <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-[12vh] backdrop-blur-sm" onClick={closePalette}>
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Search calculators"
-            className="w-full max-w-lg overflow-hidden rounded-2xl border border-line bg-surface shadow-lift"
+            className="flex max-h-[76dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-lift"
             onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key !== "Tab") return;
+              e.preventDefault();
+              const controls = e.currentTarget.querySelectorAll<HTMLInputElement | HTMLButtonElement>("input, button");
+              const index = Array.from(controls).indexOf(document.activeElement as HTMLInputElement | HTMLButtonElement);
+              controls[(index + (e.shiftKey ? -1 : 1) + controls.length) % controls.length]?.focus();
+            }}
           >
-            <div className="flex items-center gap-3 border-b border-line px-4 py-3">
+            <div className="flex shrink-0 items-center gap-3 border-b border-line px-4 py-3">
               <Icon name="search" className="h-5 w-5 text-muted" />
               <input
                 ref={input}
@@ -101,16 +121,14 @@ export default function QuickSearch() {
                     setActive((a) => Math.max(a - 1, 0));
                   } else if (e.key === "Enter" && results[active]) {
                     go(results[active].slug);
-                  } else if (e.key === "Tab") {
-                    e.preventDefault(); // keep focus inside the dialog
                   }
                 }}
                 placeholder="Find a calculator…"
                 className="w-full bg-transparent text-base text-ink placeholder:text-muted focus:outline-none"
               />
-              <kbd className="rounded border border-line bg-surface-2 px-1.5 font-mono text-[11px] text-muted">Esc</kbd>
+              <button type="button" onClick={closePalette} aria-label="Close search" className="rounded-lg p-2 text-sm text-muted hover:bg-surface-2">Close</button>
             </div>
-            <ul id="quick-search-list" role="listbox" aria-label="Calculators" className="max-h-[50vh] overflow-auto p-2">
+            <ul id="quick-search-list" role="listbox" aria-label="Calculators" className="min-h-0 max-h-[50vh] overflow-auto p-2">
               {results.length ? (
                 results.map((t, i) => (
                   <li
@@ -136,7 +154,7 @@ export default function QuickSearch() {
               )}
             </ul>
           </div>
-        </div>
+        </div>, document.body
       )}
     </>
   );

@@ -4,11 +4,14 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { THEME_INIT_SCRIPT } from "@/components/ThemeToggle";
 import InstallPrompt from "@/components/InstallPrompt";
 import ValueFirstInstall from "@/components/ValueFirstInstall";
 import { SITE } from "@/lib/site";
 import AnalyticsConsent from "@/components/AnalyticsConsent";
+
+// Keep initial HTML in the server module. Importing this string from a client
+// entry serializes a deferred client reference into dangerouslySetInnerHTML.
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('hmc-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();`;
 
 // Bundled font: builds and page loads do not require a Google Fonts connection.
 const sans = localFont({

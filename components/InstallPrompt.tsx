@@ -58,7 +58,7 @@ export default function InstallPrompt() {
       </span>
       <div className="min-w-0 flex-1 text-sm">
         <div className="font-semibold text-ink">Keep HomeMoney Calc one tap away</div>
-        <div className="text-muted">Install it — works offline, opens like an app.</div>
+        <div className="text-muted">Install it for one-tap access to your calculators.</div>
       </div>
       <button
         type="button"

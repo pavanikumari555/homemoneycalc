@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { TOOLS, getTool, Tool } from "@/lib/site";
 import { getAllSaved, getFavorites, getRecentTools, deleteSaved, planUrl, toggleFavorite, useStorageValue, useHydrated, NONE, ToolValues, Scenario } from "@/lib/useToolState";
 import Icon from "@/components/Icon";
@@ -19,6 +20,7 @@ export default function MyMoney() {
   const recent = toTools(useStorageValue(getRecentTools, NONE));
   const plans = useStorageValue(readPlans, NO_PLANS);
   const ready = useHydrated();
+  const [storageError, setStorageError] = useState("");
 
   if (!ready) return <div className="h-64" />;
 
@@ -26,6 +28,7 @@ export default function MyMoney() {
 
   return (
     <div className="space-y-10">
+      {storageError && <p role="alert" className="rounded-xl border border-red-300 p-4 text-sm text-red-700 dark:text-red-300">{storageError}</p>}
       {empty && (
         <div className="rounded-3xl border border-dashed border-ivy-300 bg-ivy-50/60 p-8 text-center dark:border-ivy-700 dark:bg-ivy-900/20">
           <div className="text-4xl">🌱</div>
@@ -56,8 +59,8 @@ export default function MyMoney() {
                 </Link>
                 <button
                   type="button"
-                  onClick={() => toggleFavorite(t.slug)}
-                  className="absolute right-2 top-2 rounded-md p-1 text-muted opacity-0 transition hover:text-red-500 group-hover:opacity-100 focus:opacity-100"
+                  onClick={() => setStorageError(toggleFavorite(t.slug) === null ? "This calculator could not be unpinned. Allow browser storage and try again." : "")}
+                  className="absolute right-2 top-2 rounded-md p-1 text-muted transition hover:text-red-500 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
                   aria-label={`Unpin ${t.shortTitle}`}
                 >
                   <Icon name="x" className="h-4 w-4" />
@@ -92,7 +95,7 @@ export default function MyMoney() {
                     <Link href={planUrl(tool, plan.values)} className="text-sm font-semibold text-ivy-600 hover:underline dark:text-ivy-400">
                       Open →
                     </Link>
-                    <button type="button" onClick={() => deleteSaved(tool, plan.id)} className="text-xs text-muted hover:text-red-500">
+                    <button type="button" onClick={() => setStorageError(deleteSaved(tool, plan.id) ? "" : "This plan could not be deleted. Allow browser storage and try again.")} aria-label={`Delete ${plan.name}`} className="text-xs text-muted hover:text-red-500">
                       Delete
                     </button>
                   </div>

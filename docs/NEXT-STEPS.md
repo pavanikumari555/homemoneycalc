@@ -1,5 +1,7 @@
 # START HERE — HomeMoney Calc handoff (last updated 25 Oct 2026, ~1 PM IST)
 
+> **8 November 2026 account update:** Local Git/GitHub operations must authenticate exclusively as `mukeshs555`, whose identity and collaborator push permission were verified live. Repository ownership remains `pavanikumari555/homemoneycalc`. Repo-scoped fail-closed Git credential selection and CLI guidance: [GITHUB-ACCOUNT.md](GITHUB-ACCOUNT.md). Older account/setup notes below are historical.
+
 > Current work — 31 October 2026: read [OWNER-DASHBOARD.md](OWNER-DASHBOARD.md) first. Four simple owner views, SC/Utah phase-out fixes, local font/build reliability, browser regression workflow, tax-review reminders and private RUM/report adapters supersede older interface/setup notes below. Account-dependent connections are not claimed verified until their live response succeeds. AdSense remains off, and no new paid service is authorized.
 
 > **Latest owner budget decision — 26 Oct 2026:** Project-wide freeze on NEW paid services, subscriptions, paid API use, ads spend and upgrades until revenue starts. Avoid billing/card activation and trials that can charge. Prefer useful verified free options; explain benefit/cost and check existing setup first. Any later spending still needs specific owner approval. Do not cancel existing services/renewals. Search Console API setup is paused for now despite that API itself being free. Earlier setup priorities below do not override this decision.

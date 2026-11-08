@@ -1,16 +1,19 @@
 "use client";
 
 import { getFavorites, toggleFavorite, useStorageValue, NONE } from "@/lib/useToolState";
+import { useState } from "react";
 
 // "Pin to My Money" star on every tool page. Pinned tools show first on the
 // home page and the My Money dashboard — ek click me wapas aane ka raasta.
 export default function FavoriteButton({ slug }: { slug: string }) {
   const on = useStorageValue(getFavorites, NONE).includes(slug);
+  const [error, setError] = useState("");
 
   return (
+    <>
     <button
       type="button"
-      onClick={() => toggleFavorite(slug)}
+      onClick={() => setError(toggleFavorite(slug) === null ? "Your browser could not update pinned calculators. Allow browser storage and try again." : "")}
       aria-pressed={on}
       className={`no-print inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition ${
         on
@@ -23,5 +26,7 @@ export default function FavoriteButton({ slug }: { slug: string }) {
       </svg>
       {on ? "Pinned to My Money" : "Pin this calculator"}
     </button>
+    {error && <span role="alert" className="text-red-700 dark:text-red-300">{error}</span>}
+    </>
   );
 }

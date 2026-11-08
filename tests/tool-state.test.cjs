@@ -22,7 +22,7 @@ function fixture(search="",initial=[],blocked=false) {
   const load=id=>id==="react"?{useState,useRef,useEffect,useCallback:fn=>fn,useSyncExternalStore:(_,snapshot)=>snapshot()}:require(path.resolve(__dirname,"../lib",id));
   vm.runInNewContext("(function(require,module,exports){"+compiled+"})",{window,localStorage,URLSearchParams,Event,URL,Date})(load,hookModule,hookModule.exports);
   function render(){cursor=0;pending=[];const state=hookModule.exports.useToolState("debt-payoff-calculator",defaults,{s:["snowball","avalanche"]},rules);for(const fn of pending)fn();return state;}
-  return {get:()=>{render();return render();},storage,flush:()=>{for(const fn of timers.values())fn();timers.clear();}};
+  return {api:hookModule.exports,get:()=>{render();return render();},storage,flush:()=>{for(const fn of timers.values())fn();timers.clear();}};
 }
 
 test("real hook hydrates, shares, saves and reopens all fifteen debts",()=>{
@@ -52,4 +52,18 @@ test("blocked storage never pretends a plan was saved or deleted",()=>{
   assert.equal(state.saveScenario("Cannot persist"),false);state=f.get();
   assert.equal(state.saved.length,0);assert.match(state.storageWarning,/not saved/);
   state.set("x","808");f.get();f.flush();assert.match(f.get().storageWarning,/could not save/);
+});
+
+
+test("dashboard storage helpers report failed delete and pin writes",()=>{
+  const initial=[["hmc:saved:debt-payoff-calculator",JSON.stringify([{id:"p1",name:"Keep",values:defaults,savedAt:1}])]];
+  const blocked=fixture("",initial,true);
+  assert.equal(blocked.api.deleteSaved("debt-payoff-calculator","p1"),false);
+  assert.equal(JSON.parse(blocked.storage.get("hmc:saved:debt-payoff-calculator")).length,1);
+  assert.equal(blocked.api.toggleFavorite("mortgage-payoff-calculator"),null);
+  const writable=fixture("",initial);
+  assert.equal(writable.api.toggleFavorite("mortgage-payoff-calculator"),true);
+  assert.equal(writable.api.toggleFavorite("mortgage-payoff-calculator"),false);
+  assert.equal(writable.api.deleteSaved("debt-payoff-calculator","p1"),true);
+  assert.equal(JSON.parse(writable.storage.get("hmc:saved:debt-payoff-calculator")).length,0);
 });

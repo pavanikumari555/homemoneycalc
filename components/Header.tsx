@@ -16,6 +16,7 @@ const MENU_PER_CATEGORY = 5;
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const [previousPathname, setPreviousPathname] = useState(pathname);
 
@@ -36,6 +37,7 @@ export default function Header() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsOpen(false);
+        menuButton.current?.focus();
       }
     };
 
@@ -52,7 +54,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/95 backdrop-blur-sm">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+      <div className="container-page flex h-16 items-center justify-between gap-2">
         <Link href="/" className="shrink-0" aria-label="HomeMoney Calc home">
           <Logo />
         </Link>
@@ -60,11 +62,13 @@ export default function Header() {
         <nav aria-label="Primary" className="flex items-center gap-1 text-sm font-medium sm:gap-2">
           <div ref={menuRef} className="relative">
             <button
+              ref={menuButton}
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
               aria-expanded={isOpen}
-              aria-haspopup="true"
-              className="flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 text-muted transition hover:bg-surface hover:text-ink focus:outline-none"
+              aria-label="Calculators"
+              aria-controls={isOpen ? "calculator-navigation" : undefined}
+              className="flex cursor-pointer items-center gap-1.5 rounded-xl px-2 py-2 text-muted transition hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-ivy-500"
             >
               <Icon name="menu" className="h-4 w-4 sm:hidden" />
               <span className="hidden sm:inline">Calculators</span>
@@ -90,7 +94,7 @@ export default function Header() {
 
             {isOpen && (
               <div
-                role="menu"
+                id="calculator-navigation"
                 className="fixed left-3 right-3 top-16 z-50 max-h-[82vh] overflow-y-auto rounded-2xl border border-line bg-surface p-4 shadow-2xl animate-in fade-in zoom-in-95 duration-150 sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[600px] sm:max-h-none sm:overflow-visible sm:p-6 sm:shadow-lift"
               >
                 <div className="grid gap-4 sm:grid-cols-2">

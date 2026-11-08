@@ -75,10 +75,10 @@ export function getFavorites(): string[] {
   return readList(FAV_KEY, isString);
 }
 
-export function toggleFavorite(tool: string): boolean {
+export function toggleFavorite(tool: string): boolean | null {
   const list = getFavorites();
   const on = !list.includes(tool);
-  writeJson(FAV_KEY, on ? [tool, ...list] : list.filter((t) => t !== tool));
+  if (!writeJson(FAV_KEY, on ? [tool, ...list] : list.filter((t) => t !== tool))) return null;
   return on;
 }
 
@@ -91,7 +91,7 @@ export function getAllSaved(tools: string[]): { tool: string; plan: Scenario<Too
 
 export function deleteSaved(tool: string, id: string) {
   const list = readList(SAVED_KEY(tool), isScenario);
-  writeJson(SAVED_KEY(tool), list.filter((p) => p.id !== id));
+  return writeJson(SAVED_KEY(tool), list.filter((p) => p.id !== id));
 }
 
 /** Link that reopens a saved plan with its exact numbers. */

@@ -23,7 +23,9 @@ export default function ValueFirstInstall() {
 
     if (isStandalone) return;
 
-    const dismissedAt = localStorage.getItem("hmc_pwa_dismissed_at");
+    let dismissedAt: string | null;
+    try { dismissedAt = localStorage.getItem("hmc_pwa_dismissed_at"); }
+    catch { return; } // Storage-disabled visitors should still use the calculator.
     if (dismissedAt) {
       const daysPassed = (Date.now() - parseInt(dismissedAt, 10)) / (1000 * 60 * 60 * 24);
       if (daysPassed < 45) return;
@@ -65,7 +67,7 @@ export default function ValueFirstInstall() {
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    localStorage.setItem("hmc_pwa_dismissed_at", Date.now().toString());
+    try { localStorage.setItem("hmc_pwa_dismissed_at", Date.now().toString()); } catch { /* dismiss for this visit */ }
   };
 
   if (!showPrompt) return null;
@@ -83,7 +85,7 @@ export default function ValueFirstInstall() {
           </div>
           <div>
             <h4 className="text-sm font-semibold text-slate-100">Keep HomeMoney Calc on your phone?</h4>
-            <p className="text-xs text-slate-400">Save calculations & use offline anytime.</p>
+            <p className="text-xs text-slate-400">Keep your money calculators one tap away.</p>
           </div>
         </div>
         <button
