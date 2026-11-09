@@ -1,5 +1,7 @@
 # START HERE — HomeMoney Calc handoff (last updated 25 Oct 2026, ~1 PM IST)
 
+> **9 November end-to-end audit:** Read [AUDIT-2026-11-09.md](AUDIT-2026-11-09.md) for tested fixes, current evidence and remaining limitations. Release dates in `lib/site.ts` supersede the historical calendar below (next tools: tips Nov 16, HSA Nov 17). Google tracking and AdSense remain off; no setup should be repeated based on old notes.
+
 > **8 November research continuation:** REA static CLI/skill and weekly local skill/competitor research are configured. See [AUTOMATIC-RESEARCH.md](AUTOMATIC-RESEARCH.md) for exact versions, dependency fixes, source-change detection, rehearsal and owner's subsequently approved limited UI/SEO auto-publishing scope. Full checks and Mukesh verification remain mandatory; excluded changes stay proposals. Configuration is verified, but future scheduled runs have not yet been observed.
 
 > **8 November 2026 account update:** Local Git/GitHub operations must authenticate exclusively as `mukeshs555`, whose identity and collaborator push permission were verified live. Repository ownership remains `pavanikumari555/homemoneycalc`. Repo-scoped fail-closed Git credential selection and CLI guidance: [GITHUB-ACCOUNT.md](GITHUB-ACCOUNT.md). Older account/setup notes below are historical.

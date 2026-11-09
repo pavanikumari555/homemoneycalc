@@ -130,6 +130,7 @@ interface AmortOptions {
   extraMonthly?: number;
   extraYearly?: number; // lump sum every 12th month
   oneTime?: number; // lump sum before the first monthly payment
+  scheduledMonths?: number; // only for a payment computed from this exact loan term
   onPayment?: (payment: MortgagePayment) => void;
 }
 
@@ -151,13 +152,17 @@ export function amortize(o: AmortOptions): AmortResult {
       // Payment doesn't even cover the interest -> balance grows forever
       return { months: Infinity, totalInterest: Infinity, balances, yearly };
     }
-    pay = Math.min(pay, balance + interest);
+    // At high rates over long terms, accumulated floating-point residuals can
+    // create a spurious extra month. Settle the computed loan's last instalment.
+    pay = o.scheduledMonths && months === Math.ceil(o.scheduledMonths)
+      ? balance + interest
+      : Math.min(pay, balance + interest);
     balance = balance + interest - pay;
     o.onPayment?.({
       month: months,
       payment: pay,
       principal: pay - interest,
-      extraPrincipal: Math.max(0, pay - o.payment),
+      extraPrincipal: Math.max(0, Math.min(pay - o.payment, (o.extraMonthly ?? 0) + (months % 12 === 0 ? o.extraYearly ?? 0 : 0))),
       interest,
       balance: Math.max(0, balance),
     });
@@ -211,11 +216,12 @@ export function calcMortgage(input: MortgageInput): MortgageResult {
       interest: 0, balance: principal - lumpSum,
     });
   }
-  const base = amortize({ principal, annualRatePercent: rate, payment, onPayment: (row) => monthly.base.push(row) });
+  const base = amortize({ principal, annualRatePercent: rate, payment, scheduledMonths: years * 12, onPayment: (row) => monthly.base.push(row) });
   const withExtra = amortize({
     principal,
     annualRatePercent: rate,
     payment,
+    scheduledMonths: years * 12,
     extraMonthly: clamp(input.extraMonthly, 0, 1_000_000),
     extraYearly: clamp(input.extraYearly, 0, 10_000_000),
     oneTime: lumpSum,

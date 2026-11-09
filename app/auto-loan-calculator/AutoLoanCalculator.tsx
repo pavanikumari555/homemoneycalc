@@ -115,7 +115,7 @@ export default function AutoLoanCalculator() {
 
           <div className="rounded-2xl border border-line p-4">
             <div className="mb-1 text-sm font-semibold text-ink">Shorter vs longer loans</div>
-            <p className="mb-3 text-xs text-muted">Lower payments cost more in the end. Tap a row to switch.</p>
+            <p className="mb-3 text-xs text-muted">Lower payments cost more in the end. Select a loan length to compare.</p>
             <table className="w-full text-sm tabular-nums">
               <thead className="text-left text-xs uppercase tracking-wide text-muted">
                 <tr>
@@ -129,10 +129,9 @@ export default function AutoLoanCalculator() {
                 {res.byTerm.map((r) => (
                   <tr
                     key={r.term}
-                    onClick={() => state.set("m", String(r.term))}
-                    className={`cursor-pointer transition hover:bg-surface-2 ${r.term === term ? "font-semibold text-ivy-700 dark:text-ivy-300" : "text-ink/80"}`}
+                    className={`transition hover:bg-surface-2 ${r.term === term ? "font-semibold text-ivy-700 dark:text-ivy-300" : "text-ink/80"}`}
                   >
-                    <td className="py-2">{r.term} mo</td>
+                    <td className="py-2"><button type="button" aria-label={`Compare ${r.term} month loan`} aria-pressed={r.term === term} className="rounded px-2 py-1 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ivy-500" onClick={() => state.set("m", String(r.term))}>{r.term} mo</button></td>
                     <td className="py-2 text-right">{usd0(r.payment)}</td>
                     <td className="py-2 text-right">{usd0(r.interest)}</td>
                     <td className="py-2 text-right text-muted">{r.term === 36 ? "—" : `+${usd0(r.interest - cheapest.interest)}`}</td>

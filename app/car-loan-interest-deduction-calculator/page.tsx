@@ -37,7 +37,7 @@ const faqs: FaqItem[] = [
   {
     question: "Do used cars or leased cars qualify?",
     answer:
-      "No. The vehicle's original use has to start with you, so a used car doesn't qualify, and lease payments don't qualify either. Business-use vehicles are also excluded — the deduction is for personal-use vehicles only.",
+      "No. The vehicle's original use has to start with you, and lease payments do not qualify. Mixed personal/business use can qualify if, when the loan is incurred, you expect more than 50% personal use over your ownership. The same interest cannot also be deducted as a business expense.",
   },
   {
     question: "How do I know if my car was assembled in the US?",
@@ -57,6 +57,7 @@ const faqs: FaqItem[] = [
 ];
 
 const SOURCES = [
+  { label: "IRS — Final car-loan interest regulations, effective November 9, 2026 (IRB 2026-39)", url: "https://www.irs.gov/irb/2026-39_irb" },
   { label: "IRS — Working Families Tax Cuts (One, Big, Beautiful Bill) provisions for individuals", url: "https://www.irs.gov/newsroom/working-families-tax-cuts-individuals-and-workers" },
   { label: "IRS — Schedule 1-A (Form 1040), Additional Deductions (Part IV)", url: "https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf" },
   { label: "IRS — Schedule 1-A: What to know about the new form", url: "https://www.irs.gov/newsroom/schedule-1-a-additional-deductions-what-to-know-about-the-new-form" },
@@ -101,7 +102,7 @@ export default function Page() {
         <li>The loan was <strong>originated after December 31, 2024</strong>.</li>
         <li>The money was used to <strong>buy</strong> the vehicle — lease payments don&apos;t qualify.</li>
         <li>The vehicle is <strong>new</strong>: its original use starts with you. Used cars don&apos;t qualify.</li>
-        <li>It&apos;s for <strong>personal use</strong>, not business.</li>
+        <li>When the loan is incurred, you expect <strong>more than 50% personal use</strong> over your ownership; mixed business use can qualify.</li>
         <li>
           It&apos;s a car, minivan, van, SUV, pickup truck or motorcycle with a gross vehicle weight rating under 14,000 pounds.
         </li>
@@ -111,6 +112,9 @@ export default function Page() {
       </ul>
       <p>
         Interest you already deduct as a business expense (on Schedule C, E or F) can&apos;t be counted again here.
+        The final IRS regulations effective November 9, 2026 also require allocating interest when a loan includes
+        negative equity, cash-out or ineligible add-ons. This calculator assumes the entire loan qualifies and does not
+        perform that allocation. Use your lender&apos;s qualifying-interest records for a return.
       </p>
 
       <h2>How the deduction is calculated</h2>

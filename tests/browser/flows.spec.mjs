@@ -1,6 +1,17 @@
 import { test, expect } from "@playwright/test";
 const admin=process.env.BROWSER_ADMIN==="1";
 
+test("loan comparisons work by keyboard and input guidance is announced",async({page})=>{
+  test.skip(admin);
+  await page.goto("/auto-loan-calculator/");
+  const compare=page.getByRole("button",{name:"Compare 36 month loan",exact:true});
+  await compare.focus();await page.keyboard.press("Enter");
+  await expect(page.getByLabel("Loan length",{exact:true})).toHaveValue("36");
+  await expect(compare).toHaveAttribute("aria-pressed","true");
+  await page.goto("/credit-card-payoff-calculator/");
+  await expect(page.getByLabel("APR (interest rate)",{exact:true})).toHaveAccessibleDescription("Find it on your statement");
+});
+
 test("first visit never shows a timed or calculation-triggered install overlay",async({page})=>{
   test.skip(admin);
   await page.clock.install();

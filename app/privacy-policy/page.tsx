@@ -15,7 +15,7 @@ export const metadata: Metadata = buildMetadata({
 // analytics, affiliate partners or any third-party script is added.
 export default function PrivacyPage() {
   return (
-    <PageShell title="Privacy Policy" intro="Last updated: October 30, 2026">
+    <PageShell title="Privacy Policy" intro="Last updated: November 9, 2026">
       <p>
         This Privacy Policy explains how {SITE.name} (&quot;we&quot;, &quot;us&quot;) handles information when you
         visit {SITE.domain}. We&apos;ve written it in plain language so it&apos;s easy to understand.
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Calculations run entirely in your browser. We don&apos;t have accounts, forms or a database that store your numbers.</li>
         <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage.</li>
-        <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked â€” see below.</li>
+        <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked — see below.</li>
         <li>Cloudflare Web Analytics automatically measures aggregate visits, referring sites and page performance without an Allow button or analytics cookies. We no longer load Google Analytics.</li>
         <li>If partner links are activated, they will be clearly labeled. We never sell your personal information.</li>
       </ul>
@@ -66,9 +66,9 @@ export default function PrivacyPage() {
 
       <h2>Google AdSense &amp; Advertising Cookies</h2>
       <p>
-        We may use Google AdSense and other third-party advertising partners to serve ads when you visit our website.
-        Third-party vendors, including Google, use cookies (such as the DoubleClick DART cookie) to serve ads based on
-        your prior visits to this website or other websites on the internet.
+        Google AdSense and advertising cookies are not currently enabled on this site. If advertising is introduced,
+        we will update this policy and provide the applicable consent and privacy controls before activation.
+        Third-party advertising vendors, including Google, may then use cookies to personalize ads based on prior visits.
       </p>
       <p>
         You may opt out of personalized advertising by visiting{" "}

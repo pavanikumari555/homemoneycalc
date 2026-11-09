@@ -53,7 +53,7 @@ export default function CarLoanDeductionCalculator() {
         <>
           <PanelTitle>Your car loan</PanelTitle>
           <div className="grid grid-cols-2 gap-4">
-            <NumberField label="Amount financed" prefix="$" value={v.a} onChange={(x) => state.set("a", x)} />
+            <NumberField label="Amount financed" prefix="$" value={v.a} onChange={(x) => state.set("a", x)} hint="Assumes the whole loan qualifies. Negative equity, cash-out and ineligible add-ons need a separate interest allocation." />
             <NumberField label="Interest rate (APR)" suffix="%" value={v.r} onChange={(x) => state.set("r", x)} step={0.1} />
           </div>
           <SelectField label="Loan length" value={v.m} onChange={(x) => state.set("m", x)} options={TERMS} />
@@ -133,10 +133,9 @@ export default function CarLoanDeductionCalculator() {
                 {res.years.map((y) => (
                   <tr
                     key={y.year}
-                    onClick={() => state.set("ty", String(y.year))}
-                    className={`cursor-pointer transition hover:bg-surface-2 ${y.year === taxYear ? "font-semibold text-ivy-700 dark:text-ivy-300" : "text-ink/80"}`}
+                    className={`transition hover:bg-surface-2 ${y.year === taxYear ? "font-semibold text-ivy-700 dark:text-ivy-300" : "text-ink/80"}`}
                   >
-                    <td className="py-2">{y.year}</td>
+                    <td className="py-2"><button type="button" aria-label={`Estimate tax year ${y.year}`} aria-pressed={y.year === taxYear} className="rounded px-2 py-1 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ivy-500" onClick={() => state.set("ty", String(y.year))}>{y.year}</button></td>
                     <td className="py-2 text-right">{usd0(y.interest)}</td>
                     <td className="py-2 text-right">{usd0(y.deduction)}</td>
                   </tr>

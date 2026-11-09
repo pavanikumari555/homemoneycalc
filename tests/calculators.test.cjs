@@ -47,6 +47,27 @@ const bonus = {
 };
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.005, `${actual} != ${expected}`);
 
+test("loan schedules conserve principal and interest across rates, balances and terms",()=>{
+  const {calcAutoLoan}=require("../lib/calc.ts");
+  for(const principal of [1,1000,350000,100000000]) for(const rate of [0,0.000001,6.5,30]) for(const months of [1,12,360,600]) {
+    const result=calcMortgage({principal,annualRatePercent:rate,yearsLeft:months/12,extraMonthly:0,extraYearly:0,oneTime:0});
+    // Sub-cent residuals are intentionally settled early on very small loans.
+    assert.ok(result.base.months<=months,JSON.stringify({principal,rate,months,actual:result.base.months,last:result.monthly.base.slice(-2)}));
+    if(principal>=1000) assert.equal(result.base.months,months);
+    const rows=result.monthly.base;
+    near(rows.reduce((sum,row)=>sum+row.principal,0),principal);
+    near(rows.reduce((sum,row)=>sum+row.interest,0),result.base.totalInterest);
+    near(rows.reduce((sum,row)=>sum+row.payment,0),principal+result.base.totalInterest);
+    assert.ok(rows.every(row=>row.balance>=0&&row.principal>=0&&row.interest>=0));
+    assert.ok(rows.every(row=>row.extraPrincipal===0));
+  }
+  for(const rate of [0,7.2,40]) for(const term of [1,36,120]) {
+    const loan=calcAutoLoan({vehiclePrice:35000,downPayment:3000,tradeInValue:8000,amountOwedOnTrade:10000,salesTaxPercent:6.5,fees:600,annualRatePercent:rate,termMonths:term,taxCreditOnTradeIn:true});
+    near(loan.monthlyPayment*term,loan.loanAmount+loan.totalInterest);
+    near(loan.totalCostOfVehicle,35000+loan.salesTax+600+loan.totalInterest);
+  }
+});
+
 test("South Carolina SCIAD follows official 2026 single and joint phase-out boundaries", () => {
   const base={...paycheck,stateCode:"SC"};
   for(const [income,tax] of [[40000,497.5],[67500,2160],[95000,3983.5],[100000,4244]]) near(calcPaycheck({...base,grossAnnual:income}).stateTax,tax);

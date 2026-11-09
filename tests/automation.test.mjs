@@ -2,6 +2,19 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readTools, growthIdeas } from "../scripts/agent/ideas.mjs";
 import { roadmapSummary } from "../scripts/agent/roadmap.mjs";
+import { submitIndexNow } from "../scripts/agent/indexnow-submit.mjs";
+
+test("IndexNow accepts only acknowledged requests and surfaces rejection/network errors",async()=>{
+  const payload={host:"example.com",key:"public-key",urlList:["https://example.com/"]};
+  for(const status of [200,202]) assert.equal(await submitIndexNow(payload,async(url,options)=>{
+    assert.equal(url,"https://api.indexnow.org/indexnow");
+    assert.deepEqual(JSON.parse(options.body),payload);
+    assert.ok(options.signal instanceof AbortSignal);
+    return new Response(null,{status});
+  }),status);
+  for(const status of [403,429,500]) await assert.rejects(submitIndexNow(payload,async()=>new Response(null,{status})),new RegExp(`HTTP ${status}`));
+  await assert.rejects(submitIndexNow(payload,async()=>{throw new Error("network unavailable");}),/network unavailable/);
+});
 
 test("report lists earliest queued tools first, and uses registry dates", () => {
   const items = [

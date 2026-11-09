@@ -34,6 +34,7 @@ export function NumberField({ label, value, onChange, prefix, suffix, hint, slid
         )}
         <input
           id={id}
+          aria-describedby={hint ? `${id}-hint` : undefined}
           type="number"
           inputMode="decimal"
           className={`input-field ${prefix ? "pl-7" : ""} ${suffix ? "pr-12" : ""}`}
@@ -57,9 +58,10 @@ export function NumberField({ label, value, onChange, prefix, suffix, hint, slid
           value={Number.isFinite(numeric) ? Math.min(Math.max(numeric, slider.min), slider.max) : slider.min}
           onChange={(e) => onChange(e.target.value)}
           aria-label={`${label} slider`}
+          aria-describedby={hint ? `${id}-hint` : undefined}
         />
       )}
-      {hint && <p className="mt-1.5 text-xs text-muted">{hint}</p>}
+      {hint && <p id={`${id}-hint`} className="mt-1.5 text-xs text-muted">{hint}</p>}
     </div>
   );
 }
@@ -79,14 +81,14 @@ export function SelectField({ label, value, onChange, options, hint }: SelectFie
       <label htmlFor={id} className="label-field">
         {label}
       </label>
-      <select id={id} className="input-field cursor-pointer" value={value} onChange={(e) => onChange(e.target.value)}>
+      <select id={id} aria-describedby={hint ? `${id}-hint` : undefined} className="input-field cursor-pointer" value={value} onChange={(e) => onChange(e.target.value)}>
         {options.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}
           </option>
         ))}
       </select>
-      {hint && <p className="mt-1.5 text-xs text-muted">{hint}</p>}
+      {hint && <p id={`${id}-hint`} className="mt-1.5 text-xs text-muted">{hint}</p>}
     </div>
   );
 }

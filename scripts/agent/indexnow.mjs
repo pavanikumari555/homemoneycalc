@@ -5,6 +5,7 @@
 // Usage: node scripts/agent/indexnow.mjs [--all] [changed files...]
 // ============================================================================
 import { readFileSync } from "node:fs";
+import { submitIndexNow } from "./indexnow-submit.mjs";
 
 const site = readFileSync("lib/site.ts", "utf8");
 const SITE_URL = /url: "([^"]+)"/.exec(site)?.[1];
@@ -46,10 +47,5 @@ if (!urls.length) {
   process.exit(0);
 }
 
-const res = await fetch("https://api.indexnow.org/indexnow", {
-  method: "POST",
-  headers: { "content-type": "application/json; charset=utf-8" },
-  body: JSON.stringify({ host, key: KEY, keyLocation: `${SITE_URL}/${KEY}.txt`, urlList: urls.slice(0, 10000) }),
-});
-console.log(`IndexNow: submitted ${urls.length} URL(s) -> HTTP ${res.status}`);
-// 200/202 = accepted. 403 = key file not reachable yet (domain not live) — harmless.
+const status = await submitIndexNow({ host, key: KEY, keyLocation: `${SITE_URL}/${KEY}.txt`, urlList: urls.slice(0, 10000) });
+console.log(`IndexNow: accepted ${urls.length} URL(s) -> HTTP ${status} (indexing is not guaranteed)`);
