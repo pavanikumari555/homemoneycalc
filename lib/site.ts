@@ -305,7 +305,7 @@ export const ALL_TOOLS: Tool[] = [
     category: "everyday",
     blurb: "Plan gifts per person plus travel, food and decorations, compare with your budget and see what to save each paycheck.",
     icon: "cake",
-    updated: "2026-10-30",
+    updated: "2026-11-13",
     related: ["credit-card-payoff-calculator", "compound-interest-calculator", "tip-calculator"],
     example: { input: "6 gifts ($800) + $675 extras, from Nov 1", output: "$1,475 total, $492 per paycheck" },
     keywords: "christmas budget gift budget per person holiday savings plan hanukkah presents spending",

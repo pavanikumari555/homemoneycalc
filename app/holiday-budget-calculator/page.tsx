@@ -40,6 +40,16 @@ const EX_INPUT: HolidayInput = {
 const EX = calcHolidayBudget(EX_INPUT);
 const EX_SAVED = calcHolidayBudget({ ...EX_INPUT, alreadySaved: 400 });
 
+// Same plan, alag start dates: der se shuru karne ka asar (fixed dates, numbers drift nahi honge)
+const START_DATES = [
+  { label: "October 1", date: new Date(2026, 9, 1) },
+  { label: "November 1", date: new Date(2026, 10, 1) },
+  { label: "November 15", date: new Date(2026, 10, 15) },
+  { label: "December 1", date: new Date(2026, 11, 1) },
+  { label: "December 15", date: new Date(2026, 11, 15) },
+].map((s) => ({ ...s, result: calcHolidayBudget({ ...EX_INPUT, today: s.date }) }));
+const LATE_START = START_DATES[3].result;
+
 const ANSWER = `Add up each gift, then travel, food, decorations and extras. Six gifts worth ${usd0(EX.giftsTotal)} plus ${usd0(EX.extrasTotal)} of other costs is ${usd0(EX.total)}; starting November 1, that means saving about ${usd0(EX.perWeek)} a week (${usd0(EX.perPaycheck)} per biweekly paycheck) to have it all by December 25.`;
 
 const faqs: FaqItem[] = [
@@ -130,6 +140,41 @@ export default function Page() {
         big for the time left — trim the list now rather than in mid-December.
       </p>
 
+      <h2>Starting late: what waiting does to each paycheck</h2>
+      <p>
+        The total stays the same — what changes is how many paydays you have to cover it. Here is Jordan&apos;s same{" "}
+        {usd0(EX.total)} plan, paid every two weeks, depending on the day saving starts:
+      </p>
+      <table>
+        <caption className="sr-only">Savings needed per paycheck and per week for a {usd0(EX.total)} holiday plan by start date</caption>
+        <thead>
+          <tr>
+            <th scope="col">Start saving on</th>
+            <th scope="col">Days to Dec 25</th>
+            <th scope="col">Biweekly paychecks</th>
+            <th scope="col">Per paycheck</th>
+            <th scope="col">Per week</th>
+          </tr>
+        </thead>
+        <tbody>
+          {START_DATES.map((s) => (
+            <tr key={s.label}>
+              <th scope="row">{s.label}</th>
+              <td>{s.result.daysLeft}</td>
+              <td>{s.result.paychecksLeft}</td>
+              <td>{usd0(s.result.perPaycheck)}</td>
+              <td>{usd0(s.result.perWeek)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p>
+        Waiting until December 1 leaves {LATE_START.paychecksLeft === 1 ? "about one paycheck" : `about ${LATE_START.paychecksLeft} paychecks`}, so{" "}
+        {usd0(LATE_START.perPaycheck)} has to come from {LATE_START.paychecksLeft === 1 ? "it" : "each one"}. If that&apos;s more than you can
+        spare, it&apos;s a signal to shrink the list or agree on a gift limit with family now. Paychecks are counted by
+        the same rule the calculator uses (days left × 26 ÷ 365, rounded down), so your real payday dates may add or remove one.
+      </p>
+
       <h2>Tips to keep the holidays affordable</h2>
       <ul>
         <li>
@@ -148,6 +193,11 @@ export default function Page() {
         <li>
           <strong>Watch the extras.</strong> Travel and hosting often cost as much as gifts. Compare flights early, split hosting costs,
           or suggest a potluck.
+        </li>
+        <li>
+          <strong>Check the real discount on sale days.</strong> A &quot;was $80, now $59&quot; tag is about a 26% discount — work out the
+          percentage with the <Link href="/percentage-calculator/">percentage calculator</Link> and compare it with the price you
+          planned to pay, not the crossed-out one. A deal on something that wasn&apos;t on your list still adds to the total.
         </li>
         <li>
           <strong>Try group gifts or a gift exchange.</strong> A family &quot;Secret Santa&quot; with a spending limit can cut a long list
