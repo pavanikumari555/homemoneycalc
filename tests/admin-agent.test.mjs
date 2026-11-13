@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
 import { resolve, join, basename } from "node:path";
 import { tmpdir } from "node:os";
 import { onRequest } from "../functions/admin/_middleware.js";
-import { adsenseReadiness, actionPlan } from "../scripts/agent/advisor.mjs";
+import { adsenseReadiness, actionPlan, searchDrop } from "../scripts/agent/advisor.mjs";
 import { auditSite } from "../scripts/agent/audit.mjs";
 import { qualityChecks } from "../scripts/agent/quality.mjs";
 import { liveChecks } from "../scripts/agent/live.mjs";
@@ -128,4 +128,27 @@ test("Cloudflare challenge is unknown monitoring coverage, not a page failure or
   const actions = actionPlan({ date: "2026-10-26", sources: {}, health: { ran: true, errors: 0 }, liveChecks: checks }, business, "2026-10-26");
   assert.equal(actions.some((a) => a.id === "monitoring-access"), false);
   assert.ok(!actions.some((a) => a.id.startsWith("live-")));
+});
+
+test("search drop alert fires on a real zero streak but not on one lagging day or a young site", () => {
+  const days = (values) => values.map((impressions, i) => ({ date: new Date(Date.UTC(2026, 9, 24 + i)).toISOString().slice(0, 10), clicks: 0, impressions }));
+  // 13 Nov report pattern: 139 -> 45 -> 0 -> 0
+  const real = days([0, 7, 45, 86, 108, 118, 88, 78, 85, 92, 115, 139, 117, 83, 56, 45, 0, 0]);
+  const drop = searchDrop(real);
+  assert.equal(drop.kind, "zero");
+  assert.equal(drop.zeroDays, 2);
+  const actions = actionPlan({ date: "2026-11-13", sources: { gsc: true }, health: { ran: true, errors: 0 }, trend: real }, business, "2026-11-13");
+  const task = actions.find((a) => a.id === "search-drop");
+  assert.equal(task.who, "owner");
+  assert.match(task.steps.join(" "), /Manual actions/);
+  // Ek akela zero din = GSC lag ho sakta hai, alarm nahi
+  assert.equal(searchDrop(days([10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 0])), null);
+  // Bahut naya site, kam din ka data: koi alarm nahi
+  assert.equal(searchDrop(days([0, 5, 0, 0])), null);
+  // Shuru se zero (kabhi traffic tha hi nahi) = drop nahi
+  assert.equal(searchDrop(days(Array(14).fill(0))), null);
+  // Aadhe se kam giravat bina zero ke
+  assert.equal(searchDrop(days([100, 100, 100, 100, 100, 100, 100, 30, 30, 30, 30, 30, 30, 30])).kind, "halved");
+  // GSC connected nahi to search-drop task nahi banna chahiye
+  assert.ok(!actionPlan({ date: "2026-11-13", sources: {}, health: { ran: true, errors: 0 }, trend: real }, business, "2026-11-13").some((a) => a.id === "search-drop"));
 });

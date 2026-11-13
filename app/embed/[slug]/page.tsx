@@ -83,7 +83,8 @@ export default async function EmbedPage({ params }: { params: Promise<{ slug: st
       <Widget />
       <p className="mt-3 text-center text-xs text-muted">
         Powered by{" "}
-        <a href={`${SITE.url}/${slug}/`} target="_blank" rel="noopener" className="font-semibold text-ivy-700 underline dark:text-ivy-400">
+        {/* nofollow zaroori: Google widget links ko link scheme maan sakta hai */}
+        <a href={`${SITE.url}/${slug}/`} target="_blank" rel="nofollow noopener" className="font-semibold text-ivy-700 underline dark:text-ivy-400">
           {SITE.name}
         </a>
       </p>

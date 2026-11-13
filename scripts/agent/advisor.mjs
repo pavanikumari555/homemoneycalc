@@ -24,6 +24,25 @@ export function adsenseReadiness(report, business, today) {
     optionalAnalytics: { source: "ga4-consented-sample", sessions: report?.sources?.ga4 && finite(report?.kpis?.sessions) ? report.kpis.sessions : null, requiredForApplication: false } };
 }
 
+/**
+ * Search Console daily rows se achanak giravat pakdo. 28-day total isse chhupa deta hai.
+ * Akela aakhri 0 din GSC lag ho sakta hai, isliye 2+ lagataar zero ya aadhi giravat chahiye.
+ */
+export function searchDrop(trend) {
+  const rows = (trend ?? []).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d?.date) && Number.isFinite(d?.impressions)).sort((a, b) => a.date.localeCompare(b.date));
+  if (rows.length < 10) return null;
+  let zeroDays = 0;
+  for (let i = rows.length - 1; i >= 0 && rows[i].impressions === 0; i--) zeroDays++;
+  const sum = (list) => list.reduce((s, d) => s + d.impressions, 0);
+  const recent = sum(rows.slice(-7));
+  const before = sum(rows.slice(-14, -7));
+  const hadTraffic = rows.slice(0, rows.length - zeroDays).some((d) => d.impressions > 0);
+  const zeroStreak = zeroDays >= 2 && hadTraffic;
+  const halved = before >= 50 && recent < before * 0.5;
+  if (!zeroStreak && !halved) return null;
+  return { zeroDays, recent, before, lastDate: rows.at(-1).date, kind: zeroStreak ? "zero" : "halved" };
+}
+
 /** Deterministic priorities keep missing data and completed owner tasks out of AI guesswork. */
 export function actionPlan(report, business, today) {
   const actions = [];
@@ -57,6 +76,10 @@ export function actionPlan(report, business, today) {
     add(`live-${check.path}`, `Live page check: ${check.path}`, check.message, "agent", check.status === "fail" ? 0 : 1,
       ["Live response aur recent deployment compare karo.", "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."]);
   }
+  const drop = report?.sources?.gsc ? searchDrop(report.trend) : null;
+  if (drop) add("search-drop", drop.kind === "zero" ? `Google impressions ${drop.zeroDays} din se zero` : "Google impressions aadhe se kam ho gaye",
+    `Pichhle 7 din: ${drop.recent} impressions, usse pehle ke 7 din: ${drop.before} (data ${drop.lastDate} tak). 28-day total ye giravat chhupa deta hai. Naye domain mein ye normal ho sakta hai; pehle niche ke checks se technical/penalty wajah rule out karein.`, "owner", 1,
+    ["Search Console → Security & Manual actions → Manual actions: 'No issues detected' confirm karein.", "Indexing → Pages: Indexed vs Not indexed count aur reasons dekhein.", "URL Inspection mein ek main page daal ke 'Test live URL' chalayein.", "Settings → Crawl stats: giravat ke din crawl requests ya errors badle?", "Cloudflare → Security → Events: Googlebot ke liye block/challenge to nahi?"], "https://search.google.com/search-console");
   for (const item of (report?.opportunities ?? []).slice(0, 2)) add(`growth-${item.page}`, `Improve karo: ${item.query}`, `${item.impressions} impressions; average position ${Number(item.position).toFixed(1)}. Improvement ka chance hai, ranking guarantee nahi.`, "agent", 2,
     ["Current query ke liye page ka answer aur search intent check karo.", "Original example, missing explanation ya title improve karo. Ek change ka result agle comparable period mein dekho."]);
   if (report?.approvals?.pending > 0) add("owner-approvals", "Approval inbox mein proposals padhein", `${report.approvals.pending} evidence-backed proposals await review. Approval applies only to the shown payload.`, "owner", 2,

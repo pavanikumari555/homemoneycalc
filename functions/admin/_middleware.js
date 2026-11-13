@@ -55,7 +55,13 @@ export async function onRequest({ request, env, next }) {
   if (!user || !pass || pass.length < 12) return deny(403, "Admin is locked. Owner: set ADMIN_USER and a 12+ character ADMIN_PASS in Cloudflare.");
 
   const given = parseBasic(request.headers.get("authorization"));
-  const ok = given && (await same(given.user, user)) & (await same(given.pass, pass));
+  // Dono comparisons hamesha chalao (timing se pata na chale ki username sahi tha)
+  let ok = false;
+  if (given) {
+    const userOk = await same(given.user, user);
+    const passOk = await same(given.pass, pass);
+    ok = userOk && passOk;
+  }
   if (!ok) return deny(401, "Login required.", { "www-authenticate": `Basic realm="${REALM}", charset="UTF-8"` });
 
   const res = await next();
