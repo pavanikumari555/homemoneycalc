@@ -63,7 +63,7 @@ test("private growth review shows at most two research cards and read-only draft
   test.skip(!admin);
   await page.route("**/admin/api/report",r=>r.fulfill({status:503,json:{status:"setup-needed"}}));
   await page.route("**/admin/api/traffic",r=>r.fulfill({status:503,json:{status:"setup-needed",connected:false}}));
-  await page.goto("/admin/");await page.getByRole("button",{name:"Zaroori kaam",exact:true}).click();
+  await page.goto("/admin/");await page.getByRole("button",{name:"Share & Promotion",exact:true}).click();
   await page.getByText("Safe growth: resource review (2/2)",{exact:true}).click();
   await expect(page.getByRole("heading",{name:"Jumpstart Clearinghouse",exact:true})).toBeVisible();
   await expect(page.getByRole("heading",{name:"University of Minnesota Extension",exact:true})).toBeVisible();
@@ -159,7 +159,7 @@ test("owner panel shows daily visits and simple navigation without historical GA
     await new Promise(resolve=>setTimeout(resolve,100));
     await r.fulfill({json:{connected:true,status:"connected",checkedAt:new Date().toISOString(),days:[{date:today,visits:7,pageviews:15,partial:true}],pages:[],sources:[]}});
   });
-  await page.goto("/admin/");await expect(page.getByRole("navigation",{name:"Admin menu"}).getByRole("button")).toHaveCount(4);
+  await page.goto("/admin/");await expect(page.getByRole("navigation",{name:"Admin menu"}).getByRole("button")).toHaveCount(8);
   await expect(page.getByText("Raat 12 baje se · latest reading",{exact:true})).toBeVisible();
   await page.getByRole("button",{name:"Visits",exact:true}).click();
   await expect(page.getByRole("heading",{name:"Roz kitne visits aur page views aaye?"})).toBeVisible();
@@ -167,6 +167,28 @@ test("owner panel shows daily visits and simple navigation without historical GA
   await expect(page.getByText("Historical GA4 sample")).toHaveCount(0);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
   await page.getByRole("button",{name:"AdSense",exact:true}).click();await expect(page.getByRole("heading",{name:"Main goal: AdSense se earning"})).toBeVisible();
+});
+
+test("owner panel sidebar opens Google Search, share drafts and the guide without overflow",async({page})=>{
+  test.skip(!admin);
+  const today=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+  const trend=Array.from({length:12},(_,i)=>({date:new Date(Date.UTC(2026,10,1+i)).toISOString().slice(0,10),clicks:0,impressions:i<10?100:0}));
+  const report={date:today,generatedAt:new Date().toISOString(),sources:{gsc:true},health:{ran:true,errors:0},quality:[{status:"pass"}],liveChecks:[{status:"pass"}],kpis:{clicks:3,impressions:1000,position:31.3},trend,
+    topQueries:[{query:"holiday budget calculator",clicks:0,impressions:40,position:7.6}],topPages:[{page:"/holiday-budget-calculator/",clicks:0,impressions:97,position:7.9}],
+    ideas:{social:{pinterest:{title:"Test pin title",description:"Test pin description",board:"Money Tips",link:"https://homemoneycalc.com/tip-calculator/",design:"Tall pin"}},outreach:[],seasonal:[]}};
+  await page.route("**/admin/api/report",r=>r.fulfill({json:{status:"connected",report}}));
+  await page.route("**/admin/api/traffic",r=>r.fulfill({status:503,json:{connected:false,status:"setup-needed"}}));
+  await page.goto("/admin/");
+  await page.getByRole("button",{name:"Google Search",exact:true}).click();
+  await expect(page.getByRole("heading",{level:1,name:"Google Search"})).toBeVisible();
+  await expect(page.getByRole("alert").filter({hasText:"Aakhri 2 din impressions zero hain."})).toBeVisible();
+  await expect(page.getByRole("row").filter({hasText:"holiday budget calculator"})).toContainText("7.6");
+  await page.getByRole("button",{name:"Share & Promotion",exact:true}).click();
+  await expect(page.getByText(/Test pin title/).first()).toBeVisible();
+  await expect(page.getByRole("button",{name:/^(Post|Send|Publish)/})).toHaveCount(0);
+  await page.getByRole("button",{name:"Madad (Guide)",exact:true}).click();
+  await expect(page.getByRole("heading",{name:"Panel kaise use karein"})).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
 });
 
 test("global search fits the viewport and provides a keyboard and touch exit",async({page})=>{
