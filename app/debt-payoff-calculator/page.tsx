@@ -54,7 +54,7 @@ const SOURCES = [
   { label: "Kellogg School of Management — To beat debt, consider starting small (Gal & McShane, 2012)", url: "https://insight.kellogg.northwestern.edu/article/to_beat_debt_consider_starting_small" },
   { label: "CFPB — Regulation Z §1026.7(b)(12), minimum payment warning on card statements", url: "https://www.consumerfinance.gov/rules-policy/regulations/1026/7/" },
   { label: "CFPB — Debt collection resources", url: "https://www.consumerfinance.gov/consumer-tools/debt-collection/" },
-  { label: "Federal Reserve — Consumer credit (G.19) interest rates", url: "https://www.federalreserve.gov/releases/g19/current/" },
+  { label: "Federal Reserve — Consumer credit (G.19) interest rates", url: "https://www.federalreserve.gov/releases/g19/current/default.htm" },
 ];
 
 // Worked example — calcDebtPayoff se compute hota hai (answer box wale same debts)

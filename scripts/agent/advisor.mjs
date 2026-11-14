@@ -52,8 +52,11 @@ export function indexProblems(report) {
   if (!idx?.connected || !Array.isArray(idx.urls)) return null;
   const before = new Map((report?.previousIndexing ?? []).map((u) => [u.url, u.status]));
   const dropped = idx.urls.filter((u) => u.status === "not-indexed" && before.get(u.url) === "indexed");
-  const blocked = idx.urls.filter((u) => u.robots === "DISALLOWED" || (u.fetch && !["SUCCESSFUL", "PAGE_FETCH_STATE_UNSPECIFIED"].includes(u.fetch)));
-  return dropped.length || blocked.length ? { dropped, blocked } : null;
+  // 404 aksar purana crawl hota hai (page baad mein live hua). Runner se live check nahi ho sakta
+  // (Cloudflare GitHub ko rokta hai), isliye owner browser mein dekh ke Request indexing kare.
+  const notFound = idx.urls.filter((u) => ["NOT_FOUND", "SOFT_404"].includes(u.fetch) && !dropped.includes(u));
+  const blocked = idx.urls.filter((u) => !notFound.includes(u) && (u.robots === "DISALLOWED" || (u.fetch && !["SUCCESSFUL", "PAGE_FETCH_STATE_UNSPECIFIED"].includes(u.fetch))));
+  return dropped.length || blocked.length || notFound.length ? { dropped, blocked, notFound } : null;
 }
 
 /** Deterministic priorities keep missing data and completed owner tasks out of AI guesswork. */
@@ -93,6 +96,8 @@ export function actionPlan(report, business, today) {
   const path = (u) => u.url.replace(/^https?:\/\/[^/]+/, "") || "/";
   if (idx?.dropped.length) add("index-drop", `${idx.dropped.length} page Google index se nikal gaye`, `Kal tak indexed the, aaj nahi: ${idx.dropped.slice(0, 5).map(path).join(", ")}. Google ka reason: ${idx.dropped[0].coverage ?? "nahi mila"}.`, "owner", 1,
     ["Search Console → URL inspection mein ye page daal ke reason padhein.", "'Test live URL' chalayein; agar page sahi load hota hai to 'Request indexing' ek baar dabayein.", "Agle 2–3 din report dekhein. Baar-baar request na karein."], "https://search.google.com/search-console");
+  if (idx?.notFound.length) add("index-recrawl", `${idx.notFound.length} page Google ne 404 dekha tha`, `Google ke aakhri crawl mein ye page nahi mila: ${idx.notFound.slice(0, 5).map((u) => `${path(u)}${u.lastCrawl ? ` (crawl ${u.lastCrawl.slice(0, 10)})` : ""}`).join(", ")}. Agar page ab live hai to Google ko dobara bulana hai.`, "owner", 1,
+    ["Page browser mein kholein. Na khule to developer ko batayein.", "Khul jaye to Search Console → URL inspection mein page daalein → 'Test live URL' → 'Request indexing' ek baar dabayein.", "2–7 din baad report mein dekhein; baar-baar request na karein."], "https://search.google.com/search-console");
   if (idx?.blocked.length) add("index-blocked", "Google kuch pages padh nahi pa raha", `${idx.blocked.slice(0, 5).map((u) => `${path(u)} (${u.robots === "DISALLOWED" ? "robots.txt ne roka" : u.fetch})`).join(", ")}.`, "agent", 0,
     ["robots.txt, redirects aur live response verify karo; Cloudflare security events mein Googlebot block check karo.", "Fix karke URL Inspection se dobara confirm karo."]);
   if (report?.sources?.gsc && report?.indexing?.status === "permission-needed") add("index-access", "Google index check ke liye permission chahiye", "Search data aa raha hai, par service account URL inspection nahi kar pa raha.", "owner", 2,

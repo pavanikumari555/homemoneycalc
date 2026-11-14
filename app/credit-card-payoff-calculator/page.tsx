@@ -67,7 +67,7 @@ export default function Page() {
       sources={[
         { label: "CFPB — How is my credit card interest calculated?", url: "https://www.consumerfinance.gov/ask-cfpb/how-does-my-credit-card-company-calculate-the-amount-of-interest-i-owe-en-51/" },
         { label: "CFPB — Regulation Z §1026.7(b)(12), minimum payment warning on statements", url: "https://www.consumerfinance.gov/rules-policy/regulations/1026/7/" },
-        { label: "Federal Reserve — Consumer credit (G.19), average credit card rates", url: "https://www.federalreserve.gov/releases/g19/current/" },
+        { label: "Federal Reserve — Consumer credit (G.19), average credit card rates", url: "https://www.federalreserve.gov/releases/g19/current/default.htm" },
       ]}
     >
       <h2>How credit card payoff works</h2>

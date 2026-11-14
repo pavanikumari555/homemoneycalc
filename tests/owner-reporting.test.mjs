@@ -167,6 +167,12 @@ test("index alerts fire only for dropped or blocked pages, never for new pages s
   // robots ne roka: agent fix
   const blocked={...base,indexing:{connected:true,urls:[u("/b/","not-indexed",{robots:"DISALLOWED"})]},previousIndexing:null};
   assert.equal(actionPlan(blocked,{},"2026-11-14").find(t=>t.id==="index-blocked").who,"agent");
+  // Purana 404 crawl (page baad mein live hua): owner Request indexing kare, agent "blocked" nahi
+  const stale={...base,indexing:{connected:true,urls:[u("/no-tax-on-overtime-calculator/","not-indexed",{fetch:"NOT_FOUND",lastCrawl:"2026-11-05T12:45:47Z"})]},previousIndexing:null};
+  const staleTasks=actionPlan(stale,{},"2026-11-14");
+  assert.equal(staleTasks.find(t=>t.id==="index-recrawl").who,"owner");
+  assert.match(staleTasks.find(t=>t.id==="index-recrawl").why,/2026-11-05/);
+  assert.ok(!staleTasks.some(t=>t.id==="index-blocked"));
   // Permission nahi: owner ko ek baar ka setup
   const access=actionPlan({...base,indexing:{connected:false,status:"permission-needed"}},{},"2026-11-14").find(t=>t.id==="index-access");
   assert.equal(access.who,"owner");
