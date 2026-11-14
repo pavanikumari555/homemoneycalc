@@ -1,6 +1,6 @@
 {
   "date": "2026-11-14",
-  "generatedAt": "2026-11-14T03:20:11.247Z",
+  "generatedAt": "2026-11-14T14:30:22.565Z",
   "linkReview": {
     "date": "2026-11-14",
     "reviewCap": 2,
@@ -168,7 +168,7 @@
     "connected": true,
     "source": "cloudflare-web-analytics",
     "timezone": "Asia/Kolkata",
-    "checkedAt": "2026-11-14T03:19:54.497Z",
+    "checkedAt": "2026-11-14T14:27:38.830Z",
     "note": "Visits are estimated visits, not unique people. Browser blocking and sampling affect coverage; known bots excluded.",
     "status": "connected",
     "days": [
@@ -217,15 +217,15 @@
       {
         "date": "2026-11-14",
         "partial": true,
-        "pageviews": 2,
-        "visits": 2
+        "pageviews": 6,
+        "visits": 5
       }
     ],
     "today": {
       "date": "2026-11-14",
       "partial": true,
-      "pageviews": 2,
-      "visits": 2
+      "pageviews": 6,
+      "visits": 5
     },
     "yesterday": {
       "date": "2026-11-13",
@@ -236,25 +236,37 @@
     "pages": [
       {
         "path": "/",
-        "pageviews": 13
+        "pageviews": 15
       },
       {
         "path": "/credit-card-payoff-calculator/",
         "pageviews": 3
       },
       {
+        "path": "/holiday-budget-calculator/",
+        "pageviews": 1
+      },
+      {
         "path": "/compound-interest-calculator/",
+        "pageviews": 1
+      },
+      {
+        "path": "/mortgage-payoff-calculator/",
         "pageviews": 1
       }
     ],
     "sources": [
       {
         "host": "",
-        "visits": 16
+        "visits": 19
       },
       {
         "host": "www.google.com",
         "visits": 1
+      },
+      {
+        "host": "homemoneycalc.com",
+        "visits": 0
       }
     ]
   },
@@ -416,8 +428,305 @@
       "date": "2026-11-10",
       "clicks": 0,
       "impressions": 0
+    },
+    {
+      "date": "2026-11-11",
+      "clicks": 0,
+      "impressions": 0
     }
   ],
+  "indexing": {
+    "connected": true,
+    "status": "connected",
+    "checkedAt": "2026-11-14T14:30:22.565Z",
+    "total": 24,
+    "indexed": 23,
+    "notIndexed": 1,
+    "unknown": 0,
+    "urls": [
+      {
+        "url": "https://homemoneycalc.com/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T02:24:13Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/",
+        "userCanonical": "https://homemoneycalc.com/"
+      },
+      {
+        "url": "https://homemoneycalc.com/calculators/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T13:23:18Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/calculators/",
+        "userCanonical": "https://homemoneycalc.com/calculators/"
+      },
+      {
+        "url": "https://homemoneycalc.com/take-home-pay-by-state/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T01:09:11Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/take-home-pay-by-state/",
+        "userCanonical": "https://homemoneycalc.com/take-home-pay-by-state/"
+      },
+      {
+        "url": "https://homemoneycalc.com/methodology/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-06T02:44:45Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/methodology/",
+        "userCanonical": "https://homemoneycalc.com/methodology/"
+      },
+      {
+        "url": "https://homemoneycalc.com/editorial-policy/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T22:44:31Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/editorial-policy/",
+        "userCanonical": "https://homemoneycalc.com/editorial-policy/"
+      },
+      {
+        "url": "https://homemoneycalc.com/about/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T21:29:28Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/about/",
+        "userCanonical": "https://homemoneycalc.com/about/"
+      },
+      {
+        "url": "https://homemoneycalc.com/contact/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-10-25T14:24:09Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/contact/",
+        "userCanonical": "https://homemoneycalc.com/contact/"
+      },
+      {
+        "url": "https://homemoneycalc.com/privacy-policy/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-06T00:54:14Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/privacy-policy/",
+        "userCanonical": "https://homemoneycalc.com/privacy-policy/"
+      },
+      {
+        "url": "https://homemoneycalc.com/advertising-disclosure/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-10-25T14:56:48Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/advertising-disclosure/",
+        "userCanonical": "https://homemoneycalc.com/advertising-disclosure/"
+      },
+      {
+        "url": "https://homemoneycalc.com/terms/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-06T01:29:45Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/terms/",
+        "userCanonical": "https://homemoneycalc.com/terms/"
+      },
+      {
+        "url": "https://homemoneycalc.com/disclaimer/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-10-25T13:04:35Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/disclaimer/",
+        "userCanonical": "https://homemoneycalc.com/disclaimer/"
+      },
+      {
+        "url": "https://homemoneycalc.com/paycheck-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-10-28T09:26:54Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/paycheck-calculator/",
+        "userCanonical": "https://homemoneycalc.com/paycheck-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/salary-to-hourly-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-14T13:30:15Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/salary-to-hourly-calculator/",
+        "userCanonical": "https://homemoneycalc.com/salary-to-hourly-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/mortgage-payoff-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T09:29:21Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/mortgage-payoff-calculator/",
+        "userCanonical": "https://homemoneycalc.com/mortgage-payoff-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/debt-payoff-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-14T04:10:18Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/debt-payoff-calculator/",
+        "userCanonical": "https://homemoneycalc.com/debt-payoff-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/credit-card-payoff-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T10:44:25Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/credit-card-payoff-calculator/",
+        "userCanonical": "https://homemoneycalc.com/credit-card-payoff-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/auto-loan-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-14T12:52:45Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/auto-loan-calculator/",
+        "userCanonical": "https://homemoneycalc.com/auto-loan-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/compound-interest-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-10-28T09:25:51Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/compound-interest-calculator/",
+        "userCanonical": "https://homemoneycalc.com/compound-interest-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/percentage-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-04T23:54:11Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/percentage-calculator/",
+        "userCanonical": "https://homemoneycalc.com/percentage-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/tip-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-10-25T15:55:00Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/tip-calculator/",
+        "userCanonical": "https://homemoneycalc.com/tip-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/age-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-05T04:54:22Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/age-calculator/",
+        "userCanonical": "https://homemoneycalc.com/age-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/overtime-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-03T09:23:06Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/overtime-calculator/",
+        "userCanonical": "https://homemoneycalc.com/overtime-calculator/"
+      },
+      {
+        "url": "https://homemoneycalc.com/no-tax-on-overtime-calculator/",
+        "status": "not-indexed",
+        "verdict": "NEUTRAL",
+        "coverage": "Not found (404)",
+        "lastCrawl": "2026-11-05T12:45:47Z",
+        "fetch": "NOT_FOUND",
+        "robots": "ALLOWED",
+        "googleCanonical": null,
+        "userCanonical": null
+      },
+      {
+        "url": "https://homemoneycalc.com/holiday-budget-calculator/",
+        "status": "indexed",
+        "verdict": "PASS",
+        "coverage": "Submitted and indexed",
+        "lastCrawl": "2026-11-03T08:52:59Z",
+        "fetch": "SUCCESSFUL",
+        "robots": "ALLOWED",
+        "googleCanonical": "https://homemoneycalc.com/holiday-budget-calculator/",
+        "userCanonical": "https://homemoneycalc.com/holiday-budget-calculator/"
+      }
+    ]
+  },
+  "previousIndexing": null,
+  "sourceLinks": {
+    "checked": true,
+    "checkedAt": "2026-11-14T14:27:38.079Z",
+    "total": 119,
+    "timeouts": 0,
+    "broken": [
+      {
+        "url": "https://www.federalreserve.gov/releases/g19/current/",
+        "status": "HTTP 404",
+        "pages": [
+          "/credit-card-payoff-calculator/",
+          "/debt-payoff-calculator/"
+        ]
+      }
+    ]
+  },
   "topQueries": [
     {
       "query": "mortgage payoff calculator",
@@ -1009,7 +1318,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5a2e0fd3ce71741-IAD",
+      "ray": "a5a6b2fdaf8cf820-PDX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1017,7 +1326,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5a2e0fd28f0c64f-IAD",
+      "ray": "a5a6b2fdbc7c706c-PDX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1025,7 +1334,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5a2e0fd2ab691d2-IAD",
+      "ray": "a5a6b2fdada9e102-PDX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1039,7 +1348,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5a2e0fd28620ac8-IAD",
+      "ray": "a5a6b2fdbc1961c8-PDX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1047,83 +1356,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5a2e0fd3fd22de1-IAD",
+      "ray": "a5a6b2fdbc15f7ed-PDX",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-11-14T03:20:11.002Z",
+      "checkedAt": "2026-11-14T14:27:49.929Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a5a2e0fd1a336060-IAD"
+        "ray": "a5a6b2fd9967b338-PDX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-11-14T03:20:11.002Z",
+      "checkedAt": "2026-11-14T14:27:49.929Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a5a2e0fd7a2612fc-IAD"
+        "ray": "a5a6b2fdb991b18c-PDX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-11-14T03:20:11.003Z",
+      "checkedAt": "2026-11-14T14:27:49.929Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a5a2e0fd694b0891-IAD"
+        "ray": "a5a6b2fdc92a8d3a-PDX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-11-14T03:20:11.004Z",
+      "checkedAt": "2026-11-14T14:27:49.930Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5a2e0fd7b33c56a-IAD"
+        "ray": "a5a6b2fdd88cbd22-PDX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-11-14T03:20:11.004Z",
+      "checkedAt": "2026-11-14T14:27:49.930Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5a2e0fd8ebac5b2-IAD"
+        "ray": "a5a6b2fde94fe22a-PDX"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-11-14T03:20:11.005Z",
+      "checkedAt": "2026-11-14T14:27:49.931Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1131,14 +1440,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5a2e0fd78ccd6a7-IAD"
+        "ray": "a5a6b2fddc0cff15-PDX"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-11-14T03:20:11.005Z",
+      "checkedAt": "2026-11-14T14:27:49.931Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1146,7 +1455,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5a2e0fd7c99d6b0-IAD"
+        "ray": "a5a6b2fdd8cd4b01-PDX"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -1306,9 +1615,34 @@
   },
   "actions": [
     {
+      "id": "index-blocked",
+      "title": "Google kuch pages padh nahi pa raha",
+      "why": "/no-tax-on-overtime-calculator/ (NOT_FOUND).",
+      "who": "agent",
+      "priority": 0,
+      "steps": [
+        "robots.txt, redirects aur live response verify karo; Cloudflare security events mein Googlebot block check karo.",
+        "Fix karke URL Inspection se dobara confirm karo."
+      ],
+      "url": ""
+    },
+    {
+      "id": "source-links",
+      "title": "1 source link toot gaye",
+      "why": "Pages pe diye official source links nahi khul rahe: https://www.federalreserve.gov/releases/g19/current/ (HTTP 404). Toota source reader ka bharosa kam karta hai.",
+      "who": "agent",
+      "priority": 1,
+      "steps": [
+        "Har link ka current official page dhoondho (IRS, SSA, Fed, state revenue site).",
+        "Sirf link badlo; figures tabhi badlo jab naya official source unhe confirm kare.",
+        "Agle weekly check mein confirm karo ki link theek ho gaya."
+      ],
+      "url": ""
+    },
+    {
       "id": "search-drop",
-      "title": "Google impressions 2 din se zero",
-      "why": "Pichhle 7 din: 440 impressions, usse pehle ke 7 din: 684 (data 2026-11-10 tak). 28-day total ye giravat chhupa deta hai. Naye domain mein ye normal ho sakta hai; pehle niche ke checks se technical/penalty wajah rule out karein.",
+      "title": "Google impressions 3 din se zero",
+      "why": "Pichhle 7 din: 301 impressions, usse pehle ke 7 din: 715 (data 2026-11-11 tak). 28-day total ye giravat chhupa deta hai. Naye domain mein ye normal ho sakta hai; pehle niche ke checks se technical/penalty wajah rule out karein.",
       "who": "owner",
       "priority": 1,
       "steps": [
@@ -1336,7 +1670,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-11-14T03:20:11.310Z",
+    "generatedAt": "2026-11-14T14:30:22.620Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
@@ -1452,13 +1786,16 @@
     "headline": "Last 28 days: 3 clicks, 1262 impressions",
     "summary": "Pichhle reported period mein Google se 3 clicks aur 1262 impressions mile. Search data kuch din late hota hai; ye aaj ke total visits nahi hain. AdSense ke internal planning checkpoints Google ke minimum rules nahi hain.",
     "youDo": [
-      "Google impressions 2 din se zero: Search Console → Security & Manual actions → Manual actions: 'No issues detected' confirm karein. Indexing → Pages: Indexed vs Not indexed count aur reasons dekhein. URL Inspection mein ek main page daal ke 'Test live URL' chalayein. Settings → Crawl stats: giravat ke din crawl requests ya errors badle? Cloudflare → Security → Events: Googlebot ke liye block/challenge to nahi?",
+      "Google impressions 3 din se zero: Search Console → Security & Manual actions → Manual actions: 'No issues detected' confirm karein. Indexing → Pages: Indexed vs Not indexed count aur reasons dekhein. URL Inspection mein ek main page daal ke 'Test live URL' chalayein. Settings → Crawl stats: giravat ke din crawl requests ya errors badle? Cloudflare → Security → Events: Googlebot ke liye block/challenge to nahi?",
       "Approval inbox mein proposals padhein: Admin → Aapki approvals kholo aur linked evidence padho. Exact before/after aur checklist verify karke approve/reject karo. Workflow result aur deployment verify karo; queued ko live mat samjho.",
       "Next tool: No Tax on Tips Calculator (target 2026-11-16).",
       "Content refresh: 2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath).",
       "Season alert — Open enrollment & raises (chal raha hai): 401(k)/HSA change ka paycheck pe asar — paycheck page pe example."
     ],
-    "agentNext": [],
+    "agentNext": [
+      "Google kuch pages padh nahi pa raha: robots.txt, redirects aur live response verify karo; Cloudflare security events mein Googlebot block check karo. Fix karke URL Inspection se dobara confirm karo.",
+      "1 source link toot gaye: Har link ka current official page dhoondho (IRS, SSA, Fed, state revenue site). Sirf link badlo; figures tabhi badlo jab naya official source unhe confirm kare. Agle weekly check mein confirm karo ki link theek ho gaya."
+    ],
     "risks": [],
     "by": "rules"
   }
