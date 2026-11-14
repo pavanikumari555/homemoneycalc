@@ -15,7 +15,7 @@ export const metadata: Metadata = buildMetadata({
 // analytics, affiliate partners or any third-party script is added.
 export default function PrivacyPage() {
   return (
-    <PageShell title="Privacy Policy" intro="Last updated: November 9, 2026">
+    <PageShell title="Privacy Policy" intro="Last updated: November 14, 2026">
       <p>
         This Privacy Policy explains how {SITE.name} (&quot;we&quot;, &quot;us&quot;) handles information when you
         visit {SITE.domain}. We&apos;ve written it in plain language so it&apos;s easy to understand.
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         <li>Calculations run entirely in your browser. We don&apos;t have accounts, forms or a database that store your numbers.</li>
         <li>Plans you save, tools you pin and your last inputs are kept only in your own browser storage.</li>
         <li>Your numbers appear in the page address (URL) so results can be shared and bookmarked — see below.</li>
-        <li>Cloudflare Web Analytics automatically measures aggregate visits, referring sites and page performance without an Allow button or analytics cookies. We no longer load Google Analytics.</li>
+        <li>We use Google Analytics and Cloudflare Web Analytics to count visits and pages viewed. Calculator values and share-link numbers are never sent to them. There is no popup; use Analytics choices below the footer to turn Google Analytics off.</li>
         <li>If partner links are activated, they will be clearly labeled. We never sell your personal information.</li>
       </ul>
 
@@ -49,15 +49,32 @@ export default function PrivacyPage() {
       </p>
       <p>
         <strong>Usage data:</strong> Our hosting provider (Cloudflare) receives standard technical information such as
-        IP address, browser type and the pages requested, to deliver and protect the site. We use the separate
-        Cloudflare Web Analytics reports described below to understand aggregate traffic. We do not load a Google
-        Analytics tag or send new Google Analytics events. Previously collected Google data is not erased by this change.
+        IP address, browser type and the pages requested, to deliver and protect the site. We use Google Analytics
+        and Cloudflare Web Analytics, described below, to understand aggregate traffic.
+      </p>
+
+      <h2>Google Analytics</h2>
+      <p>
+        We use Google Analytics 4 to understand how many visits the site gets, which pages are viewed and which sites
+        refer visitors. Google receives technical information such as your IP address, browser and device details to
+        produce these reports. We send only the page path, a fixed page title and the referring site&apos;s origin; query
+        strings, fragments, calculator values, results and saved plans are excluded. Google signals and advertising
+        personalization are turned off. Our analytics cookies (named <code>hmc_ga…</code>) expire after 90 days unless
+        renewed by a later visit.
+      </p>
+      <p>
+        <strong>Your choice:</strong> Google Analytics runs by default without a popup. Open <strong>Analytics choices</strong> below
+        the footer and choose <strong>Turn off analytics</strong> to stop it in your browser; we then remove its cookies and reload
+        the page. Visitors in the EU, EEA, UK and Switzerland are measured without analytics cookies (Google Consent Mode)
+        unless they choose <strong>Allow analytics</strong>. Turning analytics off does not erase data already sent. See{" "}
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google&apos;s privacy policy</a>{" "}
+        and <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google&apos;s opt-out add-on</a>.
       </p>
 
       <h2>Cloudflare Web Analytics</h2>
       <p>
-        We use Cloudflare Web Analytics for aggregate visits, page views, referring sites, countries and page performance.
-        This automatic measurement does not require an Allow button and does not use analytics cookies
+        We also use Cloudflare Web Analytics for aggregate visits, page views, referring sites, countries and page performance.
+        This measurement runs separately from Google Analytics and does not use analytics cookies
         or local storage to identify visitors. Cloudflare states that Web Analytics does not collect query
         strings, so shared calculator parameters are excluded. Visits are estimates, not a count of unique
         people; bot filtering and browser blocking can affect coverage. See{' '}
@@ -103,10 +120,11 @@ export default function PrivacyPage() {
 
       <h2>Cookies</h2>
       <p>
-        Calculators and Cloudflare Web Analytics work without analytics cookies. We no longer offer or load
-        optional Google Analytics. A local cleanup script removes the old analytics preference and matching
-        first-party Google Analytics cookies; it does not remove your saved calculator plans. Affiliate
-        destinations have their own cookie policies. You can also block cookies or clear site data in your browser.
+        Calculators work without analytics cookies, and Cloudflare Web Analytics does not use them. Google Analytics
+        sets first-party <code>hmc_ga…</code> cookies unless you turn it off (or, in the EU, EEA, UK and Switzerland, unless you
+        allow it). We remember your Analytics choice in local storage; turning analytics off does not remove your saved
+        calculator plans. Affiliate destinations have their own cookie policies. You can also block cookies or clear
+        site data in your browser.
       </p>
 
       <h2>Children&apos;s privacy</h2>

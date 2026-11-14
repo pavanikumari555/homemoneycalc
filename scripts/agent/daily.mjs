@@ -123,7 +123,7 @@ async function main() {
     edge,
     traffic,
     taxReview: taxReview(readJson("data/tax-review.json", {}), today),
-    measurement: { ga4: "Historical consented sample; collection retired 2026-10-30. Current traffic: Cloudflare Web Analytics dashboard", search: "Search Console reported clicks/impressions; independent of analytics consent", edge: "Aggregate HTTP requests, not human visitors or ad impressions" },
+    measurement: { ga4: "Google Analytics default-on from 2026-11-14 (opt-out in footer; EEA/UK/CH cookieless until allowed). Earlier data was a tiny opt-in sample. Ad blockers make GA4 lower than Cloudflare Web Analytics", search: "Search Console reported clicks/impressions; independent of analytics consent", edge: "Aggregate HTTP requests, not human visitors or ad impressions" },
     kpis,
     trend: gsc.daily ?? [],
     indexing: indexing.connected ? indexing : { connected: false, status: indexing.status ?? (indexing.error ? "error" : "setup-needed") },
