@@ -98,5 +98,8 @@ test("CSP allows only the Google Analytics endpoints the tag needs", () => {
   const csp = readFileSync("public/_headers", "utf8").split("\n").find((l) => l.trim().startsWith("Content-Security-Policy:") && l.includes("frame-ancestors 'self'"));
   assert.match(csp, /script-src [^;]*https:\/\/www\.googletagmanager\.com\/gtag\//);
   assert.match(csp, /connect-src [^;]*https:\/\/\*\.google-analytics\.com/);
+  // Google ka "GA without Ads" CSP list: tag www.google.com/g/collect pe bhi bhejta hai
+  assert.match(csp, /connect-src [^;]*https:\/\/www\.google\.com[ ;]/);
+  assert.match(csp, /img-src [^;]*https:\/\/www\.googletagmanager\.com/);
   assert.doesNotMatch(csp, /googlesyndication|doubleclick|adservice/); // ads abhi band
 });
