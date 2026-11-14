@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { webAnalytics, indiaDays } from "../scripts/agent/web-analytics.mjs";
 import { ownerStatus, trafficForTasks } from "../scripts/agent/owner-status.mjs";
-import { searchConsole } from "../scripts/agent/google.mjs";
+import { searchConsole, indexStatus } from "../scripts/agent/google.mjs";
 import { buildLinkReview, parseTracker } from "../scripts/agent/link-review.mjs";
 import { generateKeyPairSync } from "node:crypto";
 import { taxReview } from "../scripts/agent/tax-review.mjs";
@@ -10,7 +10,8 @@ import { summarize } from "../scripts/agent/summarize.mjs";
 import { onRequest as trafficRequest } from "../functions/admin/api/traffic.js";
 import { onRequest as reportRequest } from "../functions/admin/api/report.js";
 import { auditDisposition } from "../scripts/agent/dependency-audit.mjs";
-import { actionPlan } from "../scripts/agent/advisor.mjs";
+import { actionPlan, indexProblems } from "../scripts/agent/advisor.mjs";
+import { parseLinkCheck } from "../scripts/agent/source-links.mjs";
 
 const trackerHeader="organization,research_url,resource_to_offer,status,submission_cost_verified,contact_channel_verified,contacted_on,response,published_reference_url,checked_on";
 const trackerRow=(name,domain,status="research-only",contact="",response="",checked="2026-11-08")=>`${name},https://${domain}/resources,https://homemoneycalc.com/methodology/#classroom-examples,${status},no,no,${contact},${response},,${checked}`;
@@ -126,4 +127,65 @@ test("unreviewed or new dependency findings cannot be silently waived",()=>{
   assert.equal(auditDisposition({metadata:{vulnerabilities:{total:2}}}).status,"fail");
   assert.equal(auditDisposition({metadata:{vulnerabilities:{total:0}}}).status,"pass");
   assert.equal(auditDisposition({}).status,"unknown");
+});
+
+test("URL Inspection reads index status per URL, survives one failure and flags permission errors",async()=>{
+  const {privateKey}=generateKeyPairSync("rsa",{modulusLength:2048,privateKeyEncoding:{type:"pkcs8",format:"pem"},publicKeyEncoding:{type:"spki",format:"pem"}});
+  const saJson=JSON.stringify({client_email:"test@example.invalid",private_key:privateKey});
+  const site="sc-domain:example.test";
+  const sent=[];
+  const fetcher=async(url,options)=>{
+    if(url.includes("oauth2"))return Response.json({access_token:"fake-token"});
+    const body=JSON.parse(options.body);sent.push(body);
+    assert.equal(options.method,"POST");assert.equal(body.siteUrl,site);
+    if(body.inspectionUrl.endsWith("/broken/"))return new Response("oops",{status:500});
+    const indexed=body.inspectionUrl.endsWith("/a/");
+    return Response.json({inspectionResult:{indexStatusResult:{verdict:indexed?"PASS":"NEUTRAL",coverageState:indexed?"Submitted and indexed":"Crawled - currently not indexed",pageFetchState:"SUCCESSFUL",robotsTxtState:"ALLOWED",lastCrawlTime:"2026-11-10T05:00:00Z"}}});
+  };
+  const r=await indexStatus({saJson,site,urls:["https://example.test/a/","https://example.test/b/","https://example.test/broken/"]},fetcher);
+  assert.equal(r.connected,true);assert.equal(sent.length,3);
+  assert.deepEqual([r.indexed,r.notIndexed,r.unknown],[1,1,1]);
+  assert.equal(r.urls[1].coverage,"Crawled - currently not indexed");
+  assert.equal(r.urls[2].status,"unknown");
+  // Permission error: poora check "permission-needed", guessing nahi
+  const denied=await indexStatus({saJson,site,urls:["https://example.test/a/"]},async(url)=>url.includes("oauth2")?Response.json({access_token:"t"}):new Response("forbidden",{status:403}));
+  assert.equal(denied.status,"permission-needed");assert.equal(denied.connected,false);
+  assert.equal((await indexStatus({saJson:"",site,urls:["x"]})).connected,false);
+});
+
+test("index alerts fire only for dropped or blocked pages, never for new pages still waiting",()=>{
+  const u=(url,status,extra={})=>({url:`https://homemoneycalc.com${url}`,status,fetch:"SUCCESSFUL",robots:"ALLOWED",...extra});
+  const base={date:"2026-11-14",sources:{gsc:true},health:{ran:true}};
+  // Naya page abhi index nahi: koi alarm nahi
+  const fresh={...base,indexing:{connected:true,urls:[u("/a/","indexed"),u("/new/","not-indexed")]},previousIndexing:[{url:"https://homemoneycalc.com/a/",status:"indexed"}]};
+  assert.equal(indexProblems(fresh),null);
+  assert.ok(!actionPlan(fresh,{},"2026-11-14").some(t=>t.id.startsWith("index-")));
+  // Kal indexed tha, aaj nahi: owner alert
+  const dropped={...base,indexing:{connected:true,urls:[u("/a/","not-indexed",{coverage:"Crawled - currently not indexed"})]},previousIndexing:[{url:"https://homemoneycalc.com/a/",status:"indexed"}]};
+  const task=actionPlan(dropped,{},"2026-11-14").find(t=>t.id==="index-drop");
+  assert.equal(task.who,"owner");assert.match(task.why,/\/a\//);
+  // robots ne roka: agent fix
+  const blocked={...base,indexing:{connected:true,urls:[u("/b/","not-indexed",{robots:"DISALLOWED"})]},previousIndexing:null};
+  assert.equal(actionPlan(blocked,{},"2026-11-14").find(t=>t.id==="index-blocked").who,"agent");
+  // Permission nahi: owner ko ek baar ka setup
+  const access=actionPlan({...base,indexing:{connected:false,status:"permission-needed"}},{},"2026-11-14").find(t=>t.id==="index-access");
+  assert.equal(access.who,"owner");
+});
+
+test("lychee result groups broken source links by URL and ignores timeouts",()=>{
+  // Shape copied from lychee's own JSON formatter test
+  const json={unique:40,timeouts:1,errors:2,
+    error_map:{
+      "out/paycheck-calculator/index.html":[{url:"https://www.irs.gov/old-page",status:{text:"Rejected status code: 404 Not Found",code:404}}],
+      "out/bonus-tax-calculator/index.html":[{url:"https://www.irs.gov/old-page",status:{text:"Rejected status code: 404 Not Found",code:404}},{url:"mailto:x@y.z",status:{text:"bad"}}],
+    },
+    timeout_map:{"out/index.html":[{url:"https://slow.example/",status:{text:"Timeout"}}]}};
+  const r=parseLinkCheck(json,"2026-11-16T03:00:00Z");
+  assert.equal(r.checked,true);assert.equal(r.total,40);assert.equal(r.timeouts,1);
+  assert.equal(r.broken.length,1);
+  assert.deepEqual(r.broken[0],{url:"https://www.irs.gov/old-page",status:"HTTP 404",pages:["/paycheck-calculator/","/bonus-tax-calculator/"]});
+  const task=actionPlan({date:"2026-11-16",sources:{gsc:true},health:{ran:true},sourceLinks:r},{},"2026-11-16").find(t=>t.id==="source-links");
+  assert.equal(task.who,"agent");assert.match(task.why,/irs\.gov\/old-page/);
+  // Sab theek ho to koi task nahi
+  assert.ok(!actionPlan({date:"2026-11-16",sources:{gsc:true},health:{ran:true},sourceLinks:parseLinkCheck({unique:5,error_map:{}},"x")},{},"2026-11-16").some(t=>t.id==="source-links"));
 });

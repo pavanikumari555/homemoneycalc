@@ -8,7 +8,7 @@
 // Local run: npm run build && node scripts/agent/daily.mjs
 // ============================================================================
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from "node:fs";
-import { searchConsole, analytics, pageSpeed } from "./google.mjs";
+import { searchConsole, analytics, pageSpeed, indexStatus } from "./google.mjs";
 import { auditSite } from "./audit.mjs";
 import { summarize } from "./summarize.mjs";
 import { bingWebmaster } from "./bing.mjs";
@@ -27,6 +27,7 @@ import { taxReview } from "./tax-review.mjs";
 import { ANALYTICS_ACCOUNT, ANALYTICS_SITE } from "../../lib/analytics-config.mjs";
 import { performanceBudget } from "../check-performance-budget.mjs";
 import { readLinkReview } from "./link-review.mjs";
+import { readLinkCheck } from "./source-links.mjs";
 
 const SITE_URL = "https://homemoneycalc.com";
 const REPORTS = "data/reports";
@@ -97,6 +98,10 @@ async function main() {
   const previousFiles = readdirSync(REPORTS).filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f) && f !== `${today}.json`).sort();
   const previous = previousFiles.length ? readJson(`${REPORTS}/${previousFiles[previousFiles.length - 1]}`, null) : null;
 
+  // --- Google index status: built sitemap ke har URL ka URL Inspection (free, read-only)
+  const sitemapUrls = existsSync("out/sitemap.xml") ? [...readFileSync("out/sitemap.xml", "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim()) : [];
+  const indexing = await safely("URL Inspection", () => indexStatus({ saJson: env.GOOGLE_SA_JSON, site: env.GSC_SITE || "sc-domain:homemoneycalc.com", urls: sitemapUrls }), notes);
+
   const kpis = {
     clicks: gsc.totals?.clicks ?? null,
     impressions: gsc.totals?.impressions ?? null,
@@ -121,6 +126,10 @@ async function main() {
     measurement: { ga4: "Historical consented sample; collection retired 2026-10-30. Current traffic: Cloudflare Web Analytics dashboard", search: "Search Console reported clicks/impressions; independent of analytics consent", edge: "Aggregate HTTP requests, not human visitors or ad impressions" },
     kpis,
     trend: gsc.daily ?? [],
+    indexing: indexing.connected ? indexing : { connected: false, status: indexing.status ?? (indexing.error ? "error" : "setup-needed") },
+    previousIndexing: previous?.indexing?.connected ? previous.indexing.urls.map((u) => ({ url: u.url, status: u.status })) : null,
+    // Weekly Lychee result (seo-daily.yml Monday ko chalata hai); baaki din pichhla result
+    sourceLinks: readLinkCheck("lychee/out.json", previous?.sourceLinks),
     topQueries: (gsc.topQueries ?? []).slice(0, 15),
     topPages: (gsc.topPages ?? []).slice(0, 15).map((p) => ({ ...p, page: p.page.replace(SITE_URL, "") || "/" })),
     opportunities,

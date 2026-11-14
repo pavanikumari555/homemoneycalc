@@ -27,6 +27,28 @@ jobs:
       - run: npm ci
       - name: Build site (needed for the technical SEO audit)
         run: npm run build
+      # Hafte mein ek baar (Monday) bahar ke source links check (IRS, Fed, state sites).
+      # Apni site ke links audit.mjs check karta hai; Cloudflare GitHub runner ko block karta hai, isliye excluded.
+      - name: Is it link-check day?
+        id: linkday
+        run: echo "run=$([ "$(date -u +%u)" = "1" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - name: Check external source links (lychee v2.9.0)
+        if: steps.linkday.outputs.run == 'true'
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
+        with:
+          # 403/429 = site ne bot ko roka, link toota saabit nahi. Sirf 404/410/DNS/5xx report hote hain.
+          args: >-
+            --no-progress --scheme https --scheme http
+            --accept 200..=299,403,429
+            --max-retries 2 --timeout 20 --max-concurrency 4
+            --exclude "^https?://(www\.)?homemoneycalc\.com"
+            --exclude "^https?://[^/]*homemoneycalc[^/]*\.pages\.dev"
+            --exclude "^https?://schema\.org"
+            "out/**/*.html"
+          format: json
+          output: lychee/out.json
+          fail: false
+          jobSummary: false
       - name: Run daily agent
         run: node scripts/agent/daily.mjs
         env:

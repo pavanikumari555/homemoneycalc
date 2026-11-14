@@ -79,6 +79,55 @@ export async function searchConsole({ saJson, site }, fetcher = fetch) {
   };
 }
 
+/**
+ * URL Inspection API: har sitemap URL ka Google index status (Search Console ke "URL inspection" jaisa).
+ * Free quota ~2,000 URL/din per site; hum sirf sitemap ke URLs (~25) check karte hain.
+ * Ek URL fail ho to baaki chalte rehte hain; permission error poore check ko "permission-needed" banata hai.
+ */
+export async function indexStatus({ saJson, site, urls }, fetcher = fetch) {
+  if (!saJson || !site || !urls?.length) return { connected: false, status: "setup-needed" };
+  const token = await accessToken(saJson, fetcher);
+  const results = [];
+  for (const url of urls.slice(0, 100)) {
+    let res;
+    try {
+      res = await fetcher("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
+        method: "POST",
+        headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+        body: JSON.stringify({ inspectionUrl: url, siteUrl: site, languageCode: "en-US" }),
+        signal: AbortSignal.timeout(20_000),
+      });
+    } catch (e) {
+      results.push({ url, status: "unknown", error: String(e?.message ?? e).slice(0, 120) });
+      continue;
+    }
+    if (res.status === 403 || res.status === 401) {
+      // Service account ko is property pe inspection access nahi; har URL pe same jawab aayega
+      await res.body?.cancel?.();
+      return { connected: false, status: "permission-needed", checkedAt: new Date().toISOString() };
+    }
+    if (!res.ok) {
+      results.push({ url, status: "unknown", error: `HTTP ${res.status}` });
+      await res.body?.cancel?.();
+      continue;
+    }
+    const r = (await res.json())?.inspectionResult?.indexStatusResult ?? {};
+    results.push({
+      url,
+      status: r.verdict === "PASS" ? "indexed" : r.verdict ? "not-indexed" : "unknown",
+      verdict: r.verdict ?? null,
+      coverage: r.coverageState ?? null,
+      lastCrawl: r.lastCrawlTime ?? null,
+      fetch: r.pageFetchState ?? null,
+      robots: r.robotsTxtState ?? null,
+      googleCanonical: r.googleCanonical ?? null,
+      userCanonical: r.userCanonical ?? null,
+    });
+  }
+  const count = (s) => results.filter((r) => r.status === s).length;
+  return { connected: true, status: "connected", checkedAt: new Date().toISOString(), total: results.length, indexed: count("indexed"), notIndexed: count("not-indexed"), unknown: count("unknown"), urls: results };
+}
+
 /** GA4: sessions, users, views for the last 28 days vs previous 28, plus share of US traffic. */
 export async function analytics({ saJson, propertyId }) {
   if (!saJson || !propertyId) return { connected: false };

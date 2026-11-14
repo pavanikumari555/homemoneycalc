@@ -43,6 +43,19 @@ export function searchDrop(trend) {
   return { zeroDays, recent, before, lastDate: rows.at(-1).date, kind: zeroStreak ? "zero" : "halved" };
 }
 
+/**
+ * Google index ki asli problems. Naya page abhi index na ho = normal (sirf count dikhta hai).
+ * Alert sirf: pehle indexed page ab nahi, robots ne roka, ya Google page fetch na kar paaya.
+ */
+export function indexProblems(report) {
+  const idx = report?.indexing;
+  if (!idx?.connected || !Array.isArray(idx.urls)) return null;
+  const before = new Map((report?.previousIndexing ?? []).map((u) => [u.url, u.status]));
+  const dropped = idx.urls.filter((u) => u.status === "not-indexed" && before.get(u.url) === "indexed");
+  const blocked = idx.urls.filter((u) => u.robots === "DISALLOWED" || (u.fetch && !["SUCCESSFUL", "PAGE_FETCH_STATE_UNSPECIFIED"].includes(u.fetch)));
+  return dropped.length || blocked.length ? { dropped, blocked } : null;
+}
+
 /** Deterministic priorities keep missing data and completed owner tasks out of AI guesswork. */
 export function actionPlan(report, business, today) {
   const actions = [];
@@ -76,6 +89,17 @@ export function actionPlan(report, business, today) {
     add(`live-${check.path}`, `Live page check: ${check.path}`, check.message, "agent", check.status === "fail" ? 0 : 1,
       ["Live response aur recent deployment compare karo.", "Routing/header/source fix verify karo; unavailable data ko failure details ke saath record karo."]);
   }
+  const idx = indexProblems(report);
+  const path = (u) => u.url.replace(/^https?:\/\/[^/]+/, "") || "/";
+  if (idx?.dropped.length) add("index-drop", `${idx.dropped.length} page Google index se nikal gaye`, `Kal tak indexed the, aaj nahi: ${idx.dropped.slice(0, 5).map(path).join(", ")}. Google ka reason: ${idx.dropped[0].coverage ?? "nahi mila"}.`, "owner", 1,
+    ["Search Console → URL inspection mein ye page daal ke reason padhein.", "'Test live URL' chalayein; agar page sahi load hota hai to 'Request indexing' ek baar dabayein.", "Agle 2–3 din report dekhein. Baar-baar request na karein."], "https://search.google.com/search-console");
+  if (idx?.blocked.length) add("index-blocked", "Google kuch pages padh nahi pa raha", `${idx.blocked.slice(0, 5).map((u) => `${path(u)} (${u.robots === "DISALLOWED" ? "robots.txt ne roka" : u.fetch})`).join(", ")}.`, "agent", 0,
+    ["robots.txt, redirects aur live response verify karo; Cloudflare security events mein Googlebot block check karo.", "Fix karke URL Inspection se dobara confirm karo."]);
+  if (report?.sources?.gsc && report?.indexing?.status === "permission-needed") add("index-access", "Google index check ke liye permission chahiye", "Search data aa raha hai, par service account URL inspection nahi kar pa raha.", "owner", 2,
+    ["Search Console → Settings → Users and permissions kholein.", "Service account email dhoondhein. Permission 'Restricted' ho to 'Full' karke dekhein. Owner mat banayein.", "Agli daily report mein index status khud aa jaayega."], "https://search.google.com/search-console/users");
+  const broken = report?.sourceLinks?.checked ? report.sourceLinks.broken ?? [] : [];
+  if (broken.length) add("source-links", `${broken.length} source link toot gaye`, `Pages pe diye official source links nahi khul rahe: ${broken.slice(0, 3).map((b) => `${b.url} (${b.status})`).join(", ")}. Toota source reader ka bharosa kam karta hai.`, "agent", 1,
+    ["Har link ka current official page dhoondho (IRS, SSA, Fed, state revenue site).", "Sirf link badlo; figures tabhi badlo jab naya official source unhe confirm kare.", "Agle weekly check mein confirm karo ki link theek ho gaya."]);
   const drop = report?.sources?.gsc ? searchDrop(report.trend) : null;
   if (drop) add("search-drop", drop.kind === "zero" ? `Google impressions ${drop.zeroDays} din se zero` : "Google impressions aadhe se kam ho gaye",
     `Pichhle 7 din: ${drop.recent} impressions, usse pehle ke 7 din: ${drop.before} (data ${drop.lastDate} tak). 28-day total ye giravat chhupa deta hai. Naye domain mein ye normal ho sakta hai; pehle niche ke checks se technical/penalty wajah rule out karein.`, "owner", 1,
