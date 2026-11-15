@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-14T14:30:22.620Z",
+  "generatedAt": "2026-11-15T03:22:57.155Z",
   "keywordVolumesVerified": false,
   "automatedSearchScraping": false,
   "observations": [
@@ -34,7 +34,7 @@
       "kind": "official",
       "label": "California official annual tax schedules",
       "url": "https://www.ftb.ca.gov/file/personal/tax-calculator-tables-rates.asp",
-      "checkedAt": "2026-11-08T03:22:19.896Z",
+      "checkedAt": "2026-11-15T03:22:57.155Z",
       "previousHash": null,
       "hash": null,
       "excerpt": null,
