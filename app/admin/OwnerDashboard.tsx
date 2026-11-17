@@ -5,6 +5,7 @@ import ApprovalInbox from "./ApprovalInbox";
 import ResearchMonitor from "./ResearchMonitor";
 import LinkReviewPanel from "./LinkReviewPanel";
 import ShareDrafts from "./ShareDrafts";
+import CommunityAnswers from "./CommunityAnswers";
 import { actionPlan, searchDrop, indexProblems } from "@/scripts/agent/advisor.mjs";
 import { ownerStatus, trafficForTasks } from "@/scripts/agent/owner-status.mjs";
 import { ANALYTICS_DASHBOARD } from "@/lib/analytics-config.mjs";
@@ -178,6 +179,7 @@ export default function OwnerDashboard(p:Props) {
 
           {view==="share"&&<>
             <Panel title="Share karne ke drafts (aap khud post karein)"><ShareDrafts ideas={report?.ideas}/></Panel>
+            <Panel title="Community answers"><CommunityAnswers siteUrl={p.siteUrl} tools={p.tools.filter((tool) => tool.date <= p.today)} /></Panel>
             <LinkReviewPanel plan={report?.linkReview ?? p.linkReview} repo={p.repo}/>
           </>}
 
