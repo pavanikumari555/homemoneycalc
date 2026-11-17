@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-16T03:38:39.553Z",
+  "updatedAt": "2026-11-17T03:23:30.778Z",
   "policy": {
     "version": 1,
     "automaticAdsenseApplication": false,
@@ -24,6 +24,30 @@
         "evidence": [
           {
             "url": "https://www.adp.com/resources/tools/calculators.aspx",
+            "observation": "Public page text changed since previous successful observation; verify the actual change and effective date before using it."
+          }
+        ],
+        "reviewChecklist": [
+          "Linked source kholkar actual relevant change verify karein.",
+          "Effective date aur affected calculators check karein.",
+          "Approval sirf research task accept karega; financial content auto publish nahi hoga."
+        ],
+        "outcome": "Create an approved research task; source-code implementation still requires a concrete reviewed change."
+      }
+    },
+    {
+      "id": "proposal-5cc42948f9318cd2ffb3",
+      "digest": "5cc42948f9318cd2ffb34d9cc77357f6767ea00d569386f133c99e6227b5ddbe",
+      "payload": {
+        "kind": "research",
+        "topic": "google-search-policy",
+        "created": "2026-11-17",
+        "expires": "2026-12-01",
+        "title": "Google Search spam policy: source update review",
+        "reason": "Observed page content changed. A changed hash does not prove a tax rule or competitor feature changed.",
+        "evidence": [
+          {
+            "url": "https://developers.google.com/search/docs/essentials/spam-policies",
             "observation": "Public page text changed since previous successful observation; verify the actual change and effective date before using it."
           }
         ],
