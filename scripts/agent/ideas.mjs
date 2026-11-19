@@ -185,6 +185,23 @@ export function outreachDrafts({ tools, siteUrl, siteName, today }) {
   const week = Math.floor(Date.parse(`${today}T12:00:00Z`) / (7 * DAY));
   const pay = tools.find((t) => t.slug === "paycheck-calculator");
   const tool = tools[week % tools.length];
+  const mortgage = tools.find((t) => t.slug === "mortgage-payoff-calculator");
+  if (mortgage && tool === mortgage) {
+    const scenario = new URLSearchParams({ b: "300000", r: "6.5", y: "30", x: "200", a: "0", o: "0" });
+    return [{
+      to: "US homebuyer educator with an existing lesson on extra principal payments",
+      subject: "A worked extra mortgage payment example for your class",
+      body: [
+        "Hi [Name],",
+        "Your [lesson title] explains how extra payments can reduce mortgage principal. I made a worked example your students can adjust, starting with a $300,000 balance, a 6.5% rate, 30 years left, and $200 extra per month.",
+        `${siteUrl}/${mortgage.slug}/?${scenario}#mortgage-calculator`,
+        "Students can compare the two plans month by month and download the schedule. If the example fits your lesson, feel free to share it with your class.",
+        `Thanks,\n[Your name]\n${siteName}`,
+      ].join("\n\n"),
+      reviewRequired: true,
+      rules: "Verify the lesson, recipient and live example. Personalize and send one-to-one through the published contact channel. Record the contact so it isn't pitched again. No automatic sending, paid links or link exchange.",
+    }];
+  }
   const templates = [
     {
       to: "Personal-finance blogger jisne haal me is topic pe post likhi ho",
