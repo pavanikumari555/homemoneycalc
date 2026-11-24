@@ -1,6 +1,6 @@
 {
   "date": "2026-11-24",
-  "generatedAt": "2026-11-24T03:30:06.397Z",
+  "generatedAt": "2026-11-24T09:16:11.983Z",
   "linkReview": {
     "date": "2026-11-24",
     "reviewCap": 2,
@@ -85,8 +85,8 @@
       },
       {
         "date": "2026-11-01",
-        "requests": 2553,
-        "htmlPageRequests": 870
+        "requests": 2552,
+        "htmlPageRequests": 869
       },
       {
         "date": "2026-11-02",
@@ -200,15 +200,15 @@
       }
     ],
     "totals": {
-      "requests": 58707,
-      "htmlPageRequests": 9161
+      "requests": 58706,
+      "htmlPageRequests": 9160
     }
   },
   "traffic": {
     "connected": true,
     "source": "cloudflare-web-analytics",
     "timezone": "Asia/Kolkata",
-    "checkedAt": "2026-11-24T03:26:59.195Z",
+    "checkedAt": "2026-11-24T09:13:00.966Z",
     "note": "Visits are estimated visits, not unique people. Browser blocking and sampling affect coverage; known bots excluded.",
     "status": "connected",
     "days": [
@@ -257,15 +257,15 @@
       {
         "date": "2026-11-24",
         "partial": true,
-        "pageviews": 1,
-        "visits": 1
+        "pageviews": 2,
+        "visits": 2
       }
     ],
     "today": {
       "date": "2026-11-24",
       "partial": true,
-      "pageviews": 1,
-      "visits": 1
+      "pageviews": 2,
+      "visits": 2
     },
     "yesterday": {
       "date": "2026-11-23",
@@ -276,13 +276,13 @@
     "pages": [
       {
         "path": "/",
-        "pageviews": 12
+        "pageviews": 13
       }
     ],
     "sources": [
       {
         "host": "",
-        "visits": 12
+        "visits": 13
       }
     ]
   },
@@ -499,7 +499,7 @@
   "indexing": {
     "connected": true,
     "status": "connected",
-    "checkedAt": "2026-11-24T03:30:06.397Z",
+    "checkedAt": "2026-11-24T09:16:11.983Z",
     "total": 27,
     "indexed": 24,
     "notIndexed": 3,
@@ -912,8 +912,8 @@
   ],
   "sourceLinks": {
     "checked": true,
-    "checkedAt": "2026-11-23T03:31:14.860Z",
-    "total": 132,
+    "checkedAt": "2026-11-24T09:13:00.025Z",
+    "total": 137,
     "timeouts": 0,
     "broken": []
   },
@@ -1448,19 +1448,19 @@
     {
       "page": "index.html",
       "status": "pass",
-      "jsGzipBytes": 202084,
+      "jsGzipBytes": 201908,
       "cssGzipBytes": 9481
     },
     {
       "page": "paycheck-calculator/index.html",
       "status": "pass",
-      "jsGzipBytes": 219203,
+      "jsGzipBytes": 219027,
       "cssGzipBytes": 9481
     },
     {
       "page": "debt-payoff-calculator/index.html",
       "status": "pass",
-      "jsGzipBytes": 210407,
+      "jsGzipBytes": 210231,
       "cssGzipBytes": 9481
     }
   ],
@@ -1501,16 +1501,16 @@
     {
       "id": "dependencies",
       "label": "Development and production dependency review",
-      "status": "fail",
-      "rawFindings": 1,
-      "summary": "1 dependency findings need review/update. New, changed or expired advisories are never auto-waived."
+      "status": "pass",
+      "rawFindings": 0,
+      "summary": "No known dependency findings reported."
     },
     {
       "id": "dependencies-production",
       "label": "Production dependency security audit",
-      "status": "fail",
-      "rawFindings": 1,
-      "summary": "1 dependency findings need review/update. New, changed or expired advisories are never auto-waived."
+      "status": "pass",
+      "rawFindings": 0,
+      "summary": "No known dependency findings reported."
     }
   ],
   "liveChecks": [
@@ -1519,7 +1519,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5f55126ba535086-STL",
+      "ray": "a5f74bf8cdccad00-MSP",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1527,7 +1527,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5f55126dfda76cb-STL",
+      "ray": "a5f74bf8cdd99181-MSP",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1535,7 +1535,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5f55126fb90e9de-CMH",
+      "ray": "a5f74bf8caa4f370-MSP",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1549,7 +1549,7 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5f551269e5aa203-MSP",
+      "ray": "a5f74bf8c9c429c6-MSP",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
@@ -1557,83 +1557,83 @@
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
-      "ray": "a5f55126eb172877-CMH",
+      "ray": "a5f74bf8c8baad05-MSP",
       "message": "Cloudflare blocked this monitoring request. Verify browser access and security events; an outage is not confirmed."
     },
     {
       "path": "http://homemoneycalc.com/",
       "category": "security",
-      "checkedAt": "2026-11-24T03:27:17.442Z",
+      "checkedAt": "2026-11-24T09:13:16.869Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/",
         "robots": "",
         "cache": "",
-        "ray": "a5f55126cf270abb-CMH"
+        "ray": "a5f74bf8b820a600-MSP"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://www.homemoneycalc.com/?edge-check=1",
       "category": "security",
-      "checkedAt": "2026-11-24T03:27:17.442Z",
+      "checkedAt": "2026-11-24T09:13:16.869Z",
       "http": 301,
       "status": "pass",
       "evidence": {
         "location": "https://homemoneycalc.com/?edge-check=1",
         "robots": "",
         "cache": "",
-        "ray": "a5f551271b97fab5-STL"
+        "ray": "a5f74bf92e66812b-MSP"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.pages.dev/",
       "category": "security",
-      "checkedAt": "2026-11-24T03:27:17.443Z",
+      "checkedAt": "2026-11-24T09:13:16.870Z",
       "http": 200,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex",
         "cache": "public, max-age=0, must-revalidate",
-        "ray": "a5f55126de2aff48-MSP"
+        "ray": "a5f74bf8fd449200-MSP"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/",
       "category": "security",
-      "checkedAt": "2026-11-24T03:27:17.443Z",
+      "checkedAt": "2026-11-24T09:13:16.870Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5f551270bf24c9e-MSP"
+        "ray": "a5f74bf91ab8ad1a-MSP"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc-admin.pages.dev/admin/api/approvals",
       "category": "security",
-      "checkedAt": "2026-11-24T03:27:17.444Z",
+      "checkedAt": "2026-11-24T09:13:16.871Z",
       "http": 401,
       "status": "pass",
       "evidence": {
         "location": "",
         "robots": "noindex, nofollow",
         "cache": "no-store",
-        "ray": "a5f551270a8aacf4-MSP"
+        "ray": "a5f74bf929bb4c92-MSP"
       },
       "message": "Expected edge response verified; account settings not inspected."
     },
     {
       "path": "https://homemoneycalc.com/wp-login.php",
       "category": "security",
-      "checkedAt": "2026-11-24T03:27:17.445Z",
+      "checkedAt": "2026-11-24T09:13:16.871Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1641,14 +1641,14 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5f5512769104e12-CMH"
+        "ray": "a5f74bf92b25102a-MSP"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     },
     {
       "path": "https://homemoneycalc.com/.env",
       "category": "security",
-      "checkedAt": "2026-11-24T03:27:17.445Z",
+      "checkedAt": "2026-11-24T09:13:16.872Z",
       "http": 403,
       "status": "unknown",
       "blockedBy": "cloudflare",
@@ -1656,7 +1656,7 @@
         "location": "",
         "robots": "",
         "cache": "",
-        "ray": "a5f551274ad88662-STL"
+        "ray": "a5f74bf92b0aad17-MSP"
       },
       "message": "Edge challenge/block: target protection could not be verified."
     }
@@ -1814,30 +1814,6 @@
   },
   "actions": [
     {
-      "id": "quality-dependencies",
-      "title": "Development and production dependency review: fix chahiye",
-      "why": "1 dependency findings need review/update. New, changed or expired advisories are never auto-waived.",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "GitHub Actions ka matching check log kholo.",
-        "Cause reproduce karke fix karo; guessing se pass mat mark karo."
-      ],
-      "url": ""
-    },
-    {
-      "id": "quality-dependencies-production",
-      "title": "Production dependency security audit: fix chahiye",
-      "why": "1 dependency findings need review/update. New, changed or expired advisories are never auto-waived.",
-      "who": "agent",
-      "priority": 0,
-      "steps": [
-        "GitHub Actions ka matching check log kholo.",
-        "Cause reproduce karke fix karo; guessing se pass mat mark karo."
-      ],
-      "url": ""
-    },
-    {
       "id": "index-recrawl",
       "title": "1 page Google ne 404 dekha tha",
       "why": "Google ke aakhri crawl mein ye page nahi mila: /no-tax-on-tips-calculator/ (crawl 2026-11-05). Agar page ab live hai to Google ko dobara bulana hai.",
@@ -1881,7 +1857,7 @@
   ],
   "research": {
     "version": 1,
-    "generatedAt": "2026-11-24T03:30:06.461Z",
+    "generatedAt": "2026-11-24T09:16:12.039Z",
     "keywordVolumesVerified": false,
     "automatedSearchScraping": false,
     "observations": [
@@ -2003,10 +1979,7 @@
       "Next tool: Social Security COLA Calculator 2027 (target 2026-12-02).",
       "Content refresh: 2027 ke IRS brackets, standard deduction, 401(k) limit aur SSA wage base aa gaye/aane wale hain — lib/tax2027.ts banana hai (sirf official IRS/SSA numbers, sources ke saath)."
     ],
-    "agentNext": [
-      "Development and production dependency review: fix chahiye: GitHub Actions ka matching check log kholo. Cause reproduce karke fix karo; guessing se pass mat mark karo.",
-      "Production dependency security audit: fix chahiye: GitHub Actions ka matching check log kholo. Cause reproduce karke fix karo; guessing se pass mat mark karo."
-    ],
+    "agentNext": [],
     "risks": [],
     "by": "rules"
   }
