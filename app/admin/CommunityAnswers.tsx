@@ -123,10 +123,14 @@ export default function CommunityAnswers({ tools, siteUrl }: { tools: { slug: st
         </>}
         {question.status === "approved" && <>
           <p className="whitespace-pre-wrap break-words text-sm">{question.answer}</p>
-          <button type="button" className="text-sm underline" onClick={() => void navigator.clipboard.writeText(question.answer).then(
-            () => setNotice({ text: "Approved answer copied.", error: false }),
-            () => setNotice({ text: "Clipboard unavailable. Select and copy the approved answer.", error: true }),
-          )}>Copy approved answer</button>
+          <button type="button" className="text-sm underline" onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(question.answer);
+              setNotice({ text: "Approved answer copied.", error: false });
+            } catch {
+              setNotice({ text: "Clipboard unavailable. Select and copy the approved answer.", error: true });
+            }
+          }}>Copy approved answer</button>
         </>}
       </article>;
     })}

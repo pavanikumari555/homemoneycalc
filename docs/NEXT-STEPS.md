@@ -1,6 +1,6 @@
 # START HERE — HomeMoney Calc handoff (last updated 25 Oct 2026, ~1 PM IST)
 
-> **9 November end-to-end audit:** Read [AUDIT-2026-11-09.md](AUDIT-2026-11-09.md) for tested fixes, current evidence and remaining limitations. Release dates in `lib/site.ts` supersede the historical calendar below (next tools: tips Nov 16, HSA Nov 17). Google tracking and AdSense remain off; no setup should be repeated based on old notes.
+> **9 November end-to-end audit:** Read [AUDIT-2026-11-09.md](AUDIT-2026-11-09.md) for that audit's tested fixes and limitations. Release dates in `lib/site.ts` supersede the historical calendar below. Analytics follows the owner's 14 November direction in AGENTS.md: GA4 is enabled with footer choices and regional consent defaults. AdSense remains on hold. Check the latest dated evidence before repeating setup.
 
 > **8 November research continuation:** REA static CLI/skill and weekly local skill/competitor research are configured. See [AUTOMATIC-RESEARCH.md](AUTOMATIC-RESEARCH.md) for exact versions, dependency fixes, source-change detection, rehearsal and owner's subsequently approved limited UI/SEO auto-publishing scope. Full checks and Mukesh verification remain mandatory; excluded changes stay proposals. Configuration is verified, but future scheduled runs have not yet been observed.
 

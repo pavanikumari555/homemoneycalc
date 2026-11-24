@@ -1,6 +1,28 @@
 import { test, expect } from "@playwright/test";
 const admin=process.env.BROWSER_ADMIN==="1";
 
+for (const clipboard of ["missing", "denied"]) {
+  test(`community approved answers handle a ${clipboard} clipboard`, async ({page}) => {
+    test.skip(!admin);
+    const errors=[];
+    page.on("pageerror",error=>errors.push(error.message));
+    await page.addInitScript(mode=>{
+      Object.defineProperty(navigator,"clipboard",{configurable:true,value:mode==="missing"?undefined:{writeText:async()=>{throw new DOMException("Denied","NotAllowedError");}}});
+    },clipboard);
+    await page.route("**/admin/api/report",r=>r.fulfill({status:503,json:{status:"setup-needed"}}));
+    await page.route("**/admin/api/traffic",r=>r.fulfill({status:503,json:{status:"setup-needed",connected:false}}));
+    await page.route("**/admin/api/community-questions",r=>r.fulfill({json:{questions:[{
+      url:"https://www.reddit.com/comments/test123/",question:"Mortgage payment question",context:"",tool:"",answer:"Use your own balance and rate.",status:"approved",
+    }]}}));
+    await page.goto("/admin/");
+    await page.getByRole("button",{name:"Share & Promotion",exact:true}).click();
+    await page.getByRole("button",{name:"Copy approved answer",exact:true}).click();
+    await expect(page.getByRole("alert").filter({hasText:"Clipboard unavailable"})).toContainText("Select and copy the approved answer");
+    await expect(page.getByText("Use your own balance and rate.",{exact:true})).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+}
+
 test("loan comparisons work by keyboard and input guidance is announced",async({page})=>{
   test.skip(admin);
   await page.goto("/auto-loan-calculator/");
