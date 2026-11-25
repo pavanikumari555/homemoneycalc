@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-24T09:16:12.058Z",
+  "updatedAt": "2026-11-25T03:36:56.920Z",
   "policy": {
     "version": 1,
     "automaticAdsenseApplication": false,
@@ -11,30 +11,6 @@
     "execution": "Only reviewed existing-page SEO title/description strings; research approval creates a task, not a public page."
   },
   "proposals": [
-    {
-      "id": "proposal-4b9b8a2c35cf5c995c79",
-      "digest": "4b9b8a2c35cf5c995c79cc3c36b562ebb218f57043825c2ae85b77cd83589710",
-      "payload": {
-        "kind": "research",
-        "topic": "adp-calculators",
-        "created": "2026-11-10",
-        "expires": "2026-11-24",
-        "title": "ADP public calculator catalog: source update review",
-        "reason": "Observed page content changed. A changed hash does not prove a tax rule or competitor feature changed.",
-        "evidence": [
-          {
-            "url": "https://www.adp.com/resources/tools/calculators.aspx",
-            "observation": "Public page text changed since previous successful observation; verify the actual change and effective date before using it."
-          }
-        ],
-        "reviewChecklist": [
-          "Linked source kholkar actual relevant change verify karein.",
-          "Effective date aur affected calculators check karein.",
-          "Approval sirf research task accept karega; financial content auto publish nahi hoga."
-        ],
-        "outcome": "Create an approved research task; source-code implementation still requires a concrete reviewed change."
-      }
-    },
     {
       "id": "proposal-5cc42948f9318cd2ffb3",
       "digest": "5cc42948f9318cd2ffb34d9cc77357f6767ea00d569386f133c99e6227b5ddbe",
