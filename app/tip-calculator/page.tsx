@@ -9,9 +9,9 @@ import { calcTip, usd } from "@/lib/calc";
 const SLUG = "tip-calculator";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Tip Calculator: Split the Bill & Tip Per Person",
+  title: "Tip Calculator: How Much to Tip & Split the Bill",
   description:
-    "Calculate the tip and split the bill per person, with one-tap tip amounts, rounding and a quick US tipping guide.",
+    "Enter the bill, tap 15%, 18%, 20% or any tip, and split it per person with optional rounding up. Free, no sign-up, plus a quick US tipping guide.",
   path: `/${SLUG}/`,
   keywords: ["tip calculator", "bill split calculator", "how much to tip", "20 percent tip", "split the check"],
 });

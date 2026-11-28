@@ -9,6 +9,8 @@ Status: Ready for any AI agent to execute
 ## 🚨 HIGH PRIORITY (Do First)
 
 ### Task 1: Add Author Information & E-E-A-T Signals
+
+> **Update 28 Nov 2026:** Sirf sachchi jaankari likho. Koi invented job title, credential, "CPA reviewed" claim ya aisa LinkedIn/sameAs URL mat daalo jo owner ne khud bana kar confirm na kiya ho. Neeche ka sample schema purana hai; current `components/AuthorSchema.tsx` use karo.
 **Priority:** CRITICAL for Google ranking
 **Time:** 2-3 hours
 **Risk:** Low
@@ -26,7 +28,7 @@ Status: Ready for any AI agent to execute
    - File: `app/about/page.tsx`
    - Add author section with photo
    - Add credentials/experience (even if beginner)
-   - Add "Reviewed by" section (optional CPA mention)
+   - "Reviewed by" sirf tab, jab koi asli reviewer naam aur permission ke saath ho
 
 3. **Add Person Schema**
    - Create: `components/AuthorSchema.tsx`
@@ -38,13 +40,11 @@ Status: Ready for any AI agent to execute
            "@context": "https://schema.org",
            "@type": "Person",
            "name": "Pavani Kumari",
-           "jobTitle": "Financial Education Specialist",
+           "jobTitle": "Founder and editor",
            "description": "Financial calculator researcher specializing in US tax calculations and personal finance education.",
            "image": "https://homemoneycalc.com/about/pavani-kumari.jpg",
            "url": "https://homemoneycalc.com/about/",
-           "sameAs": [
-             "https://linkedin.com/in/pavani-kumari-homemoneycalc"
-           ]
+           // "sameAs": sirf owner ke asli, confirmed profile URL
          }}
        />
      );
@@ -404,7 +404,7 @@ All calculator page.tsx files (add FAQ sections)
 1. Create LinkedIn profile: linkedin.com/signup
 2. Profile details:
    - Name: Pavani Kumari
-   - Headline: Financial Education Specialist | Calculator Developer
+   - Headline: Founder, HomeMoney Calc (sirf sachchi jaankari)
    - About: "I research and develop financial calculators to help people understand their money..."
    - Experience: HomeMoney Calc (Founder, Oct 2026 - Present)
 

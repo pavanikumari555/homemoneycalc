@@ -12,7 +12,7 @@ const SLUG = "holiday-budget-calculator";
 export const metadata: Metadata = buildMetadata({
   title: "Christmas Budget Calculator: Plan Gifts & Savings",
   description:
-    "Plan your Christmas budget: gifts per person plus travel, food and decorations vs. your budget — and how much to save each paycheck until Dec 25.",
+    "Free Christmas budget calculator: add gifts per person, travel, food and decorations, compare with your budget and see what to save each paycheck.",
   path: `/${SLUG}/`,
   keywords: ["christmas budget calculator", "holiday budget calculator", "gift budget per person", "christmas savings plan", "how much to spend on christmas"],
 });

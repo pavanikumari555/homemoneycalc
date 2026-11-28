@@ -9,9 +9,9 @@ import { percentOf, percentChange, whatPercent, usd, num } from "@/lib/calc";
 const SLUG = "percentage-calculator";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Percentage Calculator: Find Percent, Change & Discount",
+  title: "Percentage Calculator: What Percent Is X of Y?",
   description:
-    "Free percentage calculator for percent of a number, percentage change, increases and discounts. Includes step-by-step formulas and sales-tax examples.",
+    "Find what percent X is of Y, X% of a number, percent change, increase or decrease. Free, no sign-up, with the formula and working shown for every answer.",
   path: `/${SLUG}/`,
   keywords: [
     "percentage calculator",

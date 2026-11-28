@@ -59,8 +59,8 @@ export default function AboutPage() {
         resource — not a bank, lender, or financial advisor, and we never sell your personal data.
       </p>
       <p>
-        Our tools are engineered to give everyday users instant, clear answers to complicated money questions.
-        Every calculator is verified against published IRS guidance, Federal Reserve data, or statutory amortization math.
+        Our tools aim to give everyday users quick, clear answers to common money questions.
+        Each calculator is checked against official sources (such as the IRS, SSA and state tax agencies) or worked examples using standard formulas, and every tool page lists the sources it uses.
         Learn more about our standards in our <a href="/editorial-policy/">editorial policy</a>.
       </p>
 

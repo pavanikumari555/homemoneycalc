@@ -6,15 +6,9 @@ export default function AuthorSchema() {
         "@type": "Person",
         "@id": "https://homemoneycalc.com/#author",
         "name": "Pavani Kumari",
-        "jobTitle": "Founder & Lead Financial Tools Researcher",
-        "description": "Founder and editor of HomeMoney Calc. Specializes in US tax calculation modeling, statutory amortization math, and transparent personal finance software.",
+        "jobTitle": "Founder and editor",
+        "description": "Founder and editor of HomeMoney Calc, a free set of US money calculators. Oversees tax-figure research and accuracy checks against official sources.",
         "url": "https://homemoneycalc.com/about/",
-        "knowsAbout": [
-          "US Federal and State Income Tax Brackets",
-          "Statutory Loan Amortization and Payoff Modeling",
-          "Compound Interest and Savings Growth Algorithms",
-          "Personal Finance and Budgeting Math"
-        ],
         "worksFor": {
           "@type": "Organization",
           "name": "HomeMoney Calc",
