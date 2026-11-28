@@ -148,7 +148,7 @@ export function amortize(o: AmortOptions): AmortResult {
     months++;
     const interest = balance * r;
     let pay = o.payment + (o.extraMonthly ?? 0) + (months % 12 === 0 ? o.extraYearly ?? 0 : 0);
-    if (pay <= interest && months === 1 && !(o.extraYearly && o.extraYearly > 0)) {
+    if (pay <= interest && months === 1 && !o.scheduledMonths && !(o.extraYearly && o.extraYearly > 0)) {
       // Payment doesn't even cover the interest -> balance grows forever
       return { months: Infinity, totalInterest: Infinity, balances, yearly };
     }
@@ -402,12 +402,14 @@ export function calcCreditCard(input: CardInput): CardResult {
   }
   const balance = clamp(input.balance, 0, 10_000_000);
   const apr = clamp(input.aprPercent, 0, 80);
+  const goalMonths = clamp(Math.round(input.goalMonths), 1, 600);
   const payment =
-    input.mode === "goal"
-      ? amortizedPayment(balance, apr, clamp(Math.round(input.goalMonths), 1, 600))
-      : clamp(input.monthlyPayment, 0, 10_000_000);
+    input.mode === "goal" ? amortizedPayment(balance, apr, goalMonths) : clamp(input.monthlyPayment, 0, 10_000_000);
 
-  const plan = amortize({ principal: balance, annualRatePercent: apr, payment });
+  const plan = amortize({ principal: balance, annualRatePercent: apr, payment, ...(input.mode === "goal" ? { scheduledMonths: goalMonths } : {}) });
+  // Bahut high APR + lambe goal pe payment lagbhag sirf interest hota hai; floating-point me
+  // principal ka chhota hissa kho jaata hai. Fixed-term loan ka exact total interest = payments − balance.
+  if (input.mode === "goal" && Number.isFinite(plan.months)) plan.totalInterest = Math.max(0, payment * goalMonths - balance);
   const minimumPlan = simulateMinimumPayments(balance, apr);
   return {
     payment,

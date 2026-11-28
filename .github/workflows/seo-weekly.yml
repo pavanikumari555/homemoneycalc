@@ -34,4 +34,4 @@ jobs:
           prompt: |
             You are HomeMoney Calc's weekly SEO agent. Read CLAUDE.md, then follow docs/AGENT-WEEKLY.md exactly.
             Today is the weekly run. Work on a new branch and finish by opening ONE pull request.
-          claude_args: "--max-turns 80 --allowedTools Edit,Write,Read,Glob,Grep,Bash(npm run build),Bash(npm run lint),Bash(npm run check-tools),Bash(node scripts/*),Bash(git *),Bash(gh pr create:*)"
+          claude_args: "--max-turns 80 --allowedTools Edit,Write,Read,Glob,Grep,Bash(npm run build),Bash(npm run lint),Bash(npm run check-tools),Bash(npm test),Bash(node scripts/*),Bash(git status),Bash(git diff:*),Bash(git log:*),Bash(git switch -c agent/week-:*),Bash(git add:*),Bash(git commit:*),Bash(git push -u origin agent/week-:*),Bash(gh pr create:*)"

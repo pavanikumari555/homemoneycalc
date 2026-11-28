@@ -73,7 +73,7 @@ export const ALL_TOOLS: Tool[] = [
     icon: "wallet",
     updated: "2026-10-31",
     related: ["salary-to-hourly-calculator", "compound-interest-calculator", "debt-payoff-calculator"],
-    example: { input: "$75,000 salary in California", output: "$2,081 per paycheck" },
+    example: { input: "$75,000 salary in California", output: "$2,086 per paycheck" },
     keywords: "take home net pay salary tax wage income w2 state",
     added: "2026-10-24",
   },
@@ -325,7 +325,7 @@ export const ALL_TOOLS: Tool[] = [
     related: ["compound-interest-calculator", "hsa-calculator", "paycheck-calculator"],
     example: { input: "$1k seed + $250/month for 15 years", output: "Grows to $76,482 at 7%" },
     keywords: "trump account maga account federal seed baby account $1000 child savings 529 alternative tax free growth",
-    added: "2027-01-17",
+    added: "2099-12-31", // DRAFT: page abhi "Coming Soon" placeholder hai. Pura banne ke baad asli date (plan: 2027-01-17).
   },
   {
     slug: "raise-calculator",
@@ -338,7 +338,7 @@ export const ALL_TOOLS: Tool[] = [
     related: ["paycheck-calculator", "salary-to-hourly-calculator", "percentage-calculator"],
     example: { input: "$75k → $82k in California", output: "+$356 per paycheck after tax" },
     keywords: "pay raise salary increase percentage after tax take home promotion annual review",
-    added: "2027-01-31",
+    added: "2099-12-31", // DRAFT: page abhi "Coming Soon" placeholder hai. Pura banne ke baad asli date (plan: 2027-01-31).
   },
   {
     slug: "fsa-calculator",
@@ -351,7 +351,7 @@ export const ALL_TOOLS: Tool[] = [
     related: ["hsa-calculator", "paycheck-calculator", "compound-interest-calculator"],
     example: { input: "Health FSA $3,200, $80k, CA, 24 pays", output: "Saves $1,139, set aside $133/check" },
     keywords: "fsa flexible spending account health care dependent care 2026 2027 limit per paycheck tax savings open enrollment",
-    added: "2027-02-14",
+    added: "2099-12-31", // DRAFT: page abhi "Coming Soon" placeholder hai. Pura banne ke baad asli date (plan: 2027-02-14).
   },
   {
     slug: "rap-student-loan-calculator",
@@ -364,7 +364,7 @@ export const ALL_TOOLS: Tool[] = [
     related: ["debt-payoff-calculator", "paycheck-calculator", "salary-to-hourly-calculator"],
     example: { input: "$40k balance, $55k income, single", output: "$191/month, forgiven in 20 years" },
     keywords: "rap repayment assistance plan student loan idr income driven save replacement payment calculator forgiveness",
-    added: "2027-02-28",
+    added: "2099-12-31", // DRAFT: page abhi "Coming Soon" placeholder hai. Pura banne ke baad asli date (plan: 2027-02-28).
   },
   {
     slug: "tax-refund-calculator",
@@ -377,7 +377,7 @@ export const ALL_TOOLS: Tool[] = [
     related: ["paycheck-calculator", "no-tax-on-overtime-calculator", "no-tax-on-tips-calculator"],
     example: { input: "$65k income, $2 kids, $8k withheld", output: "Estimated refund: $2,340" },
     keywords: "tax refund estimator 2026 2027 federal return irs child tax credit ctc obbba deductions withholding",
-    added: "2027-03-14",
+    added: "2099-12-31", // DRAFT: page abhi "Coming Soon" placeholder hai. Pura banne ke baad asli date (plan: 2027-03-14).
   },
   {
     slug: "w4-calculator",
@@ -390,7 +390,7 @@ export const ALL_TOOLS: Tool[] = [
     related: ["paycheck-calculator", "tax-refund-calculator", "bonus-tax-calculator"],
     example: { input: "$90k, married, 2 jobs, 1 kid", output: "Claim 0 allowances + $50 extra" },
     keywords: "w4 form withholding calculator 2020 w-4 allowances extra withholding multiple jobs married filing jointly",
-    added: "2027-03-28",
+    added: "2099-12-31", // DRAFT: page abhi "Coming Soon" placeholder hai. Pura banne ke baad asli date (plan: 2027-03-28).
   },
 ];
 

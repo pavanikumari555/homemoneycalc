@@ -2,7 +2,7 @@ import { TOOLS, getTool } from "@/lib/site";
 import { ogCard } from "@/lib/ogCard";
 
 // Har tool ka apna share image: /og/<slug>.png — card pe tool ka naam + asli example result.
-// Share pe "$75,000 salary → $2,081 per paycheck" dikhna generic image se zyada click laata hai.
+// Share pe "$75,000 salary → $2,086 per paycheck" dikhna generic image se zyada click laata hai.
 export const dynamic = "force-static";
 export const dynamicParams = false;
 

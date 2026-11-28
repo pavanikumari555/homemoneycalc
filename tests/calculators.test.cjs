@@ -340,3 +340,30 @@ test("near-zero loan rates retain the zero-interest limit without Infinity", () 
     assert.equal(card.plan.months, 60);
   }
 });
+
+test("bonus state estimate includes county tax and warns when the county rate is unknown", () => {
+  const b={bonus:10_000,salary:80_000,payPeriodsPerYear:26,status:"single",method:"flat",ytdWages:0,ytdSupplemental:0};
+  const md=calcBonusTax({...b,stateCode:"MD"});
+  near(md.state,795);
+  assert.match(md.stateNote,/including county income tax/);
+  const ind=calcBonusTax({...b,stateCode:"IN"});
+  near(ind.state,295);
+  assert.match(ind.stateNote,/county income tax is not included/);
+  assert.doesNotMatch(calcBonusTax({...b,stateCode:"IL"}).stateNote,/county/);
+});
+
+test("card goal mode pays off on schedule even at very high APRs", () => {
+  for(const aprPercent of [60,70,80]) {
+    const r=calcCreditCard({balance:5000,aprPercent,mode:"goal",monthlyPayment:0,goalMonths:600});
+    assert.equal(r.plan.months,600);
+    near(r.plan.totalInterest,r.payment*600-5000);
+    assert.equal(r.plan.balances.at(-1).y,0);
+  }
+  assert.equal(calcCreditCard({balance:5000,aprPercent:70,mode:"payment",monthlyPayment:291,goalMonths:12}).plan.months,Infinity);
+});
+
+test("paycheck registry example matches the page defaults", () => {
+  const r=calcPaycheck({grossAnnual:75_000,payPeriodsPerYear:26,status:"single",stateCode:"CA",retirementPercent:5,otherPretaxAnnual:1800});
+  const ex=TOOLS.find((t)=>t.slug==="paycheck-calculator").example.output;
+  assert.equal(ex,`$${Math.round(r.net/26).toLocaleString("en-US")} per paycheck`);
+});

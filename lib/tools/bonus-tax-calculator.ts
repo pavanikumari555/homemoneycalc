@@ -127,9 +127,13 @@ export function calcBonusTax(input: BonusInput): BonusResult {
   } else if (st.type !== "none") {
     // Estimate: extra state income tax the bonus adds on top of the salary (our 2026 state engine)
     const base = { payPeriodsPerYear: periods, status, stateCode: st.code, retirementPercent: 0, otherPretaxAnnual: 0 };
-    state = Math.max(0, calcPaycheck({ ...base, grossAnnual: salary + bonus }).stateTax - calcPaycheck({ ...base, grossAnnual: salary }).stateTax);
+    // County income tax (MD typical rate; IN needs the user's county) bhi bonus pe lagta hai
+    const withBonus = calcPaycheck({ ...base, grossAnnual: salary + bonus });
+    const without = calcPaycheck({ ...base, grossAnnual: salary });
+    state = Math.max(0, withBonus.stateTax + withBonus.localTax - (without.stateTax + without.localTax));
     stateMode = "estimate";
-    stateNote = `Estimate: the extra ${st.name} income tax the bonus adds at your salary. Your employer's actual ${st.code} bonus withholding method may differ.`;
+    stateNote = `Estimate: the extra ${st.name} income tax the bonus adds at your salary${withBonus.localTax > 0 ? ", including county income tax" : ""}. Your employer's actual ${st.code} bonus withholding method may differ.`;
+    if (withBonus.localMissing) stateNote += ` ${st.name} county income tax is not included — check your county's rate.`;
   }
 
   // State payroll taxes (e.g. CA SDI, NJ/NY/WA/MA paid leave) also apply to bonus pay

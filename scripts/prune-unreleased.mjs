@@ -19,7 +19,9 @@ const queued = previewAll
 for (const slug of queued) {
   for (const dir of [`${OUT}/${slug}`, `${OUT}/embed/${slug}`]) rmSync(dir, { recursive: true, force: true });
 }
-if (process.env.BUILD_ADMIN !== "1") rmSync(`${OUT}/admin`, { recursive: true, force: true });
+if (process.env.BUILD_ADMIN !== "1") {
+  for (const dir of [`${OUT}/admin`, `${OUT}/_next/static/chunks/app/admin`]) rmSync(dir, { recursive: true, force: true });
+}
 console.log(`✓ Release queue: ${queued.length} tool(s) waiting${queued.length ? ` (${queued.join(", ")})` : ""}`);
 
 // Service worker cache ka naam har build pe naya — purane deploy ke HTML/chunks offline me mix na hon
